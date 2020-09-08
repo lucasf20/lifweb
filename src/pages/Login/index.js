@@ -8,6 +8,7 @@ import { TextInput } from 'react-native';
 import face from '../../assets/facebooklogin.png';
 import google from '../../assets/googlelogin.png';
 import apple from '../../assets/appleidlogin.png';
+import lifweb from '../../assets/logolifweb.png';
 
 import styles from './styles';
 import { AppLoading } from 'expo';
@@ -21,12 +22,6 @@ export default function Login(){
         navigation.goBack();
     }
 
-    
-
-    function sendWhatsapp(){
-        Linking.openURL(`whatsapp://send?phone=559891997050?Gtext = ${message}`);
-    }
-
     return(
         <View style = {styles.container}>
             <View style={styles.header}>
@@ -37,19 +32,26 @@ export default function Login(){
             </View>  
 
             <View style = {styles.container}>
+
+                <View styles = {styles.Login}>
+                    <Image
+                        source = {lifweb}
+                    />
+                </View>
+
                 <Text style ={[styles.incidentProperty, {marginTop:0}]}>Email</Text>
                 <TextInput 
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    style={styles.TextBox}
                     //onChangeText={text => (' ')}
                     value={''}
                 />
                 <Text style ={[styles.incidentProperty, {marginTop:0}]}>Senha</Text>
                 <TextInput 
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    style={styles.TextBox}
                     //onChangeText={text => (' ')}
                     value={''}
                 />
-                <Button
+                <Button style ={[{marginTop:0}]}
                    title= "login" 
                 />
                 <TouchableOpacity>
@@ -60,40 +62,35 @@ export default function Login(){
             </View>
 
             <View style = {styles.container}>
-                <Text>
-                    OU
-                </Text>
+                
 
                 <View style= {styles.Login}>
-                <TouchableOpacity>
-                    <Image
-                        source = {face}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Image
-                        source = {google}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Image
-                        source = {apple}
-                    />
-                </TouchableOpacity>
+                    <Text>
+                        OU
+                    </Text>
+                    <TouchableOpacity>
+                        <Image
+                            source = {face}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Image
+                            source = {google}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Image
+                            source = {apple}
+                        />
+                    </TouchableOpacity>
 
-                <TouchableOpacity>
-                    <Image
-
-                    />
-                </TouchableOpacity>
-                </View>
-                
-                <TouchableOpacity>
+                    <TouchableOpacity>
                     <Text>
                         CRIAR UMA CONTA
                     </Text>
                 </TouchableOpacity>
 
+                </View>
 
             </View>
             

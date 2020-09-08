@@ -4,12 +4,14 @@ import Constants from 'expo-constants';
 export default StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 24,
+        paddingHorizontal: 18,
+        justifyContent: 'space-between',
         paddingTop: Constants.statusBarHeight + 20,
     },
 
     Login: {
-        alignItems: 'center'
+        alignItems: 'center',
+
     },
 
     header: {
@@ -41,8 +43,11 @@ export default StyleSheet.create({
         color: '#737380',
     },
 
-    contactBox: {
+    TextBox: {
         //padding:24,
+        height: 40, 
+        borderColor: 'gray',
+        borderWidth: 1,
         borderRadius: 8,
     },
 
