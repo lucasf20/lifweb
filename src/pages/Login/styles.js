@@ -8,6 +8,10 @@ export default StyleSheet.create({
         paddingTop: Constants.statusBarHeight + 20,
     },
 
+    Login: {
+        alignItems: 'center'
+    },
+
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -21,6 +25,8 @@ export default StyleSheet.create({
         marginBottom: 16,
         marginTop: 48,
     },
+
+
 
     incidentProperty: {
         fontSize: 14,

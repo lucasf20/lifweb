@@ -5,7 +5,9 @@ import {useNavigation} from '@react-navigation/native';
 import { TextInput } from 'react-native';
 
 
-import logoImg from '../../assets/logo.png';
+import face from '../../assets/facebooklogin.png';
+import google from '../../assets/googlelogin.png';
+import apple from '../../assets/appleidlogin.png';
 
 import styles from './styles';
 import { AppLoading } from 'expo';
@@ -34,7 +36,7 @@ export default function Login(){
                 </TouchableOpacity>
             </View>  
 
-            <View style = {styles.incident}>
+            <View style = {styles.container}>
                 <Text style ={[styles.incidentProperty, {marginTop:0}]}>Email</Text>
                 <TextInput 
                     style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
@@ -50,9 +52,52 @@ export default function Login(){
                 <Button
                    title= "login" 
                 />
-
-                
+                <TouchableOpacity>
+                    <Text>
+                        Esqueci minha senha
+                    </Text>
+                </TouchableOpacity>
             </View>
+
+            <View style = {styles.container}>
+                <Text>
+                    OU
+                </Text>
+
+                <View style= {styles.Login}>
+                <TouchableOpacity>
+                    <Image
+                        source = {face}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Image
+                        source = {google}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Image
+                        source = {apple}
+                    />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                    <Image
+
+                    />
+                </TouchableOpacity>
+                </View>
+                
+                <TouchableOpacity>
+                    <Text>
+                        CRIAR UMA CONTA
+                    </Text>
+                </TouchableOpacity>
+
+
+            </View>
+            
         </View>
     );
 }
+
