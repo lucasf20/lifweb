@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 const AppStack = createStackNavigator();
 
-import Incidents from './pages/Incidents';
+import CreateAcc from './pages/CreateAcc';
 import Login from './pages/Login';
 
 export default function Routes() {
@@ -13,7 +13,7 @@ export default function Routes() {
 
             <AppStack.Navigator screenOptions = {{headerShown: false}}>
                 <AppStack.Screen  name = "Login" component = {Login}/>
-                <AppStack.Screen name = "Incidents" component = {Incidents}/>
+                <AppStack.Screen name = "CreateAcc" component = {CreateAcc}/>
             </AppStack.Navigator>
 
         </NavigationContainer>

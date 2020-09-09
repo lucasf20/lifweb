@@ -11,14 +11,7 @@ export default StyleSheet.create({
 
     Login: {
         alignItems: 'center',
-    },
 
-    Logo: {
-        flexDirection: 'row',
-        justifyContent:'center',
-        alignItems: 'center',
-        width: 300,
-        height: 400,
     },
 
     header: {
@@ -34,6 +27,8 @@ export default StyleSheet.create({
         marginBottom: 16,
         marginTop: 48,
     },
+
+
 
     incidentProperty: {
         fontSize: 14,
@@ -56,11 +51,22 @@ export default StyleSheet.create({
         borderRadius: 8,
     },
 
-    Title: {
+    heroTitle: {
         fontWeight:'bold',
         fontSize:20,
         color: '#13131a',
         lineHeight:30,
+    },
+    heroDescription:{
+        fontSize: 15,
+        color: '#737380',
+        marginTop: 16,
+    },
+
+    actions: {
+        marginTop:16,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
 
     action: {

@@ -18,26 +18,22 @@ export default function Login(){
     const navigation = useNavigation();
     const message = 'Olá AppLoading, estou entrando em contato pois gostaria de ajudar no caso "Cadelinha atrpelada" com o valor de 120R$';
 
-    function navigateBack() {
-        navigation.goBack();
+    function navigateToCreateAcc() {
+        navigation.navigate('CreateAcc');
     }
 
     return(
         <View style = {styles.container}>
-            <View style={styles.header}>
+            
 
-                <TouchableOpacity onPress={navigateBack}>
-                    <Feather name = "arrow-left" size = {28} />
-                </TouchableOpacity>
-            </View>  
+            <View styles = {styles.Logo}>
+                <Image
+                    source = {lifweb}
+                />
+            </View>
+             
 
             <View style = {styles.container}>
-
-                <View styles = {styles.Login}>
-                    <Image
-                        source = {lifweb}
-                    />
-                </View>
 
                 <Text style ={[styles.incidentProperty, {marginTop:0}]}>Email</Text>
                 <TextInput 
@@ -84,7 +80,7 @@ export default function Login(){
                         />
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress = {(navigateToCreateAcc)}>
                     <Text>
                         CRIAR UMA CONTA
                     </Text>
