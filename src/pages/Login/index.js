@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Feather} from '@expo/vector-icons';
 import {View,Text, Image, TouchableOpacity, Linking, Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -15,6 +15,9 @@ import { AppLoading } from 'expo';
 
 
 export default function Login(){
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const navigation = useNavigation();
     const message = 'Olá AppLoading, estou entrando em contato pois gostaria de ajudar no caso "Cadelinha atrpelada" com o valor de 120R$';
 
@@ -38,14 +41,14 @@ export default function Login(){
                 <Text style ={[styles.incidentProperty, {marginTop:0}]}>Email</Text>
                 <TextInput 
                     style={styles.TextBox}
-                    //onChangeText={text => (' ')}
-                    value={''}
+                    onChangeText={text => setEmail(text)}
+                    value={email}
                 />
                 <Text style ={[styles.incidentProperty, {marginTop:0}]}>Senha</Text>
                 <TextInput 
                     style={styles.TextBox}
-                    //onChangeText={text => (' ')}
-                    value={''}
+                    onChangeText={text => setPassword(text)}
+                    value={password}
                 />
                 <Button style ={[{marginTop:0}]}
                    title= "login" 
