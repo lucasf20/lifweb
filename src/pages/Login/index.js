@@ -27,7 +27,7 @@ export default function Login(){
         <View style = {styles.container}>
             
 
-            <View styles = {styles.Logo}>
+            <View style = {styles.logo}>
                 <Image
                     source = {lifweb}
                 />
