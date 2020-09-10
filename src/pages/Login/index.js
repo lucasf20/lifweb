@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Feather} from '@expo/vector-icons';
+//import {Feather} from '@expo/vector-icons';
 import {View,Text, Image, TouchableOpacity, Linking, Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import { TextInput } from 'react-native';
@@ -11,7 +11,6 @@ import apple from '../../assets/appleidlogin.png';
 import lifweb from '../../assets/logolifweb.png';
 
 import styles from './styles';
-import { AppLoading } from 'expo';
 
 
 export default function Login(){
@@ -19,7 +18,6 @@ export default function Login(){
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigation = useNavigation();
-    const message = 'Olá AppLoading, estou entrando em contato pois gostaria de ajudar no caso "Cadelinha atrpelada" com o valor de 120R$';
 
     function navigateToCreateAcc() {
         navigation.navigate('CreateAcc');
@@ -61,8 +59,7 @@ export default function Login(){
             </View>
 
             <View style = {styles.container}>
-                
-
+            
                 <View style= {styles.Login}>
                     <Text>
                         OU
