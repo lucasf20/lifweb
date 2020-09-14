@@ -14,9 +14,8 @@ export default StyleSheet.create({
         flexDirection:'row',
     },
 
-    Login: {
-        flex:2,
-        paddingVertical:50,
+    ButtonView: {
+        paddingTop:90,
     },
 
     LooseText:{
@@ -26,7 +25,7 @@ export default StyleSheet.create({
 
 
     BigText:{
-        fontSize:80,
+        fontSize:30,
         paddingVertical:10,
         alignItems: 'center',
     },

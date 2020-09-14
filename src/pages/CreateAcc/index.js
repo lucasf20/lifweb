@@ -39,12 +39,26 @@ export default function CreateAcc(){
                 />
             </View>
 
+            <Text style={styles.BigText}>
+                Seja Bem Vindo(a)
+            </Text>
+
+            <Text style={styles.LooseText}>
+                Vamos iniciar a criação da sua conta
+            </Text>
+
+            <Text style={styles.LooseText}>
+                Qual é seu email?
+            </Text>
+
             <MyTextInput/>
                 
-            <Button 
-                style = {styles.Login}
-                title= "Criar uma Conta" 
-            />
+            <View style = {styles.ButtonView}>
+                <Button
+                    title= "Criar uma Conta" 
+                />             
+            </View>
+ 
         </ScrollView>
     );
 }
