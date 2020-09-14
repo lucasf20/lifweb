@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 //import {Feather} from '@expo/vector-icons';
-import {View,Text, Image, TouchableOpacity, Linking, Button} from 'react-native';
+import {ScrollView, View,Text, Image, TouchableOpacity, Linking, Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 //import { TextInput } from 'react-native';
 
 import MyTextInput from '../../MyTextInput';
+const CCOLORS = '../../colors';
 
 import face from '../../assets/facebooklogin.png';
 import google from '../../assets/googlelogin.png';
@@ -12,6 +13,8 @@ import apple from '../../assets/appleidlogin.png';
 import lifweb from '../../assets/logolifweb.png';
 
 import styles from './styles';
+
+
 
 
 export default function Login(){
@@ -25,7 +28,7 @@ export default function Login(){
     }
 
     return(
-        <View style = {styles.container}>
+        <ScrollView style = {styles.container}>
             
 
             <View style = {styles.logo}>
@@ -35,7 +38,7 @@ export default function Login(){
             </View>
              
 
-            <View style = {styles.container}>
+            <View style = {styles.Login}>
 
                 
                 <MyTextInput 
@@ -48,7 +51,7 @@ export default function Login(){
                     value={password}
                     placeholder='senha'
                 />
-                <Button color="#ff5c5c" style ={[{marginTop:0}]}
+                <Button color= {CCOLORS.dorange} style ={[{marginTop:0}]}
                    title= "login" 
                 />
                 <TouchableOpacity>
@@ -57,40 +60,37 @@ export default function Login(){
                     </Text>
                 </TouchableOpacity>
             </View>
-
-            <View style = {styles.container}>
             
-                <View style= {styles.Login}>
-                    <Text>
-                        OU
-                    </Text>
-                    <TouchableOpacity>
-                        <Image
-                            source = {face}
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Image
-                            source = {google}
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Image
-                            source = {apple}
-                        />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress = {(navigateToCreateAcc)}>
-                    <Text>
-                        CRIAR UMA CONTA
-                    </Text>
+            <View style= {styles.SocialNetwork}>
+                <Text>
+                    OU
+                </Text>    
+                <TouchableOpacity>
+                    <Image
+                          source = {face}
+                     />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Image
+                       source = {google}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Image
+                        source = {apple}
+                    />
                 </TouchableOpacity>
 
-                </View>
+                <TouchableOpacity onPress = {(navigateToCreateAcc)}>
+                <Text>
+                    CRIAR UMA CONTA
+                </Text>
+            </TouchableOpacity>
 
             </View>
+
             
-        </View>
+        </ScrollView>
     );
 }
 
