@@ -8,7 +8,7 @@ export default StyleSheet.create({
         paddingTop: Constants.statusBarHeight + 50,
         paddingBottom: 50
     },
-    
+
     logo: {
         flex:3,
         justifyContent:'center',
@@ -20,9 +20,14 @@ export default StyleSheet.create({
         paddingVertical:50,
     },
 
+    LooseText:{
+        paddingVertical:10,
+        alignItems: 'center',
+    },
+
     SocialNetwork: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     
 });

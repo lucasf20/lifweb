@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
-//import {Feather} from '@expo/vector-icons';
 import {ScrollView, View,Text, Image, TouchableOpacity, Linking, Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-//import { TextInput } from 'react-native';
 
 import MyTextInput from '../../MyTextInput';
-const CCOLORS = '../../colors';
+
 
 import face from '../../assets/facebooklogin.png';
 import google from '../../assets/googlelogin.png';
@@ -14,11 +12,12 @@ import lifweb from '../../assets/logolifweb.png';
 
 import styles from './styles';
 
-
+import colorStyles from "../../colors";
 
 
 export default function Login(){
 
+    const dorange = colorStyles.dorange
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigation = useNavigation();
@@ -51,14 +50,17 @@ export default function Login(){
                     value={password}
                     placeholder='senha'
                 />
-                <Button color= {CCOLORS.dorange} style ={[{marginTop:0}]}
+                <Button color = {dorange} style ={[{marginTop:0}]}
                    title= "login" 
                 />
+                <View style = {styles.LooseText}>
                 <TouchableOpacity>
                     <Text>
                         Esqueci minha senha
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> 
+                </View>
+
             </View>
             
             <View style= {styles.SocialNetwork}>
@@ -82,10 +84,10 @@ export default function Login(){
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress = {(navigateToCreateAcc)}>
-                <Text>
-                    CRIAR UMA CONTA
-                </Text>
-            </TouchableOpacity>
+                    <Text>
+                        CRIAR UMA CONTA
+                    </Text>
+                </TouchableOpacity>
 
             </View>
 
