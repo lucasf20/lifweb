@@ -7,6 +7,7 @@ import MyTextInput from '../../MyTextInput';
 import lifweb from '../../assets/logolifweb.png';
 
 import styles from './styles';
+import Login from '../Login';
 
 
 export default function CreateAcc(){
@@ -14,6 +15,10 @@ export default function CreateAcc(){
 
     function navigateBack() {
         navigation.goBack();
+    }
+
+    function navigateHome(){
+        navigation.navigate(Login);
     }
     
     return(
@@ -25,7 +30,7 @@ export default function CreateAcc(){
                 <TouchableOpacity onPress={navigateBack}>
                     <Feather name = "arrow-left" size = {28} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={navigateHome}>
                     <Text>
                         INICIO 
                     </Text>
