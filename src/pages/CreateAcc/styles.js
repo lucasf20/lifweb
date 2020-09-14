@@ -3,15 +3,31 @@ import Constants from 'expo-constants';
 
 export default StyleSheet.create({
     container: {
-        flex: 1,
-        paddingHorizontal: 18,
-        justifyContent: 'space-between',
-        paddingTop: Constants.statusBarHeight + 20,
+        paddingHorizontal: 36,
+        paddingTop: Constants.statusBarHeight + 50,
+        paddingBottom: 50
     },
 
-    Login: {
-        alignItems: 'center',
+    logo: {
+        flex:3,
+        justifyContent:'center',
+        flexDirection:'row',
+    },
 
+    ButtonView: {
+        paddingTop:90,
+    },
+
+    LooseText:{
+        paddingVertical:10,
+        alignItems: 'center',
+    },
+
+
+    BigText:{
+        fontSize:30,
+        paddingVertical:10,
+        alignItems: 'center',
     },
 
     header: {
@@ -20,67 +36,5 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
 
-    incident: {
-        padding:24,
-        borderRadius: 8,
-        backgroundColor: '#FFF',
-        marginBottom: 16,
-        marginTop: 48,
-    },
-
-
-
-    incidentProperty: {
-        fontSize: 14,
-        color: '#41414d',
-        fontWeight: 'bold',
-        marginTop: 24,
-    },
-
-    incidentValue: {
-        marginTop: 8,
-        fontSize: 15,
-        color: '#737380',
-    },
-
-    TextBox: {
-        //padding:24,
-        height: 40, 
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius: 8,
-    },
-
-    heroTitle: {
-        fontWeight:'bold',
-        fontSize:20,
-        color: '#13131a',
-        lineHeight:30,
-    },
-    heroDescription:{
-        fontSize: 15,
-        color: '#737380',
-        marginTop: 16,
-    },
-
-    actions: {
-        marginTop:16,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-
-    action: {
-        backgroundColor: '#e02041',
-        borderRadius: 8,
-        height: 50,
-        width: '48%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    actionText: {
-        color: '#FFF',
-        fontSize: 15,
-        fontWeight:'bold',
-    },
+   
 });
