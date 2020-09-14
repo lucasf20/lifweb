@@ -4,19 +4,25 @@ import Constants from 'expo-constants';
 export default StyleSheet.create({
 
     container: {
-        flex: 1,
-        paddingHorizontal: 18,
-        justifyContent: 'space-between',
-        paddingTop: Constants.statusBarHeight + 20,
+        paddingHorizontal: 36,
+        paddingTop: Constants.statusBarHeight + 50,
+        paddingBottom: 50
+    },
+    
+    logo: {
+        flex:3,
+        justifyContent:'center',
+        flexDirection:'row',
     },
 
     Login: {
-        alignItems: 'center',
+        flex:2,
+        paddingVertical:50,
     },
 
-    logo: {
-        justifyContent:'center',
-        flexDirection:'row'
+    SocialNetwork: {
+        flex: 1,
+        alignItems: 'center'
     },
-
+    
 });
