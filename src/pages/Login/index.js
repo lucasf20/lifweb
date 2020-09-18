@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, View,Text, Image, TouchableOpacity, Linking, Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -13,6 +13,8 @@ import lifweb from '../../assets/logolifweb.png';
 import styles from './styles';
 
 import colorStyles from "../../colors";
+//importações FireBase
+import firebase from '../../../firebaseConfig';
 
 
 export default function Login(){
@@ -25,6 +27,22 @@ export default function Login(){
     function navigateToCreateAcc() {
         navigation.navigate('CreateAcc');
     }
+    function loginFirebase(){
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert(errorCode, errorMessage)
+          });
+    }
+    useEffect(()=>{
+        firebase.auth().onAuthStateChanged(function(user){
+            if(user){
+                console.log(user.uid)
+            } else {
+                console.log('não logado')
+            }
+        });
+    },[])
 
     return(
         <ScrollView style = {styles.container}>
@@ -50,7 +68,7 @@ export default function Login(){
                     value={password}
                     placeholder='senha'
                 />
-                <Button color = {dorange} style ={[{marginTop:0}]}
+                <Button onPress={()=>{loginFirebase()}} color = {dorange} style ={[{marginTop:0}]}
                    title= "login" 
                 />
                 <View style = {styles.LooseText}>
