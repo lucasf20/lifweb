@@ -40,7 +40,7 @@ export default function CreateAcc(){
                     <Feather name = "arrow-left" size = {28} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={navigateHome}>
-                    <Text>
+                    <Text style={styles.LooseOrangeText}>
                         INICIO 
                     </Text>
                 </TouchableOpacity>

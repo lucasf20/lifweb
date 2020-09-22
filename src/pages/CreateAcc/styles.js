@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native';
 import Constants from 'expo-constants';
+import colorStyles from "../../colors";
+
+const dorange = colorStyles.dorange
 
 export default StyleSheet.create({
     container: {
@@ -23,6 +26,11 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
 
+    LooseOrangeText:{
+        paddingVertical:10,
+        alignItems: 'center',
+        color: dorange
+    },
 
     BigText:{
         fontSize:30,
