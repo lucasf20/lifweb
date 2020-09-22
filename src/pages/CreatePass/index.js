@@ -4,16 +4,13 @@ import {ScrollView, View,Text, Image, TouchableOpacity, Button} from 'react-nati
 import {useNavigation} from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 
-import lifweb from '../../assets/logolifweb.png';
-
 import styles from './styles';
 import Login from '../Login';
-import CreatePass from '../CreatePass';
 
 import colorStyles from "../../colors";
 
 
-export default function EmailVal(){
+export default function CreatePass(){
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
@@ -24,10 +21,6 @@ export default function EmailVal(){
 
     function navigateHome(){
         navigation.navigate(Login);
-    }
-
-    function navigatePass(){
-        navigation.navigate(CreatePass);
     }
     
     return(
@@ -47,26 +40,17 @@ export default function EmailVal(){
 
             </View>  
 
-            <View style = {styles.logo}>
-                <Image
-                    source = {lifweb}
-                />
-            </View>
-
             <Text style={styles.BigText}>
-                Código de confirmação
+                Vamos Lá!
             </Text>
 
             <Text style={styles.LooseText} >
-                Digite o código de confirmação que enviamos para "email da pessoa"
+                Confirme seus dados de acesso
             </Text>
             
-            <TouchableOpacity>
-                <Text style={styles.LooseOrangeText}>
-                    Reenviar código
-                </Text>            
-            </TouchableOpacity> 
-
+            <MyTextInput
+                placeholder='Nome'
+            />
 
             <MyTextInput
                 placeholder='Código de confirmação'
@@ -76,7 +60,6 @@ export default function EmailVal(){
                 <Button
                     title= "Próximo"
                     color= {dorange} 
-                    onPress={navigatePass}
                 />             
             </View>
  
