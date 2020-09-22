@@ -8,12 +8,11 @@ import lifweb from '../../assets/logolifweb.png';
 
 import styles from './styles';
 import Login from '../Login';
-import EmailVal from '../EmailVal';
 
 import colorStyles from "../../colors";
 
 
-export default function CreateAcc(){
+export default function EmailVal(){
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
@@ -24,10 +23,6 @@ export default function CreateAcc(){
 
     function navigateHome(){
         navigation.navigate(Login);
-    }
-
-    function navigateEmail(){
-        navigation.navigate(EmailVal);
     }
     
     return(
@@ -54,23 +49,28 @@ export default function CreateAcc(){
             </View>
 
             <Text style={styles.BigText}>
-                Seja Bem Vindo(a)
+                Código de confirmação
             </Text>
 
-            <Text style={styles.LooseText}>
-                Vamos iniciar a criação da sua conta
+            <Text style={styles.LooseText} >
+                Digite o código de confirmação que enviamos para "email da pessoa"
             </Text>
+            
+            <TouchableOpacity>
+                <Text style={styles.LooseOrangeText}>
+                    Reenviar código
+                </Text>            
+            </TouchableOpacity> 
 
-            <Text style={styles.LooseText}>
-                Qual é seu email?
-            </Text>
 
-            <MyTextInput/>
+            <MyTextInput
+                placeholder='Código de confirmação'
+            />
                 
             <View style = {styles.ButtonView}>
-                <Button onPress={navigateEmail}
-                    title= "Criar uma Conta" 
-                    color= {dorange}
+                <Button
+                    title= "Próximo"
+                    color= {dorange} 
                 />             
             </View>
  
