@@ -8,9 +8,14 @@ import lifweb from '../../assets/logolifweb.png';
 
 import styles from './styles';
 import Login from '../Login';
+import EmailVal from '../EmailVal';
+
+import colorStyles from "../../colors";
 
 
 export default function CreateAcc(){
+
+    const dorange = colorStyles.dorange
     const navigation = useNavigation();
 
     function navigateBack() {
@@ -19,6 +24,10 @@ export default function CreateAcc(){
 
     function navigateHome(){
         navigation.navigate(Login);
+    }
+
+    function navigateEmail(){
+        navigation.navigate(EmailVal);
     }
     
     return(
@@ -59,8 +68,9 @@ export default function CreateAcc(){
             <MyTextInput/>
                 
             <View style = {styles.ButtonView}>
-                <Button
+                <Button onPress={navigateEmail}
                     title= "Criar uma Conta" 
+                    color= {dorange}
                 />             
             </View>
  
