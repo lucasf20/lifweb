@@ -7,8 +7,6 @@ import MyTextInput from '../../MyTextInput';
 import lifweb from '../../assets/logolifweb.png';
 
 import styles from './styles';
-import Login from '../Login';
-import CreatePass from '../CreatePass';
 
 import colorStyles from "../../colors";
 
@@ -23,11 +21,11 @@ export default function EmailVal(){
     }
 
     function navigateHome(){
-        navigation.navigate(Login);
+        navigation.navigate('Login');
     }
 
     function navigatePass(){
-        navigation.navigate(CreatePass);
+        navigation.navigate('CreatePass');
     }
     
     return(
