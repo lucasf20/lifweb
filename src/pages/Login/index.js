@@ -4,7 +4,6 @@ import {useNavigation} from '@react-navigation/native';
 
 import MyTextInput from '../../MyTextInput';
 
-
 import face from '../../assets/facebooklogin.png';
 import google from '../../assets/googlelogin.png';
 import apple from '../../assets/appleidlogin.png';
@@ -27,6 +26,11 @@ export default function Login(){
     function navigateToCreateAcc() {
         navigation.navigate('CreateAcc');
     }
+
+    function navigateToFeed() {
+        navigation.navigate('Feed');
+    }
+
     function loginFirebase(){
         firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
             var errorCode = error.code;
@@ -71,7 +75,7 @@ export default function Login(){
                     value={password}
                     placeholder='senha'
                 />
-                <Button onPress={()=>{loginFirebase()}} color = {dorange} style ={[{marginTop:0}]}
+                <Button onPress={()=>{loginFirebase()}} onPress={(navigateToFeed)} color = {dorange} style ={[{marginTop:0}]}
                    title= "login" 
                 />
                 <View style = {styles.LooseText}>
