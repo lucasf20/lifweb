@@ -32,6 +32,7 @@ export default StyleSheet.create({
         color: dorange
     },
 
+
     BigText:{
         fontSize:30,
         paddingVertical:10,

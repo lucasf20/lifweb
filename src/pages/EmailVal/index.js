@@ -8,6 +8,7 @@ import lifweb from '../../assets/logolifweb.png';
 
 import styles from './styles';
 import Login from '../Login';
+import CreatePass from '../CreatePass';
 
 import colorStyles from "../../colors";
 
@@ -24,6 +25,10 @@ export default function EmailVal(){
     function navigateHome(){
         navigation.navigate(Login);
     }
+
+    function navigatePass(){
+        navigation.navigate(CreatePass);
+    }
     
     return(
         
@@ -35,7 +40,7 @@ export default function EmailVal(){
                     <Feather name = "arrow-left" size = {28} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={navigateHome}>
-                    <Text>
+                    <Text style={styles.LooseOrangeText}>
                         INICIO 
                     </Text>
                 </TouchableOpacity>
@@ -71,6 +76,7 @@ export default function EmailVal(){
                 <Button
                     title= "Próximo"
                     color= {dorange} 
+                    onPress={navigatePass}
                 />             
             </View>
  

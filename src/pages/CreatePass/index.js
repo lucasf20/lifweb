@@ -4,16 +4,13 @@ import {ScrollView, View,Text, Image, TouchableOpacity, Button} from 'react-nati
 import {useNavigation} from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 
-import lifweb from '../../assets/logolifweb.png';
-
 import styles from './styles';
 import Login from '../Login';
-import EmailVal from '../EmailVal';
 
 import colorStyles from "../../colors";
 
 
-export default function CreateAcc(){
+export default function CreatePass(){
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
@@ -24,10 +21,6 @@ export default function CreateAcc(){
 
     function navigateHome(){
         navigation.navigate(Login);
-    }
-
-    function navigateEmail(){
-        navigation.navigate(EmailVal);
     }
     
     return(
@@ -47,30 +40,26 @@ export default function CreateAcc(){
 
             </View>  
 
-            <View style = {styles.logo}>
-                <Image
-                    source = {lifweb}
-                />
-            </View>
-
             <Text style={styles.BigText}>
-                Seja Bem Vindo(a)
+                Vamos Lá!
             </Text>
 
-            <Text style={styles.LooseText}>
-                Vamos iniciar a criação da sua conta
+            <Text style={styles.LooseText} >
+                Confirme seus dados de acesso
             </Text>
+            
+            <MyTextInput
+                placeholder='Nome'
+            />
 
-            <Text style={styles.LooseText}>
-                Qual é seu email?
-            </Text>
-
-            <MyTextInput/>
+            <MyTextInput
+                placeholder='Código de confirmação'
+            />
                 
             <View style = {styles.ButtonView}>
-                <Button onPress={navigateEmail}
-                    title= "Criar uma Conta" 
-                    color= {dorange}
+                <Button
+                    title= "Próximo"
+                    color= {dorange} 
                 />             
             </View>
  
