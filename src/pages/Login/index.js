@@ -45,17 +45,20 @@ export default function Login(){
     },[])
 
     return(
-        <ScrollView style = {styles.container}>
+        <ScrollView >
+            <View style = {styles.container}>
+
+            
             
 
-            <View style = {styles.logo}>
-                <Image
-                    source = {lifweb}
-                />
-            </View>
+                <View style = {styles.logo}>
+                    <Image
+                        source = {lifweb}
+                    />
+                </View>
              
 
-            <View style = {styles.Login}>
+                <View style = {styles.Login}>
 
                 
                 <MyTextInput 
@@ -81,35 +84,35 @@ export default function Login(){
 
             </View>
             
-            <View style= {styles.SocialNetwork}>
-                <Text>
-                    OU
-                </Text>    
-                <TouchableOpacity>
-                    <Image
-                          source = {face}
-                     />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Image
-                       source = {google}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Image
-                        source = {apple}
-                    />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress = {(navigateToCreateAcc)}>
+                <View style= {styles.SocialNetwork}>
                     <Text>
-                        CRIAR UMA CONTA
-                    </Text>
-                </TouchableOpacity>
+                      OU
+                    </Text>    
+                    <TouchableOpacity>
+                        <Image
+                           source = {face}
+                        />
+                    </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Image
+                                source = {google}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Image
+                                source = {apple}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress = {(navigateToCreateAcc)}>
+                        <Text>
+                            CRIAR UMA CONTA
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
 
             </View>
-
-            
         </ScrollView>
     );
 }
