@@ -95,6 +95,7 @@ export default function CreateAcc(){
                         }).catch(function(error) {
                         // An error happened.
                         });
+                        user.sendEmailVerification()
                         navigation.navigate('Login')
                     })
                     .catch(error =>{
