@@ -37,7 +37,7 @@ export default function Login() {
         .catch(function (error) {
             var errorCode = error.code;
             var errorMessage = error.message;
-            alert(errorCode, "O usuário não existe ou a senha está incorreta!");
+            alert("O usuário não existe ou a senha está incorreta!");
         });
     }
     useEffect(() => {
