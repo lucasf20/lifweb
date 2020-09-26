@@ -14,7 +14,6 @@ import styles from './styles';
 import colorStyles from "../../colors";
 //importações FireBase
 import firebase from '../../../firebaseConfig';
-import { checkUser } from '../../actions/auth_actions'
 
 
 export default function Login() {
