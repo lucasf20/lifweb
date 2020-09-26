@@ -5,10 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 
 import styles from './styles';
-import Login from '../Login';
 
 import colorStyles from "../../colors";
-
 
 export default function CreatePass(){
 
@@ -20,7 +18,7 @@ export default function CreatePass(){
     }
 
     function navigateHome(){
-        navigation.navigate(Login);
+        navigation.navigate('Login');
     }
     
     return(

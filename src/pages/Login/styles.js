@@ -5,7 +5,7 @@ export default StyleSheet.create({
 
     container: {
         paddingHorizontal: 36,
-        paddingTop: Constants.statusBarHeight + 50,
+        paddingTop: Constants.statusBarHeight + 40,
         paddingBottom: 50
     },
 
@@ -21,12 +21,11 @@ export default StyleSheet.create({
     },
 
     LooseText:{
-        paddingVertical:10,
+        paddingTop:5,
         alignItems: 'center',
     },
 
     SocialNetwork: {
-        flex: 1,
         alignItems: 'center',
     },
     
