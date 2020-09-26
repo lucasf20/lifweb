@@ -33,7 +33,7 @@ export default function Login() {
 
     function loginFirebase() {
         firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(()=>{navigation.navigate('Feed');})
+        .then(()=>{navigateToFeed})
         .catch(function (error) {
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -50,9 +50,6 @@ export default function Login() {
         return (
             <ScrollView >
                 <View style={styles.container}>
-
-
-
 
                     <View style={styles.logo}>
                         <Image
