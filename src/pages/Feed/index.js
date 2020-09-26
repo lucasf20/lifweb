@@ -4,6 +4,11 @@ import {ScrollView, View,Text, Image, TouchableOpacity, Button} from 'react-nati
 import {useNavigation} from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 
+import Header from "../../Components/Header";
+import StoriesList from "../../Components/Stories";
+import PostsList from "../../Components/PostsList";
+
+
 import styles from './styles';
 
 import colorStyles from "../../colors";
@@ -40,13 +45,16 @@ export default function Feed(){
     return(
         
         <ScrollView>
-            <View style = {styles.container}>
+
+            <Header />
+            <ScrollView>
                 <Button 
                     onPress={() => {logout()}}
                     title="logout"
                     color={dorange}
                 />
-            </View>
+                <PostsList />
+            </ScrollView>
         </ScrollView>
     );
 }
