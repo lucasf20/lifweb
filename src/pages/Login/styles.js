@@ -28,5 +28,9 @@ export default StyleSheet.create({
     SocialNetwork: {
         alignItems: 'center',
     },
+
+    label:{
+        fontWeight:"bold"
+    }
     
 });

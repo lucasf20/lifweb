@@ -59,18 +59,23 @@ export default function Login() {
 
 
                     <View style={styles.Login}>
-
-
+                        
+                        <Text style={styles.label}>
+                            Email
+                        </Text>
                         <MyTextInput
                             onChangeText={text => setEmail(text)}
                             value={email}
+                            placeholder="Informe seu email"
                         />
-
+                        <Text style={styles.label}>
+                            Senha
+                        </Text>
                         <MyTextInput
                             secureTextEntry={true}
                             onChangeText={text => setPassword(text)}
                             value={password}
-                            placeholder='senha'
+                            placeholder='Senha'
                         />
                         <Button onPress={() => {loginFirebase(); }} color={dorange} style={[{ marginTop: 0 }]}
                             title="login"
