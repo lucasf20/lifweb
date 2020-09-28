@@ -36,6 +36,11 @@ export default StyleSheet.create({
         color:'white'
     },
 
+    boldLabel:{
+        color:'white',
+        fontWeight:'bold'
+    },
+
     orangeLabel:{
         color:dorange
     },

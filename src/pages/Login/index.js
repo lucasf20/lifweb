@@ -65,7 +65,7 @@ export default function Login() {
 
                     <View style={styles.Login}>
                         
-                        <Text style={styles.label}>
+                        <Text style={styles.boldLabel}>
                             Email
                         </Text>
                         <MyTextInput
@@ -73,7 +73,7 @@ export default function Login() {
                             value={email}
                             placeholder="Informe seu email"
                         />
-                        <Text style={styles.label}>
+                        <Text style={styles.boldLabel}>
                             Senha
                         </Text>
                         <MyTextInput
