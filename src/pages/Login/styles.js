@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import Constants from 'expo-constants';
+import { color } from 'react-native-reanimated';
 
 export default StyleSheet.create({
 
@@ -22,7 +23,7 @@ export default StyleSheet.create({
 
     LooseText:{
         paddingTop:5,
-        alignItems: 'center',
+        alignItems: 'center'
     },
 
     SocialNetwork: {
@@ -30,7 +31,14 @@ export default StyleSheet.create({
     },
 
     label:{
-        fontWeight:"bold"
-    }
+        fontWeight:"bold",
+        color:'white'
+    },
+
+    image: {
+        flex: 1,
+        resizeMode: 'cover',
+        justifyContent: 'center',
+      },
     
 });

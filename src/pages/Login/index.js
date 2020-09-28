@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Text, Image, TouchableOpacity, Linking, Button } from 'react-native';
+import { ScrollView, View, Text, Image, TouchableOpacity, Linking, Button,ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import MyTextInput from '../../MyTextInput';
@@ -8,6 +8,8 @@ import face from '../../assets/facebooklogin.png';
 import google from '../../assets/googlelogin.png';
 import apple from '../../assets/appleidlogin.png';
 import lifweb from '../../assets/logolifweb.png';
+
+const image = { uri: 'https://lifweb.com.br/skin/bglifweb.jpg' };
 
 import styles from './styles';
 
@@ -49,7 +51,10 @@ export default function Login() {
     }, [])
         return (
             <ScrollView >
+                <ImageBackground source={image} style={styles.image}>
+                    <Text style={styles.text}>Inside</Text>
                 <View style={styles.container}>
+                
 
                     <View style={styles.logo}>
                         <Image
@@ -67,6 +72,7 @@ export default function Login() {
                             onChangeText={text => setEmail(text)}
                             value={email}
                             placeholder="Informe seu email"
+                            placeholderTextColor='lightgray'
                         />
                         <Text style={styles.label}>
                             Senha
@@ -75,14 +81,15 @@ export default function Login() {
                             secureTextEntry={true}
                             onChangeText={text => setPassword(text)}
                             value={password}
-                            placeholder='Senha'
+                            placeholder='Informe sua senha'
+                            placeholderTextColor='lightgray'
                         />
                         <Button onPress={() => {loginFirebase(); }} color={dorange} style={[{ marginTop: 0 }]}
                             title="login"
                         />
                         <View style={styles.LooseText}>
                             <TouchableOpacity>
-                                <Text>
+                                <Text style={styles.label}>
                                     Esqueci minha senha
                     </Text>
                             </TouchableOpacity>
@@ -111,14 +118,15 @@ export default function Login() {
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={(navigateToCreateAcc)}>
-                            <Text>
+                            <Text style={styles.label}>
                                 CRIAR UMA CONTA
                         </Text>
                         </TouchableOpacity>
 
                     </View>
-
+                    
                 </View>
+                </ImageBackground>
             </ScrollView>
         );
 }
