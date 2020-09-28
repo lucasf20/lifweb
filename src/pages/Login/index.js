@@ -50,7 +50,9 @@ export default function Login() {
         });
     }, [])
         return (
-            <ScrollView >
+            <ScrollView 
+                style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}
+            >
                 <ImageBackground source={image} style={styles.image}>
                     <Text style={styles.text}>Inside</Text>
                 <View style={styles.container}>
@@ -85,14 +87,15 @@ export default function Login() {
                         <View style={styles.loginButton}>
                             <Button onPress={() => {loginFirebase(); }} color={dorange} style={[{ marginTop: 0 }]}
                                 title="login"
-                            />                            
-                        </View>
+                            />
                         <View style={styles.LooseText}>
                             <TouchableOpacity>
                                 <Text style={styles.passLabel}>
                                     Esqueci minha senha
                                 </Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity>                            
+                        </View> 
+                       
                         </View>
 
                     </View>

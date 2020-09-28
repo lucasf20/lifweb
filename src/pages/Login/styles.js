@@ -9,18 +9,24 @@ export default StyleSheet.create({
     container: {
         paddingHorizontal: 36,
         paddingTop: Constants.statusBarHeight + 40,
-        paddingBottom: 50
+        paddingBottom: 50,
+        flex: 1
     },
 
     logo: {
-        flex:3,
         justifyContent:'center',
         flexDirection:'row',
     },
 
+    
+
     Login: {
         flex:2,
         paddingVertical:20,
+    },
+
+    SocialNetwork: {
+        alignItems: 'center',
     },
 
     loginButton: {
@@ -30,10 +36,6 @@ export default StyleSheet.create({
 
     LooseText:{
         paddingTop:5,
-        alignItems: 'center',
-    },
-
-    SocialNetwork: {
         alignItems: 'center',
     },
 
