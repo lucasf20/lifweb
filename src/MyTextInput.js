@@ -1,10 +1,14 @@
 import * as React from "react";
 import {StyleSheet, TextInput} from "react-native";
+import colorStyles from './colors';
 
-const BLUE = "#428AF8";
 const LIGHT_GRAY = "#D3D3D3";
+const dorange = colorStyles.dorange;
+
 
 class MyTextInput extends React.Component{
+
+    
     state = {
         isFocused: false
     };
@@ -31,10 +35,11 @@ class MyTextInput extends React.Component{
         return(
             <TextInput
                 placeholder="Email"
-                selectionColor={BLUE}
+                selectionColor={dorange}
                 underlineColorAndroid={
-                    isFocused ? BLUE : LIGHT_GRAY
+                    isFocused ? dorange : LIGHT_GRAY
                 }
+                
 
                 onFocus = {this.handleFocus}
                 onBlur= {this.handleBlur}
@@ -48,7 +53,10 @@ class MyTextInput extends React.Component{
 const styles = StyleSheet.create({
     textInput: {
         height:40,
-        paddingLeft:6
+        paddingLeft:6,
+        backgroundColor:'#FFFFFF50',
+        borderRadius:5,
+        
     }
 });
 
