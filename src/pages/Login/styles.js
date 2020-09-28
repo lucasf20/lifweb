@@ -20,7 +20,12 @@ export default StyleSheet.create({
 
     Login: {
         flex:2,
-        paddingVertical:50,
+        paddingVertical:20,
+    },
+
+    loginButton: {
+        flex:2,
+        paddingVertical:10,
     },
 
     LooseText:{
@@ -48,9 +53,6 @@ export default StyleSheet.create({
     passLabel:{
         color:'orange'
     },
-
-    
-
 
     image: {
         flex: 1,

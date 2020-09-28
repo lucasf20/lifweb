@@ -82,14 +82,16 @@ export default function Login() {
                             value={password}
                             placeholder='Informe sua senha'
                         />
-                        <Button onPress={() => {loginFirebase(); }} color={dorange} style={[{ marginTop: 0 }]}
-                            title="login"
-                        />
+                        <View style={styles.loginButton}>
+                            <Button onPress={() => {loginFirebase(); }} color={dorange} style={[{ marginTop: 0 }]}
+                                title="login"
+                            />                            
+                        </View>
                         <View style={styles.LooseText}>
                             <TouchableOpacity>
                                 <Text style={styles.passLabel}>
                                     Esqueci minha senha
-                    </Text>
+                                </Text>
                             </TouchableOpacity>
                         </View>
 
