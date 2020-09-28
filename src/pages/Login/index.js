@@ -72,7 +72,6 @@ export default function Login() {
                             onChangeText={text => setEmail(text)}
                             value={email}
                             placeholder="Informe seu email"
-                            placeholderTextColor='lightgray'
                         />
                         <Text style={styles.label}>
                             Senha
@@ -82,14 +81,13 @@ export default function Login() {
                             onChangeText={text => setPassword(text)}
                             value={password}
                             placeholder='Informe sua senha'
-                            placeholderTextColor='lightgray'
                         />
                         <Button onPress={() => {loginFirebase(); }} color={dorange} style={[{ marginTop: 0 }]}
                             title="login"
                         />
                         <View style={styles.LooseText}>
                             <TouchableOpacity>
-                                <Text style={styles.label}>
+                                <Text style={styles.passLabel}>
                                     Esqueci minha senha
                     </Text>
                             </TouchableOpacity>
@@ -98,9 +96,9 @@ export default function Login() {
                     </View>
 
                     <View style={styles.SocialNetwork}>
-                        <Text>
+                        <Text style={styles.orangeLabel}>
                             OU
-                    </Text>
+                        </Text>
                         <TouchableOpacity>
                             <Image
                                 source={face}

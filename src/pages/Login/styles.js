@@ -1,6 +1,8 @@
 import {StyleSheet} from 'react-native';
 import Constants from 'expo-constants';
-import { color } from 'react-native-reanimated';
+import colorStyles from "../../colors";
+
+const dorange = colorStyles.dorange
 
 export default StyleSheet.create({
 
@@ -23,7 +25,7 @@ export default StyleSheet.create({
 
     LooseText:{
         paddingTop:5,
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
     SocialNetwork: {
@@ -31,9 +33,19 @@ export default StyleSheet.create({
     },
 
     label:{
-        fontWeight:"bold",
         color:'white'
     },
+
+    orangeLabel:{
+        color:dorange
+    },
+
+    passLabel:{
+        color:'orange'
+    },
+
+    
+
 
     image: {
         flex: 1,
