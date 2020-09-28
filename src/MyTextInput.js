@@ -35,6 +35,7 @@ class MyTextInput extends React.Component{
         return(
             <TextInput
                 placeholder="Email"
+                placeholderTextColor='black'
                 selectionColor={dorange}
                 underlineColorAndroid={
                     isFocused ? dorange : LIGHT_GRAY
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     textInput: {
         height:40,
         paddingLeft:6,
-        backgroundColor:'#FFFFFF50',
+        backgroundColor:'#FFFFFF99',
         borderRadius:5,
         
     }
