@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Feather} from '@expo/vector-icons';
-import {ScrollView, View,Text, Image, TouchableOpacity, Button} from 'react-native';
+import {ScrollView, View,Text, Image, TouchableOpacity, Button, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 
@@ -10,11 +10,14 @@ import styles from './styles';
 
 import colorStyles from "../../colors";
 
+import firebase from '../../../firebaseConfig';
+
 
 export default function CreateAcc(){
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
+    const [regEmail, setRegEmail] = useState('');
 
     function navigateBack() {
         navigation.goBack();
@@ -27,6 +30,29 @@ export default function CreateAcc(){
     function navigateEmail(){
         navigation.navigate('EmailVal');
     }
+
+    function generateCode(){
+        var a = ""
+        for (i = 0; i < 6; i++){
+          a += Math.floor(Math.random()*10)
+        }
+        return a
+    }
+
+    function verifyAvailability(email){
+        firebase.auth().fetchSignInMethodsForEmail(email)
+        .then(arr =>{
+            if(arr.length > 0){
+                alert("Este E-mail já está sendo usado!\n\nFaça Login ou tente recuperar sua senha!")  
+            }else{
+                navigateEmail();
+            }
+        }).catch(error => {
+            alert("E-mail inválido!");
+        })
+    }
+
+    
     
     return(
         
@@ -63,10 +89,13 @@ export default function CreateAcc(){
                 Qual é seu email?
             </Text>
 
-            <MyTextInput/>
+            <MyTextInput 
+                onChangeText = {text => setRegEmail(text)}
+                value = {regEmail}
+            />
                 
             <View style = {styles.ButtonView}>
-                <Button onPress={navigateEmail}
+                <Button onPress={() => {verifyAvailability(regEmail)}}
                     title= "Criar uma Conta" 
                     color= {dorange}
                 />             
