@@ -25,6 +25,13 @@ export default function Feed(){
         firebase.auth().onAuthStateChanged(user =>{
             if(!user){
                 navigation.navigate('Login')
+            }else{
+                const firstAccess = firebase.database().ref('user/'+user.uid).on('value',snapshot => {
+                    return snapshot.val()['firstAccess']
+                })
+                if (firstAccess){
+                    navigation.navigate('CreateAcc2')
+                }
             }
         })
     }, [])
