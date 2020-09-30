@@ -65,75 +65,82 @@ export default function Login() {
                     </View>
 
 
-                    
 
-                        <Text style={styles.boldLabel}>
-                            Email
+
+                    <Text style={styles.boldLabel}>
+                        Email
                         </Text>
-                        <MyTextInput
-                            onChangeText={text => setEmail(text)}
-                            value={email}
-                            placeholder="Informe seu email"
-                        />
-                        <Text style={styles.boldLabel}>
-                            Senha
+                    <MyTextInput
+                        onChangeText={text => setEmail(text)}
+                        value={email}
+                        placeholder="Informe seu email"
+                    />
+                    <Text style={styles.boldLabel}>
+                        Senha
                         </Text>
-                        <MyTextInput
-                            secureTextEntry={true}
-                            onChangeText={text => setPassword(text)}
-                            value={password}
-                            placeholder='Informe sua senha'
-                        />
-                        <View style={styles.loginButton}>
-                            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 10 }} onPress={() =>{loginFirebase()}}>
-                                <View style={{ alignItems: "center" }}>
-                                    <Text style={{ color: "white", fontSize: 30, fontWeight: "bold", padding: 5 }}>
-                                        LOGIN
+                    <MyTextInput
+                        secureTextEntry={true}
+                        onChangeText={text => setPassword(text)}
+                        value={password}
+                        placeholder='Informe sua senha'
+                    />
+                    <View style={styles.loginButton}>
+                        <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 10 }} onPress={() => { loginFirebase() }}>
+                            <View style={{ alignItems: "center" }}>
+                                <Text style={{ color: "white", fontSize: 30, fontWeight: "bold", padding: 5 }}>
+                                    LOGIN
                     </Text>
+                            </View>
+                        </TouchableOpacity>
+                        <View style={styles.LooseText}>
+                            <TouchableOpacity>
+                                <Text style={styles.passLabel}>
+                                    Esqueci minha senha
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ alignItems: "center" }}>
+                            <Text style={styles.passLabel}>
+                                OU
+                    </Text>
+                        </View>
+                        <View style={{ paddingTop: 10, paddingBottom: 10 }}>
+                            <TouchableOpacity style={{ backgroundColor: "#3B5998", height: 50, borderRadius: 10 }}>
+                                <View style={{ alignItems: "center", paddingTop: 5}}>
+                                    <View style={{ flexDirection:"row"}}>
+                                    <Image source={face} style={{height:40, width:40}} />
+                                    <Text style={{color:"white", fontSize:20, paddingLeft:10, paddingTop:5}}>Logar com Facebook</Text>
+                                    </View>
                                 </View>
                             </TouchableOpacity>
-                            <View style={styles.LooseText}>
-                                <TouchableOpacity>
-                                    <Text style={styles.passLabel}>
-                                        Esqueci minha senha
-                                </Text>
-                                </TouchableOpacity>
-                            </View>
-                        <View style={{ alignItems: "center"}}>
-                            <Text style={styles.passLabel}>
-                                OU FAÇA LOGIN COM
-                    </Text>
                         </View>
-                        <View style={{paddingTop:10, paddingBottom:10}}>
-                        <TouchableOpacity style={{ backgroundColor: "#3B5998", height: 50, borderRadius: 10}}>
-                            <View style={{ alignItems: "center", padding:6 }}>
-                                    <Image source={face}/>
-
-                            </View>
-                        </TouchableOpacity>
+                        <View style={{ paddingTop: 10, paddingBottom: 10 }}>
+                            <TouchableOpacity style={{alignItems:"center",  backgroundColor: "white", height: 50, borderRadius: 10 }}>
+                                <View style={{alignItems:"center", flexDirection:"row", paddingTop:5}}>
+                                    <Image source={google} style={{height:40,width:40}}></Image>
+                                    <Text style={{color:"black", fontSize:23, paddingLeft:10}}>
+                                        Logar com Google
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
-                        <View style={{paddingTop:10, paddingBottom:10}}>
-                        <TouchableOpacity style={{ backgroundColor: "white", height: 50, borderRadius: 10}}>
-                            <View style={{ alignItems: "center", padding:6 }}>
-                            <Image source={google}/>
-                            </View>
-                        </TouchableOpacity>
-                        </View>
-                        <View style={{paddingTop:10, paddingBottom:10}}>
-                        <TouchableOpacity style={{ backgroundColor: "#7D7D7D", height: 50, borderRadius: 10}}>
-                        <View style={{ alignItems: "center", padding:6 }}>
-                            <Image source={apple}/>
-                            </View>
-                        </TouchableOpacity>
+                        <View style={{ paddingTop: 10, paddingBottom: 10 }}>
+                            <TouchableOpacity style={{ backgroundColor: "#7D7D7D", height: 50, borderRadius: 10 }}>
+                                <View style={{ alignItems: "center", paddingTop: 5 }}>
+                                <View style={{ flexDirection:"row"}}>
+                                    <Image source={apple} style={{height:40, width:40}} />
+                                    <Text style={{color:"white", fontSize:22, paddingLeft:10,paddingTop:5}}>Logar com Apple ID</Text>
+                                </View></View>
+                            </TouchableOpacity>
                         </View>
                         <TouchableOpacity onPress={(navigateToCreateAcc)}>
-                        <View style={{ alignItems: "center" }}>
-                            <Text style={styles.label}>
-                                CRIAR UMA CONTA
+                            <View style={{ alignItems: "center" }}>
+                                <Text style={styles.label}>
+                                    CRIAR UMA CONTA
                         </Text></View>
                         </TouchableOpacity>
-                        </View>
                     </View>
+                </View>
             </ImageBackground>
         </ScrollView>
     );
