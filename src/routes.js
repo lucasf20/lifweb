@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 const AppStack = createStackNavigator();
 
 import CreateAcc from './pages/CreateAcc';
+import CreateAcc2 from './pages/CreateAcc2';
 import Login from './pages/Login';
 import EmailVal from './pages/EmailVal';
 import CreatePass from './pages/CreatePass';
@@ -16,6 +17,7 @@ export default function Routes() {
 
             <AppStack.Navigator screenOptions = {{headerShown: false}}>
                 <AppStack.Screen  name = "Login" component = {Login}/>
+                <AppStack.Screen name = "CreateAcc2" component = {CreateAcc2}/>
                 <AppStack.Screen name = "CreateAcc" component = {CreateAcc}/>
                 <AppStack.Screen name = "EmailVal" component = {EmailVal}/>
                 <AppStack.Screen name = "CreatePass" component = {CreatePass}/>

@@ -53,7 +53,10 @@ export default StyleSheet.create({
     },
 
     passLabel:{
-        color:'orange'
+        paddingTop:40,
+        color:"#FD6A02",
+        fontWeight:'bold',
+        fontSize:15
     },
 
     image: {
