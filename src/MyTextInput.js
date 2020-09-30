@@ -35,12 +35,11 @@ class MyTextInput extends React.Component{
         return(
             <TextInput
                 placeholder="Email"
-                placeholderTextColor='black'
+                placeholderTextColor='gray'
                 selectionColor={dorange}
                 underlineColorAndroid={
                     isFocused ? dorange : LIGHT_GRAY
                 }
-                
 
                 onFocus = {this.handleFocus}
                 onBlur= {this.handleBlur}
@@ -53,11 +52,14 @@ class MyTextInput extends React.Component{
 }
 const styles = StyleSheet.create({
     textInput: {
-        height:40,
-        paddingLeft:6,
         backgroundColor:'#FFFFFF99',
         borderRadius:5,
-        
+        paddingLeft:5,
+        paddingRight:5,
+        height: 50, 
+        borderRadius: 10,
+        borderWidth:1, 
+        borderColor:"gray"
     }
 });
 
