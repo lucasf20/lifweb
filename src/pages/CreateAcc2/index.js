@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Feather } from '@expo/vector-icons';
-import { ScrollView, View, Text, Image, TouchableOpacity, Button, Alert } from 'react-native';
+import { ScrollView, View, Text, Image, TouchableOpacity, Button, Alert, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
-import DateTimePickerModal from 'react-native-modal-datetime-picker'
+
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 
 import lifweb from '../../assets/logolifweb.png';
 
@@ -13,6 +15,8 @@ import colorStyles from "../../colors";
 
 import firebase from '../../../firebaseConfig';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 export default function CreateAcc2() {
 
@@ -20,8 +24,8 @@ export default function CreateAcc2() {
     const navigation = useNavigation();
     const [Name, setName] = useState('');
     const [data, setData] = useState('');
-    const [moto, setMoto] = useState('');
     const [profissao, setProfissao] = useState('');
+    const [moto, setMoto] = useState('')
 
 
     function navigateBack() {
@@ -44,113 +48,147 @@ export default function CreateAcc2() {
         })
         return FullName
     }
-
     //date time picker
 
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [date, setDate] = useState(new Date(1598051730000));
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShow(Platform.OS === 'ios');
+        var d = currentDate + "";
+        var aux = d.split(" ")
+        setDate(currentDate)
+        setData(aux[2] + "-" + aux[1] + "-" + aux[3]);
+    };
+
+    const showMode = (currentMode) => {
+        setShow(true);
+        setMode(currentMode);
+    };
 
     const showDatePicker = () => {
-        setDatePickerVisibility(true);
+        showMode('date');
     };
 
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
+    const showTimepicker = () => {
+        showMode('time');
     };
 
-    const handleConfirm = (date) => {
-        //console.warn("A date has been picked: ", date);
-        date = date + ""
-        var data = date.split(" ")
-        setData(data[2] + "-" + data[1] + "-" + data[3])
-        hideDatePicker();
-    };
+
+    function cadastrar() {
+        const user = firebase.auth().currentUser
+        if (Name.length > 0 && profissao.length > 0 && data.length > 0) {
+            firebase.database().ref('user/' + user.uid).update({
+                nome: getFullName(),
+                firstAccess: false,
+                apelido: Name,
+                profissao: profissao,
+                nascimento: data
+            }).then(() => {
+                navigation.navigate('Feed')
+                alert("Cadastro Finalizado!")
+            }
+            ).catch(erro => {
+                console.log(erro)
+                alert("Falha ao cadastrar! Tente novamente!")
+            }
+            )
+        } else {
+            alert("Por favor, preencha todos os campos!")
+        }
+    }
 
 
     return (
 
-        <ScrollView style={styles.container}>
+        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
+            style={{ flex: 1 }}
+            showsVerticalScrollIndicator={false}>
+            <ScrollView style={styles.container}>
 
-            <View style={styles.header}>
+                <View style={styles.header}>
 
-                <TouchableOpacity onPress={navigateBack}>
-                    <Feather name="arrow-left" size={28} />
-                </TouchableOpacity>
+                    <TouchableOpacity onPress={navigateBack}>
+                        <Feather name="arrow-left" size={28} />
+                    </TouchableOpacity>
 
-            </View>
-
-            <View style={styles.logo}>
-                <Image
-                    source={lifweb}
-                />
-            </View>
-
-            <Text style={styles.BigText}>
-                {getFullName()},
-            </Text>
-
-            <Text style={styles.LooseText}>
-                Como você gostaria de ser chamado?
-            </Text>
-
-            <MyTextInput
-                onChangeText={text => setName(text)}
-                value={Name}
-                placeholder='Nome'
-            />
-            <Text style={styles.LooseText}>
-                Qual a sua moto?
-            </Text>
-            <MyTextInput
-                onChangeText={text => setMoto(text)}
-                value={moto}
-                placeholder='Modelo da moto'
-            />
-            <Text style={styles.LooseText}>
-                Qual a sua profissão?
-            </Text>
-            <MyTextInput
-                onChangeText={text => setProfissao(text)}
-                value={profissao}
-                placeholder='Profissão'
-            />
-            <Text style={styles.LooseText}>
-                Qual a sua data de nascimento?
-            </Text>
-            <TouchableOpacity onPress={showDatePicker} style={{
-                borderRadius: 5,
-                height: 50,
-                borderRadius: 10,
-                borderWidth: 1,
-                borderColor: "gray"
-            }}>
-                <View style={{ alignItems: "center", padding: 10 }}>
-                    <Text style={{ color: (data.length > 0) ? "black" : "gray", fontSize: 20 }}>
-                        {(data.length > 0) ? data : "Toque aqui para selecionar sua data de nascimento"}
-                    </Text>
                 </View>
-            </TouchableOpacity>
-            <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-            />
 
-            <View style={styles.ButtonView}>
-                {/* <Button
-                    title="Finalizar"
-                    color={dorange}
-                /> */}
-                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 10 }}>
-                    <View style={{ alignItems: "center" }}>
-                        <Text style={{ color: "white", fontSize: 30, fontWeight: "bold", padding:5 }}>
-                            FINALIZAR
-                    </Text>
+                <View style={styles.logo}>
+                    <Image
+                        source={lifweb}
+                    />
+                </View>
+
+                <Text style={styles.BigText}>
+                    {getFullName()},
+            </Text>
+
+                <Text style={styles.LooseText}>
+                    Como você gostaria de ser chamado?
+            </Text>
+
+                <MyTextInput
+                    onChangeText={text => setName(text)}
+                    value={Name}
+                    placeholder='Nome'
+                />
+                <Text style={styles.LooseText}>
+                    Qual a sua moto?
+            </Text>
+                <MyTextInput
+                    onChangeText={text => setMoto(text)}
+                    value={moto}
+                    placeholder='Modelo da moto'
+                />
+                <Text style={styles.LooseText}>
+                    Qual a sua profissão?
+            </Text>
+                <MyTextInput
+                    onChangeText={text => setProfissao(text)}
+                    value={profissao}
+                    placeholder='Profissão'
+                />
+                <Text style={styles.LooseText}>
+                    Qual a sua data de nascimento?
+            </Text>
+                <TouchableOpacity onPress={showDatePicker} style={{
+                    borderRadius: 5,
+                    height: 50,
+                    borderRadius: 10,
+                    borderWidth: 1,
+                    borderColor: "gray"
+                }}>
+                    <View style={{ alignItems: "center", padding: 10 }}>
+                        <Text style={{ color: (data.length > 0) ? "black" : "gray", fontSize: 12 }}>
+                            {(data.length > 0) ? data : "Toque aqui para selecionar sua data de nascimento"}
+                        </Text>
                     </View>
                 </TouchableOpacity>
-            </View>
+                {show && (
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode={mode}
+                        is24Hour={true}
+                        display="default"
+                        onChange={onChange}
+                    />
+                )}
+                <View style={styles.ButtonView}>
+                    <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 10 }} onPress={() => { cadastrar() }}>
+                        <View style={{ alignItems: "center" }}>
+                            <Text style={{ color: "white", fontSize: 30, fontWeight: "bold", padding: 5 }}>
+                                CRIAR NOVA CONTA
+                    </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
 
-        </ScrollView>
+            </ScrollView>
+        </KeyboardAwareScrollView>
     );
 }
 

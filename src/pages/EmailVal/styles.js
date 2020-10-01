@@ -7,7 +7,7 @@ const dorange = colorStyles.dorange
 export default StyleSheet.create({
     container: {
         paddingHorizontal: 36,
-        paddingTop: Constants.statusBarHeight + 50,
+        paddingTop: Constants.statusBarHeight + 15,
         paddingBottom: 50
     },
 

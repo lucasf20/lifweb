@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Feather} from '@expo/vector-icons';
 import {ScrollView, View,Text, Image, TouchableOpacity, Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -8,10 +8,12 @@ import styles from './styles';
 
 import colorStyles from "../../colors";
 
-export default function CreatePass(){
+export default function FindMoto(){
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
+
+    const [moto, setMoto] = useState('')
 
     function navigateBack() {
         navigation.goBack();
@@ -43,23 +45,12 @@ export default function CreatePass(){
             </Text>
 
             <Text style={styles.LooseText} >
-                Confirme seus dados de acesso
+                Selecione o modelo da sua moto
             </Text>
             
             <MyTextInput
-                placeholder='Nome'
+                placeholder='Modelo da moto'
             />
-
-            <MyTextInput
-                placeholder='Código de confirmação'
-            />
-                
-            <View style = {styles.ButtonView}>
-                <Button
-                    title= "Próximo"
-                    color= {dorange} 
-                />             
-            </View>
  
         </ScrollView>
     );

@@ -12,6 +12,8 @@ import colorStyles from "../../colors";
 
 import firebase from '../../../firebaseConfig';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 export default function CreateAcc(){
 
@@ -35,9 +37,8 @@ export default function CreateAcc(){
     }
 
     function verifyName(name){
-        var nameRegex = /(([A-Z]|[a-z]*)*( )(([A-Z])|[a-z]*)*)*/;
         var res = false
-        if(name.match(nameRegex)[0] == name){
+        if(name.split(" ").length > 1){
           res = true
         }
         return res
@@ -56,7 +57,7 @@ export default function CreateAcc(){
             alert("A senha deve possuir pelo menos um número!\n\nTente outra vez!")
             return false
         }
-        if(!(password.match(/[a-z]|[A-z]/))){
+        if(!(password.match(/[a-z]|[A-Z]/))){
             alert("A senha deve possuir pelo menos uma letra!\n\nTente outra vez!")
             return false
         }
@@ -97,12 +98,13 @@ export default function CreateAcc(){
                                     firstAccess:true
                                 }
                             )
+                            navigation.navigate('CreateAcc2')
                             alert("Usuário cadastrado com sucesso!")
                         }).catch(function(error) {
                         // An error happened.
                         });
                         //user.sendEmailVerification()
-                        navigation.navigate('Login')
+                        //navigation.navigate('Login')
                     })
                     .catch(error =>{
                         alert("Falha ao castrar usuário!")
@@ -115,7 +117,9 @@ export default function CreateAcc(){
     }    
     
     return(
-        
+        <KeyboardAwareScrollView  keyboardShouldPersistTaps={'always'}
+        style={{flex:1}}
+        showsVerticalScrollIndicator={false}>
         <ScrollView style = {styles.container}>
 
             <View style={styles.header}>
@@ -187,14 +191,24 @@ export default function CreateAcc(){
                 placeholder = "Repita a senha"
             />
                 
-            <View style = {styles.ButtonView}>
+            {/* <View style = {styles.ButtonView}>
                 <Button onPress={() => {validateAndRegister(nome, regEmail,senha,senha2)}}
-                    title= "Criar uma Conta" 
+                    title= "Próximo" 
                     color= {dorange}
                 />             
             </View>
- 
+  */}
+        <View style={styles.ButtonView}>
+                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 10 }} onPress={() => { validateAndRegister(nome, regEmail,senha,senha2) }}>
+                    <View style={{ alignItems: "center" }}>
+                        <Text style={{ color: "white", fontSize: 30, fontWeight: "bold", padding: 5 }}>
+                            PRÓXIMO
+                    </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
         </ScrollView>
+        </KeyboardAwareScrollView>
     );
 }
 

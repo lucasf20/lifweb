@@ -26,8 +26,9 @@ export default function Feed(){
             if(!user){
                 navigation.navigate('Login')
             }else{
-                const firstAccess = firebase.database().ref('user/'+user.uid).on('value',snapshot => {
-                    return snapshot.val()['firstAccess']
+                var firstAccess=false
+                firebase.database().ref('user/'+user.uid+'/firstAccess').on('value',snapshot => {
+                    firstAccess = snapshot.val()
                 })
                 if (firstAccess){
                     navigation.navigate('CreateAcc2')
