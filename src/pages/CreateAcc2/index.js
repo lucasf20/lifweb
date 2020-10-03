@@ -102,10 +102,6 @@ export default function CreateAcc2() {
         }
     }
 
-    useEffect(() => {
-     setName(getFullName())   
-    })
-
     function getMotos() {
         var motosList = []
         var motoObj = {}
