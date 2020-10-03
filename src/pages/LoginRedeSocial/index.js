@@ -69,7 +69,8 @@ export default function CreateAcc(){
         var res = firebase.auth().fetchSignInMethodsForEmail(email)
         .then(arr =>{
             if(arr.length > 0){
-                alert("Este E-mail já está sendo usado!\n\nFaça Login ou tente recuperar sua senha!")
+                //dá um jeito de logar direto e redirecionar pro feed
+                navigation.navigate('Feed')
                 return false
             }else{
                 return true
