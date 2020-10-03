@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { ScrollView, View, Text, Image, TouchableOpacity, Button, Alert, Platform, FlatList, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -102,34 +102,38 @@ export default function CreateAcc2() {
         }
     }
 
+    useEffect(() => {
+     setName(getFullName())   
+    })
+
     function getMotos() {
         var motosList = []
         var motoObj = {}
         var aux = {}
-        if(moto.length > 2){
-        firebase.database().ref('motos/').on('value', snapshot => {
-            motoObj = snapshot.val()
-        })
-        var motokeys = Object.keys(motoObj)
-        motokeys = motokeys.filter(item => {
-            var reg = new RegExp(moto.toUpperCase())
-            if(motoSelecionada.length == 0 || !(motoSelecionada == moto)){
-                return reg.test(item.toUpperCase())
-            }else{
-                return item == motoSelecionada
-            }
-        })
-        for (let i = 0; i < motokeys.length; i++) {
-            aux = motoObj[motokeys[i]]
-            motosList.push({
-                id: aux['linha'],
-                title: aux['descricao']
+        if (moto.length > 2) {
+            firebase.database().ref('motos/').on('value', snapshot => {
+                motoObj = snapshot.val()
             })
+            var motokeys = Object.keys(motoObj)
+            motokeys = motokeys.filter(item => {
+                var reg = new RegExp(moto.toUpperCase())
+                if (motoSelecionada.length == 0 || !(motoSelecionada == moto)) {
+                    return reg.test(item.toUpperCase())
+                } else {
+                    return item == motoSelecionada
+                }
+            })
+            for (let i = 0; i < motokeys.length; i++) {
+                aux = motoObj[motokeys[i]]
+                motosList.push({
+                    id: aux['linha'],
+                    title: aux['descricao']
+                })
+            }
+            return motosList
         }
-        return motosList
-        }
-        else{
-            return [{title:"Buscar modelo", id:0}]
+        else {
+            return [{ title: "Buscar modelo", id: 0 }]
         }
     }
 
@@ -141,10 +145,6 @@ export default function CreateAcc2() {
             <ScrollView style={styles.container}>
 
                 <View style={styles.header}>
-
-                    <TouchableOpacity onPress={navigateBack}>
-                        <Feather name="arrow-left" size={28} />
-                    </TouchableOpacity>
 
                 </View>
 
@@ -170,7 +170,7 @@ export default function CreateAcc2() {
                 <Text style={styles.LooseText}>
                     Qual a sua moto?
             </Text>
-                 <MyTextInput
+                <MyTextInput
                     onChangeText={text => setMoto(text)}
                     value={moto}
                     placeholder='Escreva o modelo da moto'
@@ -191,11 +191,11 @@ export default function CreateAcc2() {
                     renderItem={({ item, index, separators }) => (
                         <TouchableHighlight
                             key={item.key}
-                            onPress={() => {if(!(item['id']==0)){setMotoSelecionada(item['title']); setMoto(item['title']);}else{setMotoSelecionada('')}}}
+                            onPress={() => { if (!(item['id'] == 0)) { setMotoSelecionada(item['title']); setMoto(item['title']); } else { setMotoSelecionada('') } }}
                             onShowUnderlay={separators.highlight}
                             onHideUnderlay={separators.unhighlight}>
-                            <View style={{ backgroundColor: dorange, borderRadius:5, height:50}}>
-                                <Text style={{fontSize:15, padding:15, color:'white'}}>{item.title}</Text>
+                            <View style={{ backgroundColor: dorange, borderRadius: 5, height: 50 }}>
+                                <Text style={{ fontSize: 15, padding: 15, color: 'white' }}>{item.title}</Text>
                             </View>
                         </TouchableHighlight>
                     )}

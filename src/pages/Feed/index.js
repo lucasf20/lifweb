@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect,useState} from 'react';
 import {Feather} from '@expo/vector-icons';
 import {ScrollView, View,Text, Image, TouchableOpacity, Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -19,23 +19,23 @@ export default function Feed(){
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
+    const[firstAccess, setFirstAccess] = useState(false)
 
     //login required
     useEffect(() => {
         firebase.auth().onAuthStateChanged(user =>{
             if(!user){
                 navigation.navigate('Login')
-            }else{
-                var firstAccess=false
+            }else{ 
                 firebase.database().ref('user/'+user.uid+'/firstAccess').on('value',snapshot => {
-                    firstAccess = snapshot.val()
+                    setFirstAccess(snapshot.val())
                 })
                 if (firstAccess){
                     navigation.navigate('CreateAcc2')
                 }
             }
         })
-    }, [])
+    })
 
     function logout(){
         firebase.auth().signOut()

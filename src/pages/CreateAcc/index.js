@@ -107,7 +107,7 @@ export default function CreateAcc(){
                         //navigation.navigate('Login')
                     })
                     .catch(error =>{
-                        alert("Falha ao castrar usuário!")
+                        //alert("Falha ao castrar usuário!")
                     })
                 }
             }
