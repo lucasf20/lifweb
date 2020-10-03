@@ -7,7 +7,7 @@ const AppStack = createStackNavigator();
 import CreateAcc from './pages/CreateAcc';
 import CreateAcc2 from './pages/CreateAcc2';
 import Login from './pages/Login';
-import EmailVal from './pages/EmailVal';
+import EsqueciMinhaSenha from './pages/EsqueciMinhaSenha';
 import FindMoto from './pages/FindMoto';
 import Feed from './pages/Feed';
 
@@ -19,7 +19,7 @@ export default function Routes() {
                 <AppStack.Screen  name = "Login" component = {Login}/>
                 <AppStack.Screen name = "CreateAcc2" component = {CreateAcc2}/>
                 <AppStack.Screen name = "CreateAcc" component = {CreateAcc}/>
-                <AppStack.Screen name = "EmailVal" component = {EmailVal}/>
+                <AppStack.Screen name = "EsqueciMinhaSenha" component = {EsqueciMinhaSenha}/>
                 <AppStack.Screen name = "FindMoto" component = {FindMoto}/>
                 <AppStack.Screen name = "Feed" component = {Feed}/>
             </AppStack.Navigator>

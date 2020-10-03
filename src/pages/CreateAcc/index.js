@@ -99,7 +99,7 @@ export default function CreateAcc(){
                                 }
                             )
                             navigation.navigate('CreateAcc2')
-                            alert("Usuário cadastrado com sucesso!")
+                            //alert("Usuário cadastrado com sucesso!")
                         }).catch(function(error) {
                         // An error happened.
                         });

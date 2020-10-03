@@ -93,7 +93,7 @@ export default function Login() {
                             </View>
                         </TouchableOpacity>
                         <View style={styles.LooseText}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() =>{navigation.navigate('EsqueciMinhaSenha')}}>
                                 <Text style={styles.passLabel}>
                                     Esqueci minha senha
                                 </Text>
