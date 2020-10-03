@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Feather } from '@expo/vector-icons';
-import { ScrollView, View, Text, Image, TouchableOpacity, Button, Alert, Platform } from 'react-native';
+import { ScrollView, View, Text, Image, TouchableOpacity, Button, Alert, Platform, FlatList, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 
@@ -26,6 +26,7 @@ export default function CreateAcc2() {
     const [data, setData] = useState('');
     const [profissao, setProfissao] = useState('');
     const [moto, setMoto] = useState('')
+    const [motoSelecionada, setMotoSelecionada] = useState("")
 
 
     function navigateBack() {
@@ -79,13 +80,14 @@ export default function CreateAcc2() {
 
     function cadastrar() {
         const user = firebase.auth().currentUser
-        if (Name.length > 0 && profissao.length > 0 && data.length > 0) {
+        if (Name.length > 0 && profissao.length > 0 && data.length > 0 && motoSelecionada.length > 0) {
             firebase.database().ref('user/' + user.uid).update({
                 nome: getFullName(),
                 firstAccess: false,
                 apelido: Name,
                 profissao: profissao,
-                nascimento: data
+                nascimento: data,
+                modeloDaMoto: motoSelecionada
             }).then(() => {
                 navigation.navigate('Feed')
                 alert("Cadastro Finalizado!")
@@ -100,6 +102,36 @@ export default function CreateAcc2() {
         }
     }
 
+    function getMotos() {
+        var motosList = []
+        var motoObj = {}
+        var aux = {}
+        if(moto.length > 2){
+        firebase.database().ref('motos/').on('value', snapshot => {
+            motoObj = snapshot.val()
+        })
+        var motokeys = Object.keys(motoObj)
+        motokeys = motokeys.filter(item => {
+            var reg = new RegExp(moto.toUpperCase())
+            if(motoSelecionada.length == 0 || !(motoSelecionada == moto)){
+                return reg.test(item.toUpperCase())
+            }else{
+                return item == motoSelecionada
+            }
+        })
+        for (let i = 0; i < motokeys.length; i++) {
+            aux = motoObj[motokeys[i]]
+            motosList.push({
+                id: aux['linha'],
+                title: aux['descricao']
+            })
+        }
+        return motosList
+        }
+        else{
+            return [{title:"Buscar modelo", id:0}]
+        }
+    }
 
     return (
 
@@ -138,10 +170,35 @@ export default function CreateAcc2() {
                 <Text style={styles.LooseText}>
                     Qual a sua moto?
             </Text>
-                <MyTextInput
+                 <MyTextInput
                     onChangeText={text => setMoto(text)}
                     value={moto}
-                    placeholder='Modelo da moto'
+                    placeholder='Escreva o modelo da moto'
+                />
+                <FlatList
+                    ItemSeparatorComponent={
+                        Platform.OS !== 'android' &&
+                        (({ highlighted }) => (
+                            <View
+                                style={[
+                                    style.separator,
+                                    highlighted && { marginLeft: 0 }
+                                ]}
+                            />
+                        ))
+                    }
+                    data={getMotos()}
+                    renderItem={({ item, index, separators }) => (
+                        <TouchableHighlight
+                            key={item.key}
+                            onPress={() => {if(!(item['id']==0)){setMotoSelecionada(item['title']); setMoto(item['title']);}else{setMotoSelecionada('')}}}
+                            onShowUnderlay={separators.highlight}
+                            onHideUnderlay={separators.unhighlight}>
+                            <View style={{ backgroundColor: dorange, borderRadius:5, height:50}}>
+                                <Text style={{fontSize:15, padding:15, color:'white'}}>{item.title}</Text>
+                            </View>
+                        </TouchableHighlight>
+                    )}
                 />
                 <Text style={styles.LooseText}>
                     Qual a sua profissão?
