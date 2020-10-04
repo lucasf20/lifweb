@@ -6,6 +6,9 @@ import PostImage from '../../images/post_image.png'
 
 import Icon2 from '../../images/avatar_stories1.jpg'
 import PostImage2 from '../../images/post_image.jpg'
+import Caveira from '../../assets/caveira.png'
+import Comentario from '../../assets/comentario.png'
+import Share from '../../assets/share.png'
 
 import styles from './styles'
 
@@ -39,14 +42,14 @@ function Post({ name, icon, source, comment }) {
             </View>
             <View style={styles.footer}>
                 <View style={styles.actions}>
-                    <TouchableOpacity>
-                        <AntDesign name="hearto" size={24} color="black" />
+                    <TouchableOpacity style={{paddingRight:10}}>
+                        <Image source={Caveira} ></Image>
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <EvilIcons name="comment" size={30} color="black" />
+                    <TouchableOpacity style={{paddingRight:10}}>
+                        <Image source={Comentario} ></Image>
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <SimpleLineIcons name="paper-plane" size={24} color="black" />
+                    <TouchableOpacity style={{paddingRight:10}}>
+                        <Image source={Share} ></Image>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity>
