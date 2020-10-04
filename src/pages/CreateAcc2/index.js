@@ -190,7 +190,7 @@ export default function CreateAcc2() {
                             onPress={() => { if (!(item['id'] == 0)) { setMotoSelecionada(item['title']); setMoto(item['title']); } else { setMotoSelecionada('') } }}
                             onShowUnderlay={separators.highlight}
                             onHideUnderlay={separators.unhighlight}>
-                            <View style={{ backgroundColor: dorange, borderRadius: 5, height: 50 }}>
+                            <View style={{ backgroundColor: dorange, borderRadius: 5, height: 50,  borderWidth:1, borderColor:'gray' }}>
                                 <Text style={{ fontSize: 15, padding: 15, color: 'white' }}>{item.title}</Text>
                             </View>
                         </TouchableHighlight>

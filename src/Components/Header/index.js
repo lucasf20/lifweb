@@ -12,12 +12,17 @@ function Header(){
     
    return(
        <View style={styles.container}>
-           <SimpleLineIcons name="menu" size={24} color="black" />
+           <TouchableOpacity onPress={() => {navigation.navigate("Menu")}}>
+               <SimpleLineIcons name="menu" size={24} color="black" />
+           </TouchableOpacity>
            <TouchableOpacity onPress={() => {navigation.navigate("Feed")}}>
                <Image source={home} style={{height:50, width:170}}>
                </Image>
            </TouchableOpacity>
-           <SimpleLineIcons name="bubbles" size={24} color="black" />
+           <View style={{flexDirection:"row"}}>
+            <SimpleLineIcons name="magnifier" size={24} color="black" style={{paddingRight:15}}/>
+            <SimpleLineIcons name="bubbles" size={24} color="black" />
+           </View>
        </View>
    )
 }

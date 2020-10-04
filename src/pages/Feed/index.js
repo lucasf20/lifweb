@@ -38,11 +38,6 @@ export default function Feed(){
         })
     })
 
-    function logout(){
-        firebase.auth().signOut()
-        .then(navigation.navigate('Login'))
-    }
-
     function navigateBack() {
         navigation.goBack();
     }
@@ -56,11 +51,6 @@ export default function Feed(){
 
             <Header />
             <ScrollView>
-                <Button 
-                    onPress={() => {logout()}}
-                    title="logout"
-                    color={dorange}
-                />
                 <PostsList />
             </ScrollView>
             <TouchableOpacity style={styles.cameraIcon}>
