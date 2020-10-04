@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 
 const styles = StyleSheet.create({
     container:{
@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
     postImg:{
         marginLeft:3,
         alignItems:'center',
-        width:405,
-        height:400
+        width:Dimensions.get('window').width - 5,
+        //height:'auto'
     },
     footer:{
         marginTop:8,
@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'space-between',
         marginLeft:8,
-        width:395,
-        marginBottom:8
+        width:Dimensions.get('window').width - 20,
+        paddingBottom:8
     },
     actions:{
         flexDirection:'row',

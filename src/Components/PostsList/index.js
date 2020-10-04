@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native'
-import { SimpleLineIcons, AntDesign,EvilIcons, FontAwesome } from '@expo/vector-icons'; 
+import { SimpleLineIcons, AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons';
 import Icon from '../../images/avatar_stories1.png'
 import PostImage from '../../images/post_image.png'
 
@@ -9,14 +9,14 @@ import PostImage2 from '../../images/post_image.jpg'
 
 import styles from './styles'
 
-function Post({ name, icon, source, comment }){
-    
-    return(
+function Post({ name, icon, source, comment }) {
+
+    return (
         <View style={styles.container}>
             <View style={styles.header} >
                 <View style={styles.info}>
                     <TouchableOpacity>
-                        <Image style={styles.avatar} source={icon}/>
+                        <Image style={styles.avatar} source={icon} />
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Text>{name}</Text>
@@ -49,7 +49,7 @@ function Post({ name, icon, source, comment }){
             </View>
 
             <View style={styles.likes}>
-                <Image style={styles.avatarLikes} source={icon}/>
+                <Image style={styles.avatarLikes} source={icon} />
                 <Text numberOfLines={1}>Curtido por {name} e outras {Math.floor(Math.random() * 50000)} pessoas.</Text>
             </View>
             <View style={styles.comments}>
@@ -59,14 +59,20 @@ function Post({ name, icon, source, comment }){
         </View>
     )
 }
-function PostsList(){
-   return(
-       <ScrollView>
-           <Post name="Renan" icon={Icon} source={PostImage} comment="Corrida!!!"/>
-           <Post name="Eduardo" icon={Icon} source={PostImage} comment="Segura!!!"/>
-           <Post name="João Pedro" icon={Icon2} source={PostImage2} comment="Que cidade incrivel!!!"/>
-           
-       </ScrollView>
-   )
+function PostsList() {
+    return (
+        <View style={{height:'auto', flex:1}}>
+            <ScrollView>
+                <Post name="Renan" icon={Icon} source={PostImage} comment="Corrida!!!" />
+                <Post name="Eduardo" icon={Icon} source={PostImage} comment="Segura!!!" />
+                <Post name="João Pedro" icon={Icon2} source={PostImage2} comment="Que cidade incrivel!!!" />
+                <TouchableOpacity style={{height:115}}>
+                    <Text>
+                        End of posts
+                    </Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </View>
+    )
 }
 export default PostsList
