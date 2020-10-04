@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import { SimpleLineIcons, AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons';
 import Icon from '../../images/avatar_stories1.png'
 import PostImage from '../../images/post_image.png'
@@ -10,6 +10,12 @@ import PostImage2 from '../../images/post_image.jpg'
 import styles from './styles'
 
 function Post({ name, icon, source, comment }) {
+
+    function imageResize(source){
+        const screenwidth = Dimensions.get('window').width - 10;
+        const {width, height} = Image.resolveAssetSource(source);
+        return [screenwidth, height * screenwidth/width] 
+    }
 
     return (
         <View style={styles.container}>
@@ -27,8 +33,8 @@ function Post({ name, icon, source, comment }) {
                 </TouchableOpacity>
             </View>
             <View>
-                <View>
-                    <Image style={styles.postImg} source={source} />
+                <View style={{alignItems:'center'}}>
+                    <Image style={{...styles.postImg, width:imageResize(source)[0],height:imageResize(source)[1]}} source={source} />
                 </View>
             </View>
             <View style={styles.footer}>

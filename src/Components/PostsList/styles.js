@@ -24,10 +24,9 @@ const styles = StyleSheet.create({
         marginBottom:8
     },
     postImg:{
-        marginLeft:3,
+        padding: 5,
         alignItems:'center',
-        width:Dimensions.get('window').width - 5,
-        //height:'auto'
+        borderRadius:15
     },
     footer:{
         marginTop:8,
