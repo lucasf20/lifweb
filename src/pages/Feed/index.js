@@ -3,6 +3,7 @@ import {Feather} from '@expo/vector-icons';
 import {ScrollView, View,Text, Image, TouchableOpacity, Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
+import cameraIcon from '../../assets/camera_icon.png'
 
 import Header from "../../Components/Header";
 import StoriesList from "../../Components/Stories";
@@ -51,8 +52,7 @@ export default function Feed(){
     }
     
     return(
-        
-        <ScrollView>
+        <View>
 
             <Header />
             <ScrollView>
@@ -63,7 +63,11 @@ export default function Feed(){
                 />
                 <PostsList />
             </ScrollView>
-        </ScrollView>
+            <TouchableOpacity style={styles.cameraIcon}>
+                <Image source={cameraIcon} style={{height:60, width:60}}></Image>
+            </TouchableOpacity>
+        
+        </View>
     );
 }
 
