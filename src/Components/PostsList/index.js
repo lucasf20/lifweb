@@ -43,13 +43,13 @@ function Post({ name, icon, source, comment }) {
             <View style={styles.footer}>
                 <View style={styles.actions}>
                     <TouchableOpacity style={{paddingRight:10}}>
-                        <Image source={Caveira} ></Image>
+                        <Image source={Caveira} style={{height:30, width:30}}></Image>
                     </TouchableOpacity>
                     <TouchableOpacity style={{paddingRight:10}}>
-                        <Image source={Comentario} ></Image>
+                        <Image source={Comentario} style={{height:30, width:30}}></Image>
                     </TouchableOpacity>
                     <TouchableOpacity style={{paddingRight:10}}>
-                        <Image source={Share} ></Image>
+                        <Image source={Share} style={{height:30, width:30}}></Image>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity>
