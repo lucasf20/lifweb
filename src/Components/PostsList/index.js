@@ -32,7 +32,7 @@ function Post({ name, icon, source, comment }) {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity>
-                    <SimpleLineIcons name="options-vertical" size={24} color="black" />
+                    <SimpleLineIcons name="options" size={24} color="gray" style={{paddingRight:15}}/>
                 </TouchableOpacity>
             </View>
             <View>
