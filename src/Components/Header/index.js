@@ -9,6 +9,11 @@ import {useNavigation} from '@react-navigation/native';
 
 function Header(){
     const navigation = useNavigation()
+
+    function resizeHome(){
+        const {width, height} = Image.resolveAssetSource(home)
+        return height*120/width
+    }
     
    return(
        <View style={styles.container}>
@@ -16,7 +21,7 @@ function Header(){
                <SimpleLineIcons name="menu" size={24} color="black" />
            </TouchableOpacity>
            <TouchableOpacity onPress={() => {navigation.navigate("Feed")}}>
-               <Image source={home} style={{height:50, width:170}}>
+               <Image source={home} style={{height:resizeHome(), width:120}}>
                </Image>
            </TouchableOpacity>
            <View style={{flexDirection:"row"}}>

@@ -75,7 +75,7 @@ function PostsList() {
                 <Post name="Renan" icon={Icon} source={PostImage} comment="Corrida!!!" />
                 <Post name="Eduardo" icon={Icon} source={PostImage} comment="Segura!!!" />
                 <Post name="João Pedro" icon={Icon2} source={PostImage2} comment="Que cidade incrivel!!!" />
-                <TouchableOpacity style={{height:115}}>
+                <TouchableOpacity style={{height:85}}>
                     <Text>
                         End of posts
                     </Text>
