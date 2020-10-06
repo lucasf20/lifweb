@@ -9,6 +9,7 @@ import PostImage2 from '../../images/post_image.jpg'
 import Caveira from '../../assets/caveira.png'
 import Comentario from '../../assets/comentario.png'
 import Share from '../../assets/share.png'
+import Repost from '../../assets/repost.png'
 
 import styles from './styles'
 
@@ -41,6 +42,12 @@ function Post({ name, icon, source, comment }) {
                 </View>
             </View>
             <View style={styles.footer}>
+            </View>
+            <View style={{justifyContent:'space-between', flexDirection:"row"}}>
+            <View style={styles.likes}>
+                <Image style={styles.avatarLikes} source={icon} />
+                <Text numberOfLines={1}>Curtido por {Math.floor(Math.random() * 50000)}</Text>
+                </View>
                 <View style={styles.actions}>
                     <TouchableOpacity style={{paddingRight:10}}>
                         <Image source={Caveira} style={{height:30, width:30}}></Image>
@@ -49,14 +56,13 @@ function Post({ name, icon, source, comment }) {
                         <Image source={Comentario} style={{height:30, width:30}}></Image>
                     </TouchableOpacity>
                     <TouchableOpacity style={{paddingRight:10}}>
+                        <Image source={Repost} style={{height:30, width:30}}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{paddingRight:10}}>
                         <Image source={Share} style={{height:30, width:30}}></Image>
                     </TouchableOpacity>
                 </View>
-            </View>
-            <View style={styles.likes}>
-                <Image style={styles.avatarLikes} source={icon} />
-                <Text numberOfLines={1}>Curtido por {name} e outras {Math.floor(Math.random() * 50000)} pessoas.</Text>
-            </View>
+                </View>
             <View style={styles.comments}>
                 <Text style={styles.commentsUser}>{name}:</Text>
                 <Text style={styles.commentsText}>{comment}</Text>
