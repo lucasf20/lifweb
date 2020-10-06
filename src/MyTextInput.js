@@ -37,9 +37,7 @@ class MyTextInput extends React.Component{
                 placeholder="Email"
                 placeholderTextColor='gray'
                 selectionColor={dorange}
-                underlineColorAndroid={
-                    isFocused ? dorange : LIGHT_GRAY
-                }
+                underlineColorAndroid='transparent'
 
                 onFocus = {this.handleFocus}
                 onBlur= {this.handleBlur}
