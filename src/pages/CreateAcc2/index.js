@@ -327,11 +327,11 @@ export default function CreateAcc2() {
                         <AntDesign name="checksquare" size={24} color={(check) ? "green" : "gray"} />
                     </TouchableOpacity>
                     <Text style={{ paddingLeft: 7, paddingTop: 5 }}>
-                        Concordo com os
+                        Eu li e aceito os
                     </Text>
                     <TouchableOpacity style={{ paddingLeft: 5, paddingTop: 4 }}>
                         <Text style={{ color: dorange, fontWeight: 'bold', fontSize: 15 }}>
-                            Termos e Condições
+                            Termos {"&"} Condições
                             </Text>
                     </TouchableOpacity>
                 </View>

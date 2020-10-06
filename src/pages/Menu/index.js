@@ -68,16 +68,14 @@ export default function Menu() {
                             Configurações
                 </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttons} onPress={()=>{logout()}}>
+                        <SimpleLineIcons name="logout" size={24} color="white" style={{ paddingVertical: 20 }}/>
+                        <Text style={styles.BigText}>
+                            Fazer Logoff
+                </Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
-            <View style={styles.viewLogout}>
-                <TouchableOpacity style={styles.logoutButon} onPress={()=>{logout()}}>
-                    <SimpleLineIcons name="logout" size={24} color="white" style={{ paddingVertical: 20 }} />
-                    <Text style={styles.BigText}>
-                        Sair
-                    </Text>
-                </TouchableOpacity>
-            </View>
         </View>
     );
 }
