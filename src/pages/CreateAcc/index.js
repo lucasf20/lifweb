@@ -160,7 +160,7 @@ export default function CreateAcc(){
             />
 
             <Text style={styles.LooseText}>
-                Email?
+                Email:
             </Text>
 
             <MyTextInput 
@@ -170,7 +170,7 @@ export default function CreateAcc(){
             />
 
             <Text style={styles.LooseText}>
-                Senha
+                Senha:
             </Text>
 
             <MyTextInput 
@@ -181,7 +181,7 @@ export default function CreateAcc(){
             />
 
 <           Text style={styles.LooseText}>
-                Repita a senha
+                Repita a senha:
             </Text>
 
             <MyTextInput

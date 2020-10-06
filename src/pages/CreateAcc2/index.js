@@ -109,12 +109,12 @@ export default function CreateAcc2() {
     function cadastrar() {
         const user = firebase.auth().currentUser
         if (check) {
-            if (Name.length > 0 && profissao.length > 0 && data.length > 0 && motoSelecionada.length > 0) {
+            if (Name.length > 0 && profSelecionada.length > 0 && data.length > 0 && motoSelecionada.length > 0) {
                 firebase.database().ref('user/' + user.uid).update({
                     nome: getFullName(),
                     firstAccess: false,
                     apelido: Name,
-                    profissao: profissao,
+                    profissao: profSelecionada,
                     nascimento: data,
                     modeloDaMoto: motoSelecionada
                 }).then(() => {
@@ -128,9 +128,22 @@ export default function CreateAcc2() {
                 }
                 )
             } else {
-                setMoto('')
-                setProfissao('')
-                alert("Por favor, preencha todos os campos!")
+                switch(0){
+                    case Name.length:
+                        alert("Preencha corretamente como gostaria de ser chamado!")
+                        break
+                    case data.length:
+                        alert("Preencha corretamente a sua data de nascimento!")
+                        break
+                    case profSelecionada.length:
+                        alert("Preencha corretamente a sua profissão!")
+                        setProfissao('')
+                        break
+                    case motoSelecionada.length:
+                        alert("Preencha corretamente o modelo da sua moto!")
+                        setMoto('')
+                        break
+                }
             }
         } else {
             alert("Por favor, aceite os termos e condições!")
