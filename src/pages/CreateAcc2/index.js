@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Feather } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { ScrollView, View, Text, Image, TouchableOpacity, Button, Alert, Platform, FlatList, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
@@ -25,8 +25,26 @@ export default function CreateAcc2() {
     const [Name, setName] = useState('');
     const [data, setData] = useState('');
     const [profissao, setProfissao] = useState('');
+    const [profSelecionada, setprofSelecionada] = useState("")
     const [moto, setMoto] = useState('')
     const [motoSelecionada, setMotoSelecionada] = useState("")
+    const [date, setDate] = useState(new Date(1598051730000));
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+    const [check, setCheck] = useState(false)
+
+    function clearStates() {
+        setName('')
+        setData('')
+        setProfissao('')
+        setprofSelecionada('')
+        setMoto('')
+        setMotoSelecionada('')
+        setDate(new Date(1598051730000))
+        setMode('date')
+        setShow(false)
+        setCheck(false)
+    }
 
 
     function navigateBack() {
@@ -51,17 +69,27 @@ export default function CreateAcc2() {
     }
     //date time picker
 
-    const [date, setDate] = useState(new Date(1598051730000));
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
-
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
         var d = currentDate + "";
         var aux = d.split(" ")
         setDate(currentDate)
-        setData(aux[2] + "-" + aux[1] + "-" + aux[3]);
+        const meses = {
+            Dec: "dezembro",
+            Nov: "novembro",
+            Oct: "outubro",
+            Sep: "setembro",
+            Aug: "agosto",
+            Jul: "julho",
+            Jun: "junho",
+            May: "maio",
+            Apr: "abril",
+            Mar: "março",
+            Feb: "fevereiro",
+            Jan: "janeiro"
+        }
+        setData(aux[2] + " de " + meses[aux[1]] + " de " + aux[3]);
     };
 
     const showMode = (currentMode) => {
@@ -80,25 +108,32 @@ export default function CreateAcc2() {
 
     function cadastrar() {
         const user = firebase.auth().currentUser
-        if (Name.length > 0 && profissao.length > 0 && data.length > 0 && motoSelecionada.length > 0) {
-            firebase.database().ref('user/' + user.uid).update({
-                nome: getFullName(),
-                firstAccess: false,
-                apelido: Name,
-                profissao: profissao,
-                nascimento: data,
-                modeloDaMoto: motoSelecionada
-            }).then(() => {
-                navigation.navigate('Feed')
-                alert("Cadastro Finalizado!")
+        if (check) {
+            if (Name.length > 0 && profissao.length > 0 && data.length > 0 && motoSelecionada.length > 0) {
+                firebase.database().ref('user/' + user.uid).update({
+                    nome: getFullName(),
+                    firstAccess: false,
+                    apelido: Name,
+                    profissao: profissao,
+                    nascimento: data,
+                    modeloDaMoto: motoSelecionada
+                }).then(() => {
+                    clearStates()
+                    navigation.navigate('Feed')
+                    alert("Cadastro Finalizado!")
+                }
+                ).catch(erro => {
+                    console.log(erro)
+                    alert("Falha ao cadastrar! Tente novamente!")
+                }
+                )
+            } else {
+                setMoto('')
+                setProfissao('')
+                alert("Por favor, preencha todos os campos!")
             }
-            ).catch(erro => {
-                console.log(erro)
-                alert("Falha ao cadastrar! Tente novamente!")
-            }
-            )
         } else {
-            alert("Por favor, preencha todos os campos!")
+            alert("Por favor, aceite os termos e condições!")
         }
     }
 
@@ -132,6 +167,35 @@ export default function CreateAcc2() {
             return []
         }
     }
+
+    function getProf() {
+        var profsList = []
+        var profObj = {}
+        if (profissao.length > 2) {
+            firebase.database().ref('profissoes/').on('value', snapshot => {
+                profObj = snapshot.val()
+            })
+            profsList = Object.keys(profObj)
+            profsList = profsList.filter(item => {
+                var reg = new RegExp(profissao.toUpperCase())
+                if (!(profissao == profSelecionada)) {
+                    return reg.test(item.toUpperCase())
+                } else {
+                    return false
+                }
+            })
+            for (let i = 0; i < profsList.length; i++) {
+                profsList[i] = {
+                    id: profObj[profsList[i]]['codigo'] + i,
+                    title: profObj[profsList[i]]['titulo']
+                }
+            }
+            return profsList
+        } else {
+            return []
+        }
+    }
+
 
     return (
 
@@ -190,7 +254,7 @@ export default function CreateAcc2() {
                             onPress={() => { if (!(item['id'] == 0)) { setMotoSelecionada(item['title']); setMoto(item['title']); } else { setMotoSelecionada('') } }}
                             onShowUnderlay={separators.highlight}
                             onHideUnderlay={separators.unhighlight}>
-                            <View style={{ backgroundColor: dorange, borderRadius: 5, height: 50,  borderWidth:1, borderColor:'gray' }}>
+                            <View style={{ backgroundColor: dorange, borderRadius: 5, height: 50, borderWidth: 1, borderColor: 'gray' }}>
                                 <Text style={{ fontSize: 15, padding: 15, color: 'white' }}>{item.title}</Text>
                             </View>
                         </TouchableHighlight>
@@ -203,6 +267,31 @@ export default function CreateAcc2() {
                     onChangeText={text => setProfissao(text)}
                     value={profissao}
                     placeholder='Profissão'
+                />
+                <FlatList
+                    ItemSeparatorComponent={
+                        Platform.OS !== 'android' &&
+                        (({ highlighted }) => (
+                            <View
+                                style={[
+                                    style.separator,
+                                    highlighted && { marginLeft: 0 }
+                                ]}
+                            />
+                        ))
+                    }
+                    data={getProf()}
+                    renderItem={({ item, index, separators }) => (
+                        <TouchableHighlight
+                            key={item.key}
+                            onPress={() => { if (!(item['id'] == 0)) { setprofSelecionada(item['title']); setProfissao(item['title']); } else { setprofSelecionada('') } }}
+                            onShowUnderlay={separators.highlight}
+                            onHideUnderlay={separators.unhighlight}>
+                            <View style={{ backgroundColor: dorange, borderRadius: 5, height: 50, borderWidth: 1, borderColor: 'gray' }}>
+                                <Text style={{ fontSize: 15, padding: 7, color: 'white' }}>{item.title}</Text>
+                            </View>
+                        </TouchableHighlight>
+                    )}
                 />
                 <Text style={styles.LooseText}>
                     Qual a sua data de nascimento?
@@ -230,6 +319,23 @@ export default function CreateAcc2() {
                         onChange={onChange}
                     />
                 )}
+
+                <View style={{ paddingTop: 10, flexDirection: "row" }}>
+                    <TouchableOpacity onPress={() => {
+                        (check) ? setCheck(false) : setCheck(true)
+                    }}>
+                        <AntDesign name="checksquare" size={24} color={(check) ? "green" : "gray"} />
+                    </TouchableOpacity>
+                    <Text style={{ paddingLeft: 7, paddingTop: 5 }}>
+                        Concordo com os
+                    </Text>
+                    <TouchableOpacity style={{ paddingLeft: 5, paddingTop: 4 }}>
+                        <Text style={{ color: dorange, fontWeight: 'bold', fontSize: 15 }}>
+                            Termos e Condições
+                            </Text>
+                    </TouchableOpacity>
+                </View>
+
                 <View style={styles.ButtonView}>
                     <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5 }} onPress={() => { cadastrar() }}>
                         <View style={{ alignItems: "center" }}>
