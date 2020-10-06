@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     postImg:{
         padding: 5,
         alignItems:'center',
-        borderRadius:15
+        borderRadius:10
     },
     footer:{
         marginTop:8,

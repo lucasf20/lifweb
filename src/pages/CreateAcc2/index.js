@@ -129,7 +129,7 @@ export default function CreateAcc2() {
             return motosList
         }
         else {
-            return [{ title: "Buscar modelo", id: 0 }]
+            return []
         }
     }
 
@@ -210,7 +210,7 @@ export default function CreateAcc2() {
                 <TouchableOpacity onPress={showDatePicker} style={{
                     borderRadius: 5,
                     height: 50,
-                    borderRadius: 10,
+                    borderRadius: 5,
                     borderWidth: 1,
                     borderColor: "gray"
                 }}>
@@ -231,9 +231,9 @@ export default function CreateAcc2() {
                     />
                 )}
                 <View style={styles.ButtonView}>
-                    <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 10 }} onPress={() => { cadastrar() }}>
+                    <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5 }} onPress={() => { cadastrar() }}>
                         <View style={{ alignItems: "center" }}>
-                            <Text style={{ color: "white", fontSize: 30, fontWeight: "bold", padding: 5 }}>
+                            <Text style={{ color: "white", fontSize: 15, fontWeight: "bold", padding: 15 }}>
                                 CRIAR NOVA CONTA
                     </Text>
                         </View>

@@ -54,10 +54,10 @@ const styles = StyleSheet.create({
     textInput: {
         backgroundColor:'#FFFFFF99',
         borderRadius:5,
-        paddingLeft:5,
+        paddingLeft:15,
         paddingRight:5,
         height: 50, 
-        borderRadius: 10,
+        borderRadius: 5,
         borderWidth:1, 
         borderColor:"gray"
     }

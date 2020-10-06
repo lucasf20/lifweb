@@ -85,9 +85,9 @@ export default function Login() {
                         placeholder='Informe sua senha'
                     />
                     <View style={styles.loginButton}>
-                        <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 10 }} onPress={() => { loginFirebase() }}>
+                        <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5 }} onPress={() => { loginFirebase() }}>
                             <View style={{ alignItems: "center" }}>
-                                <Text style={{ color: "white", fontSize: 30, fontWeight: "bold", padding: 5 }}>
+                                <Text style={{ color: "white", fontSize: 15, fontWeight: "bold", padding: 15 }}>
                                     LOGIN
                     </Text>
                             </View>
@@ -100,12 +100,12 @@ export default function Login() {
                             </TouchableOpacity>
                         </View>
                         <View style={{ alignItems: "center" }}>
-                            <Text style={styles.passLabel}>
+                            <Text style={{...styles.passLabel, fontSize:30}}>
                                 OU
                     </Text>
                         </View>
                         <View style={{ paddingTop: 10, paddingBottom: 10 }}>
-                            <TouchableOpacity style={{ backgroundColor: "#3B5998", height: 50, borderRadius: 10 }}>
+                            <TouchableOpacity style={{ backgroundColor: "#3B5998", height: 50, borderRadius: 5 }}>
                                 <View style={{ alignItems: "center", paddingTop: 5}}>
                                     <View style={{ flexDirection:"row"}}>
                                     <Image source={face} style={{height:40, width:40}} />
@@ -115,7 +115,7 @@ export default function Login() {
                             </TouchableOpacity>
                         </View>
                         <View style={{ paddingTop: 10, paddingBottom: 10 }}>
-                            <TouchableOpacity style={{alignItems:"center",  backgroundColor: "white", height: 50, borderRadius: 10 }}>
+                            <TouchableOpacity style={{alignItems:"center",  backgroundColor: "white", height: 50, borderRadius: 5 }}>
                                 <View style={{alignItems:"center", flexDirection:"row", paddingTop:5}}>
                                     <Image source={google} style={{height:40,width:40}}></Image>
                                     <Text style={{color:"black", fontSize:23, paddingLeft:10}}>
@@ -125,7 +125,7 @@ export default function Login() {
                             </TouchableOpacity>
                         </View>
                         <View style={{ paddingTop: 10, paddingBottom: 10 }}>
-                            <TouchableOpacity style={{ backgroundColor: "#7D7D7D", height: 50, borderRadius: 10 }}>
+                            <TouchableOpacity style={{ backgroundColor: "#7D7D7D", height: 50, borderRadius: 5 }}>
                                 <View style={{ alignItems: "center", paddingTop: 5 }}>
                                 <View style={{ flexDirection:"row"}}>
                                     <Image source={apple} style={{height:40, width:40}} />

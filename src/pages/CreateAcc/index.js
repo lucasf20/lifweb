@@ -199,9 +199,9 @@ export default function CreateAcc(){
             </View>
   */}
         <View style={styles.ButtonView}>
-                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 10 }} onPress={() => { validateAndRegister(nome, regEmail,senha,senha2) }}>
+                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5 }} onPress={() => { validateAndRegister(nome, regEmail,senha,senha2) }}>
                     <View style={{ alignItems: "center" }}>
-                        <Text style={{ color: "white", fontSize: 30, fontWeight: "bold", padding: 5 }}>
+                        <Text style={{ color: "white", fontSize: 15, fontWeight: "bold", padding: 15 }}>
                             PRÓXIMO
                     </Text>
                     </View>
