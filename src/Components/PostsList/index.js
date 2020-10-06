@@ -52,11 +52,7 @@ function Post({ name, icon, source, comment }) {
                         <Image source={Share} style={{height:30, width:30}}></Image>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity>
-                    <FontAwesome name="bookmark-o" size={24} color="black" />
-                </TouchableOpacity>
             </View>
-
             <View style={styles.likes}>
                 <Image style={styles.avatarLikes} source={icon} />
                 <Text numberOfLines={1}>Curtido por {name} e outras {Math.floor(Math.random() * 50000)} pessoas.</Text>
