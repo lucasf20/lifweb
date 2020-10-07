@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Constants from 'expo-constants';
 import colorStyles from "../../colors";
 
@@ -7,15 +7,8 @@ const dorange = colorStyles.dorange
 export default StyleSheet.create({
     container: {
         paddingHorizontal: 36,
-        paddingTop: Constants.statusBarHeight + 50,
+        paddingTop: Constants.statusBarHeight + 15,
         paddingBottom: 50
-    },
-    cameraIcon:{
-        alignItems:"flex-end", 
-        position:"absolute",
-        padding:20, 
-        paddingTop: Dimensions.get('window').height - 63,
-        right:0
     },
 
     logo: {

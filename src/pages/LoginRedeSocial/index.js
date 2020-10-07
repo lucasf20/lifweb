@@ -69,7 +69,8 @@ export default function CreateAcc(){
         var res = firebase.auth().fetchSignInMethodsForEmail(email)
         .then(arr =>{
             if(arr.length > 0){
-                alert("Este E-mail já está sendo usado!\n\nFaça Login ou tente recuperar sua senha!")
+                //dá um jeito de logar direto e redirecionar pro feed
+                navigation.navigate('Feed')
                 return false
             }else{
                 return true
@@ -160,7 +161,7 @@ export default function CreateAcc(){
             />
 
             <Text style={styles.LooseText}>
-                Email:
+                Email?
             </Text>
 
             <MyTextInput 
@@ -170,7 +171,7 @@ export default function CreateAcc(){
             />
 
             <Text style={styles.LooseText}>
-                Senha:
+                Senha
             </Text>
 
             <MyTextInput 
@@ -181,7 +182,7 @@ export default function CreateAcc(){
             />
 
 <           Text style={styles.LooseText}>
-                Repita a senha:
+                Repita a senha
             </Text>
 
             <MyTextInput
@@ -199,9 +200,9 @@ export default function CreateAcc(){
             </View>
   */}
         <View style={styles.ButtonView}>
-                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5 }} onPress={() => { validateAndRegister(nome, regEmail,senha,senha2) }}>
+                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 10 }} onPress={() => { validateAndRegister(nome, regEmail,senha,senha2) }}>
                     <View style={{ alignItems: "center" }}>
-                        <Text style={{ color: "white", fontSize: 15, fontWeight: "bold", padding: 15 }}>
+                        <Text style={{ color: "white", fontSize: 30, fontWeight: "bold", padding: 5 }}>
                             PRÓXIMO
                     </Text>
                     </View>

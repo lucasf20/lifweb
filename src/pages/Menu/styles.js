@@ -6,16 +6,8 @@ const dorange = colorStyles.dorange
 
 export default StyleSheet.create({
     container: {
-        paddingHorizontal: 36,
-        paddingTop: Constants.statusBarHeight + 50,
-        paddingBottom: 50
-    },
-    cameraIcon:{
-        alignItems:"flex-end", 
-        position:"absolute",
-        padding:20, 
-        paddingTop: Dimensions.get('window').height - 63,
-        right:0
+        flex:1,
+        backgroundColor:"#021740"
     },
 
     logo: {
@@ -41,9 +33,12 @@ export default StyleSheet.create({
 
 
     BigText:{
-        fontSize:30,
-        paddingVertical:10,
+        fontSize:20,
+        paddingVertical:20,
+        paddingLeft:15,
         alignItems: 'center',
+        color:"white",
+        paddingLeft:10
     },
 
     header: {
@@ -51,6 +46,30 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+    buttons:{
+        flex:1,
+        borderColor:'transparent',
+        borderTopColor:"white",
+        borderBottomColor:'white',
+        height:75,
+        flexDirection: 'row',
+        borderWidth:1,
+    },
+    viewLogout:{
+        //backgroundColor:"#021740",
+        position:"absolute",
+        paddingTop: Dimensions.get('window').height - 100,
+        right:0,
+        paddingBottom: 50
+    },
+    logoutButon:{
+        height:75,
+        width:90,
+        padding:5,
+        flexDirection: 'row',
+        backgroundColor:'red',
+        borderRadius:5
+    }
 
    
 });
