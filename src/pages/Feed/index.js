@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import {Feather} from '@expo/vector-icons';
-import {ScrollView, View,Text, Image, TouchableOpacity, Button} from 'react-native';
+import {ScrollView, View,Text, Image, TouchableOpacity, Button, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 import cameraIcon from '../../assets/camera_icon.png'
@@ -59,10 +59,11 @@ export default function Feed(){
                 ...styles.positionAbsolute,
                 ...styles.paddingDefault,
                 ...styles.floatRight,
-            }}>
+            }}
+            onPress={() =>{}}
+            >
                 <Image source={cameraIcon} style={{height:60, width:60}}></Image>
             </TouchableOpacity>
-        
         </View>
     );
 }
