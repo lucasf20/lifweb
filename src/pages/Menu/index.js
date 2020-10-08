@@ -9,12 +9,15 @@ import styles from './styles';
 import colorStyles from "../../colors";
 import firebase from '../../../firebaseConfig';
 
+
 import profileIcon from '../../assets/logolifweb.png'
+
 
 export default function Menu() {
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
+
 
     function logout() {
         firebase.auth().signOut()
@@ -45,6 +48,7 @@ export default function Menu() {
                 <SimpleLineIcons name="menu" size={24} color="white" style={{ marginTop: 23, paddingHorizontal: (-18) }} />
             </TouchableOpacity>
             <ScrollView style={{ ...styles.container, paddingHorizontal: 18 }}>
+
                 <View style={{ paddingTop: 75 }}>
                     <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }}>
                         <SimpleLineIcons name="bubbles" size={24} color="white" style={{ paddingVertical: 20 }} />
@@ -88,13 +92,16 @@ export default function Menu() {
                             Configurações
                 </Text>
                     </TouchableOpacity>
+
                     <TouchableOpacity style={styles.buttons} onPress={() => { logout() }}>
                         <SimpleLineIcons name="logout" size={24} color="white" style={{ paddingVertical: 20 }} />
+
                         <Text style={styles.BigText}>
                             Fazer Logoff
                 </Text>
                     </TouchableOpacity>
                 </View>
+
                 <View style={{marginTop: 40, marginBottom:20}}>
                     <Image source={profileIcon} style={{height:resizeProfile(0.5).height,width:resizeProfile(0.5).width}}/>
                     <Text style={{fontSize:25, color:'white'}}>
@@ -106,6 +113,7 @@ export default function Menu() {
                         {getEmail()}
                     </Text>
                 </View>
+
             </ScrollView>
         </View>
     );

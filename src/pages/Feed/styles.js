@@ -14,7 +14,9 @@ export default StyleSheet.create({
         alignItems:"flex-end", 
         position:"absolute",
         padding:20, 
+
         marginTop: Dimensions.get('window').height - 90,
+
         right:0
     },
 

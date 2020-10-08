@@ -4,7 +4,9 @@ import {ScrollView, View,Text, Image, TouchableOpacity, Button, SafeAreaView} fr
 import {useNavigation} from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 import cameraIcon from '../../assets/camera_icon.png'
+
 import Stories from "../../Components/Stories";
+
 import Header from "../../Components/Header";
 import StoriesList from "../../Components/Stories";
 import PostsList from "../../Components/PostsList";
@@ -48,6 +50,7 @@ export default function Feed(){
     
     return(
         <View>
+
             <Header />
             <ScrollView>
                 <Stories />
@@ -64,6 +67,7 @@ export default function Feed(){
             >
                 <Image source={cameraIcon} style={{height:60, width:60}}></Image>
             </TouchableOpacity>
+
         </View>
     );
 }
