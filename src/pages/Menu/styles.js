@@ -49,7 +49,6 @@ export default StyleSheet.create({
     buttons:{
         flex:1,
         borderColor:'transparent',
-        borderTopColor:"white",
         borderBottomColor:'white',
         height:75,
         flexDirection: 'row',
