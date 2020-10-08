@@ -1,9 +1,11 @@
 import React, {useEffect,useState} from 'react';
 import {Feather} from '@expo/vector-icons';
-import {ScrollView, View,Text, Image, TouchableOpacity, Button} from 'react-native';
+import {ScrollView, View,Text, Image, TouchableOpacity, Button, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 import cameraIcon from '../../assets/camera_icon.png'
+
+import Stories from "../../Components/Stories";
 
 import Header from "../../Components/Header";
 import StoriesList from "../../Components/Stories";
@@ -51,12 +53,21 @@ export default function Feed(){
 
             <Header />
             <ScrollView>
+                <Stories />
                 <PostsList />
             </ScrollView>
-            <TouchableOpacity style={styles.cameraIcon}>
+            <TouchableOpacity style={{
+                ...styles.cameraIcon,
+                ...styles.alignItemsEnd,
+                ...styles.positionAbsolute,
+                ...styles.paddingDefault,
+                ...styles.floatRight,
+            }}
+            onPress={() =>{}}
+            >
                 <Image source={cameraIcon} style={{height:60, width:60}}></Image>
             </TouchableOpacity>
-        
+
         </View>
     );
 }
