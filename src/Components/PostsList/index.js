@@ -17,6 +17,9 @@ import Comentario from '../../assets/comentario.png'
 import Share from '../../assets/share.png'
 import Repost from '../../assets/repost.png'
 
+import UserImage2 from '../../images/avatar_stories2.jpg';
+import UserImage3 from '../../images/perfil3.jpg';
+
 import styles from './styles'
 
 function Post({ name, icon, source, comment }) {
@@ -66,7 +69,24 @@ function Post({ name, icon, source, comment }) {
             </View>
             <View style={{justifyContent:'space-between', flexDirection:"row"}}>
             <View style={styles.likes}>
-                <Image style={styles.avatarLikes} source={icon} />
+            <TouchableOpacity>
+                        <Svg style={styles.avatar} width="50" height="50" viewBox="0 0 50 50">
+                        <Defs>
+                            <ClipPath id="image" clipRule="evenodd">
+                            <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                            </ClipPath>
+                        </Defs>
+                        <SvgImage
+                            x="0"
+                            y="0"
+                            width="50"
+                            height="50"
+                            href={icon}
+                            clipPath="#image"
+                        />
+                        </Svg>
+                        {/* <Image style={styles.avatar} source={icon} /> */}
+                    </TouchableOpacity>
                 <Text numberOfLines={1}>Curtido por {Math.floor(Math.random() * 50000)}</Text>
                 </View>
                 <View style={styles.actions}>
@@ -95,9 +115,9 @@ function PostsList() {
     return (
         <View style={{height:'auto', flex:1}}>
             <ScrollView>
-                <Post name="Renan" icon={Icon} source={PostImage} comment="Corrida!!!" />
+                <Post name="Renan" icon={UserImage2} source={PostImage} comment="Corrida!!!" />
                 <Post name="Eduardo" icon={Icon} source={PostImage} comment="Segura!!!" />
-                <Post name="João Pedro" icon={Icon2} source={PostImage2} comment="Que cidade incrivel!!!" />
+                <Post name="João Pedro" icon={UserImage3} source={PostImage2} comment="Que cidade incrivel!!!" />
                 <TouchableOpacity style={{height:85}}>
                     <Text>
                         End of posts
