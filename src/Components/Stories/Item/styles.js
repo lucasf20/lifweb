@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
   userimage: {
     width: 50,
     height: 50,
-    borderRadius: 25,
+    overflow: 'hidden',
   },
   whitecolor: {
     color: 'white',

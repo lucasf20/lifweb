@@ -4,43 +4,57 @@ import {
   Text,
 } from 'react-native';
 
+import {styles} from './styles'
+
 import Item from './Item';
-import PostImage from '../../images/post_image.jpg';
-import UserImage from '../../images/avatar_stories1.jpg';
+import PostImage from '../../images/PostImg.png';
+import PostImage2 from '../../images/PostImage2.png';
+import PostImage3 from '../../images/PostImage3.png';
+import UserImage from '../../images/perfil3.jpg';
+import UserImage2 from '../../images/avatar_stories2.jpg';
+import UserImage3 from '../../images/avatar_stories3.jpg';
 
 const Stories = () => {
   const datasource = [
     {
-			image: PostImage,
+			image: PostImage2,
       user: {
-				name: 'User 1',
+				name: 'Moto Vlog',
 				image: UserImage,
 			},
 		},
 		{
 			image: PostImage,
       user: {
-				name: 'User 1',
-				image: UserImage,
+				name: 'Vinny Santos',
+				image: UserImage2,
 			},
 		},
 		{
-			image: PostImage,
+			image: PostImage3,
       user: {
-				name: 'User 1',
-				image: UserImage,
+				name: 'Venssar Biker',
+				image: UserImage3,
 			},
     },
   ];
 
   return (
-    <FlatList
-      horizontal
-      data={datasource}
-      showsHorizontalScrollIndicator={false}
-      renderItem={({item}) => (
-				<Item {...item} />
-      )} />
+    <>
+      <Text style={{
+        ...styles.marginHorizontal,
+      }}>
+        Mais curtidos
+      </Text>
+      <FlatList
+        horizontal
+        data={datasource}
+        keyExtractor={(item, index) => `${index}`}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({item}) => (
+          <Item {...item} />
+        )} />
+    </>
   );
 };
 
