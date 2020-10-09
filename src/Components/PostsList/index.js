@@ -3,6 +3,12 @@ import { View, Text, Image, TouchableOpacity, ScrollView, Dimensions } from 'rea
 import { SimpleLineIcons, AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons';
 import Icon from '../../images/avatar_stories1.png'
 import PostImage from '../../images/post_image.png'
+import Svg, {
+  Image as SvgImage,
+  Defs,
+  ClipPath,
+  Polygon,
+} from 'react-native-svg';
 
 import Icon2 from '../../images/avatar_stories1.jpg'
 import PostImage2 from '../../images/post_image.jpg'
@@ -26,7 +32,22 @@ function Post({ name, icon, source, comment }) {
             <View style={styles.header} >
                 <View style={styles.info}>
                     <TouchableOpacity>
-                        <Image style={styles.avatar} source={icon} />
+                        <Svg style={styles.avatar} width="50" height="50" viewBox="0 0 50 50">
+                        <Defs>
+                            <ClipPath id="image" clipRule="evenodd">
+                            <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                            </ClipPath>
+                        </Defs>
+                        <SvgImage
+                            x="0"
+                            y="0"
+                            width="50"
+                            height="50"
+                            href={icon}
+                            clipPath="#image"
+                        />
+                        </Svg>
+                        {/* <Image style={styles.avatar} source={icon} /> */}
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Text>{name}</Text>
