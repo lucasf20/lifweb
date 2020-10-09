@@ -101,7 +101,7 @@ export default function EsqueciMinhaSenha() {
                 <View style={styles.ButtonView}>
                     <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 10 }} onPress={() => { recoverPass() }}>
                         <View style={{ alignItems: "center" }}>
-                            <Text style={{ color: "white", fontSize: 30, fontWeight: "bold", padding: 5 }}>
+                            <Text style={{ color: "white", fontSize: 15, fontWeight: "bold", padding: 5 }}>
                                 PRÓXIMO
                     </Text>
                         </View>
