@@ -38,7 +38,7 @@ const Login = () => {
   const loginWithFacebok = async () => {
     try {
       await FacebookAuthentication.initializeAsync({
-        appId: '347233869864538',
+        appId: '342347700517241',
       })
       const {type, token, ...params} = await FacebookAuthentication.logInWithReadPermissionsAsync()
 
