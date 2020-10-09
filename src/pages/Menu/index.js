@@ -12,6 +12,9 @@ import firebase from '../../../firebaseConfig';
 
 import profileIcon from '../../assets/logolifweb.png'
 
+import sino from '../../assets/sino.png'
+import perfil from '../../assets/perfil.png'
+
 
 export default function Menu() {
 
@@ -75,14 +78,16 @@ export default function Menu() {
                 </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.buttons}>
-                        <SimpleLineIcons name="bell" size={24} color="white" style={{ paddingVertical: 20 }} />
-                        <Text style={styles.BigText}>
+                        {/* <SimpleLineIcons name="bell" size={24} color="white" style={{ paddingVertical: 20 }} /> */}
+                        <Image source={sino} style={{height:30, width:30, marginTop:15}}/>
+                        <Text style={{...styles.BigText, paddingLeft:5}}>
                             Notificação
                 </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.buttons}>
-                        <SimpleLineIcons name="user" size={24} color="white" style={{ paddingVertical: 20 }} />
-                        <Text style={styles.BigText}>
+                        {/* <SimpleLineIcons name="user" size={24} color="white" style={{ paddingVertical: 20 }} /> */}
+                        <Image source={perfil} style={{height:30, width:30, marginTop:15}}/>
+                        <Text style={{...styles.BigText, paddingLeft:5}}>
                             Perfil
                 </Text>
                     </TouchableOpacity>
