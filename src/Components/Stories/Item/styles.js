@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     overflow: 'hidden',
     marginVertical: 20,
     marginHorizontal: 5,
-    borderRadius: 15,
+    borderRadius: 5,
   },
   wrapper: {
     position: 'absolute',
