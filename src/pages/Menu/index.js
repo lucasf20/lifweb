@@ -115,7 +115,7 @@ export default function Menu() {
                 <View style={{marginTop: 40, marginBottom:20}}>
                     <Image source={profileIcon} style={{height:resizeProfile(0.5).height,width:resizeProfile(0.5).width}}/>
                     <Text style={{fontSize:25, color:'white'}}>
-                        {(getName())?getName():getDisplayName()}
+                        {getDisplayName()}
                     </Text>
                     <Text style={{fontSize:13, color:'white'}}>
                         {getEmail()}

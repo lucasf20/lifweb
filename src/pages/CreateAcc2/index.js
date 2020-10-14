@@ -60,12 +60,8 @@ export default function CreateAcc2() {
     }
 
     function getFullName() {
-        const user = firebase.auth().currentUser
-        var FullName = ""
-        firebase.database().ref('user/' + user.uid + "/fullName").on('value', function get(snapshot) {
-            FullName = snapshot.val()
-        })
-        return FullName
+        var user = firebase.auth().currentUser
+        return user.displayName
     }
     //date time picker
 
@@ -110,8 +106,11 @@ export default function CreateAcc2() {
         const user = firebase.auth().currentUser
         if (check) {
             if (Name.length > 0 && profSelecionada.length > 0 && data.length > 0 && motoSelecionada.length > 0) {
+                user.updateProfile({
+                    displayName:Name
+                })
                 firebase.database().ref('user/' + user.uid).update({
-                    nome: getFullName(),
+                    fullName: getFullName(),
                     firstAccess: false,
                     apelido: Name,
                     profissao: profSelecionada,
@@ -164,7 +163,7 @@ export default function CreateAcc2() {
                 if (motoSelecionada.length == 0 || !(motoSelecionada == moto)) {
                     return reg.test(item.toUpperCase())
                 } else {
-                    return item == motoSelecionada
+                    return false
                 }
             })
             for (let i = 0; i < motokeys.length; i++) {
