@@ -106,9 +106,6 @@ export default function CreateAcc2() {
         const user = firebase.auth().currentUser
         if (check) {
             if (Name.length > 0 && profSelecionada.length > 0 && data.length > 0 && motoSelecionada.length > 0) {
-                user.updateProfile({
-                    displayName:Name
-                })
                 firebase.database().ref('user/' + user.uid).update({
                     fullName: getFullName(),
                     firstAccess: false,
@@ -117,6 +114,9 @@ export default function CreateAcc2() {
                     nascimento: data,
                     modeloDaMoto: motoSelecionada
                 }).then(() => {
+                    user.updateProfile({
+                        displayName:Name
+                    })
                     clearStates()
                     navigation.navigate('Feed')
                     alert("Cadastro Finalizado!")
@@ -248,17 +248,17 @@ export default function CreateAcc2() {
                     placeholder='Escreva o modelo da moto'
                 />
                 <FlatList
-                    ItemSeparatorComponent={
-                        Platform.OS !== 'android' &&
-                        (({ highlighted }) => (
-                            <View
-                                style={[
-                                    style.separator,
-                                    highlighted && { marginLeft: 0 }
-                                ]}
-                            />
-                        ))
-                    }
+                    // ItemSeparatorComponent={
+                    //     Platform.OS !== 'android' &&
+                    //     (({ highlighted }) => (
+                    //         <View
+                    //             style={[
+                    //                 style.separator,
+                    //                 highlighted && { marginLeft: 0 }
+                    //             ]}
+                    //         />
+                    //     ))
+                    // }
                     data={getMotos()}
                     renderItem={({ item, index, separators }) => (
                         <TouchableHighlight
@@ -281,17 +281,17 @@ export default function CreateAcc2() {
                     placeholder='Profissão'
                 />
                 <FlatList
-                    ItemSeparatorComponent={
-                        Platform.OS !== 'android' &&
-                        (({ highlighted }) => (
-                            <View
-                                style={[
-                                    style.separator,
-                                    highlighted && { marginLeft: 0 }
-                                ]}
-                            />
-                        ))
-                    }
+                    // ItemSeparatorComponent={
+                    //     Platform.OS !== 'android' &&
+                    //     (({ highlighted }) => (
+                    //         <View
+                    //             style={[
+                    //                 style.separator,
+                    //                 highlighted && { marginLeft: 0 }
+                    //             ]}
+                    //         />
+                    //     ))
+                    // }
                     data={getProf()}
                     renderItem={({ item, index, separators }) => (
                         <TouchableHighlight
