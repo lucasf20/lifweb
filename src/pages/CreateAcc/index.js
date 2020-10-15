@@ -46,19 +46,19 @@ export default function CreateAcc(){
 
     function verifyPassword(password, password2){
         if(!(password2 == password)){
-            alert("As senhas inseridas não são iguais!\n\nTente outra vez!")
+            Alert.alert( "Verifique as senhas inseridas!", "As senhas inseridas não são iguais!\n\nTente outra vez!")
             return false
         }
         if(password.length < 6){
-            alert("A senha deve possuir pelo menos 6 caracteres!\n\nTente outra vez!")
+            Alert.alert( "Verifique as senhas inseridas!", "A senha deve possuir pelo menos 6 caracteres!\n\nTente outra vez!")
             return false
         }
         if(!(password.match(/[0-9]/))){
-            alert("A senha deve possuir pelo menos um número!\n\nTente outra vez!")
+            Alert.alert( "Verifique as senhas inseridas!", "A senha deve possuir pelo menos um número!\n\nTente outra vez!")
             return false
         }
         if(!(password.match(/[a-z]|[A-Z]/))){
-            alert("A senha deve possuir pelo menos uma letra!\n\nTente outra vez!")
+            Alert.alert( "Verifique as senhas inseridas!", "A senha deve possuir pelo menos uma letra!\n\nTente outra vez!")
             return false
         }
         return true
@@ -69,13 +69,13 @@ export default function CreateAcc(){
         var res = firebase.auth().fetchSignInMethodsForEmail(email)
         .then(arr =>{
             if(arr.length > 0){
-                alert("Este E-mail já está sendo usado!\n\nFaça Login ou tente recuperar sua senha!")
+                Alert.alert("Este E-mail já está sendo usado!","Faça Login ou tente recuperar sua senha!")
                 return false
             }else{
                 return true
             }
         }).catch(error => {
-            alert("E-mail inválido!");
+            Alert.alert("E-mail inválido!","Tente novamente!");
             return false
         })
         return res
@@ -112,7 +112,7 @@ export default function CreateAcc(){
                 }
             }
         }else{
-            alert("Por favor, insira seu nome completo corretamente!")
+            Alert.alert("Nome incorreto","Por favor, insira seu nome completo corretamente!")
         }
     }    
     

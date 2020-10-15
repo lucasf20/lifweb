@@ -119,33 +119,33 @@ export default function CreateAcc2() {
                     })
                     clearStates()
                     navigation.navigate('Feed')
-                    alert("Cadastro Finalizado!")
+                    Alert.alert("Cadastro Finalizado!","Seja bem-vindo ao LifWeb!")
                 }
                 ).catch(erro => {
                     console.log(erro)
-                    alert("Falha ao cadastrar! Tente novamente!")
+                    Alert.alert("Falha ao cadastrar!", "Tente novamente!")
                 }
                 )
             } else {
                 switch(0){
                     case Name.length:
-                        alert("Preencha corretamente como gostaria de ser chamado!")
+                        Alert.alert("Apelido incorreto!","Preencha corretamente como gostaria de ser chamado!")
                         break
                     case data.length:
-                        alert("Preencha corretamente a sua data de nascimento!")
+                        Alert.alert("Verifique a sua data de nascimento!","Preencha corretamente a sua data de nascimento!")
                         break
                     case profSelecionada.length:
-                        alert("Preencha corretamente a sua profissão!")
+                        Alert.alert("Profissão inválida!","Preencha corretamente a sua profissão!")
                         setProfissao('')
                         break
                     case motoSelecionada.length:
-                        alert("Preencha corretamente o modelo da sua moto!")
+                        Alert.alert("Moto inválida!","Preencha corretamente o modelo da sua moto!")
                         setMoto('')
                         break
                 }
             }
         } else {
-            alert("Por favor, aceite os termos e condições!")
+            Alert.alert("Aceite os termos e condições!","Por favor, aceite os termos e condições!")
         }
     }
 
