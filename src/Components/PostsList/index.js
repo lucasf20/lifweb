@@ -13,6 +13,8 @@ import Svg, {
 import Icon2 from '../../images/avatar_stories1.jpg'
 import PostImage2 from '../../images/post_image.jpg'
 import Caveira from '../../assets/caveira.png'
+import CaveiraLike from '../../assets/caveiralike.png'
+
 import Comentario from '../../assets/comentario.png'
 import Share from '../../assets/share.png'
 import Repost from '../../assets/repost.png'
@@ -22,13 +24,14 @@ import UserImage3 from '../../images/perfil3.jpg';
 
 import styles from './styles'
 
-function Post({ name, icon, source, comment }) {
+function Post({ name, icon, source, comment, likes, like }) {
 
     function imageResize(source){
         const screenwidth = Dimensions.get('window').width - 10;
         const {width, height} = Image.resolveAssetSource(source);
         return [screenwidth, height * screenwidth/width] 
     }
+        
 
     return (
         <View style={styles.container}>
@@ -87,7 +90,7 @@ function Post({ name, icon, source, comment }) {
                         </Svg>
                         {/* <Image style={styles.avatar} source={icon} /> */}
                     </TouchableOpacity>
-                <Text numberOfLines={1}>Curtido por {Math.floor(Math.random() * 50000)}</Text>
+                <Text numberOfLines={1}>Curtido por {likes} pessoas</Text>
                 </View>
                 <View style={styles.actions}>
                     <TouchableOpacity style={{paddingRight:10}}>
@@ -115,9 +118,9 @@ function PostsList() {
     return (
         <View style={{height:'auto', flex:1}}>
             <ScrollView>
-                <Post name="Renan" icon={UserImage2} source={PostImage} comment="Corrida!!!" />
-                <Post name="Eduardo" icon={Icon} source={PostImage} comment="Segura!!!" />
-                <Post name="João Pedro" icon={UserImage3} source={PostImage2} comment="Que cidade incrivel!!!" />
+                <Post name="Renan" icon={UserImage2} source={PostImage} comment="Corrida!!!" likes="5"/>
+                <Post name="Eduardo" icon={Icon} source={PostImage} comment="Segura!!!"  likes ="10" />
+                <Post name="João Pedro" icon={UserImage3} source={PostImage2} comment="Que cidade incrivel!!!" likes ="3" />
                 <TouchableOpacity style={{height:85}}>
                     <Text>
                         End of posts
