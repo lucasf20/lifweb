@@ -64,7 +64,7 @@ export default function Menu() {
                             Timeline
                 </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }}>
+                    <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { navigation.navigate("Direct") }}>
                         <SimpleLineIcons name="bubbles" size={24} color="white" style={{ paddingVertical: 20 }} />
                         <Text style={styles.BigText}>
                             Mensagem

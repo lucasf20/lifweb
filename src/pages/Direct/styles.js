@@ -53,5 +53,12 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+    avatar:{
+        marginLeft:13,
+        width:45,
+        height:45,
+        borderRadius:50,
+        marginRight:8
+    }
    
 });
