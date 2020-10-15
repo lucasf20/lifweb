@@ -248,17 +248,6 @@ export default function CreateAcc2() {
                     placeholder='Escreva o modelo da moto'
                 />
                 <FlatList
-                    // ItemSeparatorComponent={
-                    //     Platform.OS !== 'android' &&
-                    //     (({ highlighted }) => (
-                    //         <View
-                    //             style={[
-                    //                 style.separator,
-                    //                 highlighted && { marginLeft: 0 }
-                    //             ]}
-                    //         />
-                    //     ))
-                    // }
                     data={getMotos()}
                     renderItem={({ item, index, separators }) => (
                         <TouchableHighlight
@@ -281,17 +270,6 @@ export default function CreateAcc2() {
                     placeholder='Profissão'
                 />
                 <FlatList
-                    // ItemSeparatorComponent={
-                    //     Platform.OS !== 'android' &&
-                    //     (({ highlighted }) => (
-                    //         <View
-                    //             style={[
-                    //                 style.separator,
-                    //                 highlighted && { marginLeft: 0 }
-                    //             ]}
-                    //         />
-                    //     ))
-                    // }
                     data={getProf()}
                     renderItem={({ item, index, separators }) => (
                         <TouchableHighlight

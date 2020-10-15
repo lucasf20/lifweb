@@ -58,6 +58,12 @@ export default function Menu() {
             <ScrollView style={{ ...styles.container, paddingHorizontal: 18 }}>
 
                 <View style={{ paddingTop: 75 }}>
+                <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate("Feed") }}>
+                        <SimpleLineIcons name="picture" size={24} color="white" style={{ paddingVertical: 20 }} />
+                        <Text style={styles.BigText}>
+                            Timeline
+                </Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }}>
                         <SimpleLineIcons name="bubbles" size={24} color="white" style={{ paddingVertical: 20 }} />
                         <Text style={styles.BigText}>
@@ -74,12 +80,6 @@ export default function Menu() {
                         <SimpleLineIcons name="user-following" size={24} color="white" style={{ paddingVertical: 20 }} />
                         <Text style={styles.BigText}>
                             Seguindo
-                </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate("Feed") }}>
-                        <SimpleLineIcons name="picture" size={24} color="white" style={{ paddingVertical: 20 }} />
-                        <Text style={styles.BigText}>
-                            Timeline
                 </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.buttons}>
