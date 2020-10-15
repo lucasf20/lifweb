@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import { SimpleLineIcons, AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons';
 import Icon from '../../images/avatar_stories1.png'
@@ -12,8 +12,8 @@ import Svg, {
 
 import Icon2 from '../../images/avatar_stories1.jpg'
 import PostImage2 from '../../images/post_image.jpg'
-import Caveira from '../../assets/caveira.png'
-import CaveiraLike from '../../assets/caveiralike.png'
+import caveira from '../../assets/caveira.png'
+import caveiralike from '../../assets/caveiralike.png'
 
 import Comentario from '../../assets/comentario.png'
 import Share from '../../assets/share.png'
@@ -24,14 +24,18 @@ import UserImage3 from '../../images/perfil3.jpg';
 
 import styles from './styles'
 
-function Post({ name, icon, source, comment, likes, like }) {
+function Post({ name, icon, source, comment, likes}) {
 
     function imageResize(source){
         const screenwidth = Dimensions.get('window').width - 10;
         const {width, height} = Image.resolveAssetSource(source);
         return [screenwidth, height * screenwidth/width] 
     }
-        
+
+function trocaCaveira(){
+    (like)?setLike(false):setLike (true)}
+
+    const [like, setLike] = useState (false)    
 
     return (
         <View style={styles.container}>
@@ -93,8 +97,8 @@ function Post({ name, icon, source, comment, likes, like }) {
                 <Text numberOfLines={1}>Curtido por {likes} pessoas</Text>
                 </View>
                 <View style={styles.actions}>
-                    <TouchableOpacity style={{paddingRight:10}}>
-                        <Image source={Caveira} style={{height:30, width:30}}></Image>
+                    <TouchableOpacity style={{paddingRight:10}} onPress={trocaCaveira}>
+                        <Image source={(like)?caveiralike:caveira} style={{height:30, width:30}}></Image>
                     </TouchableOpacity>
                     <TouchableOpacity style={{paddingRight:10}}>
                         <Image source={Comentario} style={{height:30, width:30}}></Image>
