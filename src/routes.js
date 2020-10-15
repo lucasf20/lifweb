@@ -11,6 +11,7 @@ import EsqueciMinhaSenha from './pages/EsqueciMinhaSenha';
 import LoginRedeSocial from './pages/LoginRedeSocial'
 import Menu from './pages/Menu';
 import Feed from './pages/Feed';
+import Direct from './pages/Direct';
 
 export default function Routes() {
     return (
@@ -24,6 +25,7 @@ export default function Routes() {
                 <AppStack.Screen name = "EsqueciMinhaSenha" component = {EsqueciMinhaSenha}/>
                 <AppStack.Screen name = "Menu" component = {Menu}/>
                 <AppStack.Screen name = "Feed" component = {Feed}/>
+                <AppStack.Screen name = "Direct" component = {Direct}/>
             </AppStack.Navigator>
 
         </NavigationContainer>
