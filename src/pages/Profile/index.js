@@ -9,7 +9,8 @@ import Svg, {
 import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from './styles'
 import Cambutton from '../../Components/Cambutton'
-import {useNavigation} from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native'
+import colorStyles from "../../colors";
 
 import capa from '../../images/fotocapa.jpg'
 import icon from '../../images/avatar_stories1.png'
@@ -28,20 +29,18 @@ export default function Profile() {
                 <Image source={capa}
                     style={{ width: calculateDimensions(capa).width, height: calculateDimensions(capa).height }}
                 />
-                <View style={{position:'absolute', marginTop:20,flexDirection:'row', justifyContent:'space-around', alignContent:'center'}}>
-                    <TouchableOpacity style= {{position:'absolute', marginLeft:15, marginTop:20}} onPress={() => { navigation.navigate("Menu") }}>
-                        <SimpleLineIcons name="menu" size={24} color="gray" />
-                    </TouchableOpacity>
-                    <Text style={{fontWeight:'bold', color:'white'}}>
-                        Perfil
+                <TouchableOpacity style={{ position: 'absolute', marginLeft: 15, marginTop: 30 }} onPress={() => { navigation.navigate("Menu") }}>
+                    <SimpleLineIcons name="menu" size={24} color="white" />
+                </TouchableOpacity>
+                <Text style={{ fontWeight: 'bold', color: 'white', position: 'absolute', marginLeft: (Dimensions.get('window').width / 2 - 15), marginTop: 30, fontSize: 20 }}>
+                    Perfil
                     </Text>
-                    <View style={{flexDirection:'row', position:'absolute', marginRight:(Dimensions.get('window').width - 15), marginTop:20}}>
-                        <EvilIcons name="search" size={30} color="gray" style={{ paddingRight: 15 }} />
-                        <TouchableOpacity onPress={() => { navigation.navigate('Direct') }}>
-                            <MaterialCommunityIcons name="message-outline" size={24} color="gray" />
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                <TouchableOpacity style={{ position: 'absolute', marginLeft: (Dimensions.get('window').width - 80), marginTop: 30 }}>
+                    <EvilIcons name="search" size={30} color="white" style={{ paddingRight: 15 }} />
+                </TouchableOpacity>
+                <TouchableOpacity style={{ position: 'absolute', marginLeft: (Dimensions.get('window').width - 40), marginTop: 30 }} onPress={() => { navigation.navigate('Direct') }}>
+                    <MaterialCommunityIcons name="message-outline" size={24} color="white" />
+                </TouchableOpacity>
                 <View style={{ position: "absolute", marginLeft: 25, marginTop: (calculateDimensions(capa).height - 50), flexDirection: 'row' }}>
                     <TouchableOpacity >
                         <Svg width="116" height="116" viewBox="0 0 50 50">
@@ -59,7 +58,6 @@ export default function Profile() {
                                 clipPath="#image"
                             />
                         </Svg>
-                        {/* <Image style={styles.avatar} source={icon} /> */}
                     </TouchableOpacity>
                     <View>
                         <Text style={{ fontSize: 25, marginTop: 50 }}>
@@ -72,6 +70,29 @@ export default function Profile() {
                             Modelo da Moto
                         </Text>
                     </View>
+                </View>
+                <View style={{ marginTop: 90, borderWidth: 0.5, marginHorizontal: 20, height: 70, borderBottomColor: 'silver', borderTopColor: 'silver', borderLeftColor: 'transparent', borderRightColor: 'transparent', flexDirection:'row', justifyContent:'space-between' }}>
+                    <View>
+                        <Text style={{fontSize:25, marginTop:5}}>
+                            300K
+                        </Text>
+                        <Text style={{color:'gray', marginTop:5}}>
+                            Seguidores
+                        </Text>
+                    </View>
+                    <View>
+                        <Text style={{fontSize:25, marginTop:5}}>
+                            300
+                        </Text>
+                        <Text style={{color:'gray', marginTop:5}}>
+                            Seguindo
+                        </Text>
+                    </View>
+                    <TouchableOpacity style={{backgroundColor:colorStyles.dorange, marginVertical:5, width:150, borderRadius:5}}>
+                        <Text style={{color:'white', marginTop:15, marginLeft:45, fontSize:20}}>
+                            Seguir
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
             <Cambutton />
