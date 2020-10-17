@@ -89,7 +89,7 @@ export default function Menu() {
                             Notificação
                 </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttons}>
+                    <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.navigate('Profile')}}>
                         {/* <SimpleLineIcons name="user" size={24} color="white" style={{ paddingVertical: 20 }} /> */}
                         <Image source={perfil} style={{height:30, width:30, marginTop:15}}/>
                         <Text style={{...styles.BigText, paddingLeft:5}}>

@@ -3,7 +3,7 @@ import {Feather} from '@expo/vector-icons';
 import {ScrollView, View,Text, Image, TouchableOpacity, Button, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
-import cameraIcon from '../../assets/camera_icon.png'
+import Cambutton from '../../Components/Cambutton'
 
 import Stories from "../../Components/Stories";
 
@@ -56,18 +56,7 @@ export default function Feed(){
                 <Stories />
                 <PostsList />
             </ScrollView>
-            <TouchableOpacity style={{
-                ...styles.cameraIcon,
-                ...styles.alignItemsEnd,
-                ...styles.positionAbsolute,
-                ...styles.paddingDefault,
-                ...styles.floatRight,
-            }}
-            onPress={() =>{}}
-            >
-                <Image source={cameraIcon} style={{height:60, width:60}}></Image>
-            </TouchableOpacity>
-
+            <Cambutton/>
         </View>
     );
 }
