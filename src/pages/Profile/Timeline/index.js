@@ -73,7 +73,7 @@ function Grid({ imagesList }) {
     }
 
     return (
-        <ScrollView style={{ marginBottom:(240*lines.length) }} >
+        <ScrollView style={{ marginBottom:(310*lines.length) }} >
             {lines.map((item, index, arr) => (showItem(item, index)))}
         </ScrollView>
 
@@ -94,7 +94,7 @@ export default function Timeline() {
                     <SimpleLineIcons name="options" size={24} color="gray" />
                 </TouchableOpacity>
             </View>
-            <View style={{marginHorizontal:20}}>
+            <View style={{marginHorizontal:20, marginBottom:20}}>
                 <Grid imagesList={imglist} />
             </View>
         </ScrollView>
