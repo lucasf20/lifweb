@@ -73,9 +73,9 @@ function Grid({ imagesList }) {
     }
 
     return (
-        <ScrollView style={{ marginBottom:(310*lines.length) }} >
+        <View>
             {lines.map((item, index, arr) => (showItem(item, index)))}
-        </ScrollView>
+        </View>
 
     )
 }
@@ -85,7 +85,7 @@ export default function Timeline() {
     var imglist = [image2, image3, image4, image5, image7, image8, image9]
 
     return (
-        <ScrollView>
+        <View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 20 }}>
                 <Text style={{ fontSize: 20 }}>
                     Timeline
@@ -97,6 +97,6 @@ export default function Timeline() {
             <View style={{marginHorizontal:20, marginBottom:20}}>
                 <Grid imagesList={imglist} />
             </View>
-        </ScrollView>
+        </View>
     )
 }
