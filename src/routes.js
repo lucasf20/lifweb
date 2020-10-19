@@ -13,6 +13,7 @@ import Menu from './pages/Menu';
 import Feed from './pages/Feed';
 import Direct from './pages/Direct';
 import Profile from './pages/Profile';
+import SendPost from './pages/SendPost';
 
 export default function Routes() {
     return (
@@ -28,6 +29,7 @@ export default function Routes() {
                 <AppStack.Screen name = "Feed" component = {Feed}/>
                 <AppStack.Screen name = "Direct" component = {Direct}/>
                 <AppStack.Screen name = "Profile" component = {Profile}/>
+                <AppStack.Screen name = "SendPost" component = {SendPost}/>
             </AppStack.Navigator>
 
         </NavigationContainer>
