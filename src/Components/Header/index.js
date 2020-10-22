@@ -28,7 +28,7 @@ function Header() {
                 </Image>
             </TouchableOpacity>
             <View style={{ flexDirection: "row" }}>
-                <EvilIcons name="search" size={30} color="gray" style={{ paddingRight: 15 }} />
+                <EvilIcons name="search" size={30} color="gray" style={{ paddingRight: 15 }} onPress={() =>{navigation.navigate('Filters')}}/>
                 <View>
                     <TouchableOpacity onPress={() => { navigation.navigate('Direct') }}>
                         <MaterialCommunityIcons name="message-outline" size={24} color="gray" />
