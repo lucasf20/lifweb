@@ -8,15 +8,15 @@ import Cambutton from '../../Components/Cambutton'
 import Stories from "../../Components/Stories";
 
 import Header from "../../Components/Header";
-import StoriesList from "../../Components/Stories";
-import PostsList from "../../Components/PostsList";
-
+import Cards from './Cards'
 
 import styles from './styles';
 
 import colorStyles from "../../colors";
 
 import firebase from '../../../firebaseConfig';
+
+import perfil from '../../images/perfil3.jpg'
 
 function SquareCheck({ checked }) {
     if (checked) {
@@ -31,6 +31,8 @@ function SquareCheck({ checked }) {
 }
 
 export default function Feed() {
+
+    const results = [[{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'},{imagem:perfil, nome:'Nome da Pessoa2', profissao:'Profissão', moto:'Modelo da Moto'}],[{imagem:perfil, nome:'Nome da Pessoa3', profissao:'Profissão', moto:'Modelo da Moto'},{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'}],[{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'},{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'}],[{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'}]]
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
@@ -47,9 +49,26 @@ export default function Feed() {
         navigation.navigate('Login');
     }
 
+    function showLines(item){
+        console.log(item.lenght)
+        if(item.lenght >1){
+            return(
+                <View style={{flexDirection:'row', marginHorizontal:20, marginBottom:20}} >
+                    <Cards imagem={item[0].imagem} nome={item[0].nome} profissao={item[0].profissao} moto={item[0].moto}/>
+                    <Cards imagem={item[1].imagem} nome={item[1].nome} profissao={item[1].profissao} moto={item[1].moto}/>   
+                </View>
+            )
+        }else{
+            return(
+                <View style={{marginHorizontal:20, marginBottom:20}} >
+                    <Cards imagem={item[0].imagem} nome={item[0].nome} profissao={item[0].profissao} moto={item[0].moto}/>
+                </View>
+            )
+        }
+    }
+
     return (
         <View>
-
             <Header />
             <ScrollView>
                 <View style={{ marginHorizontal: 20 }}>
@@ -95,6 +114,9 @@ export default function Feed() {
                             <SquareCheck checked={moto} />
                         </TouchableOpacity>
                     </View>
+                </View>
+                <View style={{marginTop:20}} >
+                    {results.map((item,index,arr) => (showLines(item)))}
                 </View>
             </ScrollView>
             <Cambutton />
