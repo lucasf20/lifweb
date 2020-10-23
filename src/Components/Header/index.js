@@ -32,7 +32,7 @@ function Header() {
                 <View>
                     <TouchableOpacity onPress={() => { navigation.navigate('Direct') }}>
                         <MaterialCommunityIcons name="message-outline" size={24} color="gray" />
-                        <FontAwesome name="circle" size={10} color="red" style={{position:"absolute"}}/>
+                        <FontAwesome name="circle" size={10} color="red" style={{position:"absolute", marginLeft:15}}/>
                     </TouchableOpacity>
                 </View>
             </View>
