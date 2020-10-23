@@ -32,7 +32,7 @@ function SquareCheck({ checked }) {
 
 export default function Feed() {
 
-    const results = [[{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'},{imagem:perfil, nome:'Nome da Pessoa2', profissao:'Profissão', moto:'Modelo da Moto'}],[{imagem:perfil, nome:'Nome da Pessoa3', profissao:'Profissão', moto:'Modelo da Moto'},{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'}],[{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'},{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'}],[{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'}]]
+    var results = [[{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'},{imagem:perfil, nome:'Nome da Pessoa2', profissao:'Profissão', moto:'Modelo da Moto'}],[{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'},{imagem:perfil, nome:'Nome da Pessoa2', profissao:'Profissão', moto:'Modelo da Moto'}],[{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'},{imagem:perfil, nome:'Nome da Pessoa2', profissao:'Profissão', moto:'Modelo da Moto'}],[{imagem:perfil, nome:'Nome da Pessoa3', profissao:'Profissão', moto:'Modelo da Moto'},{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'}],[{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'},{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'}],[{imagem:perfil, nome:'Nome da Pessoa', profissao:'Profissão', moto:'Modelo da Moto'}]]
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
@@ -50,10 +50,9 @@ export default function Feed() {
     }
 
     function showLines(item){
-        console.log(item.lenght)
-        if(item.lenght >1){
+        if(item[1]){
             return(
-                <View style={{flexDirection:'row', marginHorizontal:20, marginBottom:20}} >
+                <View style={{flexDirection:'row', marginHorizontal:20, marginBottom:20, justifyContent:'space-between'}} >
                     <Cards imagem={item[0].imagem} nome={item[0].nome} profissao={item[0].profissao} moto={item[0].moto}/>
                     <Cards imagem={item[1].imagem} nome={item[1].nome} profissao={item[1].profissao} moto={item[1].moto}/>   
                 </View>
@@ -114,9 +113,9 @@ export default function Feed() {
                             <SquareCheck checked={moto} />
                         </TouchableOpacity>
                     </View>
-                </View>
-                <View style={{marginTop:20}} >
-                    {results.map((item,index,arr) => (showLines(item)))}
+                    <View style={{marginTop:20, marginBottom:80}}>
+                        {results.map((item,index,arr) => (showLines(item)))}
+                    </View>
                 </View>
             </ScrollView>
             <Cambutton />
