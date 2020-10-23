@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Feather } from '@expo/vector-icons';
 import { ScrollView, View, Text, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { SimpleLineIcons } from '@expo/vector-icons';
+import { SimpleLineIcons, Ionicons } from '@expo/vector-icons';
+import NotifyCircle from '../../Components/NotifyCircle'
 
 import styles from './styles';
 
@@ -52,13 +52,13 @@ export default function Menu() {
     }
     return (
         <View style={{ ...styles.container, paddingTop: 25, paddingHorizontal: 18 }}>
-            <TouchableOpacity onPress={() => { navigation.navigate("Feed") }}>
+            <TouchableOpacity onPress={() => { navigation.goBack()}}>
                 <SimpleLineIcons name="menu" size={24} color="white" style={{ marginTop: 23, paddingHorizontal: (-18) }} />
             </TouchableOpacity>
             <ScrollView style={{ ...styles.container, paddingHorizontal: 18 }}>
 
                 <View style={{ paddingTop: 75 }}>
-                <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate("Feed") }}>
+                <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.navigate('Profile')}}>
                         <SimpleLineIcons name="picture" size={24} color="white" style={{ paddingVertical: 20 }} />
                         <Text style={styles.BigText}>
                             Timeline
@@ -66,6 +66,7 @@ export default function Menu() {
                     </TouchableOpacity>
                     <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { navigation.navigate("Direct") }}>
                         <SimpleLineIcons name="bubbles" size={24} color="white" style={{ paddingVertical: 20 }} />
+                        <NotifyCircle text="8" color='red' style={{marginTop:17, position:"absolute", marginLeft:10}}></NotifyCircle>
                         <Text style={styles.BigText}>
                             Mensagem
                 </Text>
@@ -83,17 +84,18 @@ export default function Menu() {
                 </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.buttons}>
-                        {/* <SimpleLineIcons name="bell" size={24} color="white" style={{ paddingVertical: 20 }} /> */}
-                        <Image source={sino} style={{height:30, width:30, marginTop:15}}/>
-                        <Text style={{...styles.BigText, paddingLeft:5}}>
+                         <SimpleLineIcons name="bell" size={24} color="white" style={{ paddingVertical: 20 }} />
+                         <NotifyCircle text="8" color='#00C48C' style={{marginTop:17, position:"absolute", marginLeft:10}}></NotifyCircle>
+                        <Text style={styles.BigText}>
                             Notificação
                 </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.navigate('Profile')}}>
-                        {/* <SimpleLineIcons name="user" size={24} color="white" style={{ paddingVertical: 20 }} /> */}
-                        <Image source={perfil} style={{height:30, width:30, marginTop:15}}/>
-                        <Text style={{...styles.BigText, paddingLeft:5}}>
-                            Perfil
+                    <TouchableOpacity style={styles.buttons}>
+                         <SimpleLineIcons name="user" size={24} color="white" style={{ paddingVertical: 20 }} />
+                         <Ionicons name="ios-remove-circle-outline" size={18} color="white" style={{marginTop:17, position:"absolute", marginLeft:10}}/>
+                         <Ionicons name="ios-remove-circle" size={18} color="red" style={{marginTop:17, position:"absolute", marginLeft:10}}/>
+                        <Text style={styles.BigText}>
+                            Editar Perfil
                 </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.buttons}>
