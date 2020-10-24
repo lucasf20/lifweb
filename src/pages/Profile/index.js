@@ -16,6 +16,34 @@ import colorStyles from "../../colors";
 import capa from '../../images/fotocapa.jpg'
 import icon from '../../images/avatar_stories1.png'
 
+function Header() {
+    const navigation = useNavigation()
+    return (
+        <View style={{ flexDirection: 'row', position: 'absolute',  justifyContent: 'space-between', width: Dimensions.get('window').width }}>
+            <View style={{ position: 'absolute', backgroundColor: 'black', flexDirection: 'row', opacity: 0.7, justifyContent: 'space-between', width: Dimensions.get('window').width, height:60 }}>
+            </View>
+            <View style={{flexDirection:'row'}}>
+                <TouchableOpacity style={{ marginLeft: 5, marginTop: 30, width:70 }} onPress={() => { navigation.navigate("Menu") }}>
+                <SimpleLineIcons name="menu" size={24} color="white" />
+            </TouchableOpacity>
+            </View>
+            
+            <Text style={{ fontWeight: 'bold', color: 'white', marginTop: 30, fontSize: 20 }}>
+                Perfil
+                    </Text>
+            <View style={{flexDirection:'row', width:70, marginRight:5 }}>
+                <TouchableOpacity style={{ marginTop: 30}} onPress={() => { navigation.navigate("Filters") }}>
+                    <EvilIcons name="search" size={30} color="white" style={{ paddingRight: 15 }} />
+                </TouchableOpacity>
+                <TouchableOpacity style={{ marginTop: 30 }} onPress={() => { navigation.navigate('Direct') }}>
+                    <MaterialCommunityIcons name="message-outline" size={24} color="white" />
+                </TouchableOpacity>
+            </View>
+
+        </View>
+    )
+}
+
 export default function Profile() {
     function calculateDimensions(img) {
         const { width, height } = Image.resolveAssetSource(img)
@@ -30,18 +58,7 @@ export default function Profile() {
                 <Image source={capa}
                     style={{ width: calculateDimensions(capa).width, height: calculateDimensions(capa).height }}
                 />
-                <TouchableOpacity style={{ position: 'absolute', marginLeft: 15, marginTop: 30 }} onPress={() => { navigation.navigate("Menu") }}>
-                    <SimpleLineIcons name="menu" size={24} color="white" />
-                </TouchableOpacity>
-                <Text style={{ fontWeight: 'bold', color: 'white', position: 'absolute', marginLeft: (Dimensions.get('window').width / 2 - 15), marginTop: 30, fontSize: 20 }}>
-                    Perfil
-                    </Text>
-                <TouchableOpacity style={{ position: 'absolute', marginLeft: (Dimensions.get('window').width - 80), marginTop: 30 }}>
-                    <EvilIcons name="search" size={30} color="white" style={{ paddingRight: 15 }} />
-                </TouchableOpacity>
-                <TouchableOpacity style={{ position: 'absolute', marginLeft: (Dimensions.get('window').width - 40), marginTop: 30 }} onPress={() => { navigation.navigate('Direct') }}>
-                    <MaterialCommunityIcons name="message-outline" size={24} color="white" />
-                </TouchableOpacity>
+                <Header />
                 <View style={{ position: "absolute", marginLeft: 25, marginTop: (calculateDimensions(capa).height - 50), flexDirection: 'row' }}>
                     <TouchableOpacity >
                         <Svg width="116" height="116" viewBox="0 0 50 50">
@@ -89,14 +106,14 @@ export default function Profile() {
                             Seguindo
                         </Text>
                     </View>
-                    <View style={{flexDirection:'row'}}>
+                    <View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5 }}>
-                            <Text style={{ color: 'white', fontSize: 15, marginTop:17, marginLeft:25 }}>
+                            <Text style={{ color: 'white', fontSize: 15, marginTop: 17, marginLeft: 25 }}>
                                 Seguir
                         </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5, marginLeft:5 }}>
-                            <Text style={{ color: 'white', fontSize: 15, marginTop:17, marginLeft:10}}>
+                        <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5, marginLeft: 5 }}>
+                            <Text style={{ color: 'white', fontSize: 15, marginTop: 17, marginLeft: 10 }}>
                                 Mensagem
                         </Text>
                         </TouchableOpacity>
