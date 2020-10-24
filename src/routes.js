@@ -15,11 +15,11 @@ import Direct from './pages/Direct';
 import Profile from './pages/Profile';
 import SendPost from './pages/SendPost';
 import Filters from './pages/Filters';
+import EditProfile from './pages/EditProfile';
 
 export default function Routes() {
     return (
         <NavigationContainer>
-
             <AppStack.Navigator screenOptions = {{headerShown: false}}>
                 <AppStack.Screen  name = "Login" component = {Login}/>
                 <AppStack.Screen name = "CreateAcc2" component = {CreateAcc2}/>
@@ -32,6 +32,7 @@ export default function Routes() {
                 <AppStack.Screen name = "Profile" component = {Profile}/>
                 <AppStack.Screen name = "SendPost" component = {SendPost}/>
                 <AppStack.Screen name = "Filters" component = {Filters}/>
+                <AppStack.Screen name = "EditProfile" component = {EditProfile}/>
             </AppStack.Navigator>
 
         </NavigationContainer>

@@ -9,11 +9,7 @@ import styles from './styles';
 import colorStyles from "../../colors";
 import firebase from '../../../firebaseConfig';
 
-
 import profileIcon from '../../assets/logolifweb.png'
-
-import sino from '../../assets/sino.png'
-import perfil from '../../assets/perfil.png'
 
 
 export default function Menu() {
@@ -90,7 +86,7 @@ export default function Menu() {
                                 Notificação
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttons}>
+                        <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.navigate('EditProfile')}}>
                             <SimpleLineIcons name="user" size={24} color="white" style={{ paddingVertical: 20 }} />
                             <Ionicons name="ios-remove-circle-outline" size={18} color="white" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />
                             <Ionicons name="ios-remove-circle" size={18} color="red" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />
@@ -104,7 +100,6 @@ export default function Menu() {
                                 Configurações
                             </Text>
                         </TouchableOpacity>
-
                         <TouchableOpacity style={styles.buttons} onPress={() => { logout() }}>
                             <SimpleLineIcons name="logout" size={24} color="white" style={{ paddingVertical: 20 }} />
 
@@ -113,7 +108,6 @@ export default function Menu() {
                             </Text>
                         </TouchableOpacity>
                     </View>
-
                     <View style={{ marginTop: 40, marginBottom: 20 }}>
                         <Image source={profileIcon} style={{ height: resizeProfile(0.5).height, width: resizeProfile(0.5).width }} />
                         <Text style={{ fontSize: 25, color: 'white' }}>
@@ -123,7 +117,6 @@ export default function Menu() {
                             {getEmail()}
                         </Text>
                     </View>
-
                 </ScrollView>
             </View>
         </View>

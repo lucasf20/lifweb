@@ -20,7 +20,7 @@ function Header() {
     const navigation = useNavigation()
     return (
         <View style={{ flexDirection: 'row', position: 'absolute',  justifyContent: 'space-between', width: Dimensions.get('window').width }}>
-            <View style={{ position: 'absolute', backgroundColor: 'black', flexDirection: 'row', opacity: 0.7, justifyContent: 'space-between', width: Dimensions.get('window').width, height:60 }}>
+            <View style={{ position: 'absolute', backgroundColor: 'black', flexDirection: 'row', opacity: 0.4, justifyContent: 'space-between', width: Dimensions.get('window').width, height:60 }}>
             </View>
             <View style={{flexDirection:'row'}}>
                 <TouchableOpacity style={{ marginLeft: 5, marginTop: 30, width:70 }} onPress={() => { navigation.navigate("Menu") }}>
