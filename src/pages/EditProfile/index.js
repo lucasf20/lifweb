@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, TouchableOpacity, FlatList, TouchableHighlight, ScrollView, Alert } from 'react-native'
+import { Text, View, TouchableOpacity, FlatList, TouchableHighlight, ScrollView, Alert, Dimensions } from 'react-native'
 import colorStyles from "../../colors";
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -42,44 +42,44 @@ function Part1({ changeState }) {
         }
     }
 
-    function checkTelefone(){
+    function checkTelefone() {
         var reg = /\d+/g
         var tel = telefone.match(reg)
         var num = ""
 
-        for(let i = 0; i < tel.length; i++){
+        for (let i = 0; i < tel.length; i++) {
             num += tel[i]
         }
-        if(num.length == 11 || num.length == 10){
+        if (num.length == 11 || num.length == 10) {
             return [true, num]
-        }else{
+        } else {
             return [false, num]
         }
     }
 
-    function extract(){
+    function extract() {
         var reg = /\d+/g
         var tel = cep.match(reg)
         var num = ""
 
-        for(let i = 0; i < tel.length; i++){
+        for (let i = 0; i < tel.length; i++) {
             num += tel[i]
         }
 
         return num
     }
 
-    function atualizar(){
-        if(cepcorreto){
-            if(extract().length == 8){
-                if(rua.length > 0){
-                    if(numero.length > 0){
-                        if(cidade.length>0){
-                            if(checkTelefone()[0]){
-                                if(sangue.length > 0){
+    function atualizar() {
+        if (cepcorreto) {
+            if (extract().length == 8) {
+                if (rua.length > 0) {
+                    if (numero.length > 0) {
+                        if (cidade.length > 0) {
+                            if (checkTelefone()[0]) {
+                                if (sangue.length > 0) {
                                     var data = {
-                                        endereco:{
-                                            cep:extract(),
+                                        endereco: {
+                                            cep: extract(),
                                             rua,
                                             numero,
                                             cidade
@@ -88,26 +88,26 @@ function Part1({ changeState }) {
                                         sangue
                                     }
                                     firebase.database().ref('user/' + user.uid).update(data)
-                                    .then(changeState(2))
-                                }else{
+                                        .then(changeState(2))
+                                } else {
                                     Alert.alert("Tipo sanguíneo inválido!", "Forneça seu tipo sanguíneo!")
                                 }
-                            }else{
+                            } else {
                                 Alert.alert("Telefone inválido!", "Forneça um número de telefone válido!")
                             }
-                        }else{
+                        } else {
                             Alert.alert("Cidade inválida!", "Forneça o nome da cidade!")
                         }
-                    }else{
+                    } else {
                         Alert.alert("Número inválido!", "Forneça o número da residência!")
                     }
-                }else{
-                    Alert.alert("Nome da rua inválido!","Forneça o nome da rua!")
+                } else {
+                    Alert.alert("Nome da rua inválido!", "Forneça o nome da rua!")
                 }
-            }else{
+            } else {
                 Alert.alert("Forneça um CEP válido!", "O CEP foi digitado incorretamente ou não existe!")
             }
-        }else{
+        } else {
             Alert.alert("Forneça um CEP válido!", "O CEP foi digitado incorretamente ou não existe!")
         }
     }
@@ -159,7 +159,7 @@ function Part1({ changeState }) {
                     </TouchableHighlight>
                 )}
             />
-            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginTop: 20 }} onPress={() => {atualizar()}}>
+            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginTop: 20 }} onPress={() => { atualizar() }}>
                 <View style={{ alignItems: "center" }}>
                     <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
                         ATUALIZAR
@@ -174,33 +174,33 @@ function Part2({ changeState }) {
     const dorange = colorStyles.dorange
     const [marca, setmarca] = useState('')
     const [showmarca, setshowmarca] = useState(false)
-    const [moto , setmoto] = useState('')
+    const [moto, setmoto] = useState('')
     const [showmoto, setshowmoto] = useState(false)
     const [ano, setano] = useState('')
 
-    function getMarca(){
+    function getMarca() {
         var motos = {};
         var marcas = {};
-        firebase.database().ref('motos/').on('value', snapshot =>{
+        firebase.database().ref('motos/').on('value', snapshot => {
             motos = snapshot.val()
         })
         var keys = Object.keys(motos)
-        for(let i = 0; i < keys.length; i++){
+        for (let i = 0; i < keys.length; i++) {
             marcas[motos[keys[i]]['marca']] = 1
         }
         keys = Object.keys(marcas)
         return keys.sort()
     }
 
-    function getMoto(){
+    function getMoto() {
         var motos = {};
         var modelo = [];
-        firebase.database().ref('motos/').on('value', snapshot =>{
+        firebase.database().ref('motos/').on('value', snapshot => {
             motos = snapshot.val()
         })
         var keys = Object.keys(motos)
-        for(let i = 0; i < keys.length; i++){
-            if (motos[keys[i]]['marca'] == marca){
+        for (let i = 0; i < keys.length; i++) {
+            if (motos[keys[i]]['marca'] == marca) {
                 modelo.push(motos[keys[i]]['descricao'])
             }
         }
@@ -209,12 +209,12 @@ function Part2({ changeState }) {
 
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
-            <View style={{height:250, borderRadius:5, backgroundColor:'white'}}>
-                <Text style={{marginHorizontal:150, fontSize:20, marginTop:80}}>
+            <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white' }}>
+                <Text style={{ marginHorizontal: 150, fontSize: 20, marginTop: 80 }}>
                     CAPA PERFIL
                 </Text>
-                <TouchableOpacity style={{borderRadius:5, marginHorizontal:140, backgroundColor: dorange, height: 50,width:150}}>
-                    <Text style={{color:'white', marginTop:12, fontSize:15, marginLeft:47}}>
+                <TouchableOpacity style={{ borderRadius: 5, marginHorizontal: 140, backgroundColor: dorange, height: 50, width: 150 }}>
+                    <Text style={{ color: 'white', marginTop: 12, fontSize: 15, marginLeft: 47 }}>
                         Buscar
                     </Text>
                 </TouchableOpacity>
@@ -222,10 +222,10 @@ function Part2({ changeState }) {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 MARCA MOTOCICLETA
             </Text>
-            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => {(showmarca)?setshowmarca(false):setshowmarca(true) }}>
+            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { (showmarca) ? setshowmarca(false) : setshowmarca(true) }}>
                 <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                    <Text style={{ color :(marca.length == 0)?'gray':'black', marginLeft: 10 }}>
-                        {(marca.length == 0)?'ESCOLHA UMA OPÇÃO':marca}
+                    <Text style={{ color: (marca.length == 0) ? 'gray' : 'black', marginLeft: 10 }}>
+                        {(marca.length == 0) ? 'ESCOLHA UMA OPÇÃO' : marca}
                     </Text>
                     <Ionicons name="ios-arrow-down" size={24} color="gray" style={{ marginRight: 10 }} />
                 </View>
@@ -247,10 +247,10 @@ function Part2({ changeState }) {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 MODELO
             </Text>
-            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => {(showmoto)?setshowmoto(false):setshowmoto(true) }}>
+            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { (showmoto) ? setshowmoto(false) : setshowmoto(true) }}>
                 <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                    <Text style={{ color :(moto.length == 0)?'gray':'black', marginLeft: 10 }}>
-                        {(moto.length == 0)?'ESCOLHA UMA OPÇÃO':moto}
+                    <Text style={{ color: (moto.length == 0) ? 'gray' : 'black', marginLeft: 10 }}>
+                        {(moto.length == 0) ? 'ESCOLHA UMA OPÇÃO' : moto}
                     </Text>
                     <Ionicons name="ios-arrow-down" size={24} color="gray" style={{ marginRight: 10 }} />
                 </View>
@@ -269,10 +269,10 @@ function Part2({ changeState }) {
                     </TouchableHighlight>
                 )}
             />
-            <View style={{marginTop:20}}>
+            <View style={{ marginTop: 20 }}>
                 <MyTextInput value={ano} onChangeText={text => { setano(text) }} placeholder='Ano' />
             </View>
-            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical:20 }} onPress={() => { changeState(3) }}>
+            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { changeState(3) }}>
                 <View style={{ alignItems: "center" }}>
                     <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
                         ATUALIZAR
@@ -290,14 +290,14 @@ function Part3({ changeState }) {
     const [clube, setclube] = useState("")
     const [showclube, setshowclube] = useState(false)
 
-    function getprofissao(){
+    function getprofissao() {
         var profissoes = {}
         var lista = []
-        firebase.database().ref('profissoes/').on('value', snapshot =>{
+        firebase.database().ref('profissoes/').on('value', snapshot => {
             profissoes = snapshot.val()
         })
         var keys = Object.keys(profissoes)
-        for(let i = 0; i< keys.length; i++){
+        for (let i = 0; i < keys.length; i++) {
             lista.push(profissoes[keys[i]]['titulo'])
         }
         return lista.sort()
@@ -305,23 +305,25 @@ function Part3({ changeState }) {
 
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
-            <View style={{height:250, borderRadius:5, backgroundColor:'white'}}>
-                <Text style={{marginHorizontal:150, fontSize:20, marginTop:80}}>
-                    CAPA PERFIL
+            <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white' }}>
+            <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white' }}>
+                <Text style={{ marginHorizontal: 180, fontSize: 20, marginTop: 80 }}>
+                    AVATAR
                 </Text>
-                <TouchableOpacity style={{borderRadius:5, marginHorizontal:140, backgroundColor: dorange, height: 50,width:150}}>
-                    <Text style={{color:'white', marginTop:12, fontSize:15, marginLeft:47}}>
+                <TouchableOpacity style={{ borderRadius: 5, marginHorizontal: 140, backgroundColor: dorange, height: 50, width: 150 }}>
+                    <Text style={{ color: 'white', marginTop: 12, fontSize: 15, marginLeft: 47 }}>
                         Buscar
                     </Text>
                 </TouchableOpacity>
             </View>
+            </View>
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 PROFISSÃO
             </Text>
-            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => {(showprofissao)?setshowprofissao(false):setshowprofissao(true) }}>
+            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { (showprofissao) ? setshowprofissao(false) : setshowprofissao(true) }}>
                 <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                    <Text style={{ color :(profissao.length == 0)?'gray':'black', marginLeft: 10 }}>
-                        {(profissao.length == 0)?'ESCOLHA UMA OPÇÃO':profissao}
+                    <Text style={{ color: (profissao.length == 0) ? 'gray' : 'black', marginLeft: 10 }}>
+                        {(profissao.length == 0) ? 'ESCOLHA UMA OPÇÃO' : profissao}
                     </Text>
                     <Ionicons name="ios-arrow-down" size={24} color="gray" style={{ marginRight: 10 }} />
                 </View>
@@ -343,10 +345,10 @@ function Part3({ changeState }) {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 CLUBE ASSOCIADO
             </Text>
-            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => {(showclube)?setshowclube(false):setshowclube(true) }}>
+            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { (showclube) ? setshowclube(false) : setshowclube(true) }}>
                 <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                    <Text style={{ color :(clube.length == 0)?'gray':'black', marginLeft: 10 }}>
-                        {(clube.length == 0)?'ESCOLHA UMA OPÇÃO':clube}
+                    <Text style={{ color: (clube.length == 0) ? 'gray' : 'black', marginLeft: 10 }}>
+                        {(clube.length == 0) ? 'ESCOLHA UMA OPÇÃO' : clube}
                     </Text>
                     <Ionicons name="ios-arrow-down" size={24} color="gray" style={{ marginRight: 10 }} />
                 </View>
@@ -365,7 +367,17 @@ function Part3({ changeState }) {
                     </TouchableHighlight>
                 )}
             />
-            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical:20 }} onPress={() => { changeState(3) }}>
+            <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
+                <Text style={{ fontSize: 15 }}>
+                    Clube não cadastrado?
+                </Text>
+                <TouchableOpacity>
+                    <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
+                        Solicitar a inclusão.
+                    </Text>
+                </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { changeState(3) }}>
                 <View style={{ alignItems: "center" }}>
                     <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
                         ATUALIZAR
@@ -406,7 +418,7 @@ export default function EditProfile() {
     const [part, setpart] = useState(1)
     const dorange = colorStyles.dorange
     const navigation = useNavigation()
-    if (part == 3) {
+    if (part == 1) {
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
                 style={{ flex: 1 }}
@@ -428,7 +440,7 @@ export default function EditProfile() {
                 </ScrollView>
             </KeyboardAwareScrollView>
         )
-    } else if (part == 1) {
+    } else if (part == 3) {
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
                 style={{ flex: 1 }}
