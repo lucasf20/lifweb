@@ -50,10 +50,45 @@ function Part1({ changeState }) {
         for (let i = 0; i < tel.length; i++) {
             num += tel[i]
         }
-        if (num.length == 11 || num.length == 10) {
+        if (num.length >= 10) {
             return [true, num]
         } else {
             return [false, num]
+        }
+    }
+
+    function mascara(celular){
+        var reg = /\d+/g
+        var tel = celular.match(reg)
+        var telfull = ""
+        var show = ""
+        if(reg.test(celular)){
+            for(let i = 0; i< tel.length; i++){
+                telfull += tel[i]
+            }
+            for(let i = 0; i<telfull.length; i++){
+                if(i==0){
+                    show += "("
+                }
+                if(i==2){
+                    show+=") "
+                }
+                if(i==3 && telfull.length==11){
+                    show += " "
+                }
+                if (i==6 && telfull.length==10){
+                    show += "-"
+                }
+                if (i==7 && telfull.length == 11){
+                    show += "-"
+                }
+                show+= telfull[i]
+            }
+        }
+        if(telfull.length > 11){
+            return telefone
+        }else{
+            return show
         }
     }
 
@@ -133,7 +168,7 @@ function Part1({ changeState }) {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 Telefone
             </Text>
-            <MyTextInput value={telefone} onChangeText={text => { settelefone(text) }} placeholder='Telefone' />
+            <MyTextInput value={telefone} onChangeText={text => { settelefone(mascara(text)) }} placeholder='Telefone' />
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 Tipo Sanguíneo
             </Text>
