@@ -8,17 +8,38 @@ import MyTextInput from '../../MyTextInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 function Part1({ changeState }) {
+
+    function getData(){
+        const user = firebase.auth().currentUser
+        var data = {}
+        var iniStates = {}
+        firebase.database().ref('user/'+user.uid).on('value', snapshot =>{
+            data = snapshot.val()
+        })
+        iniStates = {
+            endereco: {
+                cep: (data.endereco)?data.endereco.cep:"",
+                rua: (data.endereco)?data.endereco.rua:"",
+                numero: (data.endereco)?data.endereco.numero:"",
+                cidade: (data.endereco)?data.endereco.cidade:""
+            },
+            telefone: (data.telefone)?data.telefone:"",
+            sangue: (data.sangue)?data.sangue:""
+        }
+        return iniStates
+    }
+
     const dorange = colorStyles.dorange
     const user = firebase.auth().currentUser
-    const [cep, setcep] = useState('')
-    const [cepchecked, setcepchecked] = useState(false)
-    const [rua, setrua] = useState('')
-    const [numero, setnumero] = useState('')
-    const [cidade, setcidade] = useState('')
-    const [telefone, settelefone] = useState('')
+    const [cep, setcep] = useState(getData().endereco.cep)
+    const [cepchecked, setcepchecked] = useState(getData().endereco.cep.length > 0)
+    const [rua, setrua] = useState(getData().endereco.rua)
+    const [numero, setnumero] = useState(getData().endereco.numero)
+    const [cidade, setcidade] = useState(getData().endereco.cidade)
+    const [telefone, settelefone] = useState(getData().telefone)
     const [showlist, setshowlist] = useState(false)
-    const [sangue, setsangue] = useState("")
-    const [cepcorreto, setcepcorreto] = useState(false)
+    const [sangue, setsangue] = useState(getData().sangue)
+    const [cepcorreto, setcepcorreto] = useState(getData().endereco.cep.length > 0)
 
     function checkCep(cp) {
         var c = cp.replace("-", "").replace(".", "")
