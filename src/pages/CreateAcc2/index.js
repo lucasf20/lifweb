@@ -302,6 +302,7 @@ export default function CreateAcc2() {
                 {show && (
                     <DateTimePicker
                         testID="dateTimePicker"
+                        locale={'pt-br'}
                         value={date}
                         mode={mode}
                         is24Hour={true}
