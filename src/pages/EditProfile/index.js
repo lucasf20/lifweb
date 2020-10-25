@@ -84,7 +84,7 @@ function Part1({ changeState }) {
                                             numero,
                                             cidade
                                         },
-                                        telefone,
+                                        telefone: checkTelefone()[1],
                                         sangue
                                     }
                                     firebase.database().ref('user/' + user.uid).update(data)
@@ -137,7 +137,7 @@ function Part1({ changeState }) {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 Tipo Sanguíneo
             </Text>
-            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { setshowlist(true) }}>
+            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { (showlist) ? setshowlist(false) : setshowlist(true) }}>
                 <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
                     <Text style={{ color: (sangue.length == 0) ? "gray" : 'black', marginLeft: 10 }}>
                         {(sangue.length == 0) ? "Selecione o seu tipo sanguíneo" : sangue}
@@ -209,15 +209,17 @@ function Part2({ changeState }) {
 
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
-            <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white' }}>
-                <Text style={{ marginHorizontal: 150, fontSize: 20, marginTop: 80 }}>
-                    CAPA PERFIL
-                </Text>
-                <TouchableOpacity style={{ borderRadius: 5, marginHorizontal: 140, backgroundColor: dorange, height: 50, width: 150 }}>
-                    <Text style={{ color: 'white', marginTop: 12, fontSize: 15, marginLeft: 47 }}>
-                        Buscar
+            <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center' }}>
+                <View style={{ alignItems:'center'}}>
+                    <Text style={{ fontSize: 20 }}>
+                        CAPA PERFIL
                     </Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent:'center', alignItems:'center' }}>
+                        <Text style={{ color: 'white', fontSize: 15 }}>
+                            Buscar
+                    </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 MARCA MOTOCICLETA
@@ -306,16 +308,16 @@ function Part3({ changeState }) {
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
             <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white' }}>
-            <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white' }}>
-                <Text style={{ marginHorizontal: 180, fontSize: 20, marginTop: 80 }}>
-                    AVATAR
-                </Text>
-                <TouchableOpacity style={{ borderRadius: 5, marginHorizontal: 140, backgroundColor: dorange, height: 50, width: 150 }}>
-                    <Text style={{ color: 'white', marginTop: 12, fontSize: 15, marginLeft: 47 }}>
-                        Buscar
+                <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white', justifyContent:'center', alignItems:'center' }}>
+                    <Text style={{ fontSize: 20 }}>
+                        AVATAR
                     </Text>
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent:'center', alignItems:'center' }}>
+                        <Text style={{ color: 'white', fontSize: 15 }}>
+                            Buscar
+                    </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 PROFISSÃO
