@@ -9,37 +9,38 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 function Part1({ changeState }) {
 
-    function getData(){
+    function getData() {
         const user = firebase.auth().currentUser
-        var data = {}
         var iniStates = {}
-        firebase.database().ref('user/'+user.uid).on('value', snapshot =>{
-            data = snapshot.val()
+        var data = {};
+        firebase.database().ref('user/' + user.uid).on('value', snap => {
+            data = snap.val()
         })
         iniStates = {
             endereco: {
-                cep: (data.endereco)?data.endereco.cep:"",
-                rua: (data.endereco)?data.endereco.rua:"",
-                numero: (data.endereco)?data.endereco.numero:"",
-                cidade: (data.endereco)?data.endereco.cidade:""
+                cep: (data.endereco) ? data.endereco.cep : "",
+                rua: (data.endereco) ? data.endereco.rua : "",
+                numero: (data.endereco) ? data.endereco.numero : "",
+                cidade: (data.endereco) ? data.endereco.cidade : ""
             },
-            telefone: (data.telefone)?data.telefone:"",
-            sangue: (data.sangue)?data.sangue:""
+            telefone: (data.telefone) ? data.telefone : "",
+            sangue: (data.sangue) ? data.sangue : ""
         }
-        return iniStates
+        return [iniStates, data]
     }
 
+    const dados = getData()[0]
     const dorange = colorStyles.dorange
     const user = firebase.auth().currentUser
-    const [cep, setcep] = useState(getData().endereco.cep)
-    const [cepchecked, setcepchecked] = useState(getData().endereco.cep.length > 0)
-    const [rua, setrua] = useState(getData().endereco.rua)
-    const [numero, setnumero] = useState(getData().endereco.numero)
-    const [cidade, setcidade] = useState(getData().endereco.cidade)
-    const [telefone, settelefone] = useState(getData().telefone)
+    const [cep, setcep] = useState(dados.endereco.cep)
+    const [cepchecked, setcepchecked] = useState(dados.endereco.cep.length > 0)
+    const [rua, setrua] = useState(dados.endereco.rua)
+    const [numero, setnumero] = useState(dados.endereco.numero)
+    const [cidade, setcidade] = useState(dados.endereco.cidade)
+    const [telefone, settelefone] = useState(mascara(dados.telefone))
     const [showlist, setshowlist] = useState(false)
-    const [sangue, setsangue] = useState(getData().sangue)
-    const [cepcorreto, setcepcorreto] = useState(getData().endereco.cep.length > 0)
+    const [sangue, setsangue] = useState(dados.sangue)
+    const [cepcorreto, setcepcorreto] = useState(dados.endereco.cep.length > 0)
 
     function checkCep(cp) {
         var c = cp.replace("-", "").replace(".", "")
@@ -78,37 +79,37 @@ function Part1({ changeState }) {
         }
     }
 
-    function mascara(celular){
+    function mascara(celular) {
         var reg = /\d+/g
         var tel = celular.match(reg)
         var telfull = ""
         var show = ""
-        if(reg.test(celular)){
-            for(let i = 0; i< tel.length; i++){
+        if (reg.test(celular)) {
+            for (let i = 0; i < tel.length; i++) {
                 telfull += tel[i]
             }
-            for(let i = 0; i<telfull.length; i++){
-                if(i==0){
+            for (let i = 0; i < telfull.length; i++) {
+                if (i == 0) {
                     show += "("
                 }
-                if(i==2){
-                    show+=") "
+                if (i == 2) {
+                    show += ") "
                 }
-                if(i==3 && telfull.length==11){
+                if (i == 3 && telfull.length == 11) {
                     show += " "
                 }
-                if (i==6 && telfull.length==10){
+                if (i == 6 && telfull.length == 10) {
                     show += "-"
                 }
-                if (i==7 && telfull.length == 11){
+                if (i == 7 && telfull.length == 11) {
                     show += "-"
                 }
-                show+= telfull[i]
+                show += telfull[i]
             }
         }
-        if(telfull.length > 11){
+        if (telfull.length > 11) {
             return telefone
-        }else{
+        } else {
             return show
         }
     }
@@ -193,8 +194,8 @@ function Part1({ changeState }) {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 Tipo Sanguíneo
             </Text>
-            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99', justifyContent:'center' }} onPress={() => { (showlist) ? setshowlist(false) : setshowlist(true) }}>
-                <View style={{ flexDirection: 'row', justifyContent:'space-between' }}>
+            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99', justifyContent: 'center' }} onPress={() => { (showlist) ? setshowlist(false) : setshowlist(true) }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={{ color: (sangue.length == 0) ? "gray" : 'black', marginLeft: 11 }}>
                         {(sangue.length == 0) ? "Selecione o seu tipo sanguíneo" : sangue}
                     </Text>
@@ -209,8 +210,8 @@ function Part1({ changeState }) {
                         onPress={() => { setsangue(item); setshowlist(false) }}
                         onShowUnderlay={separators.highlight}
                         onHideUnderlay={separators.unhighlight}>
-                        <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver', justifyContent:'center' }}>
-                            <Text style={{ fontSize: 15, color: 'black', marginLeft:11 }}>{item}</Text>
+                        <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver', justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 15, color: 'black', marginLeft: 11 }}>{item}</Text>
                         </View>
                     </TouchableHighlight>
                 )}
@@ -266,11 +267,11 @@ function Part2({ changeState }) {
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
             <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center' }}>
-                <View style={{ alignItems:'center'}}>
+                <View style={{ alignItems: 'center' }}>
                     <Text style={{ fontSize: 20 }}>
                         CAPA PERFIL
                     </Text>
-                    <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent:'center', alignItems:'center' }}>
+                    <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
                             Buscar
                     </Text>
@@ -364,11 +365,11 @@ function Part3({ changeState }) {
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
             <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white' }}>
-                <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white', justifyContent:'center', alignItems:'center' }}>
+                <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ fontSize: 20 }}>
                         AVATAR
                     </Text>
-                    <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent:'center', alignItems:'center' }}>
+                    <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
                             Buscar
                     </Text>
@@ -476,6 +477,15 @@ export default function EditProfile() {
     const [part, setpart] = useState(1)
     const dorange = colorStyles.dorange
     const navigation = useNavigation()
+
+    function checkLoad(){
+        var data = {}
+        firebase.database().ref('user/' + firebase.auth().currentUser.uid).on('value', snap => {
+            data = snap.val()
+        })
+        return data
+    }
+
     if (part == 1) {
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
@@ -483,7 +493,7 @@ export default function EditProfile() {
                 showsVerticalScrollIndicator={false}>
                 <ScrollView>
                     <Header />
-                    <Part1 changeState={setpart} />
+                   { (!(Object.keys(checkLoad()).length == 0)) ? (<Part1 changeState={setpart} />):(navigation.goBack())}
                 </ScrollView>
             </KeyboardAwareScrollView>
         )
