@@ -172,9 +172,9 @@ function Part1({ changeState }) {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 Tipo Sanguíneo
             </Text>
-            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { (showlist) ? setshowlist(false) : setshowlist(true) }}>
-                <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                    <Text style={{ color: (sangue.length == 0) ? "gray" : 'black', marginLeft: 10 }}>
+            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99', justifyContent:'center' }} onPress={() => { (showlist) ? setshowlist(false) : setshowlist(true) }}>
+                <View style={{ flexDirection: 'row', justifyContent:'space-between' }}>
+                    <Text style={{ color: (sangue.length == 0) ? "gray" : 'black', marginLeft: 11 }}>
                         {(sangue.length == 0) ? "Selecione o seu tipo sanguíneo" : sangue}
                     </Text>
                     <Ionicons name="ios-arrow-down" size={24} color="gray" style={{ marginRight: 10 }} />
@@ -188,8 +188,8 @@ function Part1({ changeState }) {
                         onPress={() => { setsangue(item); setshowlist(false) }}
                         onShowUnderlay={separators.highlight}
                         onHideUnderlay={separators.unhighlight}>
-                        <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver' }}>
-                            <Text style={{ fontSize: 15, padding: 7, color: 'black' }}>{item}</Text>
+                        <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver', justifyContent:'center' }}>
+                            <Text style={{ fontSize: 15, color: 'black', marginLeft:11 }}>{item}</Text>
                         </View>
                     </TouchableHighlight>
                 )}
