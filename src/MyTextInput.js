@@ -31,19 +31,30 @@ class MyTextInput extends React.Component{
 
     render() {
         const {isFocused} = this.state;
-        const{onFocus, onBlur, ...otherProps} = this.props;
+        const{
+            onFocus,
+            autoCapitalize = 'sentences',
+            type = 'default',
+            secureTextEntry = false,
+            onBlur,
+            style = {},
+            ...otherProps
+        } = this.props;
         return(
             <TextInput
                 placeholder="Email"
                 placeholderTextColor='gray'
                 selectionColor={dorange}
-                underlineColorAndroid={
-                    isFocused ? dorange : LIGHT_GRAY
-                }
-
+                underlineColorAndroid='transparent'
+                autoCapitalize={autoCapitalize}
+                keyboardType={type}
+                secureTextEntry={secureTextEntry}
                 onFocus = {this.handleFocus}
                 onBlur= {this.handleBlur}
-                style={styles.textInput}
+                style={{
+                    ...styles.textInput,
+                    ...style,
+                }}
                 {...otherProps}
             />
 
@@ -54,12 +65,12 @@ const styles = StyleSheet.create({
     textInput: {
         backgroundColor:'#FFFFFF99',
         borderRadius:5,
-        paddingLeft:5,
+        paddingLeft:15,
         paddingRight:5,
         height: 50, 
-        borderRadius: 10,
+        borderRadius: 5,
         borderWidth:1, 
-        borderColor:"gray"
+        borderColor:"silver"
     }
 });
 

@@ -12,6 +12,8 @@ import colorStyles from "../../colors";
 
 import firebase from '../../../firebaseConfig';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 export default function CreateAcc(){
 
@@ -35,9 +37,8 @@ export default function CreateAcc(){
     }
 
     function verifyName(name){
-        var nameRegex = /(([A-Z]|[a-z]*)*( )(([A-Z])|[a-z]*)*)*/;
         var res = false
-        if(name.match(nameRegex)[0] == name){
+        if(name.split(" ").length > 1){
           res = true
         }
         return res
@@ -45,19 +46,19 @@ export default function CreateAcc(){
 
     function verifyPassword(password, password2){
         if(!(password2 == password)){
-            alert("As senhas inseridas não são iguais!\n\nTente outra vez!")
+            Alert.alert( "Verifique as senhas inseridas!", "As senhas inseridas não são iguais!\n\nTente outra vez!")
             return false
         }
         if(password.length < 6){
-            alert("A senha deve possuir pelo menos 6 caracteres!\n\nTente outra vez!")
+            Alert.alert( "Verifique as senhas inseridas!", "A senha deve possuir pelo menos 6 caracteres!\n\nTente outra vez!")
             return false
         }
         if(!(password.match(/[0-9]/))){
-            alert("A senha deve possuir pelo menos um número!\n\nTente outra vez!")
+            Alert.alert( "Verifique as senhas inseridas!", "A senha deve possuir pelo menos um número!\n\nTente outra vez!")
             return false
         }
-        if(!(password.match(/[a-z]|[A-z]/))){
-            alert("A senha deve possuir pelo menos uma letra!\n\nTente outra vez!")
+        if(!(password.match(/[a-z]|[A-Z]/))){
+            Alert.alert( "Verifique as senhas inseridas!", "A senha deve possuir pelo menos uma letra!\n\nTente outra vez!")
             return false
         }
         return true
@@ -68,13 +69,13 @@ export default function CreateAcc(){
         var res = firebase.auth().fetchSignInMethodsForEmail(email)
         .then(arr =>{
             if(arr.length > 0){
-                alert("Este E-mail já está sendo usado!\n\nFaça Login ou tente recuperar sua senha!")
+                Alert.alert("Este E-mail já está sendo usado!","Faça Login ou tente recuperar sua senha!")
                 return false
             }else{
                 return true
             }
         }).catch(error => {
-            alert("E-mail inválido!");
+            Alert.alert("E-mail inválido!","Tente novamente!");
             return false
         })
         return res
@@ -97,25 +98,28 @@ export default function CreateAcc(){
                                     firstAccess:true
                                 }
                             )
-                            alert("Usuário cadastrado com sucesso!")
+                            navigation.navigate('CreateAcc2')
+                            //alert("Usuário cadastrado com sucesso!")
                         }).catch(function(error) {
                         // An error happened.
                         });
                         //user.sendEmailVerification()
-                        navigation.navigate('Login')
+                        //navigation.navigate('Login')
                     })
                     .catch(error =>{
-                        alert("Falha ao castrar usuário!")
+                        //alert("Falha ao castrar usuário!")
                     })
                 }
             }
         }else{
-            alert("Por favor, insira seu nome completo corretamente!")
+            Alert.alert("Nome incorreto","Por favor, insira seu nome completo corretamente!")
         }
     }    
     
     return(
-        
+        <KeyboardAwareScrollView  keyboardShouldPersistTaps={'always'}
+        style={{flex:1}}
+        showsVerticalScrollIndicator={false}>
         <ScrollView style = {styles.container}>
 
             <View style={styles.header}>
@@ -156,7 +160,7 @@ export default function CreateAcc(){
             />
 
             <Text style={styles.LooseText}>
-                Email?
+                Email:
             </Text>
 
             <MyTextInput 
@@ -166,7 +170,7 @@ export default function CreateAcc(){
             />
 
             <Text style={styles.LooseText}>
-                Senha
+                Senha:
             </Text>
 
             <MyTextInput 
@@ -177,7 +181,7 @@ export default function CreateAcc(){
             />
 
 <           Text style={styles.LooseText}>
-                Repita a senha
+                Repita a senha:
             </Text>
 
             <MyTextInput
@@ -187,14 +191,24 @@ export default function CreateAcc(){
                 placeholder = "Repita a senha"
             />
                 
-            <View style = {styles.ButtonView}>
+            {/* <View style = {styles.ButtonView}>
                 <Button onPress={() => {validateAndRegister(nome, regEmail,senha,senha2)}}
-                    title= "Criar uma Conta" 
+                    title= "Próximo" 
                     color= {dorange}
                 />             
             </View>
- 
+  */}
+        <View style={styles.ButtonView}>
+                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5 }} onPress={() => { validateAndRegister(nome, regEmail,senha,senha2) }}>
+                    <View style={{ alignItems: "center" }}>
+                        <Text style={{ color: "white", fontSize: 15, fontWeight: "bold", padding: 15 }}>
+                            PRÓXIMO
+                    </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
         </ScrollView>
+        </KeyboardAwareScrollView>
     );
 }
 

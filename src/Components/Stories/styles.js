@@ -1,27 +1,12 @@
-import { StyleSheet } from 'react-native'
+import {StyleSheet} from 'react-native';
 
-const styles = StyleSheet.create({
-    container:{
-        alignItems:'center',
-        backgroundColor:'#f0f0f0',
-        height:140,
-        
-    },
-    icon:{
-        borderRadius:100,
-        width:74,
-        height:74,
-        borderWidth:1,
-        borderColor:'blue',
-        marginLeft:5,
-        marginBottom:8
-    },
-    text:{
-        fontWeight:'bold'
-    },
-    stories:{
-        padding:13
-    }
-})
+export const styles = StyleSheet.create({
+  marginHorizontal: {
+    marginHorizontal: 5,
+    marginVertical: 10,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+});
 
-module.exports = styles
+export default styles;

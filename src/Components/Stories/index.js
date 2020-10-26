@@ -1,27 +1,61 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
-import Icon from '../../images/avatar_stories1.jpg'
-import styles from './styles'
-function Stories({ name, source }){
-    return(
-        <View style={styles.container}>
-            <TouchableOpacity style={styles.stories}>
-                <Image style={styles.icon} source={source} />
-                <Text style={styles.text}>{name}</Text>
-            </TouchableOpacity>
-        </View>
-    )
-}
-const StoriesList = () =>{
-    return(
-        <ScrollView horizontal={true}>
-            <Stories name="João Pedro" source={Icon} />
-            <Stories name="João Pedro" source={Icon} />
-            <Stories name="João Pedro" source={Icon} />
-            <Stories name="João Pedro" source={Icon} />
-            <Stories name="João Pedro" source={Icon} />
-            <Stories name="João Pedro" source={Icon} />
-        </ScrollView>
-    )
-}
-export default StoriesList
+import {
+  FlatList,
+  Text,
+} from 'react-native';
+
+import {styles} from './styles'
+
+import Item from './Item';
+import PostImage from '../../images/PostImg.png';
+import PostImage2 from '../../images/PostImage2.png';
+import PostImage3 from '../../images/PostImage3.png';
+import UserImage from '../../images/perfil3.jpg';
+import UserImage2 from '../../images/avatar_stories2.jpg';
+import UserImage3 from '../../images/avatar_stories3.jpg';
+
+const Stories = () => {
+  const datasource = [
+    {
+			image: PostImage2,
+      user: {
+				name: 'Moto Vlog',
+				image: UserImage,
+			},
+		},
+		{
+			image: PostImage,
+      user: {
+				name: 'Vinny Santos',
+				image: UserImage2,
+			},
+		},
+		{
+			image: PostImage3,
+      user: {
+				name: 'Venssar Biker',
+				image: UserImage3,
+			},
+    },
+  ];
+
+  return (
+    <>
+      <Text style={{
+        ...styles.marginHorizontal,
+      }}>
+        Mais curtidos
+      </Text>
+      <FlatList
+        horizontal
+        data={datasource}
+        keyExtractor={(item, index) => `${index}`}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({item}) => (
+          <Item {...item} />
+        )} />
+    </>
+  );
+};
+
+export default Stories;

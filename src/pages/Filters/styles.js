@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import Constants from 'expo-constants';
 import colorStyles from "../../colors";
 
@@ -9,6 +9,15 @@ export default StyleSheet.create({
         paddingHorizontal: 36,
         paddingTop: Constants.statusBarHeight + 50,
         paddingBottom: 50
+    },
+    cameraIcon:{
+        alignItems:"flex-end", 
+        position:"absolute",
+        padding:20, 
+
+        marginTop: Dimensions.get('window').height - 90,
+
+        right:0
     },
 
     logo: {
