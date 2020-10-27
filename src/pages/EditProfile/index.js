@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import { Text, View, TouchableOpacity, FlatList, TouchableHighlight, ScrollView, Alert, Dimensions } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { Text, View, TouchableOpacity, FlatList, TouchableHighlight, ScrollView, Alert, Platform, Dimensions, Image } from 'react-native'
 import colorStyles from "../../colors";
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import firebase from '../../../firebaseConfig';
 import MyTextInput from '../../MyTextInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import * as ImagePicker from 'expo-image-picker';
 
 function Part1({ changeState }) {
 
@@ -234,6 +235,32 @@ function Part2({ changeState }) {
     const [moto, setmoto] = useState('')
     const [showmoto, setshowmoto] = useState(false)
     const [ano, setano] = useState('')
+    const [image, setImage] = useState(null);
+
+    useEffect(() => {
+        (async () => {
+          if (Platform.OS !== 'web') {
+            const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+            if (status !== 'granted') {
+              alert('Sorry, we need camera roll permissions to make this work!');
+            }
+          }
+        })();
+      }, []);
+
+      const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+        console.log(result)
+        if (!result.cancelled) {
+          setImage(result.uri);
+        }
+      };
+    
 
     function atualizaMoto(){
         var user = firebase.auth().currentUser
@@ -285,11 +312,12 @@ function Part2({ changeState }) {
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
             <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center' }}>
-                <View style={{ alignItems: 'center' }}>
+            {image && <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width -40, height: 250, position:'absolute', borderRadius: 5 }} />}
+                <View style={{ alignItems: 'center', opacity:(image)?0.5:1}} >
                     <Text style={{ fontSize: 20 }}>
-                        CAPA PERFIL
+                        {(image)?"":"CAPA PERFIL"}
                     </Text>
-                    <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }} onPress={pickImage}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
                             Buscar
                     </Text>
