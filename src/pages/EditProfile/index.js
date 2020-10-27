@@ -236,6 +236,9 @@ function Part2({ changeState }) {
     const [showmoto, setshowmoto] = useState(false)
     const [ano, setano] = useState('')
     const [image, setImage] = useState(null);
+    const [uploading, setUploading] = useState(false)
+    const [progress, setProgress] = useState(0)
+    const [toup, settoup] = useState({})
 
     useEffect(() => {
         (async () => {
@@ -250,18 +253,18 @@ function Part2({ changeState }) {
 
       const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsEditing: true,
           aspect: [4, 3],
           quality: 1,
+          base64:true
         });
-        console.log(result)
         if (!result.cancelled) {
           setImage(result.uri);
+          setbase64(result.base64)
         }
       };
     
-
     function atualizaMoto(){
         var user = firebase.auth().currentUser
         var data = {
@@ -270,6 +273,24 @@ function Part2({ changeState }) {
             ano
         }
         firebase.database().ref('user/' + user.uid + "/modeloDaMoto").update(data)
+    }
+ 
+    function atualiza(){
+        if(moto.length > 0){
+            if(ano.length == 4){
+                if(image){
+                    //upload de imagem
+                    atualizaMoto()
+                    Alert.alert("ok")
+                }else{
+                    Alert.alert("Sem foto de capa!", "Por favor, insira a imagem da capa do perfil!")
+                }
+            }else{
+                Alert.alert("Ano inválido!", "Por favor, insira um ano válido!")
+            }
+        }else{
+            Alert.alert("Selecione sua moto!", "Por favor, selecione uma dos modelos de motos da nossa base de dados!")
+        }
     }
 
     function getMarca() {
@@ -370,7 +391,7 @@ function Part2({ changeState }) {
             <View style={{ marginTop: 20 }}>
                 <MyTextInput value={ano} onChangeText={text => { setano(text) }} placeholder='Ano' />
             </View>
-            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { changeState(3) }}>
+            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza() }}>
                 <View style={{ alignItems: "center" }}>
                     <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
                         ATUALIZAR
