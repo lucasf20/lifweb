@@ -61,7 +61,8 @@ export default function Profile() {
                 <Header />
                 <View style={{ position: "absolute", marginLeft: 25, marginTop: (calculateDimensions(capa).height - 50), flexDirection: 'row' }}>
                     <TouchableOpacity >
-                        <Svg width="116" height="116" viewBox="0 0 50 50">
+                       <Svg width="116" height="116" viewBox="0 -3 43 55">
+                        <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
                             <Defs>
                                 <ClipPath id="image" clipRule="evenodd">
                                     <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
