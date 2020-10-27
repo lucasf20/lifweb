@@ -230,10 +230,20 @@ function Part1({ changeState }) {
 function Part2({ changeState }) {
     const dorange = colorStyles.dorange
     const [marca, setmarca] = useState('')
-    const [showmarca, setshowmarca] = useState(false)
+    const [marcaselecionada, setmarcaselecionada] = useState('')
     const [moto, setmoto] = useState('')
     const [showmoto, setshowmoto] = useState(false)
     const [ano, setano] = useState('')
+
+    function atualizaMoto(){
+        var user = firebase.auth().currentUser
+        var data = {
+            marca:marcaselecionada,
+            moto,
+            ano
+        }
+        firebase.database().ref('user/' + user.uid + "/modeloDaMoto").update(data)
+    }
 
     function getMarca() {
         var motos = {};
@@ -241,12 +251,20 @@ function Part2({ changeState }) {
         firebase.database().ref('motos/').on('value', snapshot => {
             motos = snapshot.val()
         })
-        var keys = Object.keys(motos)
-        for (let i = 0; i < keys.length; i++) {
-            marcas[motos[keys[i]]['marca']] = 1
+        if (marca.length > 2 && !(marca == marcaselecionada)) {
+            var keys = Object.keys(motos)
+            for (let i = 0; i < keys.length; i++) {
+                marcas[motos[keys[i]]['marca']] = 1
+            }
+            keys = Object.keys(marcas)
+            keys = keys.filter(item => {
+                var r = new RegExp(marca.toUpperCase())
+                return (r.test(item.toUpperCase()))
+            })
+            return keys.sort()
+        }else{
+            return []
         }
-        keys = Object.keys(marcas)
-        return keys.sort()
     }
 
     function getMoto() {
@@ -281,20 +299,13 @@ function Part2({ changeState }) {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 MARCA MOTOCICLETA
             </Text>
-            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { (showmarca) ? setshowmarca(false) : setshowmarca(true) }}>
-                <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                    <Text style={{ color: (marca.length == 0) ? 'gray' : 'black', marginLeft: 10 }}>
-                        {(marca.length == 0) ? 'ESCOLHA UMA OPÇÃO' : marca}
-                    </Text>
-                    <Ionicons name="ios-arrow-down" size={24} color="gray" style={{ marginRight: 10 }} />
-                </View>
-            </TouchableOpacity>
+            <MyTextInput placeholder='Digite a marca da motocicleta' onChangeText={text => { setmarca(text) }} value={marca} />
             <FlatList
-                data={(showmarca) ? getMarca() : []}
+                data={getMarca()}
                 renderItem={({ item, index, separators }) => (
                     <TouchableHighlight
                         key={index}
-                        onPress={() => { setmarca(item); setshowmarca(false) }}
+                        onPress={() => { setmarca(item); setmarcaselecionada(item); }}
                         onShowUnderlay={separators.highlight}
                         onHideUnderlay={separators.unhighlight}>
                         <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver' }}>
@@ -478,7 +489,7 @@ export default function EditProfile() {
     const dorange = colorStyles.dorange
     const navigation = useNavigation()
 
-    function checkLoad(){
+    function checkLoad() {
         var data = {}
         firebase.database().ref('user/' + firebase.auth().currentUser.uid).on('value', snap => {
             data = snap.val()
@@ -486,18 +497,18 @@ export default function EditProfile() {
         return data
     }
 
-    if (part == 1) {
+    if (part == 2) {
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
                 style={{ flex: 1 }}
                 showsVerticalScrollIndicator={false}>
                 <ScrollView>
                     <Header />
-                   { (!(Object.keys(checkLoad()).length == 0)) ? (<Part1 changeState={setpart} />):(navigation.goBack())}
+                    {(!(Object.keys(checkLoad()).length == 0)) ? (<Part1 changeState={setpart} />) : (navigation.goBack())}
                 </ScrollView>
             </KeyboardAwareScrollView>
         )
-    } else if (part == 2) {
+    } else if (part == 1) {
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
                 style={{ flex: 1 }}
