@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ImageBackground,
 } from 'react-native'
+import * as Localization from 'expo-localization'
 import {useNavigation} from '@react-navigation/native'
 import * as FacebookAuthentication from 'expo-facebook'
 import * as GoogleAuthentication from 'expo-google-app-auth'
@@ -20,6 +21,16 @@ import Firebase from '../../../firebaseConfig'
 import Background from '../../assets/loginbackground.jpg'
 import Logo from '../../assets/logolifweb.png'
 import colors from '../../colors'
+
+import i18n from 'i18n-js';
+
+i18n.translations = {
+  en: { passw: 'Password' },
+  pt: { passw: 'Senha' },
+};
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -119,7 +130,7 @@ const Login = () => {
             ...styles.whiteText,
             ...styles.bold,
           }}>
-            Senha
+            {i18n.t('passw')}
           </Text>
 
           <TextInput placeholder='Informe sua senha'
