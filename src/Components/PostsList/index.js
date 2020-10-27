@@ -42,7 +42,8 @@ function trocaCaveira(){
             <View style={styles.header} >
                 <View style={styles.info}>
                     <TouchableOpacity>
-                        <Svg style={styles.avatar} width="50" height="50" viewBox="0 0 50 50">
+                       <Svg style={styles.avatar} width="50" height="50" viewBox="0 -3 43 55">
+                        <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
                         <Defs>
                             <ClipPath id="image" clipRule="evenodd">
                             <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
