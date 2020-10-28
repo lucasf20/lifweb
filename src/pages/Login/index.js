@@ -25,12 +25,35 @@ import colors from '../../colors'
 import i18n from 'i18n-js';
 
 i18n.translations = {
-  en: { passw: 'Password' },
-  pt: { passw: 'Senha' },
+  en: {
+     passw: 'Password',
+     emailfield: 'Type your email',
+     passfield: 'Type your password',
+     recopass: 'I forgot my password',
+     fblogin: 'login with facebook',
+     glogin: 'login with google',
+     createacc: 'create an account',
+     passalert: 'User does not exist or password is incorrect!',
+     erroralert: 'An error occurred',
+     cancelalert: 'The user canceled',
+    },
+  pt: {
+     passw: 'Senha',
+     emailfield: 'informe seu email',
+     passfield: 'informe sua senha',
+     recopass: 'Esqueci minha senha',
+     fblogin: 'entrar com o facebook',
+     glogin: 'entrar com o google',
+     createacc: 'criar uma conta',
+     passalert: 'O usuário não existe ou a senha está incorreta!',
+     erroralert: 'Ocorreu um erro',
+     cancelalert: 'O usuário cancelou',
+    },
 };
 
 i18n.locale = Localization.locale;
 i18n.fallbacks = true;
+
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -42,7 +65,7 @@ const Login = () => {
       await Firebase.auth().signInWithEmailAndPassword(email, password)
       navigation.navigate('Feed')
     } catch (error) {
-      alert('O usuário não existe ou a senha está incorreta!')
+      alert(i18n.t('passalert'))
     }
   }
 
@@ -54,14 +77,14 @@ const Login = () => {
       const {type, token, ...params} = await FacebookAuthentication.logInWithReadPermissionsAsync()
 
       if (type !== 'success') {
-        alert('O usuário cancelou')
+        alert(i18n.t('cancelalert'))
       } 
       
       const credential = Firebase.auth.FacebookAuthProvider.credential(token)
       await Firebase.auth().signInWithCredential(credential)
     } catch (error) {
       console.log(error)
-      alert('Ocorreu um erro')
+      alert(i18n.t('erroralert'))
     }
   }
 
@@ -72,7 +95,7 @@ const Login = () => {
       })
 
       if (type !== 'success') {
-        alert('O usuário cancelou')
+        alert(i18n.t('cancelalert'))
       }
 
       console.log({type, accessToken, user})
@@ -80,7 +103,7 @@ const Login = () => {
       await Firebase.auth().signInWithCredential(credential)
     } catch (error) {
       console.log(error)
-      alert('Ocorreu um erro')
+      alert(i18n.t('erroralert'))
     }
   }
 
@@ -117,7 +140,7 @@ const Login = () => {
             Email
           </Text>
 
-          <TextInput placeholder='Informe seu email'
+          <TextInput placeholder={i18n.t('emailfield')}
             value={email}
             autoCapitalize='none'
             type='email-address'
@@ -133,7 +156,7 @@ const Login = () => {
             {i18n.t('passw')}
           </Text>
 
-          <TextInput placeholder='Informe sua senha'
+          <TextInput placeholder={i18n.t('passfield')}
             value={password}
             autoCapitalize='none'
             type='default'
@@ -153,7 +176,7 @@ const Login = () => {
             onPress={() => login()} />
 
           <Button
-            text='Esqueci minha senha'
+            text={i18n.t('recopass')}
             style={{
               ...styles.marginBottom,
             }}
@@ -164,7 +187,7 @@ const Login = () => {
 
           <Button
             icon='facebook'
-            text='Entrar com o Facebook'
+            text={i18n.t('fblogin')}
             foregroundColor='white'
             backgroundColor='#4267B2'
             style={{
@@ -174,7 +197,7 @@ const Login = () => {
 
           <Button
             icon='google'
-            text='Entrar com o Google'
+            text={i18n.t('glogin')}
             foregroundColor='white'
             backgroundColor='#DB4437'
             style={{
@@ -190,7 +213,7 @@ const Login = () => {
             }} />
 
           <Button
-            text='Criar uma conta'
+            text={i18n.t('createacc')}
             backgroundColor='transparent'
             foregroundColor='white'
             onPress={() => navigation.navigate('CreateAcc')} />
