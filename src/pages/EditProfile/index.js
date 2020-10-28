@@ -237,6 +237,8 @@ function Part2({ changeState }) {
     const [showmoto, setshowmoto] = useState(false)
     const [ano, setano] = useState(data.ano)
     const [image, setImage] = useState(null);
+    const [imagefromDB, setimagefromDB] = useState(null)
+    const [imagemlocal, setimagemlocal] = useState(false)
 
     useEffect(() => {
         (async () => {
@@ -259,7 +261,7 @@ function Part2({ changeState }) {
         });
         if (!result.cancelled) {
             setImage(result.uri);
-            setbase64(result.base64)
+            setimagemlocal(true)
         }
     };
 
@@ -271,9 +273,9 @@ function Part2({ changeState }) {
         })
         var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/capa")
         storage.getDownloadURL().then(url => {
-            setImage(url)
+            setimagefromDB(url)
         }).catch(erro => {
-            setImage(null)
+            setimagefromDB(null)
         })
         var res = {
             moto: (data.modeloDaMoto.moto) ? data.modeloDaMoto.moto : data.modeloDaMoto,
@@ -304,11 +306,15 @@ function Part2({ changeState }) {
     function atualiza() {
         if (moto.length > 0) {
             if (ano.length == 4) {
-                if (image) {
-                    atualizaCapa()
-                    atualizaMoto()
-                } else {
-                    Alert.alert("Sem foto de capa!", "Por favor, insira a imagem da capa do perfil!")
+                atualizaMoto()
+                if(imagemlocal){
+                    if(image){
+                        atualizaCapa()
+                    }else{
+                        if(!imagefromDB){
+                            Alert.alert("Imagem inválida!", "Por favor selecione uma imagem para a capa!")
+                        }
+                    }
                 }
             } else {
                 Alert.alert("Ano inválido!", "Por favor, insira um ano válido!")
@@ -359,17 +365,39 @@ function Part2({ changeState }) {
         return (Dimensions.get('window').width - 40) * 3 / 4
     }
 
+    function handleImage() {
+        if (imagemlocal) {
+            if (image) {
+                return (
+                    <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width - 40, height: newHeight(), position: 'absolute', borderRadius: 5 }} />)
+            } else {
+                return (
+                    <View />
+                )
+            }
+        } else {
+            if (imagefromDB) {
+                return (
+                    <Image source={{ uri: imagefromDB }} style={{ width: Dimensions.get('window').width - 40, height: newHeight(), position: 'absolute', borderRadius: 5 }} />)
+            } else {
+                return (
+                    <View />
+                )
+            }
+        }
+    }
+
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
-            <View style={{ height: (image) ? newHeight() : 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center' }}>
-                {image && <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width - 40, height: newHeight(), position: 'absolute', borderRadius: 5 }} />}
+            <View style={{ height: (image||imagefromDB) ? newHeight() : 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center' }}>
+                {handleImage()}
                 <View style={{ alignItems: 'center', opacity: 1 }} >
                     <Text style={{ fontSize: 20 }}>
-                        {(image) ? "" : "CAPA PERFIL"}
+                        {(image||imagefromDB) ? "" : "CAPA PERFIL"}
                     </Text>
                     <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }} onPress={pickImage}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
-                            {(image) ? "Atualizar capa" : "Buscar"}
+                            {(image||imagefromDB) ? "Atualizar capa" : "Buscar"}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -476,22 +504,22 @@ function Part3({ changeState }) {
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED)
     }
 
-    function atualiza(){
+    function atualiza() {
         var user = firebase.auth().currentUser
-        if(profissaoselecionada.length > 0){
-            if(image || imagefromDB){
-                firebase.database().ref("user/" + user.uid).update({profissao:profissaoselecionada, clube:clube})
-                if(imagemlocal){
-                    if(image){
+        if (profissaoselecionada.length > 0) {
+            if (image || imagefromDB) {
+                firebase.database().ref("user/" + user.uid).update({ profissao: profissaoselecionada, clube: clube })
+                if (imagemlocal) {
+                    if (image) {
                         atualizaPerfil()
-                    }else{
+                    } else {
                         Alert.alert('Avatar Inválido!', "Por Favor, selecione um avatar!")
                     }
                 }
-            }else{
+            } else {
                 Alert.alert('Avatar Inválido!', "Por Favor, selecione um avatar!")
             }
-        }else{
+        } else {
             Alert.alert("Profissão Inválida!", 'Selecione uma profissão!')
         }
     }
@@ -501,7 +529,7 @@ function Part3({ changeState }) {
         var data = {}
         firebase.database().ref('user/' + user.uid).on('value', snap => {
             data = snap.val()
-        })            
+        })
         var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/perfil")
         storage.getDownloadURL().then(url => {
             setimagefromDB(url)
@@ -536,25 +564,25 @@ function Part3({ changeState }) {
         }
     }
 
-    function handleImage(){
-        if(imagemlocal){
-            if(image){
-                return(
+    function handleImage() {
+        if (imagemlocal) {
+            if (image) {
+                return (
                     <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width - 40, height: Dimensions.get('window').width - 40, position: 'absolute', borderRadius: 5 }} />
                 )
-            }else{
-                return(
-                    <View/>
+            } else {
+                return (
+                    <View />
                 )
             }
-        }else{
-            if(imagefromDB){
-                return(
+        } else {
+            if (imagefromDB) {
+                return (
                     <Image source={{ uri: imagefromDB }} style={{ width: Dimensions.get('window').width - 40, height: Dimensions.get('window').width - 40, position: 'absolute', borderRadius: 5 }} />
                 )
-            }else{
-                return(
-                    <View/>
+            } else {
+                return (
+                    <View />
                 )
             }
         }
@@ -562,80 +590,80 @@ function Part3({ changeState }) {
 
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
-            <View style={{ height: (image||imagefromDB) ? (Dimensions.get('window').width - 40) : 250, borderRadius: 5, backgroundColor: 'white' }}>
-                <View style={{ height: (image||imagefromDB) ? (Dimensions.get('window').width - 40) : 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ height: (image || imagefromDB) ? (Dimensions.get('window').width - 40) : 250, borderRadius: 5, backgroundColor: 'white' }}>
+                <View style={{ height: (image || imagefromDB) ? (Dimensions.get('window').width - 40) : 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
                     {handleImage()}
                     <Text style={{ fontSize: 20 }}>
-                        {(image||imagefromDB) ? "" : "AVATAR"}
+                        {(image || imagefromDB) ? "" : "AVATAR"}
                     </Text>
                     <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }} onPress={pickImage}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
-                            {(image||imagefromDB) ? "Trocar avatar" : "Buscar"}
+                            {(image || imagefromDB) ? "Trocar avatar" : "Buscar"}
                         </Text>
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={{marginTop:20}}>
-            <Text style={{ fontWeight: 'bold', fontSize: 18}}>
-                PROFISSÃO
+            <View style={{ marginTop: 20 }}>
+                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
+                    PROFISSÃO
             </Text>
-            <MyTextInput placeholder="Digite a sua profissão" value={profissao} onChangeText={text => { setprofissao(text) }} />
-            <FlatList
-                data={getprofissao()}
-                renderItem={({ item, index, separators }) => (
-                    <TouchableHighlight
-                        key={index}
-                        onPress={() => { setprofissao(item); setprofissaoselecionada(item) }}
-                        onShowUnderlay={separators.highlight}
-                        onHideUnderlay={separators.unhighlight}>
-                        <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver' }}>
-                            <Text style={{ fontSize: 15, padding: 7, color: 'black' }}>{item}</Text>
-                        </View>
-                    </TouchableHighlight>
-                )}
-            />
-            <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
-                CLUBE ASSOCIADO
+                <MyTextInput placeholder="Digite a sua profissão" value={profissao} onChangeText={text => { setprofissao(text) }} />
+                <FlatList
+                    data={getprofissao()}
+                    renderItem={({ item, index, separators }) => (
+                        <TouchableHighlight
+                            key={index}
+                            onPress={() => { setprofissao(item); setprofissaoselecionada(item) }}
+                            onShowUnderlay={separators.highlight}
+                            onHideUnderlay={separators.unhighlight}>
+                            <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver' }}>
+                                <Text style={{ fontSize: 15, padding: 7, color: 'black' }}>{item}</Text>
+                            </View>
+                        </TouchableHighlight>
+                    )}
+                />
+                <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
+                    CLUBE ASSOCIADO
             </Text>
-            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { (showclube) ? setshowclube(false) : setshowclube(true) }}>
-                <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                    <Text style={{ color: (clube.length == 0) ? 'gray' : 'black', marginLeft: 10 }}>
-                        {(clube.length == 0) ? 'ESCOLHA UMA OPÇÃO' : clube}
-                    </Text>
-                    <Ionicons name="ios-arrow-down" size={24} color="gray" style={{ marginRight: 10 }} />
-                </View>
-            </TouchableOpacity>
-            <FlatList
-                data={(showclube) ? [] : []}
-                renderItem={({ item, index, separators }) => (
-                    <TouchableHighlight
-                        key={index}
-                        onPress={() => { setclube(item); setshowclube(false) }}
-                        onShowUnderlay={separators.highlight}
-                        onHideUnderlay={separators.unhighlight}>
-                        <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver' }}>
-                            <Text style={{ fontSize: 15, padding: 7, color: 'black' }}>{item}</Text>
-                        </View>
-                    </TouchableHighlight>
-                )}
-            />
-            <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
-                <Text style={{ fontSize: 15 }}>
-                    Clube não cadastrado?
-                </Text>
-                <TouchableOpacity>
-                    <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
-                        Solicitar a inclusão.
-                    </Text>
+                <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { (showclube) ? setshowclube(false) : setshowclube(true) }}>
+                    <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
+                        <Text style={{ color: (clube.length == 0) ? 'gray' : 'black', marginLeft: 10 }}>
+                            {(clube.length == 0) ? 'ESCOLHA UMA OPÇÃO' : clube}
+                        </Text>
+                        <Ionicons name="ios-arrow-down" size={24} color="gray" style={{ marginRight: 10 }} />
+                    </View>
                 </TouchableOpacity>
-            </View>
-            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); navigation.navigate("Menu") }}>
-                <View style={{ alignItems: "center" }}>
-                    <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
-                        ATUALIZAR
+                <FlatList
+                    data={(showclube) ? [] : []}
+                    renderItem={({ item, index, separators }) => (
+                        <TouchableHighlight
+                            key={index}
+                            onPress={() => { setclube(item); setshowclube(false) }}
+                            onShowUnderlay={separators.highlight}
+                            onHideUnderlay={separators.unhighlight}>
+                            <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver' }}>
+                                <Text style={{ fontSize: 15, padding: 7, color: 'black' }}>{item}</Text>
+                            </View>
+                        </TouchableHighlight>
+                    )}
+                />
+                <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 15 }}>
+                        Clube não cadastrado?
+                </Text>
+                    <TouchableOpacity>
+                        <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
+                            Solicitar a inclusão.
                     </Text>
+                    </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
+                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); navigation.navigate("Menu") }}>
+                    <View style={{ alignItems: "center" }}>
+                        <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
+                            ATUALIZAR
+                    </Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -680,7 +708,7 @@ export default function EditProfile() {
         return data
     }
 
-    if (part == 3) {
+    if (part == 1) {
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
                 style={{ flex: 1 }}
@@ -702,7 +730,7 @@ export default function EditProfile() {
                 </ScrollView>
             </KeyboardAwareScrollView>
         )
-    } else if (part == 1) {
+    } else if (part == 3) {
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
                 style={{ flex: 1 }}
