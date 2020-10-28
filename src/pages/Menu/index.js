@@ -60,6 +60,7 @@ export default function Menu() {
                                 Timeline
                             </Text>
                         </TouchableOpacity>
+                        <View style={styles.buttonView}></View>
                         <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { navigation.navigate("Direct") }}>
                             <SimpleLineIcons name="bubbles" size={24} color="white" style={{ paddingVertical: 20 }} />
                             <NotifyCircle text="1" color='red' style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>
@@ -67,18 +68,21 @@ export default function Menu() {
                                 Mensagem
                             </Text>
                         </TouchableOpacity>
+                        <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
                             <SimpleLineIcons name="people" size={24} color="white" style={{ paddingVertical: 20 }} />
                             <Text style={styles.BigText}>
                                 Seguidores
                             </Text>
                         </TouchableOpacity>
+                        <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
                             <SimpleLineIcons name="user-following" size={24} color="white" style={{ paddingVertical: 20 }} />
                             <Text style={styles.BigText}>
                                 Seguindo
                             </Text>
                         </TouchableOpacity>
+                        <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
                             <SimpleLineIcons name="bell" size={24} color="white" style={{ paddingVertical: 20 }} />
                             <NotifyCircle text="8" color='#00C48C' style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>
@@ -86,7 +90,8 @@ export default function Menu() {
                                 Notificação
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.navigate('EditProfile')}}>
+                        <View style={styles.buttonView}></View>
+                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('EditProfile') }}>
                             <SimpleLineIcons name="user" size={24} color="white" style={{ paddingVertical: 20 }} />
                             <Ionicons name="ios-remove-circle-outline" size={18} color="white" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />
                             <Ionicons name="ios-remove-circle" size={18} color="red" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />
@@ -94,19 +99,21 @@ export default function Menu() {
                                 Editar Perfil
                             </Text>
                         </TouchableOpacity>
+                        <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
                             <SimpleLineIcons name="settings" size={24} color="white" style={{ paddingVertical: 20 }} />
                             <Text style={styles.BigText}>
                                 Configurações
                             </Text>
                         </TouchableOpacity>
+                        <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={() => { logout() }}>
                             <SimpleLineIcons name="logout" size={24} color="white" style={{ paddingVertical: 20 }} />
-
                             <Text style={styles.BigText}>
                                 Fazer Logoff
                             </Text>
                         </TouchableOpacity>
+                        <View style={styles.buttonView}></View>
                     </View>
                     <View style={{ marginTop: 40, marginBottom: 20 }}>
                         <Image source={profileIcon} style={{ height: resizeProfile(0.5).height, width: resizeProfile(0.5).width }} />

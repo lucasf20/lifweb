@@ -48,11 +48,9 @@ export default StyleSheet.create({
     },
     buttons:{
         flex:1,
-        borderColor:'transparent',
-        borderBottomColor:'white',
         height:75,
         flexDirection: 'row',
-        borderWidth:1,
+        width:Dimensions.get('window').width/2
     },
     viewLogout:{
         //backgroundColor:"#021740",
@@ -68,7 +66,10 @@ export default StyleSheet.create({
         flexDirection: 'row',
         backgroundColor:'red',
         borderRadius:5
-    }
-
-   
+    },
+    buttonView:{
+        borderColor:'transparent',
+        borderBottomColor:'white',
+        borderWidth:1,
+    }   
 });
