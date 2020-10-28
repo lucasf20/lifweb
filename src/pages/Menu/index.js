@@ -55,14 +55,14 @@ export default function Menu() {
                 <ScrollView style={{ ...styles.container, paddingHorizontal: 18 }}>
                     <View style={{ marginTop: 20 }}>
                         <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('Profile') }}>
-                            <SimpleLineIcons name="picture" size={24} color="white" style={{ paddingVertical: 20 }} />
+                            <SimpleLineIcons name="picture" size={24} color="white"  />
                             <Text style={styles.BigText}>
                                 Timeline
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { navigation.navigate("Direct") }}>
-                            <SimpleLineIcons name="bubbles" size={24} color="white" style={{ paddingVertical: 20 }} />
+                            <SimpleLineIcons name="bubbles" size={24} color="white"  />
                             <NotifyCircle text="1" color='red' style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>
                             <Text style={styles.BigText}>
                                 Mensagem
@@ -70,21 +70,21 @@ export default function Menu() {
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
-                            <SimpleLineIcons name="people" size={24} color="white" style={{ paddingVertical: 20 }} />
+                            <SimpleLineIcons name="people" size={24} color="white"  />
                             <Text style={styles.BigText}>
                                 Seguidores
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
-                            <SimpleLineIcons name="user-following" size={24} color="white" style={{ paddingVertical: 20 }} />
+                            <SimpleLineIcons name="user-following" size={24} color="white"  />
                             <Text style={styles.BigText}>
                                 Seguindo
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
-                            <SimpleLineIcons name="bell" size={24} color="white" style={{ paddingVertical: 20 }} />
+                            <SimpleLineIcons name="bell" size={24} color="white"  />
                             <NotifyCircle text="8" color='#00C48C' style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>
                             <Text style={styles.BigText}>
                                 Notificação
@@ -92,7 +92,7 @@ export default function Menu() {
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('EditProfile') }}>
-                            <SimpleLineIcons name="user" size={24} color="white" style={{ paddingVertical: 20 }} />
+                            <SimpleLineIcons name="user" size={24} color="white"  />
                             <Ionicons name="ios-remove-circle-outline" size={18} color="white" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />
                             <Ionicons name="ios-remove-circle" size={18} color="red" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />
                             <Text style={styles.BigText}>
@@ -101,14 +101,14 @@ export default function Menu() {
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
-                            <SimpleLineIcons name="settings" size={24} color="white" style={{ paddingVertical: 20 }} />
+                            <SimpleLineIcons name="settings" size={24} color="white"  />
                             <Text style={styles.BigText}>
                                 Configurações
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={() => { logout() }}>
-                            <SimpleLineIcons name="logout" size={24} color="white" style={{ paddingVertical: 20 }} />
+                            <SimpleLineIcons name="logout" size={24} color="white"  />
                             <Text style={styles.BigText}>
                                 Fazer Logoff
                             </Text>

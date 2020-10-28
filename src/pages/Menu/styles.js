@@ -34,7 +34,6 @@ export default StyleSheet.create({
 
     BigText:{
         fontSize:20,
-        paddingVertical:20,
         paddingLeft:15,
         alignItems: 'center',
         color:"white",
@@ -50,7 +49,8 @@ export default StyleSheet.create({
         flex:1,
         height:75,
         flexDirection: 'row',
-        width:Dimensions.get('window').width/2
+        width:Dimensions.get('window').width/2,
+        alignItems:'center'
     },
     viewLogout:{
         //backgroundColor:"#021740",
