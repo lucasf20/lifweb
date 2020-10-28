@@ -240,80 +240,80 @@ function Part2({ changeState }) {
 
     useEffect(() => {
         (async () => {
-          if (Platform.OS !== 'web') {
-            const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-            if (status !== 'granted') {
-              alert('Sorry, we need camera roll permissions to make this work!');
+            if (Platform.OS !== 'web') {
+                const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+                if (status !== 'granted') {
+                    alert('Sorry, we need camera roll permissions to make this work!');
+                }
             }
-          }
         })();
-      }, []);
+    }, []);
 
-      const pickImage = async () => {
+    const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-          base64:true
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+            base64: true
         });
         if (!result.cancelled) {
-          setImage(result.uri);
-          setbase64(result.base64)
+            setImage(result.uri);
+            setbase64(result.base64)
         }
-      };
+    };
 
-    function getdata(){
+    function getdata() {
         var user = firebase.auth().currentUser
         var data = {}
-        firebase.database().ref('user/' + user.uid).on('value', snap =>{
+        firebase.database().ref('user/' + user.uid).on('value', snap => {
             data = snap.val()
         })
-        var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid+"/capa")
+        var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/capa")
         storage.getDownloadURL().then(url => {
             setImage(url)
-        }).catch( erro => {
+        }).catch(erro => {
             setImage(null)
         })
         var res = {
-            moto:(data.modeloDaMoto.moto)?data.modeloDaMoto.moto:data.modeloDaMoto,
-            marca:(data.modeloDaMoto.marca)?data.modeloDaMoto.marca:data.modeloDaMoto.split(" ")[0],
-            ano:(data.modeloDaMoto.ano)?data.modeloDaMoto.ano:""
+            moto: (data.modeloDaMoto.moto) ? data.modeloDaMoto.moto : data.modeloDaMoto,
+            marca: (data.modeloDaMoto.marca) ? data.modeloDaMoto.marca : data.modeloDaMoto.split(" ")[0],
+            ano: (data.modeloDaMoto.ano) ? data.modeloDaMoto.ano : ""
         }
         return res
     }
-    
-    function atualizaMoto(){
+
+    function atualizaMoto() {
         var user = firebase.auth().currentUser
         var data = {
-            marca:marcaselecionada,
+            marca: marcaselecionada,
             moto,
             ano
         }
         firebase.database().ref('user/' + user.uid + "/modeloDaMoto").update(data)
     }
 
-    const atualizaCapa = async ()=>{
+    const atualizaCapa = async () => {
         const response = await fetch(image)
         const blob = await response.blob()
         var user = firebase.auth().currentUser
         var uploadTask = await firebase.storage().ref().child("user/" + user.uid + "/capa").put(blob)
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED)
     }
- 
-    function atualiza(){
-        if(moto.length > 0){
-            if(ano.length == 4){
-                if(image){
+
+    function atualiza() {
+        if (moto.length > 0) {
+            if (ano.length == 4) {
+                if (image) {
                     atualizaCapa()
                     atualizaMoto()
-                }else{
+                } else {
                     Alert.alert("Sem foto de capa!", "Por favor, insira a imagem da capa do perfil!")
                 }
-            }else{
+            } else {
                 Alert.alert("Ano inválido!", "Por favor, insira um ano válido!")
             }
-        }else{
+        } else {
             Alert.alert("Selecione sua moto!", "Por favor, selecione uma dos modelos de motos da nossa base de dados!")
         }
     }
@@ -335,7 +335,7 @@ function Part2({ changeState }) {
                 return (r.test(item.toUpperCase()))
             })
             return keys.sort()
-        }else{
+        } else {
             return []
         }
     }
@@ -355,22 +355,22 @@ function Part2({ changeState }) {
         return modelo.sort()
     }
 
-    function newHeight(){
-        return (Dimensions.get('window').width -40) * 3/4
+    function newHeight() {
+        return (Dimensions.get('window').width - 40) * 3 / 4
     }
 
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
-            <View style={{ height: (image)?newHeight():250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center' }}>
-            {image && <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width -40, height: newHeight(), position:'absolute', borderRadius: 5 }} />}
-                <View style={{ alignItems: 'center', opacity:1}} >
+            <View style={{ height: (image) ? newHeight() : 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center' }}>
+                {image && <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width - 40, height: newHeight(), position: 'absolute', borderRadius: 5 }} />}
+                <View style={{ alignItems: 'center', opacity: 1 }} >
                     <Text style={{ fontSize: 20 }}>
-                        {(image)?"":"CAPA PERFIL"}
+                        {(image) ? "" : "CAPA PERFIL"}
                     </Text>
                     <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }} onPress={pickImage}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
-                        {(image)?"Atualizar capa":"Buscar"}
-                    </Text>
+                            {(image) ? "Atualizar capa" : "Buscar"}
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -432,11 +432,88 @@ function Part2({ changeState }) {
 }
 
 function Part3({ changeState }) {
+    const navigation = useNavigation()
     const dorange = colorStyles.dorange
-    const [profissao, setprofissao] = useState("")
-    const [showprofissao, setshowprofissao] = useState(false)
+    const data = getdata()
+    const [profissao, setprofissao] = useState(data.profissao)
+    const [profissaoselecionada, setprofissaoselecionada] = useState(data.profissao)
     const [clube, setclube] = useState("")
     const [showclube, setshowclube] = useState(false)
+    const [image, setImage] = useState(null)
+    const [imagefromDB, setimagefromDB] = useState(null)
+    const [imagemlocal, setimagemlocal] = useState(false)
+
+    useEffect(() => {
+        (async () => {
+            if (Platform.OS !== 'web') {
+                const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+                if (status !== 'granted') {
+                    alert('Sorry, we need camera roll permissions to make this work!');
+                }
+            }
+        })();
+    }, []);
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+            base64: true
+        });
+        if (!result.cancelled) {
+            setImage(result.uri);
+            setimagemlocal(true)
+        }
+    };
+
+    const atualizaPerfil = async () => {
+        const response = await fetch(image)
+        const blob = await response.blob()
+        var user = firebase.auth().currentUser
+        var uploadTask = await firebase.storage().ref().child("user/" + user.uid + "/perfil").put(blob)
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED)
+    }
+
+    function atualiza(){
+        var user = firebase.auth().currentUser
+        if(profissaoselecionada.length > 0){
+            if(image || imagefromDB){
+                firebase.database().ref("user/" + user.uid).update({profissao:profissaoselecionada, clube:clube})
+                if(imagemlocal){
+                    if(image){
+                        atualizaPerfil()
+                    }else{
+                        Alert.alert('Avatar Inválido!', "Por Favor, selecione um avatar!")
+                    }
+                }
+            }else{
+                Alert.alert('Avatar Inválido!', "Por Favor, selecione um avatar!")
+            }
+        }else{
+            Alert.alert("Profissão Inválida!", 'Selecione uma profissão!')
+        }
+    }
+
+    function getdata() {
+        var user = firebase.auth().currentUser
+        var data = {}
+        firebase.database().ref('user/' + user.uid).on('value', snap => {
+            data = snap.val()
+        })            
+        var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/perfil")
+        storage.getDownloadURL().then(url => {
+            setimagefromDB(url)
+        }).catch(erro => {
+            setimagefromDB(null)
+        })
+        var res = {
+            profissao: data.profissao,
+            clube: null
+        }
+        return res
+    }
 
     function getprofissao() {
         var profissoes = {}
@@ -444,44 +521,71 @@ function Part3({ changeState }) {
         firebase.database().ref('profissoes/').on('value', snapshot => {
             profissoes = snapshot.val()
         })
-        var keys = Object.keys(profissoes)
-        for (let i = 0; i < keys.length; i++) {
-            lista.push(profissoes[keys[i]]['titulo'])
+        if (profissao.length > 2 && !(profissao == profissaoselecionada)) {
+            var keys = Object.keys(profissoes)
+            keys = keys.filter(item => {
+                var reg = new RegExp(profissao.toUpperCase())
+                return reg.test(item.toUpperCase())
+            })
+            for (let i = 0; i < keys.length; i++) {
+                lista.push(profissoes[keys[i]]['titulo'])
+            }
+            return lista.sort()
+        } else {
+            return []
         }
-        return lista.sort()
+    }
+
+    function handleImage(){
+        if(imagemlocal){
+            if(image){
+                return(
+                    <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width - 40, height: Dimensions.get('window').width - 40, position: 'absolute', borderRadius: 5 }} />
+                )
+            }else{
+                return(
+                    <View/>
+                )
+            }
+        }else{
+            if(imagefromDB){
+                return(
+                    <Image source={{ uri: imagefromDB }} style={{ width: Dimensions.get('window').width - 40, height: Dimensions.get('window').width - 40, position: 'absolute', borderRadius: 5 }} />
+                )
+            }else{
+                return(
+                    <View/>
+                )
+            }
+        }
     }
 
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
-            <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white' }}>
-                <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ height: (image||imagefromDB) ? (Dimensions.get('window').width - 40) : 250, borderRadius: 5, backgroundColor: 'white' }}>
+                <View style={{ height: (image||imagefromDB) ? (Dimensions.get('window').width - 40) : 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+                    {handleImage()}
                     <Text style={{ fontSize: 20 }}>
-                        AVATAR
+                        {(image||imagefromDB) ? "" : "AVATAR"}
                     </Text>
-                    <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }} onPress={pickImage}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
-                            Buscar
-                    </Text>
+                            {(image||imagefromDB) ? "Trocar avatar" : "Buscar"}
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>
-            <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
+            <View style={{marginTop:20}}>
+            <Text style={{ fontWeight: 'bold', fontSize: 18}}>
                 PROFISSÃO
             </Text>
-            <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { (showprofissao) ? setshowprofissao(false) : setshowprofissao(true) }}>
-                <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                    <Text style={{ color: (profissao.length == 0) ? 'gray' : 'black', marginLeft: 10 }}>
-                        {(profissao.length == 0) ? 'ESCOLHA UMA OPÇÃO' : profissao}
-                    </Text>
-                    <Ionicons name="ios-arrow-down" size={24} color="gray" style={{ marginRight: 10 }} />
-                </View>
-            </TouchableOpacity>
+            <MyTextInput placeholder="Digite a sua profissão" value={profissao} onChangeText={text => { setprofissao(text) }} />
             <FlatList
-                data={(showprofissao) ? getprofissao() : []}
+                data={getprofissao()}
                 renderItem={({ item, index, separators }) => (
                     <TouchableHighlight
                         key={index}
-                        onPress={() => { setprofissao(item); setshowprofissao(false) }}
+                        onPress={() => { setprofissao(item); setprofissaoselecionada(item) }}
                         onShowUnderlay={separators.highlight}
                         onHideUnderlay={separators.unhighlight}>
                         <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver' }}>
@@ -525,13 +629,14 @@ function Part3({ changeState }) {
                     </Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { changeState(3) }}>
+            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); navigation.navigate("Menu") }}>
                 <View style={{ alignItems: "center" }}>
                     <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
                         ATUALIZAR
                     </Text>
                 </View>
             </TouchableOpacity>
+            </View>
         </View>
     )
 }
@@ -575,7 +680,7 @@ export default function EditProfile() {
         return data
     }
 
-    if (part == 1) {
+    if (part == 3) {
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
                 style={{ flex: 1 }}
@@ -597,14 +702,14 @@ export default function EditProfile() {
                 </ScrollView>
             </KeyboardAwareScrollView>
         )
-    } else if (part == 3) {
+    } else if (part == 1) {
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
                 style={{ flex: 1 }}
                 showsVerticalScrollIndicator={false}>
                 <ScrollView>
                     <Header />
-                    <Part3 changeState={setpart} />
+                    {(!(Object.keys(checkLoad()).length == 0)) ? (<Part3 changeState={setpart} />) : (navigation.goBack())}
                 </ScrollView>
             </KeyboardAwareScrollView>
         )
