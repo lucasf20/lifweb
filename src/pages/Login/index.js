@@ -39,8 +39,8 @@ i18n.translations = {
     },
   pt: {
      passw: 'Senha',
-     emailfield: 'informe seu email',
-     passfield: 'informe sua senha',
+     emailfield: 'Informe seu email',
+     passfield: 'Informe sua senha',
      recopass: 'Esqueci minha senha',
      fblogin: 'entrar com o facebook',
      glogin: 'entrar com o google',
