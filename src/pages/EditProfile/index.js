@@ -230,15 +230,13 @@ function Part1({ changeState }) {
 
 function Part2({ changeState }) {
     const dorange = colorStyles.dorange
-    const [marca, setmarca] = useState('')
-    const [marcaselecionada, setmarcaselecionada] = useState('')
-    const [moto, setmoto] = useState('')
+    const data = getdata()
+    const [marca, setmarca] = useState(data.marca)
+    const [marcaselecionada, setmarcaselecionada] = useState(data.marca)
+    const [moto, setmoto] = useState(data.moto)
     const [showmoto, setshowmoto] = useState(false)
-    const [ano, setano] = useState('')
+    const [ano, setano] = useState(data.ano)
     const [image, setImage] = useState(null);
-    const [uploading, setUploading] = useState(false)
-    const [progress, setProgress] = useState(0)
-    const [toup, settoup] = useState({})
 
     useEffect(() => {
         (async () => {
@@ -264,6 +262,26 @@ function Part2({ changeState }) {
           setbase64(result.base64)
         }
       };
+
+    function getdata(){
+        var user = firebase.auth().currentUser
+        var data = {}
+        firebase.database().ref('user/' + user.uid).on('value', snap =>{
+            data = snap.val()
+        })
+        var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid+"/capa")
+        storage.getDownloadURL().then(url => {
+            setImage(url)
+        }).catch( erro => {
+            setImage(null)
+        })
+        var res = {
+            moto:(data.modeloDaMoto.moto)?data.modeloDaMoto.moto:data.modeloDaMoto,
+            marca:(data.modeloDaMoto.marca)?data.modeloDaMoto.marca:data.modeloDaMoto.split(" ")[0],
+            ano:(data.modeloDaMoto.ano)?data.modeloDaMoto.ano:""
+        }
+        return res
+    }
     
     function atualizaMoto(){
         var user = firebase.auth().currentUser
@@ -274,14 +292,21 @@ function Part2({ changeState }) {
         }
         firebase.database().ref('user/' + user.uid + "/modeloDaMoto").update(data)
     }
+
+    const atualizaCapa = async ()=>{
+        const response = await fetch(image)
+        const blob = await response.blob()
+        var user = firebase.auth().currentUser
+        var uploadTask = await firebase.storage().ref().child("user/" + user.uid + "/capa").put(blob)
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED)
+    }
  
     function atualiza(){
         if(moto.length > 0){
             if(ano.length == 4){
                 if(image){
-                    //upload de imagem
+                    atualizaCapa()
                     atualizaMoto()
-                    Alert.alert("ok")
                 }else{
                     Alert.alert("Sem foto de capa!", "Por favor, insira a imagem da capa do perfil!")
                 }
@@ -330,17 +355,21 @@ function Part2({ changeState }) {
         return modelo.sort()
     }
 
+    function newHeight(){
+        return (Dimensions.get('window').width -40) * 3/4
+    }
+
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
-            <View style={{ height: 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center' }}>
-            {image && <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width -40, height: 250, position:'absolute', borderRadius: 5 }} />}
-                <View style={{ alignItems: 'center', opacity:(image)?0.5:1}} >
+            <View style={{ height: (image)?newHeight():250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center' }}>
+            {image && <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width -40, height: newHeight(), position:'absolute', borderRadius: 5 }} />}
+                <View style={{ alignItems: 'center', opacity:1}} >
                     <Text style={{ fontSize: 20 }}>
                         {(image)?"":"CAPA PERFIL"}
                     </Text>
                     <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }} onPress={pickImage}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
-                            Buscar
+                        {(image)?"Atualizar capa":"Buscar"}
                     </Text>
                     </TouchableOpacity>
                 </View>
@@ -391,7 +420,7 @@ function Part2({ changeState }) {
             <View style={{ marginTop: 20 }}>
                 <MyTextInput value={ano} onChangeText={text => { setano(text) }} placeholder='Ano' />
             </View>
-            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza() }}>
+            <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); changeState(3) }}>
                 <View style={{ alignItems: "center" }}>
                     <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
                         ATUALIZAR
@@ -546,7 +575,7 @@ export default function EditProfile() {
         return data
     }
 
-    if (part == 2) {
+    if (part == 1) {
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
                 style={{ flex: 1 }}
@@ -557,14 +586,14 @@ export default function EditProfile() {
                 </ScrollView>
             </KeyboardAwareScrollView>
         )
-    } else if (part == 1) {
+    } else if (part == 2) {
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
                 style={{ flex: 1 }}
                 showsVerticalScrollIndicator={false}>
                 <ScrollView>
                     <Header />
-                    <Part2 changeState={setpart} />
+                    {(!(Object.keys(checkLoad()).length == 0)) ? (<Part2 changeState={setpart} />) : (navigation.goBack())}
                 </ScrollView>
             </KeyboardAwareScrollView>
         )
