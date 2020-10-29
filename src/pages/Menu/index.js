@@ -30,20 +30,6 @@ export default function Menu() {
             .then(navigation.navigate('Login'))
     }
 
-    function resizeProfile(scale_factor) {
-        const { width, height } = Image.resolveAssetSource(profileIcon)
-        return { width: width * scale_factor, height: height * scale_factor }
-    }
-
-    function getName() {
-        var name;
-        const user = firebase.auth().currentUser
-        firebase.database().ref('user/' + user.uid + '/apelido/').on('value', snapshot => {
-            name = snapshot.val()
-        })
-        return name
-    }
-
     function getDisplayName() {
         var user = firebase.auth().currentUser
         return user.displayName

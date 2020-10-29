@@ -15,24 +15,27 @@ import colorStyles from "../../colors";
 
 import capa from '../../images/fotocapa.jpg'
 import icon from '../../images/avatar_stories1.png'
+import profileIcon from '../../assets/logolifweb.png'
+
+import firebase from '../../../firebaseConfig';
 
 function Header() {
     const navigation = useNavigation()
     return (
-        <View style={{ flexDirection: 'row', position: 'absolute',  justifyContent: 'space-between', width: Dimensions.get('window').width }}>
-            <View style={{ position: 'absolute', backgroundColor: 'black', flexDirection: 'row', opacity: 0.4, justifyContent: 'space-between', width: Dimensions.get('window').width, height:60 }}>
+        <View style={{ flexDirection: 'row', position: 'absolute', justifyContent: 'space-between', width: Dimensions.get('window').width }}>
+            <View style={{ position: 'absolute', backgroundColor: 'black', flexDirection: 'row', opacity: 0.4, justifyContent: 'space-between', width: Dimensions.get('window').width, height: 60 }}>
             </View>
-            <View style={{flexDirection:'row'}}>
-                <TouchableOpacity style={{ marginLeft: 5, marginTop: 30, width:70 }} onPress={() => { navigation.navigate("Menu") }}>
-                <SimpleLineIcons name="menu" size={24} color="white" />
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity style={{ marginLeft: 5, marginTop: 30, width: 70 }} onPress={() => { navigation.navigate("Menu") }}>
+                    <SimpleLineIcons name="menu" size={24} color="white" />
+                </TouchableOpacity>
             </View>
-            
+
             <Text style={{ fontWeight: 'bold', color: 'white', marginTop: 30, fontSize: 20 }}>
                 Perfil
                     </Text>
-            <View style={{flexDirection:'row', width:70, marginRight:5 }}>
-                <TouchableOpacity style={{ marginTop: 30}} onPress={() => { navigation.navigate("Filters") }}>
+            <View style={{ flexDirection: 'row', width: 70, marginRight: 5 }}>
+                <TouchableOpacity style={{ marginTop: 30 }} onPress={() => { navigation.navigate("Filters") }}>
                     <EvilIcons name="search" size={30} color="white" style={{ paddingRight: 15 }} />
                 </TouchableOpacity>
                 <TouchableOpacity style={{ marginTop: 30 }} onPress={() => { navigation.navigate('Direct') }}>
@@ -44,7 +47,57 @@ function Header() {
     )
 }
 
-export default function Profile() {
+export default function Profile({ uid }) {
+
+    const user = (uid) ? uid : firebase.auth().currentUser.uid
+
+    const [profile, setprofile] = useState(null)
+    const [cp, setcp] = useState(null)
+
+    function getMainPictures() {
+        var path = "gs://lifweb-38828.appspot.com/user/" + user
+        var capa = firebase.storage().refFromURL(path + '/capa')
+        var prof = firebase.storage().refFromURL(path + '/perfil')
+        if (!profile) {
+            prof.getDownloadURL().then(url => {
+                setprofile({ uri: url })
+            }).catch(error => {
+                setprofile(false)
+            })
+        }
+        if (!cp) {
+            capa.getDownloadURL().then(url => {
+                setcp({ uri: url })
+            }).catch(error => {
+                setcp(false)
+            })
+        }
+        return [profile, cp]
+    }
+
+    function getPersonalData() {
+        var currentUser = (firebase.auth().currentUser.uid == user);
+        var nome = ""
+        var profissao = ""
+        var moto = ""
+        var data = {}
+        var loaded = false
+        firebase.database().ref('user/' + user).on('value', snap => {
+            data = snap.val()
+        })
+        loaded = !(Object.keys(data).length == 0)
+        if (loaded) {
+            nome = data.apelido
+            profissao = data.profissao
+            if (Object.keys(data.modeloDaMoto).length > 0) {
+                moto = data.modeloDaMoto.moto
+            } else {
+                moto = data.modeloDaMoto
+            }
+        }
+        return { currentUser, nome, profissao, moto, loaded }
+    }
+
     function calculateDimensions(img) {
         const { width, height } = Image.resolveAssetSource(img)
         return { width: Dimensions.get('window').width, height: height * Dimensions.get('window').width / width }
@@ -55,14 +108,14 @@ export default function Profile() {
     return (
         <View>
             <ScrollView>
-                <Image source={capa}
+                <Image source={getMainPictures()[1]}
                     style={{ width: calculateDimensions(capa).width, height: calculateDimensions(capa).height }}
                 />
                 <Header />
                 <View style={{ position: "absolute", marginLeft: 25, marginTop: (calculateDimensions(capa).height - 50), flexDirection: 'row' }}>
                     <TouchableOpacity >
-                       <Svg width="116" height="116" viewBox="0 -3 43 55">
-                        <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                        {(profile) ? (<Svg width="116" height="116" viewBox="0 -3 43 55">
+                            <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
                             <Defs>
                                 <ClipPath id="image" clipRule="evenodd">
                                     <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
@@ -73,20 +126,20 @@ export default function Profile() {
                                 y="0"
                                 width="50"
                                 height="50"
-                                href={icon}
+                                href={getMainPictures()[0]}
                                 clipPath="#image"
                             />
-                        </Svg>
+                        </Svg>) : (<Image source={profileIcon} style={{ height: 110, width: 95 }} />)}
                     </TouchableOpacity>
                     <View>
                         <Text style={{ fontSize: 25, marginTop: 50 }}>
-                            Nome da Pessoa
+                            {(getPersonalData().loaded)?getPersonalData().nome:navigation.goBack()}
                         </Text>
                         <Text style={{ fontSize: 15, color: 'gray' }}>
-                            Profissão
+                            {getPersonalData().profissao}
                         </Text>
                         <Text style={{ fontSize: 15, fontWeight: 'bold' }}>
-                            Modelo da Moto
+                            {getPersonalData().moto}
                         </Text>
                     </View>
                 </View>
@@ -107,7 +160,7 @@ export default function Profile() {
                             Seguindo
                         </Text>
                     </View>
-                    <View style={{ flexDirection: 'row' }}>
+                    {(!getPersonalData().currentUser)?(<View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5 }}>
                             <Text style={{ color: 'white', fontSize: 15, marginTop: 17, marginLeft: 25 }}>
                                 Seguir
@@ -118,7 +171,7 @@ export default function Profile() {
                                 Mensagem
                         </Text>
                         </TouchableOpacity>
-                    </View>
+                    </View>):(<View style={{width:210}}/>)}
                 </View>
                 <Timeline />
             </ScrollView>

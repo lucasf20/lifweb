@@ -91,7 +91,7 @@ export default function Timeline() {
                     Timeline
                 </Text>
                 <TouchableOpacity style={{ marginTop: 5 }}>
-                    <SimpleLineIcons name="options" size={24} color="gray" />
+                    <SimpleLineIcons name="options" size={24} color="transparent" />
                 </TouchableOpacity>
             </View>
             <View style={{marginHorizontal:20, marginBottom:20}}>
