@@ -112,7 +112,7 @@ export default function CreateAcc2() {
                     apelido: Name,
                     profissao: profSelecionada,
                     nascimento: data,
-                    modeloDaMoto: motoSelecionada
+                    modeloDaMoto: {moto:motoSelecionada}
                 }).then(() => {
                     user.updateProfile({
                         displayName:Name

@@ -89,11 +89,7 @@ export default function Profile({ uid }) {
         if (loaded) {
             nome = data.apelido
             profissao = data.profissao
-            if (Object.keys(data.modeloDaMoto).length > 0) {
-                moto = data.modeloDaMoto.moto
-            } else {
-                moto = data.modeloDaMoto
-            }
+            moto = data.modeloDaMoto.moto
         }
         return { currentUser, nome, profissao, moto, loaded }
     }
