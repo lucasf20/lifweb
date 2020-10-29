@@ -657,7 +657,7 @@ function Part3({ changeState }) {
                     </Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); navigation.navigate("Menu") }}>
+                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); navigation.navigate("Feed")}}>
                     <View style={{ alignItems: "center" }}>
                         <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
                             ATUALIZAR

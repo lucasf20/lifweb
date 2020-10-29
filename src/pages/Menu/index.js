@@ -10,12 +10,19 @@ import colorStyles from "../../colors";
 import firebase from '../../../firebaseConfig';
 
 import profileIcon from '../../assets/logolifweb.png'
+import Svg, {
+    Image as SvgImage,
+    Defs,
+    ClipPath,
+    Polygon,
+} from 'react-native-svg';
 
 
 export default function Menu() {
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
+    const [profPicture, setprofPicture] = useState(false)
 
 
     function logout() {
@@ -46,6 +53,41 @@ export default function Menu() {
         const user = firebase.auth().currentUser
         return user.email
     }
+
+    function getProfilePicture() {
+        var user = firebase.auth().currentUser
+        var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/perfil")
+        if(!profPicture){
+            storage.getDownloadURL().then(url => {
+            setprofPicture({ uri: url })
+            }).catch(erro => {
+                setprofPicture(false)
+            })
+        }
+        if (profPicture) {
+            return (
+                <Svg width="100" height="100" viewBox="0 -3 43 55">
+                    <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                    <Defs>
+                        <ClipPath id="image" clipRule="evenodd">
+                            <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                        </ClipPath>
+                    </Defs>
+                    <SvgImage
+                        x="0"
+                        y="0"
+                        width="50"
+                        height="50"
+                        href={profPicture}
+                        clipPath="#image"
+                    />
+                </Svg>
+            )
+        } else {
+            return (<Image source={profileIcon}  style={{height:100, width:87}}/>)
+        }
+    }
+
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => { navigation.goBack() }} style={{ marginTop: 40, marginLeft: 5 }}>
@@ -55,14 +97,14 @@ export default function Menu() {
                 <ScrollView style={{ ...styles.container, paddingHorizontal: 18 }}>
                     <View style={{ marginTop: 20 }}>
                         <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('Profile') }}>
-                            <SimpleLineIcons name="picture" size={24} color="white"  />
+                            <SimpleLineIcons name="picture" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 Timeline
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { navigation.navigate("Direct") }}>
-                            <SimpleLineIcons name="bubbles" size={24} color="white"  />
+                            <SimpleLineIcons name="bubbles" size={24} color="white" />
                             <NotifyCircle text="1" color='red' style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>
                             <Text style={styles.BigText}>
                                 Mensagem
@@ -70,21 +112,21 @@ export default function Menu() {
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
-                            <SimpleLineIcons name="people" size={24} color="white"  />
+                            <SimpleLineIcons name="people" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 Seguidores
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
-                            <SimpleLineIcons name="user-following" size={24} color="white"  />
+                            <SimpleLineIcons name="user-following" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 Seguindo
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
-                            <SimpleLineIcons name="bell" size={24} color="white"  />
+                            <SimpleLineIcons name="bell" size={24} color="white" />
                             <NotifyCircle text="8" color='#00C48C' style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>
                             <Text style={styles.BigText}>
                                 Notificação
@@ -92,7 +134,7 @@ export default function Menu() {
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('EditProfile') }}>
-                            <SimpleLineIcons name="user" size={24} color="white"  />
+                            <SimpleLineIcons name="user" size={24} color="white" />
                             <Ionicons name="ios-remove-circle-outline" size={18} color="white" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />
                             <Ionicons name="ios-remove-circle" size={18} color="red" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />
                             <Text style={styles.BigText}>
@@ -101,14 +143,14 @@ export default function Menu() {
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
-                            <SimpleLineIcons name="settings" size={24} color="white"  />
+                            <SimpleLineIcons name="settings" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 Configurações
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={() => { logout() }}>
-                            <SimpleLineIcons name="logout" size={24} color="white"  />
+                            <SimpleLineIcons name="logout" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 Fazer Logoff
                             </Text>
@@ -116,7 +158,7 @@ export default function Menu() {
                         <View style={styles.buttonView}></View>
                     </View>
                     <View style={{ marginTop: 40, marginBottom: 20 }}>
-                        <Image source={profileIcon} style={{ height: resizeProfile(0.5).height, width: resizeProfile(0.5).width }} />
+                        {getProfilePicture()}
                         <Text style={{ fontSize: 25, color: 'white' }}>
                             {getDisplayName()}
                         </Text>
