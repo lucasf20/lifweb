@@ -49,15 +49,14 @@ export default function Feed(){
     }
     
     return(
-        <View>
-
+        <SafeAreaView>
             <Header />
             <ScrollView>
                 <Stories />
                 <PostsList />
             </ScrollView>
             <Cambutton/>
-        </View>
+        </SafeAreaView>
     );
 }
 
