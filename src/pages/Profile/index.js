@@ -94,21 +94,22 @@ export default function Profile({ uid }) {
         return { currentUser, nome, profissao, moto, loaded }
     }
 
-    function calculateDimensions(img) {
-        const { width, height } = Image.resolveAssetSource(img)
-        return { width: Dimensions.get('window').width, height: height * Dimensions.get('window').width / width }
+    function calculateDimensions() {
+        return { width: Dimensions.get('window').width, height: Dimensions.get('window').width *(3/4) }
     }
 
     const navigation = useNavigation()
+    const pics = getMainPictures()
+    const personaldata = getPersonalData()
 
     return (
         <View>
             <ScrollView>
-                <Image source={getMainPictures()[1]}
-                    style={{ width: calculateDimensions(capa).width, height: calculateDimensions(capa).height }}
+                <Image source={pics[1]}
+                    style={{ width: calculateDimensions().width, height: calculateDimensions().height }}
                 />
                 <Header />
-                <View style={{ position: "absolute", marginLeft: 25, marginTop: (calculateDimensions(capa).height - 50), flexDirection: 'row' }}>
+                <View style={{ position: "absolute", marginLeft: 25, marginTop: (calculateDimensions().height - 50), flexDirection: 'row' }}>
                     <TouchableOpacity >
                         {(profile) ? (<Svg width="116" height="116" viewBox="0 -3 43 55">
                             <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
@@ -122,20 +123,20 @@ export default function Profile({ uid }) {
                                 y="0"
                                 width="50"
                                 height="50"
-                                href={getMainPictures()[0]}
+                                href={pics[0]}
                                 clipPath="#image"
                             />
                         </Svg>) : (<Image source={profileIcon} style={{ height: 110, width: 95 }} />)}
                     </TouchableOpacity>
                     <View>
                         <Text style={{ fontSize: 25, marginTop: 50 }}>
-                            {(getPersonalData().loaded)?getPersonalData().nome:navigation.goBack()}
+                            {(personaldata.loaded)?personaldata.nome:navigation.goBack()}
                         </Text>
                         <Text style={{ fontSize: 15, color: 'gray' }}>
-                            {getPersonalData().profissao}
+                            {personaldata.profissao}
                         </Text>
                         <Text style={{ fontSize: 15, fontWeight: 'bold' }}>
-                            {getPersonalData().moto}
+                            {personaldata.moto}
                         </Text>
                     </View>
                 </View>
@@ -156,7 +157,7 @@ export default function Profile({ uid }) {
                             Seguindo
                         </Text>
                     </View>
-                    {(!getPersonalData().currentUser)?(<View style={{ flexDirection: 'row' }}>
+                    {(!personaldata.currentUser)?(<View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5 }}>
                             <Text style={{ color: 'white', fontSize: 15, marginTop: 17, marginLeft: 25 }}>
                                 Seguir
