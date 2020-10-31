@@ -18,6 +18,7 @@ import icon from '../../images/avatar_stories1.png'
 import profileIcon from '../../assets/logolifweb.png'
 
 import firebase from '../../../firebaseConfig';
+import { roundToNearestPixel } from 'react-native/Libraries/Utilities/PixelRatio';
 
 function Header() {
     const navigation = useNavigation()
@@ -47,9 +48,9 @@ function Header() {
     )
 }
 
-export default function Profile({ uid }) {
+export default function Profile({ navigation, route }) {
 
-    const user = (uid) ? uid : firebase.auth().currentUser.uid
+    const user = (route.params.uid) ? route.params.uid : firebase.auth().currentUser.uid
 
     const [profile, setprofile] = useState(null)
     const [cp, setcp] = useState(null)
@@ -98,7 +99,7 @@ export default function Profile({ uid }) {
         return { width: Dimensions.get('window').width, height: Dimensions.get('window').width *(3/4) }
     }
 
-    const navigation = useNavigation()
+    const nav = useNavigation()
     const pics = getMainPictures()
     const personaldata = getPersonalData()
 
@@ -130,7 +131,7 @@ export default function Profile({ uid }) {
                     </TouchableOpacity>
                     <View>
                         <Text style={{ fontSize: 25, marginTop: 50 }}>
-                            {(personaldata.loaded)?personaldata.nome:navigation.goBack()}
+                            {(personaldata.loaded)?personaldata.nome:nav.goBack()}
                         </Text>
                         <Text style={{ fontSize: 15, color: 'gray' }}>
                             {personaldata.profissao}
