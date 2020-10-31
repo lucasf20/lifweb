@@ -14,6 +14,31 @@ import firebase from '../../../firebaseConfig';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
+
+i18n.translations = {
+    en: {
+       welcome:'Welcome',
+       phrase:'Let\'s begin creating your account',
+       fullname:'Full Name',
+       passw:'Password',
+       rpassw:'Repeat the password',
+       next:'NEXT',
+       verpass:'"Verifique as senhas inseridas!", "As senhas inseridas não são iguais!\n\nTente outra vez!"'
+
+      },
+    pt: {
+        welcome:'Seja Bem Vindo(a)',
+        phrase:'Vamos iniciar a criação da sua conta',
+        fullname:'Nome Completo',
+        passw:'Senha',
+        rpassw:'Repita a senha',
+        next: 'PRÓXIMO',
+        verpass:'"Please check the passwords provided!", "The passwords provided are not the same!\n\nTry again!"'
+
+      },
+  };
 
 export default function CreateAcc(){
 
@@ -46,7 +71,7 @@ export default function CreateAcc(){
 
     function verifyPassword(password, password2){
         if(!(password2 == password)){
-            Alert.alert( "Verifique as senhas inseridas!", "As senhas inseridas não são iguais!\n\nTente outra vez!")
+            Alert.alert(i18n.t('verpass'))
             return false
         }
         if(password.length < 6){
@@ -142,21 +167,21 @@ export default function CreateAcc(){
             </View>
 
             <Text style={styles.BigText}>
-                Seja Bem Vindo(a)
+                {i18n.t('welcome')}
             </Text>
 
             <Text style={styles.LooseText}>
-                Vamos iniciar a criação da sua conta
+            {i18n.t('phrase')}
             </Text>
 
             <Text style={styles.LooseText}>
-                Nome Completo:
+                {i18n.t('fullname')}:
             </Text>
 
             <MyTextInput 
                 onChangeText = {text => setNome(text)}
                 value = {nome}
-                placeholder = "Nome Completo"
+                placeholder = {i18n.t('fullname')}
             />
 
             <Text style={styles.LooseText}>
@@ -170,25 +195,25 @@ export default function CreateAcc(){
             />
 
             <Text style={styles.LooseText}>
-                Senha:
+                {i18n.t('passw')}:
             </Text>
 
             <MyTextInput 
                 secureTextEntry={true}
                 onChangeText = {text => setSenha(text)}
                 value = {senha}
-                placeholder = "Senha"
+                placeholder = {i18n.t('passw')}
             />
 
 <           Text style={styles.LooseText}>
-                Repita a senha:
+                {i18n.t('rpassw')}
             </Text>
 
             <MyTextInput
                 secureTextEntry={true} 
                 onChangeText = {text => setSenha2(text)}
                 value = {senha2}
-                placeholder = "Repita a senha"
+                placeholder = {i18n.t('rpassw')}
             />
                 
             {/* <View style = {styles.ButtonView}>
@@ -202,7 +227,7 @@ export default function CreateAcc(){
                 <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5 }} onPress={() => { validateAndRegister(nome, regEmail,senha,senha2) }}>
                     <View style={{ alignItems: "center" }}>
                         <Text style={{ color: "white", fontSize: 15, fontWeight: "bold", padding: 15 }}>
-                            PRÓXIMO
+                            {i18n.t('next')}
                     </Text>
                     </View>
                 </TouchableOpacity>
