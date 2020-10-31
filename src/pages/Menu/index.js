@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, StackActions } from '@react-navigation/native';
 import { SimpleLineIcons, Ionicons } from '@expo/vector-icons';
 import NotifyCircle from '../../Components/NotifyCircle'
 
@@ -82,7 +82,7 @@ export default function Menu() {
             <View style={{ ...styles.container, paddingHorizontal: 18 }}>
                 <ScrollView style={{ ...styles.container, paddingHorizontal: 18 }}>
                     <View style={{ marginTop: 20 }}>
-                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('Profile') }}>
+                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('Profile'); }}>
                             <SimpleLineIcons name="picture" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 Timeline

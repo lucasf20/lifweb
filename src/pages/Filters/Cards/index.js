@@ -4,13 +4,13 @@ import colorStyles from '../../../colors'
 import caveira from '../../../assets/caveira.png'
 import caveiralike from '../../../assets/caveiralike.png'
 import { AntDesign, Feather, FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, StackActions } from '@react-navigation/native';
 
 export default function Cards({ imagem, nome, profissao, moto, uid }) {
     const navigator = useNavigation()
     return (
         <View style={{ borderRadius: 15, height: 320, width: 170, backgroundColor: 'white' }}>
-            <TouchableOpacity onPress={() => {navigator.navigate("Profile",{uid:uid})}}>
+            <TouchableOpacity onPress={() => {navigator.dispatch(StackActions.popToTop());navigator.navigate("Profile",{uid:uid})}}>
                 <Image source={imagem} style={{ height: 170, width: 170, borderRadius: 15 }} />
             </TouchableOpacity>
             <Text style={{ marginTop: 15, marginHorizontal: 15, fontSize: 15 }}>

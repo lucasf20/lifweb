@@ -54,6 +54,7 @@ export default function Profile({ navigation, route }) {
 
     const [profile, setprofile] = useState(null)
     const [cp, setcp] = useState(null)
+    const [personaldata, setpersonaldata] = useState(getPersonalData())
 
     function getMainPictures() {
         var path = "gs://lifweb-38828.appspot.com/user/" + user
@@ -100,13 +101,13 @@ export default function Profile({ navigation, route }) {
     }
 
     const nav = useNavigation()
-    const pics = getMainPictures()
-    const personaldata = getPersonalData()
+    //const pics = getMainPictures()
+    //const personaldata = getPersonalData()
 
     return (
         <View>
             <ScrollView>
-                <Image source={pics[1]}
+                <Image source={getMainPictures()[1]}
                     style={{ width: calculateDimensions().width, height: calculateDimensions().height }}
                 />
                 <Header />
@@ -124,7 +125,7 @@ export default function Profile({ navigation, route }) {
                                 y="0"
                                 width="50"
                                 height="50"
-                                href={pics[0]}
+                                href={getMainPictures()[0]}
                                 clipPath="#image"
                             />
                         </Svg>) : (<Image source={profileIcon} style={{ height: 110, width: 95 }} />)}
