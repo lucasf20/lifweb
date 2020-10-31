@@ -25,7 +25,7 @@ i18n.translations = {
        passw:'Password',
        rpassw:'Repeat the password',
        next:'NEXT',
-       verpass:'"Verifique as senhas inseridas!", "As senhas inseridas não são iguais!\n\nTente outra vez!"'
+       verpass:'"Please check the passwords provided!", "The passwords provided are not the same!\n\nTry again!"',
 
       },
     pt: {
@@ -35,7 +35,8 @@ i18n.translations = {
         passw:'Senha',
         rpassw:'Repita a senha',
         next: 'PRÓXIMO',
-        verpass:'"Please check the passwords provided!", "The passwords provided are not the same!\n\nTry again!"'
+        verpass:'"Verifique as senhas inseridas!", "As senhas inseridas não são iguais!\n\nTente outra vez!"',
+        
 
       },
   };
