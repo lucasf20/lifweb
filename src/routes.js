@@ -29,7 +29,7 @@ export default function Routes() {
                 <AppStack.Screen name = "Menu" component = {Menu}/>
                 <AppStack.Screen name = "Feed" component = {Feed}/>
                 <AppStack.Screen name = "Direct" component = {Direct}/>
-                <AppStack.Screen name = "Profile" component = {Profile}/>
+                <AppStack.Screen name = "Profile" component = {Profile} initialParams={{uid:null}}/>
                 <AppStack.Screen name = "SendPost" component = {SendPost}/>
                 <AppStack.Screen name = "Filters" component = {Filters}/>
                 <AppStack.Screen name = "EditProfile" component = {EditProfile}/>
