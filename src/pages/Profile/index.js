@@ -55,6 +55,9 @@ export default function Profile({ navigation, route }) {
     const [profile, setprofile] = useState(null)
     const [cp, setcp] = useState(null)
     const [personaldata, setpersonaldata] = useState(getPersonalData())
+    const [seguindo, setseguindo] = useState(0)
+    const [seguido, setseguido] = useState(0)
+    const [segue, setsegue] = useState(false)
 
     function getMainPictures() {
         var path = "gs://lifweb-38828.appspot.com/user/" + user
@@ -93,6 +96,26 @@ export default function Profile({ navigation, route }) {
             profissao = data.profissao
             moto = data.modeloDaMoto.moto
         }
+        firebase.firestore().collection('user').doc(user).get().then(data => {
+            if(!data.exists){
+                firebase.firestore().collection('user').doc(user).set({following:[], followed:[]})
+                setseguido(0)
+                setseguindo(0)
+            }else{
+                var cnt = data.data()
+                setseguindo(cnt['following'].length)
+                setseguido(cnt['followed'].length)
+            }
+        })
+        firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).get().then(data => {
+            if(!data.exists){
+                firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).set({following:[], followed:[]})
+                setsegue(false)
+            }else{
+                var cnt = data.data()
+                setsegue(cnt['following'].includes(user))
+            }
+        })
         return { currentUser, nome, profissao, moto, loaded }
     }
 
@@ -101,8 +124,28 @@ export default function Profile({ navigation, route }) {
     }
 
     const nav = useNavigation()
-    //const pics = getMainPictures()
-    //const personaldata = getPersonalData()
+    
+    async function follow(){
+        var phoneOwner = firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid)
+        var profileOwner = firebase.firestore().collection('user').doc(user)
+        await phoneOwner.get().then(data => {if(!data.exists){phoneOwner.set({following:[], followed:[]})}})
+        await profileOwner.get().then(data => {if(!data.exists){profileOwner.set({following:[], followed:[]})}})
+        await phoneOwner.update({following:firebase.firestore.FieldValue.arrayUnion(user)})
+        await profileOwner.update({followed:firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid)})
+        setseguido(seguido + 1)
+        setsegue(true)
+    }
+
+    async function unfollow(){
+        var phoneOwner = firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid)
+        var profileOwner = firebase.firestore().collection('user').doc(user)
+        await phoneOwner.get().then(data => {if(!data.exists){phoneOwner.set({following:[], followed:[]})}})
+        await profileOwner.get().then(data => {if(!data.exists){profileOwner.set({following:[], followed:[]})}})
+        await phoneOwner.update({following:firebase.firestore.FieldValue.arrayRemove(user)})
+        await profileOwner.update({followed:firebase.firestore.FieldValue.arrayRemove(firebase.auth().currentUser.uid)})
+        setseguido(seguido - 1)
+        setsegue(false)
+    }
 
     return (
         <View>
@@ -145,7 +188,7 @@ export default function Profile({ navigation, route }) {
                 <View style={{ marginTop: 90, borderWidth: 0.5, marginHorizontal: 20, height: 70, borderBottomColor: 'silver', borderTopColor: 'silver', borderLeftColor: 'transparent', borderRightColor: 'transparent', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <View>
                         <Text style={{ fontSize: 25, marginTop: 5 }}>
-                            300K
+                            {seguido}
                         </Text>
                         <Text style={{ color: 'gray', marginTop: 5 }}>
                             Seguidores
@@ -153,16 +196,16 @@ export default function Profile({ navigation, route }) {
                     </View>
                     <View>
                         <Text style={{ fontSize: 25, marginTop: 5 }}>
-                            300
+                            {seguindo}
                         </Text>
                         <Text style={{ color: 'gray', marginTop: 5 }}>
                             Seguindo
                         </Text>
                     </View>
                     {(!personaldata.currentUser)?(<View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5 }}>
-                            <Text style={{ color: 'white', fontSize: 15, marginTop: 17, marginLeft: 25 }}>
-                                Seguir
+                        <TouchableOpacity style={{ backgroundColor: (segue)?"#1261A0":colorStyles.dorange, marginVertical: 5, width: 120, borderRadius: 5, alignItems:'center', justifyContent:'center' }} onPress={()=>{if(segue){unfollow()}else{follow()}}}>
+                            <Text style={{ color: 'white', fontSize: 15 }}>
+                                {(segue)?"Deixar de seguir":"Seguir"}
                         </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5, marginLeft: 5 }}>
