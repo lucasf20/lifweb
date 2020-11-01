@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, TouchableOpacity, FlatList, TouchableHighlight, ScrollView, Alert, Platform, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, FlatList, TouchableHighlight, ScrollView, Alert, Platform, Dimensions, Image, Linking } from 'react-native'
 import colorStyles from "../../colors";
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -651,7 +651,7 @@ function Part3({ changeState }) {
                     <Text style={{ fontSize: 15 }}>
                         Clube não cadastrado?
                 </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{Linking.openURL('https://lifweb.com.br/solicitarcadastro/')}}>
                         <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
                             Solicitar a inclusão.
                     </Text>
