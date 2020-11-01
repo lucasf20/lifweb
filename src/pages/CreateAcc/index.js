@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, {useState} from 'react';
 import {Feather} from '@expo/vector-icons';
 import {ScrollView, View,Text, Image, TouchableOpacity, Button, Alert} from 'react-native';
@@ -12,10 +14,7 @@ import colorStyles from "../../colors";
 
 import firebase from '../../../firebaseConfig';
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
-import * as Localization from 'expo-localization'
-import i18n from 'i18n-js';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 i18n.translations = {
     en: {
@@ -40,6 +39,9 @@ i18n.translations = {
 
       },
   };
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 export default function CreateAcc(){
 
