@@ -196,11 +196,11 @@ function Part1({ changeState }) {
                 Tipo Sanguíneo
             </Text>
             <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99', justifyContent: 'center' }} onPress={() => { (showlist) ? setshowlist(false) : setshowlist(true) }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={{ color: (sangue.length == 0) ? "gray" : 'black', marginLeft: 11 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal:11 }}>
+                    <Text style={{ color: (sangue.length == 0) ? "gray" : 'black' }}>
                         {(sangue.length == 0) ? "Selecione o seu tipo sanguíneo" : sangue}
                     </Text>
-                    <Ionicons name="ios-arrow-down" size={24} color="gray" style={{ marginRight: 10 }} />
+                    <Ionicons name="ios-arrow-down" size={24} color="gray"/>
                 </View>
             </TouchableOpacity>
             <FlatList
@@ -625,12 +625,12 @@ function Part3({ changeState }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                     CLUBE ASSOCIADO
             </Text>
-                <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { (showclube) ? setshowclube(false) : setshowclube(true) }}>
-                    <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                        <Text style={{ color: (clube.length == 0) ? 'gray' : 'black', marginLeft: 10 }}>
+                <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99', justifyContent:'center' }} onPress={() => { (showclube) ? setshowclube(false) : setshowclube(true) }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal:10 }}>
+                        <Text style={{ color: (clube.length == 0) ? 'gray' : 'black' }}>
                             {(clube.length == 0) ? 'ESCOLHA UMA OPÇÃO' : clube}
                         </Text>
-                        <Ionicons name="ios-arrow-down" size={24} color="gray" style={{ marginRight: 10 }} />
+                        <Ionicons name="ios-arrow-down" size={24} color="gray"  />
                     </View>
                 </TouchableOpacity>
                 <FlatList
