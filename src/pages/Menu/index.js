@@ -82,7 +82,7 @@ export default function Menu() {
             <View style={{ ...styles.container, paddingHorizontal: 18 }}>
                 <ScrollView style={{ ...styles.container, paddingHorizontal: 18 }}>
                     <View style={{ marginTop: 20 }}>
-                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('Profile'); }}>
+                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.dispatch(StackActions.popToTop());navigation.navigate('Profile', {uid:firebase.auth().currentUser.uid}); }}>
                             <SimpleLineIcons name="picture" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 Timeline
