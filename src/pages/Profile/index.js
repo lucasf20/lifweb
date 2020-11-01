@@ -175,7 +175,7 @@ export default function Profile({ navigation, route }) {
                     </TouchableOpacity>
                     <View>
                         <Text style={{ fontSize: 25, marginTop: 50 }}>
-                            {(personaldata.loaded)?personaldata.nome:nav.goBack()}
+                            {(personaldata.loaded)?personaldata.nome:nav.navigate("Menu")}
                         </Text>
                         <Text style={{ fontSize: 15, color: 'gray' }}>
                             {personaldata.profissao}
