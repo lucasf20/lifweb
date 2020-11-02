@@ -97,14 +97,14 @@ export default function Menu() {
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={styles.buttons}>
+                        <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.dispatch(StackActions.popToTop());navigation.navigate('Follow',{from:"Menu",followed:true, uid:firebase.auth().currentUser.uid, user:null})}}>
                             <SimpleLineIcons name="people" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 Seguidores
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={styles.buttons}>
+                        <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.dispatch(StackActions.popToTop());navigation.navigate('Follow',{from:"Menu",followed:false, uid:firebase.auth().currentUser.uid, user:null})}}>
                             <SimpleLineIcons name="user-following" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 Seguindo

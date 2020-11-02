@@ -10,7 +10,7 @@ import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons } from '@expo/vector
 import styles from './styles'
 import Cambutton from '../../Components/Cambutton'
 import Timeline from './Timeline'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, StackActions } from '@react-navigation/native'
 import colorStyles from "../../colors";
 
 import capa from '../../images/fotocapa.jpg'
@@ -186,22 +186,22 @@ export default function Profile({ navigation, route }) {
                     </View>
                 </View>
                 <View style={{ marginTop: 90, borderWidth: 0.5, marginHorizontal: 20, height: 70, borderBottomColor: 'silver', borderTopColor: 'silver', borderLeftColor: 'transparent', borderRightColor: 'transparent', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <View>
+                    <TouchableOpacity onPress={()=>{navigation.dispatch(StackActions.popToTop());navigation.navigate('Follow',{from:"Profile",followed:true, uid:route.params.uid, user:route.params.uid})}}>
                         <Text style={{ fontSize: 25, marginTop: 5 }}>
                             {seguido}
                         </Text>
                         <Text style={{ color: 'gray', marginTop: 5 }}>
                             Seguidores
                         </Text>
-                    </View>
-                    <View>
+                    </TouchableOpacity >
+                    <TouchableOpacity onPress={()=>{navigation.dispatch(StackActions.popToTop());navigation.navigate('Follow',{from:"Profile",followed:false, uid:route.params.uid, user:route.params.uid})}}>
                         <Text style={{ fontSize: 25, marginTop: 5 }}>
                             {seguindo}
                         </Text>
                         <Text style={{ color: 'gray', marginTop: 5 }}>
                             Seguindo
                         </Text>
-                    </View>
+                    </TouchableOpacity>
                     {(!personaldata.currentUser)?(<View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity style={{ backgroundColor: (segue)?"#1261A0":colorStyles.dorange, marginVertical: 5, width: 120, borderRadius: 5, alignItems:'center', justifyContent:'center' }} onPress={()=>{if(segue){unfollow()}else{follow()}}}>
                             <Text style={{ color: 'white', fontSize: 15 }}>
