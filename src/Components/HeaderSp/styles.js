@@ -12,6 +12,9 @@ const styles = StyleSheet.create({
     title:{
         fontSize:18,
         fontWeight:'bold'
+    },
+    text:{
+        fontSize:18
     }
 })
 module.exports = styles

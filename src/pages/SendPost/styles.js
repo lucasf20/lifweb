@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 import colorStyles from "../../colors";
 
@@ -10,41 +10,39 @@ export default StyleSheet.create({
         paddingTop: Constants.statusBarHeight + 50,
         paddingBottom: 50
     },
-    cameraIcon:{
-        alignItems:"flex-end", 
-        position:"absolute",
-        padding:20, 
-
+    cameraIcon: {
+        alignItems: "flex-end",
+        position: "absolute",
+        padding: 20,
         marginTop: Dimensions.get('window').height - 90,
-
-        right:0
+        right: 0
     },
 
     logo: {
-        flex:3,
-        justifyContent:'center',
-        flexDirection:'row',
+        flex: 3,
+        justifyContent: 'center',
+        flexDirection: 'row',
     },
 
     ButtonView: {
-        paddingTop:90,
+        paddingTop: 90,
     },
 
-    LooseText:{
-        paddingVertical:10,
+    LooseText: {
+        paddingVertical: 10,
         alignItems: 'center',
     },
 
-    LooseOrangeText:{
-        paddingVertical:10,
+    LooseOrangeText: {
+        paddingVertical: 10,
         alignItems: 'center',
         color: dorange
     },
 
 
-    BigText:{
-        fontSize:30,
-        paddingVertical:10,
+    BigText: {
+        fontSize: 30,
+        paddingVertical: 10,
         alignItems: 'center',
     },
 
@@ -53,6 +51,7 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-
-   
+    text: {
+        fontSize: 18
+    }
 });

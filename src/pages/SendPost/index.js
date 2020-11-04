@@ -1,53 +1,109 @@
-import React, {useEffect,useState} from 'react';
-import {Feather} from '@expo/vector-icons';
-import {ScrollView, Dimensions, View,Text, Image, TouchableOpacity, Button, SafeAreaView} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import MyTextInput from '../../MyTextInput';
-
-import Header from "../../Components/HeaderSp";
-
-import styles from './styles';
-
+import React, { useEffect, useState } from 'react';
+import { ScrollView, Dimensions, View, Text, Image, TouchableOpacity} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import colorStyles from "../../colors";
+import * as ImagePicker from 'expo-image-picker';
+import styles from './styles'
+import { EvilIcons } from '@expo/vector-icons';
+import MyTextInput from '../../MyTextInput';
+import firebase from '../../../firebaseConfig';
 
-import PostImage from '../../images/post_image.png'
+export default function SendPost() {
 
-function Post({source}) {
+    useEffect(() => {
+        (async () => {
+            if (Platform.OS !== 'web') {
+                const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+                if (status !== 'granted') {
+                    alert('Sorry, we need camera roll permissions to make this work!');
+                }
+            }
+        })();
+    }, []);
 
-    function imageResize(source) {
-        const screenwidth = Dimensions.get('window').width - 10;
-        const {width, height} = Image.resolveAssetSource(source);
-        return [screenwidth, height * screenwidth/width] 
-    }
-
-    return(
-        <View>
-            <View style={{alignItems:'center'}}>
-                <Image style={{...styles.postImg, width:imageResize(source)[0],height:imageResize(source)[1]}} source={source} />
-            </View>
-        </View>
-    )
-}
-
-export default function SendPost(){
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+            base64: true
+        });
+        if (!result.cancelled) {
+            setImagem({uri: result.uri});
+        }
+    };
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
+    const [imagem, setImagem] = useState(null)
+    const [descricao, setdescricao] = useState("")
 
-
-    function navigateBack() {
-        navigation.goBack();
+    const postar = async () => {
+        const response = await fetch(imagem.uri)
+        const blob = await response.blob()
+        var user = firebase.auth().currentUser
+        var postname = Date.now().toString()
+        var metadata ={
+            owner:user.uid,
+            likes:[],
+            shares:[],
+            descricao:descricao
+        }
+        await firebase.storage().ref().child("user/" + user.uid + "/posts/" + postname).put(blob)
+        await firebase.firestore().collection("posts").doc(postname).set(metadata)
     }
 
-    function navigateHome(){
-        navigation.navigate('Login');
+    function height(){
+        if(!imagem){
+            return (Dimensions.get('window').width - 40)
+        }else{
+            return (Dimensions.get('window').width - 40)*(3/4)
+        }
     }
-    
-    return(
+
+    return (
         <View>
-            <Header/>
+            <View style={{flexDirection:'row', marginTop:30, justifyContent:'space-between', marginHorizontal:10}}>
+                <View style={{ flexDirection: "row" }}>
+                    <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                        <Text style={styles.text}>
+                            Cancelar
+                </Text>
+                    </TouchableOpacity>
+                </View>
+                <TouchableOpacity onPress={() => { navigation.navigate("Feed") }} style={{ flexDirection: 'row' }}>
+                    <Text style={{ ...styles.text, fontWeight: 'bold' }}>
+                        Recentes
+               </Text>
+                    <EvilIcons name="chevron-down" size={30} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>{if(imagem && descricao.length>0){postar().then(navigation.navigate("Feed"))}}}>
+                    <Text style={{ ...styles.text, color: dorange, fontWeight: 'bold' }}>
+                        Próximo
+               </Text>
+                </TouchableOpacity>
+            </View>
             <ScrollView>
-                <Post source={PostImage}/>
+                <View style={{marginHorizontal:20, backgroundColor:'white', height:height(), marginTop:30, borderRadius:5, justifyContent:'center', alignItems:'center'}}>
+                    <TouchableOpacity style={{backgroundColor:dorange, height:50, borderRadius:5, justifyContent:'center'}} onPress={pickImage}>
+                        <Text style={{color:'white', marginHorizontal:20}}>
+                            Selecionar Imagem
+                        </Text>
+                    </TouchableOpacity>
+                    {(imagem)?(<Image source={imagem} style={{position:'absolute', height:height(), width:Dimensions.get('window').width-40, borderRadius:5}}/>):(<View/>)}
+                </View>
+                {(imagem)?(
+                <View style={{marginTop:20, marginHorizontal:20}}>
+                    <Text style={{ ...styles.text, fontWeight: 'bold', marginBottom:10 }}>
+                        Descrição:
+                    </Text>
+                    <MyTextInput placeholder="Descreva seu post"
+                    value={descricao}
+                    onChangeText={text => setdescricao(text)}
+                     />
+                </View>
+                ):(<View/>)}
             </ScrollView>
         </View>
     );
