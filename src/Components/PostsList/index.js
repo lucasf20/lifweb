@@ -39,11 +39,11 @@ function trocaCaveira(){
     const [like, setLike] = useState (false)   
 
 
-const onShare = async () => {
+const onShare = async (name) => {
         try {
           const result = await Share.share({
             message:
-              'React Native | A framework for building native apps using React',
+              name +' compartilhou esta postagem através do app LifWeb. Junte-se a nos! Link',
           });
           if (result.action === Share.sharedAction) {
             if (result.activityType) {
