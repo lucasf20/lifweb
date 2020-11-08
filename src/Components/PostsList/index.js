@@ -43,7 +43,7 @@ const onShare = async (name) => {
         try {
           const result = await Share.share({
             message:
-              name +' compartilhou esta postagem através do app LifWeb. Junte-se a nos! Link',
+              name +' compartilhou esta postagem através do app LifWeb. Junte-se a nos! https://lifweb.com.br/ (Em construção)',
           });
           if (result.action === Share.sharedAction) {
             if (result.activityType) {
