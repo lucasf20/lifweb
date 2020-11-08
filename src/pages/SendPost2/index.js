@@ -51,7 +51,9 @@ export default function SendPost2({navigate, route}) {
             owner:user.uid,
             likes:[],
             shares:[],
-            descricao:descricao
+            descricao:descricao,
+            rotation:rotate(),
+            comments:[]
         }
         await firebase.storage().ref().child("user/" + user.uid + "/posts/" + postname).put(blob)
         await firebase.firestore().collection("posts").doc(postname).set(metadata)
@@ -62,14 +64,32 @@ export default function SendPost2({navigate, route}) {
             return {h,w}
         }else{
             Image.getSize(imagem.uri, (width, height) => {
+                if(rotate() == "0deg"){
                 seth(height)
                 setw(width)
+                }else{
+                seth(width)
+                setw(height)
+                }
               }, (error) => {
                 console.error(`Couldn't get the image size: ${error.message}`);
               });
               var wt = Dimensions.get('window').width - 40
               var ht = h * (wt)/w
             return {h:ht,w:wt}
+        }
+    }
+
+    function rotate(){
+        var ang = route.params.coord 
+        if(ang.y < 0.5){
+            if(ang.x > 0){
+                return '270deg'
+            }else{
+                return '90deg'
+            }
+        }else{
+            return '0deg'
         }
     }
 
@@ -102,7 +122,7 @@ export default function SendPost2({navigate, route}) {
                             Selecionar Imagem
                         </Text>
                     </TouchableOpacity>
-                    {(imagem)?(<Image source={imagem} style={{position:'absolute', height:height().h, width:height().w, borderRadius:5}}/>):(<View/>)}
+                    {(imagem)?(<Image source={imagem} style={{position:'absolute', height:(rotate() == '0deg')?(height().h):(height().w), width:(rotate() == '0deg')?(height().w):(height().h), borderRadius:5, transform: [{ rotate: rotate() }]}}/>):(<View/>)}
                 </View>
                 {(imagem)?(
                      <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}

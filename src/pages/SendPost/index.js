@@ -4,6 +4,7 @@ import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { DeviceMotion, Accelerometer } from 'expo-sensors';
 
 export default function App() {
     //  camera permissions
@@ -17,6 +18,8 @@ export default function App() {
     const { height, width } = Dimensions.get('window');
     const screenRatio = height / width;
     const [isRatioSet, setIsRatioSet] = useState(false);
+    const [flash, setFlash] = useState(false)
+    const [coord, setcoord] = useState({x:0,y:1,z:0})
 
     //navigation
     const nav = useNavigation()
@@ -79,7 +82,8 @@ export default function App() {
           const options = { quality: 0.5, base64: true, skipProcessing: true };
           const data = await camera.takePictureAsync(options);
           const source = data.uri;
-          nav.navigate('SendPost2', {photo:{uri:source}})
+          Accelerometer.addListener(obj => {setcoord(obj)})
+          nav.navigate('SendPost2', {photo:{uri:source},coord:coord})
         }
       };
 
@@ -105,8 +109,16 @@ export default function App() {
     } else {
         return (
             <View style={styles.container}>
-                <Entypo name="chevron-left" size={30} color="white" style={{ marginTop: 30 }} onPress={() => { nav.goBack() }} />
+                <View style={{justifyContent:'space-between', flexDirection:'row'}}>
+                    <Entypo name="chevron-left" size={30} color="white" style={{ marginTop: 30 }} onPress={() => { nav.goBack() }} />
+                    {(flash)?
+                    (<Ionicons name="ios-flash" size={30} color="yellow" style={{ marginTop: 30, marginRight:10 }} onPress={()=>{setFlash(false)}}/>):
+                    (<Ionicons name="ios-flash-off" size={30} color="white" style={{ marginTop: 30, marginRight:10 }} onPress={()=>{setFlash(true)}}/>)
+                    }
+                </View>
+                
                 <Camera
+                    flashMode={(flash)?'on':'off'}
                     style={[styles.cameraPreview, { marginTop: imagePadding, marginBottom: imagePadding }]}
                     type={type}
                     onCameraReady={setCameraReady}
@@ -116,7 +128,7 @@ export default function App() {
                     }}>
                 </Camera>
                 <View style={{ marginHorizontal: 20, justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center' }}>
-                    <Ionicons name="ios-reverse-camera" size={30} color="white" onPress={() => {
+                    <Ionicons name="ios-reverse-camera" size={45} color="white" onPress={() => {
                         setType(
                             type === Camera.Constants.Type.back
                                 ? Camera.Constants.Type.front
@@ -124,7 +136,7 @@ export default function App() {
                         );
                     }} />
                     <MaterialCommunityIcons name="camera-iris" size={80} color="white" onPress={takePicture}/>
-                    <MaterialIcons name="add-a-photo" size={24} color="white" onPress={() => {nav.navigate("SendPost2", {photo:null})}}/>
+                    <MaterialIcons name="add-a-photo" size={35} color="white" onPress={() => {nav.navigate("SendPost2", {photo:null, coord:coord})}}/>
                 </View>
             </View>
         );
