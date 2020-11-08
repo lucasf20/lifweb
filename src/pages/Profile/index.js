@@ -6,7 +6,7 @@ import Svg, {
     ClipPath,
     Polygon,
 } from 'react-native-svg';
-import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
 import styles from './styles'
 import Cambutton from '../../Components/Cambutton'
 import Timeline from './Timeline'
@@ -24,22 +24,22 @@ function Header() {
     const navigation = useNavigation()
     return (
         <View style={{ flexDirection: 'row', position: 'absolute', justifyContent: 'space-between', width: Dimensions.get('window').width }}>
-            <View style={{ position: 'absolute', backgroundColor: 'black', flexDirection: 'row', opacity: 0.4, justifyContent: 'space-between', width: Dimensions.get('window').width, height: 60 }}>
+            <View style={{ position: 'absolute', backgroundColor: 'black', flexDirection: 'row', opacity: 0.4, justifyContent: 'space-between', width: Dimensions.get('window').width, height: 80 }}>
             </View>
             <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity style={{ marginLeft: 5, marginTop: 30, width: 70 }} onPress={() => { navigation.navigate("Menu") }}>
-                    <SimpleLineIcons name="menu" size={24} color="white" />
+                <TouchableOpacity style={{ marginLeft: 5, marginTop: 50, width: 70 }} onPress={() => { navigation.navigate("Feed") }}>
+                    <Entypo name="chevron-left" size={24} color="white" />
                 </TouchableOpacity>
             </View>
 
-            <Text style={{ fontWeight: 'bold', color: 'white', marginTop: 30, fontSize: 20 }}>
+            <Text style={{ fontWeight: 'bold', color: 'white', marginTop: 50, fontSize: 20 }}>
                 Perfil
                     </Text>
             <View style={{ flexDirection: 'row', width: 70, marginRight: 5 }}>
-                <TouchableOpacity style={{ marginTop: 30 }} onPress={() => { navigation.navigate("Filters") }}>
+                <TouchableOpacity style={{ marginTop: 50 }} onPress={() => { navigation.navigate("Filters") }}>
                     <EvilIcons name="search" size={30} color="white" style={{ paddingRight: 15 }} />
                 </TouchableOpacity>
-                <TouchableOpacity style={{ marginTop: 30 }} onPress={() => { navigation.navigate('Direct') }}>
+                <TouchableOpacity style={{ marginTop: 50 }} onPress={() => { navigation.navigate('Direct') }}>
                     <MaterialCommunityIcons name="message-outline" size={24} color="white" />
                 </TouchableOpacity>
             </View>
@@ -97,21 +97,21 @@ export default function Profile({ navigation, route }) {
             moto = data.modeloDaMoto.moto
         }
         firebase.firestore().collection('user').doc(user).get().then(data => {
-            if(!data.exists){
-                firebase.firestore().collection('user').doc(user).set({following:[], followed:[]})
+            if (!data.exists) {
+                firebase.firestore().collection('user').doc(user).set({ following: [], followed: [] })
                 setseguido(0)
                 setseguindo(0)
-            }else{
+            } else {
                 var cnt = data.data()
                 setseguindo(cnt['following'].length)
                 setseguido(cnt['followed'].length)
             }
         })
         firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).get().then(data => {
-            if(!data.exists){
-                firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).set({following:[], followed:[]})
+            if (!data.exists) {
+                firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).set({ following: [], followed: [] })
                 setsegue(false)
-            }else{
+            } else {
                 var cnt = data.data()
                 setsegue(cnt['following'].includes(user))
             }
@@ -120,29 +120,29 @@ export default function Profile({ navigation, route }) {
     }
 
     function calculateDimensions() {
-        return { width: Dimensions.get('window').width, height: Dimensions.get('window').width *(3/4) }
+        return { width: Dimensions.get('window').width, height: Dimensions.get('window').width * (3 / 4) }
     }
 
     const nav = useNavigation()
-    
-    async function follow(){
+
+    async function follow() {
         var phoneOwner = firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid)
         var profileOwner = firebase.firestore().collection('user').doc(user)
-        await phoneOwner.get().then(data => {if(!data.exists){phoneOwner.set({following:[], followed:[]})}})
-        await profileOwner.get().then(data => {if(!data.exists){profileOwner.set({following:[], followed:[]})}})
-        await phoneOwner.update({following:firebase.firestore.FieldValue.arrayUnion(user)})
-        await profileOwner.update({followed:firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid)})
+        await phoneOwner.get().then(data => { if (!data.exists) { phoneOwner.set({ following: [], followed: [] }) } })
+        await profileOwner.get().then(data => { if (!data.exists) { profileOwner.set({ following: [], followed: [] }) } })
+        await phoneOwner.update({ following: firebase.firestore.FieldValue.arrayUnion(user) })
+        await profileOwner.update({ followed: firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid) })
         setseguido(seguido + 1)
         setsegue(true)
     }
 
-    async function unfollow(){
+    async function unfollow() {
         var phoneOwner = firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid)
         var profileOwner = firebase.firestore().collection('user').doc(user)
-        await phoneOwner.get().then(data => {if(!data.exists){phoneOwner.set({following:[], followed:[]})}})
-        await profileOwner.get().then(data => {if(!data.exists){profileOwner.set({following:[], followed:[]})}})
-        await phoneOwner.update({following:firebase.firestore.FieldValue.arrayRemove(user)})
-        await profileOwner.update({followed:firebase.firestore.FieldValue.arrayRemove(firebase.auth().currentUser.uid)})
+        await phoneOwner.get().then(data => { if (!data.exists) { phoneOwner.set({ following: [], followed: [] }) } })
+        await profileOwner.get().then(data => { if (!data.exists) { profileOwner.set({ following: [], followed: [] }) } })
+        await phoneOwner.update({ following: firebase.firestore.FieldValue.arrayRemove(user) })
+        await profileOwner.update({ followed: firebase.firestore.FieldValue.arrayRemove(firebase.auth().currentUser.uid) })
         setseguido(seguido - 1)
         setsegue(false)
     }
@@ -175,7 +175,7 @@ export default function Profile({ navigation, route }) {
                     </TouchableOpacity>
                     <View>
                         <Text style={{ fontSize: 25, marginTop: 50 }}>
-                            {(personaldata.loaded)?personaldata.nome:nav.navigate("Menu")}
+                            {(personaldata.loaded) ? personaldata.nome : nav.navigate("Menu")}
                         </Text>
                         <Text style={{ fontSize: 15, color: 'gray' }}>
                             {personaldata.profissao}
@@ -186,7 +186,7 @@ export default function Profile({ navigation, route }) {
                     </View>
                 </View>
                 <View style={{ marginTop: 90, borderWidth: 0.5, marginHorizontal: 20, height: 70, borderBottomColor: 'silver', borderTopColor: 'silver', borderLeftColor: 'transparent', borderRightColor: 'transparent', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TouchableOpacity onPress={()=>{navigation.dispatch(StackActions.popToTop());navigation.navigate('Follow',{from:"Profile",followed:true, uid:route.params.uid, user:route.params.uid})}}>
+                    <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.popToTop()); navigation.navigate('Follow', { from: "Profile", followed: true, uid: route.params.uid, user: route.params.uid }) }}>
                         <Text style={{ fontSize: 25, marginTop: 5 }}>
                             {seguido}
                         </Text>
@@ -194,7 +194,7 @@ export default function Profile({ navigation, route }) {
                             Seguidores
                         </Text>
                     </TouchableOpacity >
-                    <TouchableOpacity onPress={()=>{navigation.dispatch(StackActions.popToTop());navigation.navigate('Follow',{from:"Profile",followed:false, uid:route.params.uid, user:route.params.uid})}}>
+                    <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.popToTop()); navigation.navigate('Follow', { from: "Profile", followed: false, uid: route.params.uid, user: route.params.uid }) }}>
                         <Text style={{ fontSize: 25, marginTop: 5 }}>
                             {seguindo}
                         </Text>
@@ -202,18 +202,18 @@ export default function Profile({ navigation, route }) {
                             Seguindo
                         </Text>
                     </TouchableOpacity>
-                    {(!personaldata.currentUser)?(<View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity style={{ backgroundColor: (segue)?"#1261A0":colorStyles.dorange, marginVertical: 5, width: 120, borderRadius: 5, alignItems:'center', justifyContent:'center' }} onPress={()=>{if(segue){unfollow()}else{follow()}}}>
+                    {(!personaldata.currentUser) ? (<View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity style={{ backgroundColor: (segue) ? "#1261A0" : colorStyles.dorange, marginVertical: 5, width: 120, borderRadius: 5, alignItems: 'center', justifyContent: 'center' }} onPress={() => { if (segue) { unfollow() } else { follow() } }}>
                             <Text style={{ color: 'white', fontSize: 15 }}>
-                                {(segue)?"Deixar de seguir":"Seguir"}
-                        </Text>
+                                {(segue) ? "Deixar de seguir" : "Seguir"}
+                            </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5, marginLeft: 5 }}>
                             <Text style={{ color: 'white', fontSize: 15, marginTop: 17, marginLeft: 10 }}>
                                 Mensagem
                         </Text>
                         </TouchableOpacity>
-                    </View>):(<View style={{width:210}}/>)}
+                    </View>) : (<View style={{ width: 210 }} />)}
                 </View>
                 <Timeline />
             </ScrollView>
