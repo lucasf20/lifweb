@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { EvilIcons, AntDesign, Feather } from '@expo/vector-icons';
-import { ScrollView, View, Text, Image, TouchableOpacity, Button, SafeAreaView } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 import Cambutton from '../../Components/Cambutton'
@@ -142,7 +142,7 @@ export default function Feed() {
 
     return (
         <SafeAreaView>
-            <Header />
+            <Header/>
             <ScrollView>
                 <View style={{ marginHorizontal: 20 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 20, marginVertical: 10 }}>

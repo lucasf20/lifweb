@@ -7,7 +7,7 @@ import Cambutton from '../../Components/Cambutton'
 
 import Stories from "../../Components/Stories";
 
-import Header from "../../Components/Header";
+import HeaderSp from "../../Components/HeaderSp";
 import StoriesList from "../../Components/Stories";
 import PostsList from "../../Components/PostsList";
 
@@ -50,7 +50,7 @@ export default function Feed(){
     
     return(
         <SafeAreaView>
-            <Header />
+            <HeaderSp />
             <ScrollView>
                 <Stories />
                 <PostsList />
