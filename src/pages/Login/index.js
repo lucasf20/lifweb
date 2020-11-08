@@ -151,7 +151,7 @@ const Login = () => {
         <View style={{
           ...styles.alignItemsCenter,
         }}>
-          <Image source={Logo} />
+          <Image source={Logo} style={{height:Image.resolveAssetSource(Logo).height * 0.8, width: Image.resolveAssetSource(Logo).width * 0.8, marginTop:10}} />
         </View>
         <View>
           <Text style={{

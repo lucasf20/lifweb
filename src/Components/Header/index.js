@@ -25,7 +25,7 @@ function Header(props) {
                 <EvilIcons name="search" size={30} color="transparent" style={{ paddingRight: 15 }} />
             </View>
             { !inChat && <TouchableOpacity onPress={() => { navigation.navigate("Feed") }}>
-                <Image source={home} style={{ height: resizeHome(), width: 120 }}>
+                <Image source={home} style={{ height: resizeHome(), width: 120, marginTop:5 }}>
                 </Image>
             </TouchableOpacity> }
             <View style={{ flexDirection: "row" }}>

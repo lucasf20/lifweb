@@ -1,111 +1,149 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, Dimensions, View, Text, Image, TouchableOpacity} from 'react-native';
+import React, { useEffect, useState , useRef} from 'react';
+import { StyleSheet, View, Text, Dimensions, Platform } from 'react-native';
+import { Camera } from 'expo-camera';
+import * as Permissions from 'expo-permissions';
+import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import colorStyles from "../../colors";
-import * as ImagePicker from 'expo-image-picker';
-import styles from './styles'
-import { EvilIcons } from '@expo/vector-icons';
-import MyTextInput from '../../MyTextInput';
-import firebase from '../../../firebaseConfig';
 
-export default function SendPost() {
+export default function App() {
+    //  camera permissions
+    const [hasCameraPermission, setHasCameraPermission] = useState(null);
+    const [camera, setCamera] = useState(null);
+    const [type, setType] = useState(Camera.Constants.Type.back);
 
+    // Screen Ratio and image padding
+    const [imagePadding, setImagePadding] = useState(0);
+    const [ratio, setRatio] = useState('4:3');  // default is 4:3
+    const { height, width } = Dimensions.get('window');
+    const screenRatio = height / width;
+    const [isRatioSet, setIsRatioSet] = useState(false);
+
+    //navigation
+    const nav = useNavigation()
+
+    // on screen  load, ask for permission to use the camera
     useEffect(() => {
-        (async () => {
-            if (Platform.OS !== 'web') {
-                const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-                if (status !== 'granted') {
-                    alert('Sorry, we need camera roll permissions to make this work!');
-                }
-            }
-        })();
+        async function getCameraStatus() {
+            const { status } = await Permissions.askAsync(Permissions.CAMERA);
+            setHasCameraPermission(status == 'granted');
+        }
+        getCameraStatus();
     }, []);
 
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-            base64: true
-        });
-        if (!result.cancelled) {
-            setImagem({uri: result.uri});
+    // set the camera ratio and padding.
+    // this code assumes a portrait mode screen
+    const prepareRatio = async () => {
+        let desiredRatio = '4:3';  // Start with the system default
+        // This issue only affects Android
+        if (Platform.OS === 'android') {
+            const ratios = await camera.getSupportedRatiosAsync();
+
+            // Calculate the width/height of each of the supported camera ratios
+            // These width/height are measured in landscape mode
+            // find the ratio that is closest to the screen ratio without going over
+            let distances = {};
+            let realRatios = {};
+            let minDistance = null;
+            for (const ratio of ratios) {
+                const parts = ratio.split(':');
+                const realRatio = parseInt(parts[0]) / parseInt(parts[1]);
+                realRatios[ratio] = realRatio;
+                // ratio can't be taller than screen, so we don't want an abs()
+                const distance = screenRatio - realRatio;
+                distances[ratio] = realRatio;
+                if (minDistance == null) {
+                    minDistance = ratio;
+                } else {
+                    if (distance >= 0 && distance < distances[minDistance]) {
+                        minDistance = ratio;
+                    }
+                }
+            }
+            // set the best match
+            desiredRatio = minDistance;
+            //  calculate the difference between the camera width and the screen height
+            const remainder = Math.floor(
+                (height - realRatios[desiredRatio] * width) / 2
+            );
+            // set the preview padding and preview ratio
+            setImagePadding(remainder / 2);
+            setRatio(desiredRatio);
+            // Set a flag so we don't do this 
+            // calculation each time the screen refreshes
+            setIsRatioSet(true);
         }
     };
 
-    const dorange = colorStyles.dorange
-    const navigation = useNavigation();
-    const [imagem, setImagem] = useState(null)
-    const [descricao, setdescricao] = useState("")
-
-    const postar = async () => {
-        const response = await fetch(imagem.uri)
-        const blob = await response.blob()
-        var user = firebase.auth().currentUser
-        var postname = Date.now().toString()
-        var metadata ={
-            owner:user.uid,
-            likes:[],
-            shares:[],
-            descricao:descricao
+    const takePicture = async () => {
+        if (camera) {
+          const options = { quality: 0.5, base64: true, skipProcessing: true };
+          const data = await camera.takePictureAsync(options);
+          const source = data.uri;
+          nav.navigate('SendPost2', {photo:{uri:source}})
         }
-        await firebase.storage().ref().child("user/" + user.uid + "/posts/" + postname).put(blob)
-        await firebase.firestore().collection("posts").doc(postname).set(metadata)
-    }
+      };
 
-    function height(){
-        if(!imagem){
-            return (Dimensions.get('window').width - 40)
-        }else{
-            return (Dimensions.get('window').width - 40)*(3/4)
+    // the camera must be loaded in order to access the supported ratios
+    const setCameraReady = async () => {
+        if (!isRatioSet) {
+            await prepareRatio();
         }
-    }
+    };
 
-    return (
-        <View>
-            <View style={{flexDirection:'row', marginTop:30, justifyContent:'space-between', marginHorizontal:10}}>
-                <View style={{ flexDirection: "row" }}>
-                    <TouchableOpacity onPress={() => { navigation.goBack() }}>
-                        <Text style={styles.text}>
-                            Cancelar
-                </Text>
-                    </TouchableOpacity>
-                </View>
-                <TouchableOpacity onPress={() => { navigation.navigate("Feed") }} style={{ flexDirection: 'row' }}>
-                    <Text style={{ ...styles.text, fontWeight: 'bold' }}>
-                        Recentes
-               </Text>
-                    <EvilIcons name="chevron-down" size={30} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{if(imagem && descricao.length>0){postar().then(navigation.navigate("Feed"))}}}>
-                    <Text style={{ ...styles.text, color: dorange, fontWeight: 'bold' }}>
-                        Próximo
-               </Text>
-                </TouchableOpacity>
+    if (hasCameraPermission === null) {
+        return (
+            <View style={styles.information}>
+                <Text>Waiting for camera permissions</Text>
             </View>
-            <ScrollView>
-                <View style={{marginHorizontal:20, backgroundColor:'white', height:height(), marginTop:30, borderRadius:5, justifyContent:'center', alignItems:'center'}}>
-                    <TouchableOpacity style={{backgroundColor:dorange, height:50, borderRadius:5, justifyContent:'center'}} onPress={pickImage}>
-                        <Text style={{color:'white', marginHorizontal:20}}>
-                            Selecionar Imagem
-                        </Text>
-                    </TouchableOpacity>
-                    {(imagem)?(<Image source={imagem} style={{position:'absolute', height:height(), width:Dimensions.get('window').width-40, borderRadius:5}}/>):(<View/>)}
+        );
+    } else if (hasCameraPermission === false) {
+        return (
+            <View style={styles.information}>
+                <Text>No access to camera</Text>
+            </View>
+        );
+    } else {
+        return (
+            <View style={styles.container}>
+                <Entypo name="chevron-left" size={30} color="white" style={{ marginTop: 30 }} onPress={() => { nav.goBack() }} />
+                <Camera
+                    style={[styles.cameraPreview, { marginTop: imagePadding, marginBottom: imagePadding }]}
+                    type={type}
+                    onCameraReady={setCameraReady}
+                    ratio={ratio}
+                    ref={(ref) => {
+                        setCamera(ref);
+                    }}>
+                </Camera>
+                <View style={{ marginHorizontal: 20, justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center' }}>
+                    <Ionicons name="ios-reverse-camera" size={30} color="white" onPress={() => {
+                        setType(
+                            type === Camera.Constants.Type.back
+                                ? Camera.Constants.Type.front
+                                : Camera.Constants.Type.back
+                        );
+                    }} />
+                    <MaterialCommunityIcons name="camera-iris" size={80} color="white" onPress={takePicture}/>
+                    <MaterialIcons name="add-a-photo" size={24} color="white" onPress={() => {nav.navigate("SendPost2", {photo:null})}}/>
                 </View>
-                {(imagem)?(
-                <View style={{marginTop:20, marginHorizontal:20}}>
-                    <Text style={{ ...styles.text, fontWeight: 'bold', marginBottom:10 }}>
-                        Descrição:
-                    </Text>
-                    <MyTextInput placeholder="Descreva seu post"
-                    value={descricao}
-                    onChangeText={text => setdescricao(text)}
-                     />
-                </View>
-                ):(<View/>)}
-            </ScrollView>
-        </View>
-    );
+            </View>
+        );
+    }
 }
 
+const styles = StyleSheet.create({
+    information: {
+        flex: 1,
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+    },
+    container: {
+        flex: 1,
+        backgroundColor: '#000',
+        justifyContent: 'center',
+    },
+    cameraPreview: {
+        flex: 1,
+    }
+});

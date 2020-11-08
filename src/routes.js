@@ -14,6 +14,7 @@ import Feed from './pages/Feed';
 import Direct from './pages/Direct';
 import Profile from './pages/Profile';
 import SendPost from './pages/SendPost';
+import SendPost2 from './pages/SendPost2';
 import Filters from './pages/Filters';
 import EditProfile from './pages/EditProfile';
 import Follow from './pages/Follow'
@@ -35,6 +36,7 @@ export default function Routes() {
                 <AppStack.Screen name = "Direct" component = {Direct}/>
                 <AppStack.Screen name = "Profile" component = {Profile} initialParams={{uid:null}}/>
                 <AppStack.Screen name = "SendPost" component = {SendPost}/>
+                <AppStack.Screen name = "SendPost2" component = {SendPost2}/>
                 <AppStack.Screen name = "Filters" component = {Filters}/>
                 <AppStack.Screen name = "EditProfile" component = {EditProfile}/>
                 <AppStack.Screen name = "NovaMensagem" component = {NovaMensagem}/>
