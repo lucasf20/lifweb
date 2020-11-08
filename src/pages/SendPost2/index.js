@@ -7,6 +7,7 @@ import styles from './styles'
 import { EvilIcons } from '@expo/vector-icons';
 import MyTextInput from '../../MyTextInput';
 import firebase from '../../../firebaseConfig';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function SendPost2({navigate, route}) {
 
@@ -38,6 +39,8 @@ export default function SendPost2({navigate, route}) {
     const navigation = useNavigation();
     const [imagem, setImagem] = useState(route.params.photo)
     const [descricao, setdescricao] = useState("")
+    const [h, seth] = useState(Dimensions.get('window').width - 40)
+    const [w, setw] = useState(Dimensions.get('window').width - 40)
 
     const postar = async () => {
         const response = await fetch(imagem.uri)
@@ -56,14 +59,22 @@ export default function SendPost2({navigate, route}) {
 
     function height(){
         if(!imagem){
-            return (Dimensions.get('window').width - 40)
+            return {h,w}
         }else{
-            return (Dimensions.get('window').width - 40)*(3/4)
+            Image.getSize(imagem.uri, (width, height) => {
+                seth(height)
+                setw(width)
+              }, (error) => {
+                console.error(`Couldn't get the image size: ${error.message}`);
+              });
+              var wt = Dimensions.get('window').width - 40
+              var ht = h * (wt)/w
+            return {h:ht,w:wt}
         }
     }
 
     return (
-        <View>
+        <ScrollView>
             <View style={{flexDirection:'row', marginTop:30, justifyContent:'space-between', marginHorizontal:10}}>
                 <View style={{ flexDirection: "row" }}>
                     <TouchableOpacity onPress={() => { navigation.goBack() }}>
@@ -85,16 +96,19 @@ export default function SendPost2({navigate, route}) {
                 </TouchableOpacity>
             </View>
             <ScrollView>
-                <View style={{marginHorizontal:20, backgroundColor:'white', height:height(), marginTop:30, borderRadius:5, justifyContent:'center', alignItems:'center'}}>
+                <View style={{marginHorizontal:20, backgroundColor:'white', height:height().h, marginTop:30, borderRadius:5, justifyContent:'center', alignItems:'center'}}>
                     <TouchableOpacity style={{backgroundColor:dorange, height:50, borderRadius:5, justifyContent:'center'}} onPress={pickImage}>
                         <Text style={{color:'white', marginHorizontal:20}}>
                             Selecionar Imagem
                         </Text>
                     </TouchableOpacity>
-                    {(imagem)?(<Image source={imagem} style={{position:'absolute', height:height(), width:Dimensions.get('window').width-40, borderRadius:5}}/>):(<View/>)}
+                    {(imagem)?(<Image source={imagem} style={{position:'absolute', height:height().h, width:height().w, borderRadius:5}}/>):(<View/>)}
                 </View>
                 {(imagem)?(
-                <View style={{marginTop:20, marginHorizontal:20}}>
+                     <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
+                     style={{ flex: 1 }}
+                     showsVerticalScrollIndicator={false}>
+                <View style={{marginTop:20, marginHorizontal:20, marginBottom:20}}>
                     <Text style={{ ...styles.text, fontWeight: 'bold', marginBottom:10 }}>
                         Descrição:
                     </Text>
@@ -103,9 +117,10 @@ export default function SendPost2({navigate, route}) {
                     onChangeText={text => setdescricao(text)}
                      />
                 </View>
+            </KeyboardAwareScrollView>
                 ):(<View/>)}
             </ScrollView>
-        </View>
+        </ScrollView>
     );
 }
 
