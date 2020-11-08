@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ScrollView, Dimensions, Share } from 'react-native'
 import { SimpleLineIcons, AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons';
 import Icon from '../../images/avatar_stories1.png'
 import PostImage from '../../images/post_image.png'
@@ -16,7 +16,7 @@ import caveira from '../../assets/caveira.png'
 import caveiralike from '../../assets/caveiralike.png'
 
 import Comentario from '../../assets/comentario.png'
-import Share from '../../assets/share.png'
+import ShareIcon from '../../assets/share.png'
 import Repost from '../../assets/repost.png'
 
 import UserImage2 from '../../images/avatar_stories2.jpg';
@@ -33,9 +33,31 @@ function Post({ name, icon, source, comment, likes}) {
     }
 
 function trocaCaveira(){
-    (like)?setLike(false):setLike (true)}
+    (like)?setLike(false):setLike (true)
+    }
 
-    const [like, setLike] = useState (false)    
+    const [like, setLike] = useState (false)   
+
+
+const onShare = async (name) => {
+        try {
+          const result = await Share.share({
+            message:
+              name +' compartilhou esta postagem através do app LifWeb. Junte-se a nos! Link',
+          });
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -107,8 +129,8 @@ function trocaCaveira(){
                     <TouchableOpacity style={{paddingRight:10}}>
                         <Image source={Repost} style={{height:30, width:30}}></Image>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{paddingRight:10}}>
-                        <Image source={Share} style={{height:30, width:30}}></Image>
+                    <TouchableOpacity style={{paddingRight:10}} onPress={()=>{onShare(name)}}>
+                        <Image source={ShareIcon} style={{height:30, width:30}}></Image>
                     </TouchableOpacity>
                 </View>
                 </View>
