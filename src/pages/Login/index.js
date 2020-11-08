@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   ScrollView,
   SafeAreaView,
   ImageBackground,
+  ToastAndroid,
 } from 'react-native'
 import * as Localization from 'expo-localization'
 import {useNavigation} from '@react-navigation/native'
@@ -23,6 +24,7 @@ import Logo from '../../assets/logolifweb.png'
 import colors from '../../colors'
 
 import i18n from 'i18n-js';
+import { AuthContext } from '../../contexts/auth'
 
 i18n.translations = {
   en: {
@@ -58,7 +60,8 @@ i18n.fallbacks = true;
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const { entrar } = useContext(AuthContext);
 
   const login = async () => {
     try {
@@ -99,8 +102,26 @@ const Login = () => {
       }
 
       console.log({type, accessToken, user})
+
       const credential = Firebase.auth.GoogleAuthProvider.credential(null, accessToken)
-      await Firebase.auth().signInWithCredential(credential)
+
+      await Firebase.auth().signInWithCredential(credential).then((value) => {
+        const u = value.user;
+
+        Firebase.firestore().collection('usuarios').doc(u.uid).set({
+          email: u.email,
+          nome: u.displayName,
+          avatar: u.photoURL,
+        })
+        .then((value) => {
+          entrar(u.uid, u.displayName, u.email, u.photoURL);
+
+          ToastAndroid.show("Login efetuado.", ToastAndroid.SHORT);
+        })
+        .catch(err => {
+          ToastAndroid.show("Ocorreu um erro", ToastAndroid.SHORT);
+        })
+      })
     } catch (error) {
       console.log(error)
       alert(i18n.t('erroralert'))
