@@ -129,7 +129,7 @@ const onShare = async (name) => {
                     <TouchableOpacity style={{paddingRight:10}}>
                         <Image source={Repost} style={{height:30, width:30}}></Image>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{paddingRight:10}} onPress={onShare}>
+                    <TouchableOpacity style={{paddingRight:10}} onPress={()=>{onShare(name)}}>
                         <Image source={ShareIcon} style={{height:30, width:30}}></Image>
                     </TouchableOpacity>
                 </View>
