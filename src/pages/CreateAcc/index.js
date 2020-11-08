@@ -25,7 +25,6 @@ i18n.translations = {
        rpassw:'Repeat the password',
        next:'NEXT',
        verpass:'"Please check the passwords provided!", "The passwords provided are not the same!\n\nTry again!"',
-
       },
     pt: {
         welcome:'Seja Bem Vindo(a)',
@@ -35,8 +34,6 @@ i18n.translations = {
         rpassw:'Repita a senha',
         next: 'PRÓXIMO',
         verpass:'"Verifique as senhas inseridas!", "As senhas inseridas não são iguais!\n\nTente outra vez!"',
-        
-
       },
   };
 

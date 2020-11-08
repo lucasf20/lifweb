@@ -50,7 +50,7 @@ export default function Feed(){
     
     return(
         <SafeAreaView>
-            <HeaderSp />
+            <HeaderSp/>
             <ScrollView>
                 <Stories />
                 <PostsList />

@@ -7,9 +7,9 @@ import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, FontAwesome, Entypo
 import { useNavigation } from '@react-navigation/native';
 
 
-function Header(props) {
+function Header() {
     const navigation = useNavigation();
-    const { inChat } = props;
+    const inChat = false
 
     function resizeHome() {
         const { width, height } = Image.resolveAssetSource(home)
@@ -24,15 +24,15 @@ function Header(props) {
                 </TouchableOpacity>
                 <EvilIcons name="search" size={30} color="transparent" style={{ paddingRight: 15 }} />
             </View>
-            { !inChat && <TouchableOpacity onPress={() => { navigation.navigate("Feed") }}>
+             <TouchableOpacity onPress={() => { navigation.navigate("Feed") }}>
                 <Image source={home} style={{ height: resizeHome(), width: 120, marginTop:5 }}>
                 </Image>
-            </TouchableOpacity> }
+            </TouchableOpacity>
             <View style={{ flexDirection: "row" }}>
-                <EvilIcons name="search" size={30} color={inChat ? '#fff' : 'gray'} style={{ paddingRight: 15 }} onPress={() =>{navigation.navigate('Filters')}}/>
+                <EvilIcons name="search" size={30} color={ 'gray'} style={{ paddingRight: 15 }} onPress={() =>{navigation.navigate('Filters')}}/>
                 <View>
                     <TouchableOpacity onPress={() => { navigation.navigate('MinhasMensagens') }}>
-                        <MaterialCommunityIcons name="message-outline" size={24} color={inChat ? '#fff' : 'gray'} />
+                        <MaterialCommunityIcons name="message-outline" size={24} color={ 'gray'} />
                         <FontAwesome name="circle" size={10} color="red" style={{position:"absolute", marginLeft:15}}/>
                     </TouchableOpacity>
                 </View>

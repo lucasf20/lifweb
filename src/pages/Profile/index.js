@@ -190,7 +190,7 @@ export default function Profile({ navigation, route }) {
                         <Text style={{ fontSize: 25, marginTop: 5 }}>
                             {seguido}
                         </Text>
-                        <Text style={{ color: 'gray', marginTop: 5 }}>
+                        <Text style={{ color: 'gray', marginTop: 5, fontSize: 10 }}>
                             Seguidores
                         </Text>
                     </TouchableOpacity >
@@ -198,18 +198,18 @@ export default function Profile({ navigation, route }) {
                         <Text style={{ fontSize: 25, marginTop: 5 }}>
                             {seguindo}
                         </Text>
-                        <Text style={{ color: 'gray', marginTop: 5 }}>
+                        <Text style={{ color: 'gray', marginTop: 5, fontSize: 10 }}>
                             Seguindo
                         </Text>
                     </TouchableOpacity>
                     {(!personaldata.currentUser) ? (<View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity style={{ backgroundColor: (segue) ? "#1261A0" : colorStyles.dorange, marginVertical: 5, width: 120, borderRadius: 5, alignItems: 'center', justifyContent: 'center' }} onPress={() => { if (segue) { unfollow() } else { follow() } }}>
-                            <Text style={{ color: 'white', fontSize: 15 }}>
+                        <TouchableOpacity style={{ backgroundColor: (segue) ? "#1261A0" : colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5, alignItems: 'center', justifyContent: 'center' }} onPress={() => { if (segue) { unfollow() } else { follow() } }}>
+                            <Text style={{ color: 'white', fontSize: 12 }}>
                                 {(segue) ? "Deixar de seguir" : "Seguir"}
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5, marginLeft: 5 }}>
-                            <Text style={{ color: 'white', fontSize: 15, marginTop: 17, marginLeft: 10 }}>
+                        <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 70, borderRadius: 5, marginLeft: 5, justifyContent:'center', alignItems:'center' }}>
+                            <Text style={{ color: 'white', fontSize: 12 }}>
                                 Mensagem
                         </Text>
                         </TouchableOpacity>
