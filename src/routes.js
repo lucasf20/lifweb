@@ -17,6 +17,9 @@ import SendPost from './pages/SendPost';
 import Filters from './pages/Filters';
 import EditProfile from './pages/EditProfile';
 import Follow from './pages/Follow'
+import NovaMensagem from './pages/NovaMensagem';
+import MinhasMensagens from './pages/MinhasMensagens';
+import Chat from './pages/Chat';
 
 export default function Routes() {
     return (
@@ -34,6 +37,9 @@ export default function Routes() {
                 <AppStack.Screen name = "SendPost" component = {SendPost}/>
                 <AppStack.Screen name = "Filters" component = {Filters}/>
                 <AppStack.Screen name = "EditProfile" component = {EditProfile}/>
+                <AppStack.Screen name = "NovaMensagem" component = {NovaMensagem}/>
+                <AppStack.Screen name = "MinhasMensagens" component = {MinhasMensagens}/>
+                <AppStack.Screen name = "Chat" component = {Chat}/>
                 <AppStack.Screen name = "Follow" component = {Follow} initialParams={{followed:false, uid:null}}/>
             </AppStack.Navigator>
 

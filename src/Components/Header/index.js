@@ -7,8 +7,9 @@ import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, FontAwesome } from 
 import { useNavigation } from '@react-navigation/native';
 
 
-function Header() {
-    const navigation = useNavigation()
+function Header(props) {
+    const navigation = useNavigation();
+    const { inChat } = props;
 
     function resizeHome() {
         const { width, height } = Image.resolveAssetSource(home)
@@ -16,22 +17,22 @@ function Header() {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, inChat && { backgroundColor: '#f25c05' }]}>
             <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity onPress={() => { navigation.navigate("Menu") }}>
-                    <SimpleLineIcons name="menu" size={24} color="gray" />
+                    <SimpleLineIcons name="menu" size={24} color={inChat ? '#fff' : 'gray'} />
                 </TouchableOpacity>
                 <EvilIcons name="search" size={30} color="transparent" style={{ paddingRight: 15 }} />
             </View>
-            <TouchableOpacity onPress={() => { navigation.navigate("Feed") }}>
+            { !inChat && <TouchableOpacity onPress={() => { navigation.navigate("Feed") }}>
                 <Image source={home} style={{ height: resizeHome(), width: 120 }}>
                 </Image>
-            </TouchableOpacity>
+            </TouchableOpacity> }
             <View style={{ flexDirection: "row" }}>
-                <EvilIcons name="search" size={30} color="gray" style={{ paddingRight: 15 }} onPress={() =>{navigation.navigate('Filters')}}/>
+                <EvilIcons name="search" size={30} color={inChat ? '#fff' : 'gray'} style={{ paddingRight: 15 }} onPress={() =>{navigation.navigate('Filters')}}/>
                 <View>
-                    <TouchableOpacity onPress={() => { navigation.navigate('Direct') }}>
-                        <MaterialCommunityIcons name="message-outline" size={24} color="gray" />
+                    <TouchableOpacity onPress={() => { navigation.navigate('MinhasMensagens') }}>
+                        <MaterialCommunityIcons name="message-outline" size={24} color={inChat ? '#fff' : 'gray'} />
                         <FontAwesome name="circle" size={10} color="red" style={{position:"absolute", marginLeft:15}}/>
                     </TouchableOpacity>
                 </View>
