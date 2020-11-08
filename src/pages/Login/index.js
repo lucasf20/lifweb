@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
   ToastAndroid,
 } from 'react-native'
 import * as Localization from 'expo-localization'
-import {useNavigation} from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import * as FacebookAuthentication from 'expo-facebook'
 import * as GoogleAuthentication from 'expo-google-app-auth'
 import * as AppleAuthentication from 'expo-apple-authentication'
@@ -28,29 +28,29 @@ import { AuthContext } from '../../contexts/auth'
 
 i18n.translations = {
   en: {
-     passw: 'Password',
-     emailfield: 'Type your email',
-     passfield: 'Type your password',
-     recopass: 'I forgot my password',
-     fblogin: 'login with facebook',
-     glogin: 'login with google',
-     createacc: 'create an account',
-     passalert: 'User does not exist or password is incorrect!',
-     erroralert: 'An error occurred',
-     cancelalert: 'The user canceled',
-    },
+    passw: 'Password',
+    emailfield: 'Type your email',
+    passfield: 'Type your password',
+    recopass: 'I forgot my password',
+    fblogin: 'login with facebook',
+    glogin: 'login with google',
+    createacc: 'create an account',
+    passalert: 'User does not exist or password is incorrect!',
+    erroralert: 'An error occurred',
+    cancelalert: 'The user canceled',
+  },
   pt: {
-     passw: 'Senha',
-     emailfield: 'Informe seu email',
-     passfield: 'Informe sua senha',
-     recopass: 'Esqueci minha senha',
-     fblogin: 'entrar com o facebook',
-     glogin: 'entrar com o google',
-     createacc: 'criar uma conta',
-     passalert: 'O usuário não existe ou a senha está incorreta!',
-     erroralert: 'Ocorreu um erro',
-     cancelalert: 'O usuário cancelou',
-    },
+    passw: 'Senha',
+    emailfield: 'Informe seu email',
+    passfield: 'Informe sua senha',
+    recopass: 'Esqueci minha senha',
+    fblogin: 'entrar com o facebook',
+    glogin: 'entrar com o google',
+    createacc: 'criar uma conta',
+    passalert: 'O usuário não existe ou a senha está incorreta!',
+    erroralert: 'Ocorreu um erro',
+    cancelalert: 'O usuário cancelou',
+  },
 };
 
 i18n.locale = Localization.locale;
@@ -77,14 +77,26 @@ const Login = () => {
       await FacebookAuthentication.initializeAsync({
         appId: '342347700517241',
       })
-      const {type, token, ...params} = await FacebookAuthentication.logInWithReadPermissionsAsync()
+      const { type, token, ...params } = await FacebookAuthentication.logInWithReadPermissionsAsync()
 
       if (type !== 'success') {
         alert(i18n.t('cancelalert'))
-      } 
-      
+      }
+
       const credential = Firebase.auth.FacebookAuthProvider.credential(token)
       await Firebase.auth().signInWithCredential(credential)
+      var us = Firebase.auth().currentUser
+      var data = {
+        apelido: us.displayName,
+        firstAccess: true,
+        fullName: us.displayName,
+        modeloDaMoto: {
+          moto: ""
+        },
+        nascimento: "",
+        profissao: ""
+      }
+      Firebase.database().ref('user/' + us.uid).set(data)
     } catch (error) {
       console.log(error)
       alert(i18n.t('erroralert'))
@@ -93,7 +105,7 @@ const Login = () => {
 
   const loginWithGoogle = async () => {
     try {
-      const {type, accessToken, user} = await GoogleAuthentication.logInAsync({
+      const { type, accessToken, user } = await GoogleAuthentication.logInAsync({
         clientId: '993866057606-c8ir7l07ri24lbg5di834g28479ovj15.apps.googleusercontent.com'
       })
 
@@ -101,7 +113,7 @@ const Login = () => {
         alert(i18n.t('cancelalert'))
       }
 
-      console.log({type, accessToken, user})
+      console.log({ type, accessToken, user })
 
       const credential = Firebase.auth.GoogleAuthProvider.credential(null, accessToken)
 
@@ -113,15 +125,27 @@ const Login = () => {
           nome: u.displayName,
           avatar: u.photoURL,
         })
-        .then((value) => {
-          entrar(u.uid, u.displayName, u.email, u.photoURL);
+          .then((value) => {
+            entrar(u.uid, u.displayName, u.email, u.photoURL);
 
-          ToastAndroid.show("Login efetuado.", ToastAndroid.SHORT);
-        })
-        .catch(err => {
-          ToastAndroid.show("Ocorreu um erro", ToastAndroid.SHORT);
-        })
+            ToastAndroid.show("Login efetuado.", ToastAndroid.SHORT);
+          })
+          .catch(err => {
+            ToastAndroid.show("Ocorreu um erro", ToastAndroid.SHORT);
+          })
       })
+      var us = Firebase.auth().currentUser
+      var data = {
+        apelido: us.displayName,
+        firstAccess: true,
+        fullName: us.displayName,
+        modeloDaMoto: {
+          moto: ""
+        },
+        nascimento: "",
+        profissao: ""
+      }
+      Firebase.database().ref('user/' + us.uid).set(data)
     } catch (error) {
       console.log(error)
       alert(i18n.t('erroralert'))
@@ -142,7 +166,7 @@ const Login = () => {
       style={{
         ...styles.flexGrow,
       }}>
-      
+
       <SafeAreaView style={{
         ...styles.flexGrow,
         ...styles.justifyContentCenter,
@@ -151,7 +175,7 @@ const Login = () => {
         <View style={{
           ...styles.alignItemsCenter,
         }}>
-          <Image source={Logo} style={{height:Image.resolveAssetSource(Logo).height * 0.8, width: Image.resolveAssetSource(Logo).width * 0.8, marginTop:10}} />
+          <Image source={Logo} style={{ height: Image.resolveAssetSource(Logo).height * 0.8, width: Image.resolveAssetSource(Logo).width * 0.8, marginTop: 10 }} />
         </View>
         <View>
           <Text style={{
@@ -169,7 +193,7 @@ const Login = () => {
               ...styles.marginBottom,
             }}
             onChangeText={value => setEmail(value)} />
-          
+
           <Text style={{
             ...styles.whiteText,
             ...styles.bold,
