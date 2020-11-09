@@ -44,8 +44,6 @@ const onShare = async (name) => {
           const result = await Share.share({
             message:
                 name +' compartilhou esta postagem através do app LifWeb. Junte-se a nos! https://lifweb.com.br/ ',
-            url:
-                'https://bd.gaadicdn.com/processedimages//source/5e72ef30dbdbf.jpg?tr=w-439',
           });
           if (result.action === Share.sharedAction) {
             if (result.activityType) {
