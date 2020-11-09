@@ -117,9 +117,9 @@ export default function CreateAcc(){
                         user.updateProfile({
                         displayName: name
                         }).then(function() {
-                            firebase.database().ref('user/' + user.uid).set(
+                            firebase.firestore().collection('user').doc(user.uid).set(
                                 {
-                                    fullName: name,
+                                    fullName:name,
                                     firstAccess:true
                                 }
                             )
