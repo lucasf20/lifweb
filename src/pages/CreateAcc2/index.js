@@ -106,6 +106,16 @@ export default function CreateAcc2() {
         const user = firebase.auth().currentUser
         if (check) {
             if (Name.length > 0 && profSelecionada.length > 0 && data.length > 0 && motoSelecionada.length > 0) {
+                firebase.firestore().collection('user').doc(user.uid).update(
+                    {
+                        fullName: getFullName(),
+                        firstAccess: false,
+                        apelido: Name,
+                        profissao: profSelecionada,
+                        nascimento: data,
+                        modeloDaMoto: {moto:motoSelecionada}
+                    }
+                )
                 firebase.database().ref('user/' + user.uid).update({
                     fullName: getFullName(),
                     firstAccess: false,

@@ -97,6 +97,7 @@ const Login = () => {
         profissao: ""
       }
       Firebase.database().ref('user/' + us.uid).set(data)
+      Firebase.firestore().collection('user').doc(us.uid).set(data)
     } catch (error) {
       console.log(error)
       alert(i18n.t('erroralert'))
@@ -146,6 +147,7 @@ const Login = () => {
         profissao: ""
       }
       Firebase.database().ref('user/' + us.uid).set(data)
+      Firebase.firestore().collection('user').doc(us.uid).set(data)
     } catch (error) {
       console.log(error)
       alert(i18n.t('erroralert'))
