@@ -42,12 +42,22 @@ i18n.fallbacks = true;
 
 export default function CreateAcc(){
 
+    async function rebase(){
+        const { locale } = await Localization.getLocalizationAsync();
+        return locale
+    }
+    
+
+    const [local,setLocal] = useState(null);
+
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
     const [regEmail, setRegEmail] = useState('');
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
     const [senha2, setSenha2] = useState('');
+
+    rebase().then((locale)=>{if (!local) setLocal(locale)})
 
     function navigateBack() {
         navigation.goBack();
