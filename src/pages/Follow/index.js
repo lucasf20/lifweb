@@ -87,6 +87,7 @@ export default function Follow({ navigation, route }) {
                 data => {
                     if (!data.exists) {
                         firebase.firestore().collection('user').doc(route.params.uid).update({ following: [], followed: [] })
+                        setgotFollows(false)
                     } else {
                         var cnt = data.data()
                         if (route.params.followed) {
@@ -94,14 +95,15 @@ export default function Follow({ navigation, route }) {
                         } else {
                             setfollow(cnt['following'])
                         }
+                        setgotFollows(true)
                     }
                 }
             )
-            setgotFollows(true)
+            
         }
     }
 
-    getFollows()
+    getFollows().then(console.log(follow))
 
     return (
         <SafeAreaView>
@@ -111,7 +113,7 @@ export default function Follow({ navigation, route }) {
                     {(route.params.followed) ? "Seguidores" : "Seguindo"}
                 </Text>
                 <ScrollView>
-                    {gotFollows && follow.map((item) => (<Item uid={item} origin={{from:route.params.from, user:route.params.user}}/>))}
+                    {(gotFollows && follow)?(follow.map((item) => (<Item uid={item} origin={{from:route.params.from, user:route.params.user}}/>))):(console.log(gotFollows))}
                 </ScrollView>
             </View>
         </SafeAreaView>
