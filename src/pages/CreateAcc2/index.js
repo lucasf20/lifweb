@@ -46,6 +46,10 @@ export default function CreateAcc2() {
         setCheck(false)
     }
 
+    function resize(scale, img){
+        const {width, height} = Image.resolveAssetSource(img);
+        return {width:scale*width, height:scale*height}
+    }
 
     function navigateBack() {
         navigation.goBack();
@@ -101,11 +105,28 @@ export default function CreateAcc2() {
         showMode('time');
     };
 
+    const atualizaPerfil = async (image) => {
+        const response = await fetch(image)
+        const blob = await response.blob()
+        var user = firebase.auth().currentUser
+        var uploadTask = await firebase.storage().ref().child("user/" + user.uid + "/perfil").put(blob)
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED)
+    }
 
     function cadastrar() {
         const user = firebase.auth().currentUser
         if (check) {
             if (Name.length > 0 && profSelecionada.length > 0 && data.length > 0 && motoSelecionada.length > 0) {
+                firebase.firestore().collection('user').doc(user.uid).update(
+                    {
+                        fullName: getFullName(),
+                        firstAccess: false,
+                        apelido: Name,
+                        profissao: profSelecionada,
+                        nascimento: data,
+                        modeloDaMoto: {moto:motoSelecionada}
+                    }
+                )
                 firebase.database().ref('user/' + user.uid).update({
                     fullName: getFullName(),
                     firstAccess: false,
@@ -126,6 +147,7 @@ export default function CreateAcc2() {
                     Alert.alert("Falha ao cadastrar!", "Tente novamente!")
                 }
                 )
+                atualizaPerfil(user.photoURL)
             } else {
                 switch(0){
                     case Name.length:
@@ -222,7 +244,8 @@ export default function CreateAcc2() {
 
                 <View style={styles.logo}>
                     <Image
-                        source={lifweb}
+                        source = {lifweb}
+                        style={{height:resize(0.7,lifweb).height, width:resize(0.7,lifweb).width}}
                     />
                 </View>
 
