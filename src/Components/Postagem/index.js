@@ -24,9 +24,8 @@ function Postagem(props) {
   const [comments, setComments] = useState([]);
   const [liked, setLiked] = useState(false);
   const [numComments, setNumComments] = useState(0);
-  const [numLikes, setNumLikes] = useState(0);
+  const [numberOfLikes, setNumberOfLikes] = useState(0);
   const navigation = useNavigation();
-  const { usuario } = useContext(AuthContext);
   const [url, setUrl] = useState("");
 
   useEffect(() => {
@@ -88,15 +87,24 @@ function Postagem(props) {
   }, []);
 
   useEffect(() => {
+    post.likes.map((item) => {
+      let aux = JSON.parse(item);
+
+      if (aux.id === firebase.auth().currentUser.uid) {
+        setLiked(true);
+        return;
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     async function load() {
       await firebase
         .firestore()
         .collection("likes")
         .where("idPost", "==", post.id)
-        .where("idAutor", "==", firebase.auth().currentUser.uid)
-        .get()
-        .then((querySnapshot) => {
-          setLiked(querySnapshot.size > 0);
+        .onSnapshot((querySnapshot) => {
+          setNumberOfLikes(querySnapshot.size);
         });
     }
 
@@ -107,10 +115,10 @@ function Postagem(props) {
     async function load() {
       await firebase
         .firestore()
-        .collection("likes")
-        .where("idPost", "==", post.id)
-        .onSnapshot((querySnapshot) => {
-          setNumLikes(querySnapshot.size);
+        .collection("posts")
+        .doc(post.id)
+        .onSnapshot((documentSnapshot) => {
+          setNumberOfLikes(documentSnapshot.data().likes.length);
         });
     }
 
@@ -130,7 +138,7 @@ function Postagem(props) {
 
     load();
   }, []);
-
+  /* 
   async function like() {
     if (!liked) {
       await firebase
@@ -171,7 +179,144 @@ function Postagem(props) {
         });
     }
   }
+ */
 
+  async function handleLike() {
+    let postRef = firebase.firestore().collection("posts").doc(post.id);
+
+    /* if (!post.likes) {
+      await postRef.update({ likes: [] });
+    } */
+
+    if (!liked) {
+      await postRef
+        .update({
+          likes: firebase.firestore.FieldValue.arrayUnion(
+            JSON.stringify({
+              id: firebase.auth().currentUser.uid,
+              fullName: firebase.auth().currentUser.displayName,
+            })
+          ),
+        })
+        .then((value) => setLiked(true))
+        .catch((err) =>
+          ToastAndroid.show("Erro na função like.", ToastAndroid.SHORT)
+        );
+    } else {
+      await postRef
+        .update({
+          likes: firebase.firestore.FieldValue.arrayRemove(
+            JSON.stringify({
+              id: firebase.auth().currentUser.uid,
+              fullName: firebase.auth().currentUser.displayName,
+            })
+          ),
+        })
+        .then((value) => setLiked(false))
+        .catch((err) =>
+          ToastAndroid.show("Erro na função like.", ToastAndroid.SHORT)
+        );
+    }
+  }
+  /* 
+  async function follow() {
+    var phoneOwner = firebase
+      .firestore()
+      .collection("user")
+      .doc(firebase.auth().currentUser.uid);
+
+    var profileOwner = firebase.firestore().collection("user").doc(user);
+
+    let phoneOwnerName;
+    let profileOwnerName;
+
+    await phoneOwner.get().then((value) => {
+      if (!value.exists) {
+        phoneOwner.set({ following: [], followed: [] });
+      }
+
+      phoneOwnerName = value.data().fullName;
+    });
+
+    await profileOwner.get().then((value) => {
+      if (!value.exists) {
+        profileOwner.set({ following: [], followed: [] });
+      }
+
+      profileOwnerName = value.data().fullName;
+    });
+
+    await phoneOwner.update({
+      following: firebase.firestore.FieldValue.arrayUnion(
+        JSON.stringify({
+          id: user,
+          fullName: profileOwnerName,
+        })
+      ),
+    });
+
+    await profileOwner.update({
+      followed: firebase.firestore.FieldValue.arrayUnion(
+        JSON.stringify({
+          id: firebase.auth().currentUser.uid,
+          fullName: phoneOwnerName,
+        })
+      ),
+    });
+
+    setseguido(seguido + 1);
+    setsegue(true);
+  }
+
+  async function unfollow() {
+    var phoneOwner = firebase
+      .firestore()
+      .collection("user")
+      .doc(firebase.auth().currentUser.uid);
+
+    var profileOwner = firebase.firestore().collection("user").doc(user);
+
+    let phoneOwnerName;
+    let profileOwnerName;
+
+    await phoneOwner.get().then((value) => {
+      if (!value.exists) {
+        phoneOwner.set({ following: [], followed: [] });
+      }
+
+      phoneOwnerName = value.data().fullName;
+    });
+
+    await profileOwner.get().then((value) => {
+      if (!value.exists) {
+        profileOwner.set({ following: [], followed: [] });
+      }
+
+      profileOwnerName = value.data().fullName;
+    });
+
+    await phoneOwner.update({
+      following: firebase.firestore.FieldValue.arrayRemove(
+        JSON.stringify({
+          id: user,
+          fullName: profileOwnerName,
+        })
+      ),
+    });
+
+    await profileOwner.update({
+      followed: firebase.firestore.FieldValue.arrayRemove(
+        JSON.stringify({
+          id: firebase.auth().currentUser.uid,
+          fullName: phoneOwnerName,
+        })
+      ),
+    });
+
+    setseguido(seguido - 1);
+    setsegue(false);
+  }
+ */
   async function handleShare() {
     ToastAndroid.show("Compartilhar", ToastAndroid.SHORT);
     /* Share.open(options)
@@ -214,12 +359,14 @@ function Postagem(props) {
       <View style={styles.footer}>
         <View style={styles.containerFotoeNome}>
           <Image style={styles.footeravatar} source={{ uri: autor?.avatar }} />
-          <Text style={styles.curtidas}>Curtido por {numLikes} pessoas.</Text>
+          <Text style={styles.curtidas}>
+            Curtido por {numberOfLikes} pessoas.
+          </Text>
         </View>
         <View style={styles.containerIcons}>
           <TouchableOpacity
             style={{ paddingRight: 10 }}
-            /* onPress={trocaCaveira} */ onPress={like}
+            /* onPress={trocaCaveira} */ onPress={handleLike}
           >
             <Image
               source={liked ? caveiralike : caveira}
