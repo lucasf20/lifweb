@@ -86,21 +86,23 @@ const Login = () => {
       const credential = Firebase.auth.FacebookAuthProvider.credential(token)
       await Firebase.auth().signInWithCredential(credential)
       var us = Firebase.auth().currentUser
-      var data = {
-        apelido: us.displayName,
-        firstAccess: true,
-        fullName: us.displayName,
-        modeloDaMoto: {
-          moto: ""
-        },
-        nascimento: "",
-        profissao: ""
+      var firstAccess = await Firebase.firestore().collection('user').doc(us.uid).get().then(data => {return !data.exists})
+      if(firstAccess){
+        var data = {
+          apelido: us.displayName,
+          firstAccess: true,
+          fullName: us.displayName,
+          modeloDaMoto: {
+            moto: ""
+          },
+          nascimento: "",
+          profissao: ""
+        }
+        Firebase.firestore().collection('user').doc(us.uid).set(data)
       }
       Firebase.database().ref('user/' + us.uid).set(data)
-      Firebase.firestore().collection('user').doc(us.uid).set(data)
     } catch (error) {
       console.log(error)
-      alert(i18n.t('erroralert'))
     }
   }
 
@@ -136,21 +138,23 @@ const Login = () => {
           })
       })
       var us = Firebase.auth().currentUser
-      var data = {
-        apelido: us.displayName,
-        firstAccess: true,
-        fullName: us.displayName,
-        modeloDaMoto: {
-          moto: ""
-        },
-        nascimento: "",
-        profissao: ""
+      var firstAccess = await Firebase.firestore().collection('user').doc(us.uid).get().then(data => {return !data.exists})
+      if(firstAccess){
+        var data = {
+          apelido: us.displayName,
+          firstAccess: true,
+          fullName: us.displayName,
+          modeloDaMoto: {
+            moto: ""
+          },
+          nascimento: "",
+          profissao: ""
+        }
+        Firebase.firestore().collection('user').doc(us.uid).set(data)
       }
       Firebase.database().ref('user/' + us.uid).set(data)
-      Firebase.firestore().collection('user').doc(us.uid).set(data)
     } catch (error) {
       console.log(error)
-      alert(i18n.t('erroralert'))
     }
   }
 

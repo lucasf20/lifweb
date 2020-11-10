@@ -101,6 +101,13 @@ export default function CreateAcc2() {
         showMode('time');
     };
 
+    const atualizaPerfil = async (image) => {
+        const response = await fetch(image)
+        const blob = await response.blob()
+        var user = firebase.auth().currentUser
+        var uploadTask = await firebase.storage().ref().child("user/" + user.uid + "/perfil").put(blob)
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED)
+    }
 
     function cadastrar() {
         const user = firebase.auth().currentUser
@@ -136,6 +143,7 @@ export default function CreateAcc2() {
                     Alert.alert("Falha ao cadastrar!", "Tente novamente!")
                 }
                 )
+                atualizaPerfil(user.photoURL)
             } else {
                 switch(0){
                     case Name.length:

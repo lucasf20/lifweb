@@ -50,7 +50,11 @@ export default function Menu() {
                 setprofPicture(false)
             })
         }
-        if (profPicture) {
+        if (profPicture || user.photoURL) {
+            var img = profPicture
+            if(!profPicture){
+                img = {uri: user.photoURL}
+            }
             return (
                 <Svg width="100" height="100" viewBox="0 -3 43 55">
                     <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
@@ -64,7 +68,7 @@ export default function Menu() {
                         y="0"
                         width="50"
                         height="50"
-                        href={profPicture}
+                        href={img}
                         clipPath="#image"
                     />
                 </Svg>
