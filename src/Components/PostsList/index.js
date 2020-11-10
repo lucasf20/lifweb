@@ -1,30 +1,47 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, Dimensions, Share } from 'react-native'
-import { SimpleLineIcons, AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons';
-import Icon from '../../images/avatar_stories1.png'
-import PostImage from '../../images/post_image.png'
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+  Share,
+  FlatList,
+} from "react-native";
+import {
+  SimpleLineIcons,
+  AntDesign,
+  EvilIcons,
+  FontAwesome,
+} from "@expo/vector-icons";
+import Icon from "../../images/avatar_stories1.png";
+import PostImage from "../../images/post_image.png";
 import Svg, {
   Image as SvgImage,
   Defs,
   ClipPath,
   Polygon,
-} from 'react-native-svg';
+} from "react-native-svg";
 
-import Icon2 from '../../images/avatar_stories1.jpg'
-import PostImage2 from '../../images/post_image.jpg'
-import caveira from '../../assets/caveira.png'
-import caveiralike from '../../assets/caveiralike.png'
+import Icon2 from "../../images/avatar_stories1.jpg";
+import PostImage2 from "../../images/post_image.jpg";
+import caveira from "../../assets/caveira.png";
+import caveiralike from "../../assets/caveiralike.png";
 
-import Comentario from '../../assets/comentario.png'
-import ShareIcon from '../../assets/share.png'
-import Repost from '../../assets/repost.png'
+import Comentario from "../../assets/comentario.png";
+import ShareIcon from "../../assets/share.png";
+import Repost from "../../assets/repost.png";
 
-import UserImage2 from '../../images/avatar_stories2.jpg';
-import UserImage3 from '../../images/perfil3.jpg';
+import UserImage2 from "../../images/avatar_stories2.jpg";
+import UserImage3 from "../../images/perfil3.jpg";
 
-import styles from './styles'
+import styles from "./styles";
 
-function Post({ name, icon, source, comment, likes}) {
+import firebase from "../../../firebaseConfig";
+import Postagem from "../Postagem";
+
+/* function Post({ name, icon, source, comment, likes}) {
 
     function imageResize(source){
         const screenwidth = Dimensions.get('window').width - 10;
@@ -80,7 +97,8 @@ const onShare = async (name) => {
                             clipPath="#image"
                         />
                         </Svg>
-                        {/* <Image style={styles.avatar} source={icon} /> */}
+                        {// <Image style={styles.avatar} source={icon} /> 
+                    }
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Text>{name}</Text>
@@ -115,7 +133,8 @@ const onShare = async (name) => {
                             clipPath="#image"
                         />
                         </Svg>
-                        {/* <Image style={styles.avatar} source={icon} /> */}
+                        {// <Image style={styles.avatar} source={icon} /> 
+                        }
                     </TouchableOpacity>
                 <Text numberOfLines={1}>Curtido por {likes} pessoas</Text>
                 </View>
@@ -140,11 +159,35 @@ const onShare = async (name) => {
             </View>
         </View>
     )
-}
+} */
+
 function PostsList() {
-    return (
-        <View style={{height:'auto', flex:1}}>
-            <ScrollView>
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    async function load() {
+      await firebase
+        .firestore()
+        .collection("posts")
+        .get()
+        .then((querySnapshot) => {
+          setPosts([]);
+
+          querySnapshot.forEach((documentSnapshot) => {
+            setPosts((oldArray) => [
+              ...oldArray,
+              { id: documentSnapshot.id, ...documentSnapshot.data() },
+            ]);
+          });
+        });
+    }
+
+    load();
+  }, []);
+
+  return (
+    <View style={{ height: "auto", flex: 1 }}>
+      {/* <ScrollView>
                 <Post name="Renan" icon={UserImage2} source={PostImage} comment="Corrida!!!" likes="5"/>
                 <Post name="Eduardo" icon={Icon} source={PostImage} comment="Segura!!!"  likes ="10" />
                 <Post name="João Pedro" icon={UserImage3} source={PostImage2} comment="Que cidade incrivel!!!" likes ="3" />
@@ -153,8 +196,14 @@ function PostsList() {
                         End of posts
                     </Text>
                 </TouchableOpacity>
-            </ScrollView>
-        </View>
-    )
+            </ScrollView> */}
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={posts}
+        renderItem={({ item, index }) => <Postagem post={item} />}
+        keyExtractor={(item) => String(item.id)}
+      />
+    </View>
+  );
 }
-export default PostsList
+export default PostsList;
