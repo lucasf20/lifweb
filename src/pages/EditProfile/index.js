@@ -448,6 +448,16 @@ function Part2({ changeState }) {
             <View style={{ marginTop: 20 }}>
                 <MyTextInput value={ano} onChangeText={text => { setano(text) }} placeholder='Ano' />
             </View>
+            <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 15 }}>
+                        Moto não cadastrada?
+                </Text>
+                    <TouchableOpacity onPress={()=>{Linking.openURL('https://lifweb.com.br/solicitarcadastro/')}}>
+                        <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
+                            Solicitar a inclusão.
+                    </Text>
+                    </TouchableOpacity>
+                </View>
             <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); changeState(3) }}>
                 <View style={{ alignItems: "center" }}>
                     <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
@@ -622,6 +632,16 @@ function Part3({ changeState }) {
                         </TouchableHighlight>
                     )}
                 />
+                <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 15 }}>
+                        Profissão não cadastrada?
+                </Text>
+                    <TouchableOpacity onPress={()=>{Linking.openURL('https://lifweb.com.br/solicitarcadastro/')}}>
+                        <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
+                            Solicitar a inclusão.
+                    </Text>
+                    </TouchableOpacity>
+                </View>
                 <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                     CLUBE ASSOCIADO
             </Text>
