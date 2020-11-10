@@ -42,12 +42,22 @@ i18n.fallbacks = true;
 
 export default function CreateAcc(){
 
+    async function rebase(){
+        const { locale } = await Localization.getLocalizationAsync();
+        return locale
+    }
+    
+
+    const [local,setLocal] = useState(null);
+
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
     const [regEmail, setRegEmail] = useState('');
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
     const [senha2, setSenha2] = useState('');
+
+    rebase().then((locale)=>{if (!local) setLocal(locale)})
 
     function navigateBack() {
         navigation.goBack();
@@ -167,21 +177,21 @@ export default function CreateAcc(){
             </View>
 
             <Text style={styles.BigText}>
-                {i18n.t('welcome')}
+                Seja Bem Vindo(a)
             </Text>
 
             <Text style={styles.LooseText}>
-            {i18n.t('phrase')}
+                Vamos iniciar a criação da sua conta
             </Text>
 
             <Text style={styles.LooseText}>
-                {i18n.t('fullname')}:
+                Nome Completo:
             </Text>
 
             <MyTextInput 
                 onChangeText = {text => setNome(text)}
                 value = {nome}
-                placeholder = {i18n.t('fullname')}
+                placeholder = 'Nome Completo'
             />
 
             <Text style={styles.LooseText}>
@@ -195,25 +205,25 @@ export default function CreateAcc(){
             />
 
             <Text style={styles.LooseText}>
-                {i18n.t('passw')}:
+                Senha:
             </Text>
 
             <MyTextInput 
                 secureTextEntry={true}
                 onChangeText = {text => setSenha(text)}
                 value = {senha}
-                placeholder = {i18n.t('passw')}
+                placeholder = 'Senha'
             />
 
 <           Text style={styles.LooseText}>
-                {i18n.t('rpassw')}
+                Repita a senha:
             </Text>
 
             <MyTextInput
                 secureTextEntry={true} 
                 onChangeText = {text => setSenha2(text)}
                 value = {senha2}
-                placeholder = {i18n.t('rpassw')}
+                placeholder = 'Repita a senha'
             />
                 
             {/* <View style = {styles.ButtonView}>
@@ -227,7 +237,7 @@ export default function CreateAcc(){
                 <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5 }} onPress={() => { validateAndRegister(nome, regEmail,senha,senha2) }}>
                     <View style={{ alignItems: "center" }}>
                         <Text style={{ color: "white", fontSize: 15, fontWeight: "bold", padding: 15 }}>
-                            {i18n.t('next')}
+                            PRÓXIMO
                     </Text>
                     </View>
                 </TouchableOpacity>
