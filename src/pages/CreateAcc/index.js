@@ -71,6 +71,11 @@ export default function CreateAcc(){
         navigation.navigate('EmailVal');
     }
 
+    function resize(scale, img){
+        const {width, height} = Image.resolveAssetSource(img);
+        return {width:scale*width, height:scale*height}
+    }
+
     function verifyName(name){
         var res = false
         if(name.split(" ").length > 1){
@@ -173,6 +178,7 @@ export default function CreateAcc(){
             <View style = {styles.logo}>
                 <Image
                     source = {lifweb}
+                    style={{height:resize(0.7,lifweb).height, width:resize(0.7,lifweb).width}}
                 />
             </View>
 

@@ -46,6 +46,10 @@ export default function CreateAcc2() {
         setCheck(false)
     }
 
+    function resize(scale, img){
+        const {width, height} = Image.resolveAssetSource(img);
+        return {width:scale*width, height:scale*height}
+    }
 
     function navigateBack() {
         navigation.goBack();
@@ -240,7 +244,8 @@ export default function CreateAcc2() {
 
                 <View style={styles.logo}>
                     <Image
-                        source={lifweb}
+                        source = {lifweb}
+                        style={{height:resize(0.7,lifweb).height, width:resize(0.7,lifweb).width}}
                     />
                 </View>
 

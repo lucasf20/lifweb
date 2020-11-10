@@ -18,7 +18,7 @@ export default StyleSheet.create({
     },
 
     ButtonView: {
-        paddingTop:90,
+        paddingTop:20,
     },
 
     LooseText:{
