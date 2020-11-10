@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Text, SafeAreaView, View, Image, ScrollView, TouchableOpacity } from 'react-native'
 import firebase from '../../../firebaseConfig'
 import { useNavigation, StackActions } from '@react-navigation/native';
-import { Feather } from '@expo/vector-icons';
+import Header from '../../Components/Header'
 import profileIcon from '../../assets/logolifweb.png'
 import Svg, {
     Image as SvgImage,
@@ -86,7 +86,7 @@ export default function Follow({ navigation, route }) {
             await firebase.firestore().collection('user').doc(route.params.uid).get().then(
                 data => {
                     if (!data.exists) {
-                        firebase.firestore().collection('user').doc(user).set({ following: [], followed: [] })
+                        firebase.firestore().collection('user').doc(route.params.uid).update({ following: [], followed: [] })
                     } else {
                         var cnt = data.data()
                         if (route.params.followed) {
@@ -106,7 +106,7 @@ export default function Follow({ navigation, route }) {
     return (
         <SafeAreaView>
             <View style={{ marginHorizontal: 20, marginVertical: 30 }}>
-                <Feather name="x" size={24} color="black" onPress={() => { if(route.params.from == "Menu"){nav.navigate("Menu")}else{nav.navigate("Profile", {uid:route.params.user})} }} />
+                <Header/>
                 <Text style={{ marginTop: 20, fontSize: 30, fontWeight: "bold" }}>
                     {(route.params.followed) ? "Seguidores" : "Seguindo"}
                 </Text>
