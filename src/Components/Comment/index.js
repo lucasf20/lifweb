@@ -12,7 +12,7 @@ function Comment(props) {
       await firebase
         .firestore()
         .collection("user")
-        .doc(c.idAutor)
+        .doc(c.id)
         .get()
         .then((response) => {
           setAutor({ ...response.data(), id: response.id });
@@ -29,7 +29,7 @@ function Comment(props) {
     <View style={styles.containerLegenda}>
       <Image style={styles.avatar} source={{ uri: autor?.avatar }} />
       <Text style={[styles.comentario]}>
-        <Text style={{ fontWeight: "bold" }}>{autor.fullName}</Text> {c.comment}
+        <Text style={{ fontWeight: "bold" }}>{c.fullName}</Text> {c.comment}
       </Text>
     </View>
   );

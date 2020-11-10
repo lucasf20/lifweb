@@ -18,31 +18,22 @@ import Comment from "../../Components/Comment";
 function AddComment({ route }) {
   const { post, autor } = route.params;
   const [mycomment, setMycomment] = useState("");
-  const [comments, setComents] = useState([]);
-  const { usuario } = useContext(AuthContext);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     async function load() {
       await firebase
         .firestore()
-        .collection("comments")
-        .where("idPost", "==", post.id)
-        .get()
-        .then((querySnapshot) => {
-          setComents([]);
-
-          querySnapshot.forEach((documentSnapshot) => {
-            setComents((oldArray) => [
-              ...oldArray,
-              { id: documentSnapshot.id, ...documentSnapshot.data() },
-            ]);
-          });
+        .collection("posts")
+        .doc(post.id)
+        .onSnapshot((documentSnapshot) => {
+          setComments(documentSnapshot.data().comments);
         });
     }
 
     load();
   }, []);
-
+  /* 
   async function sendComment() {
     if (!mycomment) {
       ToastAndroid.show("Digite alguma coisa.", ToastAndroid.SHORT);
@@ -62,7 +53,7 @@ function AddComment({ route }) {
       .then((value) => {
         ToastAndroid.show("Comentário enviado.", ToastAndroid.SHORT);
 
-        setComents([
+        setComments([
           ...comments,
           {
             id: value.id,
@@ -78,6 +69,28 @@ function AddComment({ route }) {
       .catch((err) => {
         ToastAndroid.show("Erro ao postar comentário.", ToastAndroid.SHORT);
       });
+  }
+ */
+
+  async function handleComment() {
+    let postRef = firebase.firestore().collection("posts").doc(post.id);
+
+    await postRef
+      .update({
+        comments: firebase.firestore.FieldValue.arrayUnion(
+          JSON.stringify({
+            id: firebase.auth().currentUser.uid,
+            fullName: firebase.auth().currentUser.displayName,
+            comment: mycomment,
+          })
+        ),
+      })
+      .then((value) =>
+        ToastAndroid.show("Seu comentário foi postado.", ToastAndroid.SHORT)
+      )
+      .catch((err) =>
+        ToastAndroid.show("Erro na função comentar.", ToastAndroid.SHORT)
+      );
   }
 
   return (
@@ -95,8 +108,8 @@ function AddComment({ route }) {
           //inverted
           //showsVerticalScrollIndicator={false}
           data={comments}
-          renderItem={({ item, index }) => <Comment c={item} />}
-          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item, index }) => <Comment c={JSON.parse(item)} />}
+          keyExtractor={(item, index) => String(index)}
         />
       </View>
       <View style={styles.containerInput}>
@@ -108,7 +121,7 @@ function AddComment({ route }) {
             value={mycomment}
             onChangeText={setMycomment}
           />
-          <TouchableOpacity style={styles.sendButton} onPress={sendComment}>
+          <TouchableOpacity style={styles.sendButton} onPress={handleComment}>
             <MaterialCommunityIcons
               name="chat-outline"
               size={25}

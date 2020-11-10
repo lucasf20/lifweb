@@ -66,20 +66,10 @@ function Postagem(props) {
     async function load() {
       await firebase
         .firestore()
-        .collection("comments")
-        .where("idPost", "==", post.id)
-        //.orderBy('createdAt', 'desc')
-        .limit(3)
-        .get()
-        .then((querySnapshot) => {
-          setComments([]);
-
-          querySnapshot.forEach((documentSnapshot) => {
-            setComments((oldArray) => [
-              ...oldArray,
-              { id: documentSnapshot.id, ...documentSnapshot.data() },
-            ]);
-          });
+        .collection("posts")
+        .doc(post.id)
+        .onSnapshot((documentSnapshot) => {
+          setComments(documentSnapshot.data().comments);
         });
     }
 
@@ -101,10 +91,10 @@ function Postagem(props) {
     async function load() {
       await firebase
         .firestore()
-        .collection("likes")
-        .where("idPost", "==", post.id)
-        .onSnapshot((querySnapshot) => {
-          setNumberOfLikes(querySnapshot.size);
+        .collection("posts")
+        .doc(post.id)
+        .onSnapshot((documentSnapshot) => {
+          setNumberOfLikes(documentSnapshot.data().likes.length);
         });
     }
 
@@ -407,17 +397,23 @@ function Postagem(props) {
 
         {!repost && (
           <Text style={styles.titleComments}>
-            Ver todos {numComments} comentários
+            Ver todos {comments.length} comentários
           </Text>
         )}
 
         {!repost &&
-          comments.map((item, i) => (
-            <Text key={item.id} style={styles.legenda}>
-              <Text style={{ fontWeight: "bold" }}>{item.nomeAutor}</Text>{" "}
-              {item.comment}
-            </Text>
-          ))}
+          comments.reverse().map((item, i) => {
+            let c = JSON.parse(item);
+
+            if (i < 3) {
+              return (
+                <Text key={i} style={styles.legenda}>
+                  <Text style={{ fontWeight: "bold" }}>{c.fullName}</Text>{" "}
+                  {c.comment}
+                </Text>
+              );
+            }
+          })}
       </TouchableOpacity>
     </View>
   );
