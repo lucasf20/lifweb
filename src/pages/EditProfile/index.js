@@ -452,7 +452,7 @@ function Part2({ changeState }) {
                     <Text style={{ fontSize: 15 }}>
                         Moto não cadastrada?
                 </Text>
-                    <TouchableOpacity onPress={()=>{Linking.openURL('https://lifweb.com.br/solicitarcadastro/')}}>
+                    <TouchableOpacity onPress={()=>{Linking.openURL('http://cadastrodemoto.lifweb.com.br/')}}>
                         <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
                             Solicitar a inclusão.
                     </Text>
@@ -636,7 +636,7 @@ function Part3({ changeState }) {
                     <Text style={{ fontSize: 15 }}>
                         Profissão não cadastrada?
                 </Text>
-                    <TouchableOpacity onPress={()=>{Linking.openURL('https://lifweb.com.br/solicitarcadastro/')}}>
+                    <TouchableOpacity onPress={()=>{Linking.openURL('https://profissao.lifweb.com.br/')}}>
                         <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
                             Solicitar a inclusão.
                     </Text>

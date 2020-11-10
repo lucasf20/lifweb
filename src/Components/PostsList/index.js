@@ -25,6 +25,7 @@ import UserImage2 from '../../images/avatar_stories2.jpg';
 import UserImage3 from '../../images/perfil3.jpg';
 
 import styles from './styles'
+import firebase from '../../../firebaseConfig';
 
 function Post({ name, icon, source, comment, likes}) {
 
@@ -171,6 +172,74 @@ const onShare = async (name) => {
     )
 }
 function PostsList() {
+
+    const [following, setfollwing] = useState([])
+    const [gotfollowing, setgotfollowing] = useState(false)
+    const [posts, setposts] = useState([])
+    const [gotposts, setgotposts] = useState(false)
+    getFollowing()
+    getposts().then(console.log(posts))
+
+    function getFollowing(){
+        const user = firebase.auth().currentUser
+        if(!gotfollowing){
+            firebase.firestore().collection('user').doc(user.uid).get().then(
+            data => {
+                var dados = data.data()
+                var a = []
+                if(dados['following']){
+                    a = (dados['following'])  
+                }else{
+                    firebase.firestore().collection('user').doc(user.uid).update({
+                        following:[],
+                        followed: []
+                    })
+                }
+                a.push(user.uid)
+                setfollwing(a)
+                if(!dados['posts']){
+                    firebase.firestore().collection('user').doc(user.uid).update({
+                        posts:[]
+                    })
+                }
+            })
+            setgotfollowing(true)
+        }          
+    }
+
+    async function getposts(){
+        var psts = []
+        var post = null
+        if(!gotposts){
+            for(let i = 0; i<following.length; i++){
+                console.log(i)
+                post = await firestore.firestore().collection('user').doc(following[i]).get().then(data => {
+                    var dados = data.data()
+                    if(dados['posts']){
+                        return dados['posts']
+                    }else{
+                        firebase.firestore().collection('user').doc(following[i]).update({
+                            posts:[]
+                        })
+                        return []
+                    }
+                })
+                psts.concat(psts, post)
+            }
+            for(let i = 0; i < psts.length; i++){
+                post = psts[i] 
+                psts[i] = await firebase.firestore().collection('posts').doc(psts[i]).get().then(
+                    data => {
+                        return data.data()
+                    }
+                )
+                psts[i]['imagem'] = await firebase.storage().ref('user/' + psts[i]['owner'] + "/posts/" + post).getDownloadURL().then(url => {return {uri:url}})
+            }
+            setposts(psts)
+            setgotposts(true)
+        }
+    }
+
     return (
         <View style={{height:'auto', flex:1}}>
             <ScrollView>

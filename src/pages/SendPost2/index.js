@@ -8,6 +8,7 @@ import { EvilIcons } from '@expo/vector-icons';
 import MyTextInput from '../../MyTextInput';
 import firebase from '../../../firebaseConfig';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import Header from "../../Components/Header";
 
 export default function SendPost2({navigate, route}) {
 
@@ -47,16 +48,17 @@ export default function SendPost2({navigate, route}) {
         const blob = await response.blob()
         var user = firebase.auth().currentUser
         var postname = Date.now().toString()
+        var upload = await firebase.storage().ref().child("user/" + user.uid + "/posts/" + postname).put(blob)
         var metadata ={
             owner:user.uid,
             likes:[],
             shares:[],
             descricao:descricao,
             rotation:rotate(),
-            comments:[]
+            comments:[],
         }
-        await firebase.storage().ref().child("user/" + user.uid + "/posts/" + postname).put(blob)
         await firebase.firestore().collection("posts").doc(postname).set(metadata)
+        await firebase.firestore().collection('user/').doc(user.uid).update({posts:firebase.firestore.FieldValue.arrayUnion(postname)})
     }
 
     function height(){
@@ -95,26 +97,7 @@ export default function SendPost2({navigate, route}) {
 
     return (
         <ScrollView>
-            <View style={{flexDirection:'row', marginTop:30, justifyContent:'space-between', marginHorizontal:10}}>
-                <View style={{ flexDirection: "row" }}>
-                    <TouchableOpacity onPress={() => { navigation.goBack() }}>
-                        <Text style={styles.text}>
-                            Cancelar
-                </Text>
-                    </TouchableOpacity>
-                </View>
-                <TouchableOpacity onPress={() => { navigation.navigate("Feed") }} style={{ flexDirection: 'row' }}>
-                    <Text style={{ ...styles.text, fontWeight: 'bold' }}>
-                        Recentes
-               </Text>
-                    <EvilIcons name="chevron-down" size={30} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{if(imagem && descricao.length>0){postar().then(navigation.navigate("Feed"))}}}>
-                    <Text style={{ ...styles.text, color: dorange, fontWeight: 'bold' }}>
-                        Próximo
-               </Text>
-                </TouchableOpacity>
-            </View>
+            <Header/>
             <ScrollView>
                 <View style={{marginHorizontal:20, backgroundColor:'white', height:height().h, marginTop:30, borderRadius:5, justifyContent:'center', alignItems:'center'}}>
                     <TouchableOpacity style={{backgroundColor:dorange, height:50, borderRadius:5, justifyContent:'center'}} onPress={pickImage}>
@@ -129,16 +112,27 @@ export default function SendPost2({navigate, route}) {
                      style={{ flex: 1 }}
                      showsVerticalScrollIndicator={false}>
                 <View style={{marginTop:20, marginHorizontal:20, marginBottom:20}}>
-                    <Text style={{ ...styles.text, fontWeight: 'bold', marginBottom:10 }}>
-                        Descrição:
-                    </Text>
-                    <MyTextInput placeholder="Descreva seu post"
+                    <MyTextInput placeholder="Descreva aqui seu post..."
                     value={descricao}
                     onChangeText={text => setdescricao(text)}
                      />
                 </View>
             </KeyboardAwareScrollView>
                 ):(<View/>)}
+                <View style={{flexDirection:'row', marginTop:10, justifyContent:'space-between', marginHorizontal:20}}>
+                <View style={{ flexDirection: "row" }}>
+                    <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                        <Text style={styles.text}>
+                            Cancelar
+                </Text>
+                    </TouchableOpacity>
+                </View>
+                <TouchableOpacity onPress={()=>{if(imagem && descricao.length>0){postar().then(navigation.navigate("Feed"))}}}>
+                    <Text style={{ ...styles.text, color: dorange, fontWeight: 'bold' }}>
+                        Próximo
+               </Text>
+                </TouchableOpacity>
+            </View>
             </ScrollView>
         </ScrollView>
     );
