@@ -107,9 +107,9 @@ export default function Follow({ navigation, route }) {
 
     return (
         <SafeAreaView>
-            <View style={{ marginHorizontal: 20, marginVertical: 30 }}>
-                <Header/>
-                <Text style={{ marginTop: 20, fontSize: 30, fontWeight: "bold" }}>
+            <Header/>
+            <View style={{ marginHorizontal: 20, marginTop: 5}}>
+                <Text style={{ fontSize: 30, fontWeight: "bold" }}>
                     {(route.params.followed) ? "Seguidores" : "Seguindo"}
                 </Text>
                 <ScrollView>
