@@ -279,7 +279,7 @@ function Part2({ changeState }) {
         })
         var res = {
             moto: (data.modeloDaMoto.moto) ? data.modeloDaMoto.moto : data.modeloDaMoto,
-            marca: (data.modeloDaMoto.marca) ? data.modeloDaMoto.marca : data.modeloDaMoto.split(" ")[0],
+            marca: (data.modeloDaMoto.marca) ? data.modeloDaMoto.marca : data.modeloDaMoto.moto.split(" ")[0],
             ano: (data.modeloDaMoto.ano) ? data.modeloDaMoto.ano : ""
         }
         return res
