@@ -56,14 +56,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#e4e4e4',
-    height: 88,
   },
 
   containerInput2: {
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#fff',
-    height: 40,
+    paddingVertical: 1,
+    marginVertical: 24,
     width: '90%',
     borderRadius: 32
   },
@@ -80,8 +80,7 @@ const styles = StyleSheet.create({
   },
 
   sendButton: {
-      height: '100%',
-      width: 60,
+      paddingHorizontal: 10,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',

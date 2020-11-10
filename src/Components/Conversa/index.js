@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Image, Text, ToastAndroid, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AuthContext } from "../../contexts/auth";
 import firebase from "../../../firebaseConfig";
@@ -25,15 +25,18 @@ function Conversa(props) {
     async function load() {
       await firebase
         .firestore()
-        .collection("usuarios")
-        .doc(conv.idConversa.replace(usuario.id, ""))
+        .collection("user")
+        .doc(conv.idConversa.replace(firebase.auth().currentUser.uid, ""))
         .get()
         .then((snapshot) => {
           setDestinatario(snapshot.data());
-          //console.log(snapshot.data())
+          console.log(snapshot.data().fullName, ToastAndroid.SHORT);
         })
         .catch((err) => {
-          ToastAndroid.show("Erro ao obter mensagens.", ToastAndroid.SHORT);
+          ToastAndroid.show(
+            "Erro ao obter informações do destinatário.",
+            ToastAndroid.SHORT
+          );
         });
     }
     //console.log(conv.idConversa.replace(usuario.id, ''), usuario.id)
@@ -41,7 +44,6 @@ function Conversa(props) {
   }, []);
 
   useEffect(() => {
-    console.log("aa");
     async function load() {
       await firebase
         .firestore()
@@ -78,16 +80,6 @@ function Conversa(props) {
   }, []);
 
   function toDateTime() {
-    //function toDateTime(secs) {
-    /* let t = new Date(Date.UTC(1970, 0, 1)); // Epoch
-        t.setUTCSeconds(secs); */
-
-    /* let dia = t.getDate();
-        let mes = t.getMonth() + 1;
-        let ano = t.getFullYear();
-        let hora = t.getHours();
-        let minutos = t.getMinutes(); */
-
     console.log(conv.ordem.substring(14, 16));
 
     let dia = Number(conv.ordem.substring(8, 10));
@@ -118,11 +110,6 @@ function Conversa(props) {
 
     const horario = `${hora}:${minutos}`;
     const nowhorario = `${nowhora}:${nowminutos}`;
-
-    console.log(data, nowdata);
-    console.log(horario, nowhorario);
-
-    //return `${horario}`
 
     if (data === nowdata && nowhora === hora && nowminutos - minutos <= 2) {
       return "Agora";
@@ -187,7 +174,7 @@ function Conversa(props) {
             </Svg> */}
         <View>
           <View style={styles.containerInfos}>
-            <Text style={styles.name}>{destinatario?.nome}</Text>
+            <Text style={styles.name}>{destinatario?.fullName}</Text>
           </View>
           <Text style={styles.preview} numberOfLines={1}>
             {mensagens[mensagens.length - 1]?.conteudo}
