@@ -18,9 +18,10 @@ function Header() {
 
     return (
         <View style={[styles.container, inChat && { backgroundColor: '#f25c05' }]}>
+            <View style={{position:'absolute', backgroundColor:'black', height:90, width:Dimensions.get('window').width, opacity:0.4}}/>
             <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity onPress={() => { navigation.navigate('Feed') }}>
-                    <Entypo name="chevron-left" size={24} color="gray" />
+                    <Entypo name="chevron-left" size={24} color="white" />
                 </TouchableOpacity>
                 <EvilIcons name="search" size={30} color="transparent" style={{ paddingRight: 15 }} />
             </View>
@@ -29,10 +30,10 @@ function Header() {
                 </Image>
             </TouchableOpacity>
             <View style={{ flexDirection: "row" }}>
-                <EvilIcons name="search" size={30} color={ 'gray'} style={{ paddingRight: 15 }} onPress={() =>{navigation.navigate('Filters')}}/>
+                <EvilIcons name="search" size={30} color={ 'white'} style={{ paddingRight: 15 }} onPress={() =>{navigation.navigate('Filters')}}/>
                 <View>
                     <TouchableOpacity onPress={() => { navigation.navigate('MinhasMensagens') }}>
-                        <MaterialCommunityIcons name="message-outline" size={24} color={ 'gray'} />
+                        <MaterialCommunityIcons name="message-outline" size={24} color={ 'white'} />
                         <FontAwesome name="circle" size={10} color="red" style={{position:"absolute", marginLeft:15}}/>
                     </TouchableOpacity>
                 </View>
