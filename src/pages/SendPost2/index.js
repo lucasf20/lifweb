@@ -96,7 +96,9 @@ export default function SendPost2({navigate, route}) {
     }
 
     return (
-        <ScrollView>
+        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
+                     style={{ flex: 1 }}
+                     showsVerticalScrollIndicator={false}>
             <Header/>
             <ScrollView>
                 <View style={{marginHorizontal:20, backgroundColor:'white', height:Dimensions.get('window').width-40, marginTop:30, borderRadius:5, justifyContent:'center', alignItems:'center'}}>
@@ -108,16 +110,12 @@ export default function SendPost2({navigate, route}) {
                     {(imagem)?(<Image source={imagem} style={{position:'absolute', height:Dimensions.get('window').width-40, width:Dimensions.get('window').width-40, borderRadius:5, transform: [{ rotate: rotate() }]}}/>):(<View/>)}
                 </View>
                 {(imagem)?(
-                     <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
-                     style={{ flex: 1 }}
-                     showsVerticalScrollIndicator={false}>
                 <View style={{marginTop:20, marginHorizontal:20, marginBottom:20}}>
                     <MyTextInput placeholder="Descreva aqui seu post..."
                     value={descricao}
                     onChangeText={text => setdescricao(text)}
                      />
                 </View>
-            </KeyboardAwareScrollView>
                 ):(<View/>)}
                 <View style={{flexDirection:'row', marginTop:10, justifyContent:'space-between', marginHorizontal:20}}>
                 <View style={{ flexDirection: "row" }}>
@@ -141,7 +139,7 @@ export default function SendPost2({navigate, route}) {
                 </TouchableOpacity>
             </View>
             </ScrollView>
-        </ScrollView>
+            </KeyboardAwareScrollView>
     );
 }
 
