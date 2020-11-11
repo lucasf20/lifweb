@@ -27,7 +27,7 @@ export default function SendPost2({navigate, route}) {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [4, 3],
+            aspect: [1,1],
             quality: 1,
             base64: true
         });
@@ -99,13 +99,13 @@ export default function SendPost2({navigate, route}) {
         <ScrollView>
             <Header/>
             <ScrollView>
-                <View style={{marginHorizontal:20, backgroundColor:'white', height:height().h, marginTop:30, borderRadius:5, justifyContent:'center', alignItems:'center'}}>
+                <View style={{marginHorizontal:20, backgroundColor:'white', height:Dimensions.get('window').width-40, marginTop:30, borderRadius:5, justifyContent:'center', alignItems:'center'}}>
                     <TouchableOpacity style={{backgroundColor:dorange, height:50, borderRadius:5, justifyContent:'center'}} onPress={pickImage}>
                         <Text style={{color:'white', marginHorizontal:20}}>
                             Selecionar Imagem
                         </Text>
                     </TouchableOpacity>
-                    {(imagem)?(<Image source={imagem} style={{position:'absolute', height:(rotate() == '0deg')?(height().h):(height().w), width:(rotate() == '0deg')?(height().w):(height().h), borderRadius:5, transform: [{ rotate: rotate() }]}}/>):(<View/>)}
+                    {(imagem)?(<Image source={imagem} style={{position:'absolute', height:Dimensions.get('window').width-40, width:Dimensions.get('window').width-40, borderRadius:5, transform: [{ rotate: rotate() }]}}/>):(<View/>)}
                 </View>
                 {(imagem)?(
                      <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
