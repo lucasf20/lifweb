@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment, forceUpdate } from 'react'
 import { View, Image, Text, TouchableOpacity, Dimensions } from 'react-native'
 import firebase from '../../../../firebaseConfig'
 import profileIcon from '../../../assets/logolifweb.png'
@@ -15,7 +15,8 @@ import caveiralike from '../../../assets/caveiralike.png'
 import Comentario from '../../../assets/comentario.png'
 import ShareIcon from '../../../assets/share.png'
 import Repost from '../../../assets/repost.png'
-import { firestore } from 'firebase';
+import colorStyles from '../../../colors'
+import { useNavigation, StackActions } from '@react-navigation/native';
 
 function RenderPost({ post }) {
 
@@ -29,11 +30,14 @@ function RenderPost({ post }) {
     const repost = post['repost']
     const comments = post['comments']
     const likes = post['likes']
-    const liked = likes.includes(user.uid)
     const descricao = post['descricao']
     const owner = post['owner']
     const postname = post['postname']
     const rotation = post['rotation']
+    const nav = useNavigation()
+
+    const [liked, setliked] = useState(likes.includes(user.uid))
+    const [numlikes, setnumlikes] = useState(likes.length)
 
     function height() {
         if (!imagem) {
@@ -56,9 +60,50 @@ function RenderPost({ post }) {
         }
     }
 
+    async function like() {
+        if (!liked) {
+            await firebase.firestore().collection('posts').doc(postname).update({ likes: firebase.firestore.FieldValue.arrayUnion(user.uid) })
+            setliked(true)
+            setnumlikes(numlikes + 1)
+        } else {
+            await firebase.firestore().collection('posts').doc(postname).update({ likes: firebase.firestore.FieldValue.arrayRemove(user.uid) })
+            setliked(false)
+            setnumlikes(numlikes - 1)
+        }
+    }
+
+    async function repostar() {
+        var pname = Date.now().toString()
+        var metadata = {
+            owner: user.uid,
+            likes: [],
+            descricao: descricao,
+            rotation: rotation,
+            comments: [],
+            repost: (repost) ? repost : post
+        }
+        await firebase.firestore().collection("posts").doc(pname).set(metadata)
+        await firebase.firestore().collection('user').doc(user.uid).update({ posts: firebase.firestore.FieldValue.arrayUnion(pname) })
+        nav.dispatch(StackActions.popToTop)
+        nav.navigate('Feed')
+    }
+
+    function getTime() {
+        var now = Date.now()
+        var posttime = Math.floor(postname)
+        var minutes = (now - posttime) / 60000
+        if (minutes < 60) {
+            return "Há " + Math.round(minutes) + " minutos atrás"
+        } else if ((minutes / 60) < 24) {
+            return "Há " + Math.round(minutes / 60) + " horas atrás"
+        } else {
+            return "Há " + Math.round((minutes / 60) / 24) + " dias atrás"
+        }
+    }
+
     return (
         <View style={{ marginVertical: 20 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal:20 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
                     {(post['avatar']) ? (
                         <Svg style={{
@@ -83,34 +128,46 @@ function RenderPost({ post }) {
                             />
                         </Svg>
                     ) : (<Image source={avatar} style={{ height: 50, width: 43, marginRight: 13 }} />)}
-
+                    <View>
+                        <Text style={{ fontWeight: 'bold' }}>
+                            {apelido}
+                        </Text>
+                        {(repost) ? (<TouchableOpacity style={{ flexDirection: 'row' }} >
+                            <Text>
+                                {"Compartilhado de "}
+                            </Text>
+                            <Text style={{ color: colorStyles.dorange, fontWeight: 'bold' }}>
+                                {repost['apelido']}
+                            </Text>
+                        </TouchableOpacity>) : (<Fragment />)}
+                        <Text style={{ color: 'gray' }}>
+                            {getTime()}
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <SimpleLineIcons name="options" size={24} color="gray" />
+            </View>
+            <Image source={imagem} style={{ height: height().h, width: height().w, borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
+                <View>
                     <Text>
-                        {apelido}
+                        Curtido por {numlikes}
                     </Text>
-                </TouchableOpacity>
-                <SimpleLineIcons name="options" size={24} color="gray"  />
-            </View>
-            <Image source={imagem} style={{ height: height().h, width: height().w, borderRadius: 5, marginVertical: 20, marginHorizontal:5 }} />
-            <View style={{ flexDirection: 'row', justifyContent:'space-between', alignItems:'center', marginHorizontal:5 }}>
-            <View>
-                <Text>
-                    Curtido por {likes.length}
-                </Text>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity style={{ paddingRight: 10 }} >
-                    <Image source={(liked) ? caveiralike : caveira} style={{ height: 30, width: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{ paddingRight: 10 }}>
-                    <Image source={Comentario} style={{ height: 30, width: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{ paddingRight: 10 }}>
-                    <Image source={Repost} style={{ height: 30, width: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{ paddingRight: 10 }} >
-                    <Image source={ShareIcon} style={{ height: 30, width: 30 }}></Image>
-                </TouchableOpacity>
-            </View>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity style={{ paddingRight: 10 }} onPress={like}>
+                        <Image source={(liked) ? caveiralike : caveira} style={{ height: 30, width: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ paddingRight: 10 }}>
+                        <Image source={Comentario} style={{ height: 30, width: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ paddingRight: 10 }} onPress={repostar}>
+                        <Image source={Repost} style={{ height: 30, width: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ paddingRight: 10 }} >
+                        <Image source={ShareIcon} style={{ height: 30, width: 30 }}></Image>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     )
@@ -152,12 +209,16 @@ export default function Post() {
             )
             postnames = postnames.concat(a)
         }
+        postnames.sort()
+        postnames.reverse()
         for (let i = 0; i < postnames.length; i++) {
-            var p = await firebase.firestore().collection('posts').doc(postnames[i]).get().then(data => data.data())
-            var postimage = await firebase.storage().ref("user/" + p['owner'] + "/posts/" + postnames[i]).getDownloadURL().then(url => { return { uri: url } })
-            var avatar = await firebase.storage().ref("user/" + p['owner'] + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
-            var apelido = await firebase.firestore().collection('user').doc(p['owner']).get().then(data => { return data.data()['apelido'] })
-            posts.push({ ...p, postname: postnames[i], image: postimage, avatar, apelido })
+            if (Date.now() - Math.floor(postnames[i]) < 86400000) {
+                var p = await firebase.firestore().collection('posts').doc(postnames[i]).get().then(data => data.data())
+                var postimage = (!p['repost']) ? (await firebase.storage().ref("user/" + p['owner'] + "/posts/" + postnames[i]).getDownloadURL().then(url => { return { uri: url } })) : (null)
+                var avatar = await firebase.storage().ref("user/" + p['owner'] + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
+                var apelido = await firebase.firestore().collection('user').doc(p['owner']).get().then(data => { return data.data()['apelido'] })
+                posts.push({ ...p, postname: postnames[i], image: postimage, avatar, apelido })
+            }
         }
         return posts
     }
