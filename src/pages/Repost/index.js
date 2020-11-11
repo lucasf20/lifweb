@@ -40,9 +40,27 @@ function Repost({ route }) {
         shares: [],
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       })
-      .then((response) => {
-        ToastAndroid.show("Repostado.", ToastAndroid.SHORT);
-        navigation.goBack();
+      .then(async (response) => {
+        let idRepost = !!post.repostedFromPost
+          ? post.repostedFromPost
+          : post.id;
+
+        await firebase
+          .firestore()
+          .collection("posts")
+          .doc(idRepost)
+          .update({
+            shares: firebase.firestore.FieldValue.arrayUnion(
+              JSON.stringify({
+                id: firebase.auth().currentUser.uid,
+                fullName: firebase.auth().currentUser.displayName,
+              })
+            ),
+          })
+          .then((value) => {
+            ToastAndroid.show("Repostado.", ToastAndroid.SHORT);
+            navigation.goBack();
+          });
       })
       .catch((err) => {
         ToastAndroid.show("Erro na repostagem.", ToastAndroid.SHORT);
