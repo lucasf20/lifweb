@@ -1,8 +1,9 @@
 import React, { useState, Fragment, forceUpdate } from 'react'
-import { View, Image, Text, TouchableOpacity, Dimensions, FlatList,TouchableHighlight, Alert } from 'react-native'
+import { View, Image, Text, TouchableOpacity, Dimensions, FlatList,TouchableHighlight, Alert, Share } from 'react-native'
 import firebase from '../../../../firebaseConfig'
 import profileIcon from '../../../assets/logolifweb.png'
 import { SimpleLineIcons, AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons';
+import * as Sharing from 'expo-sharing';
 import Svg, {
     Image as SvgImage,
     Defs,
@@ -39,6 +40,61 @@ function RenderPost({ post }) {
 
     const [liked, setliked] = useState(likes.includes(user.uid))
     const [numlikes, setnumlikes] = useState(likes.length)
+    
+
+
+    let openShareDialogAsync = async () => {
+        if (!(await Sharing.isAvailableAsync())) {
+          alert(`Uh oh, sharing isn't available on your platform`);
+          return;
+        }
+        downloadFile(
+            'https://firebasestorage.googleapis.com/v0/b/lifweb-38828.appspot.com/o/user%2FJP5UY9rpQvco4RusP7vPD8Drf3S2%2Fcapa?alt=media&token=7262666b-f0e0-45cd-b5a5-c6b51560d983'
+            )
+        await Sharing.shareAsync(file,{dialogTitle:'Imagem compartilhada pelo app LifWeb'});
+        //await onShare(name)
+      };
+
+      const onShare = async (name) => {
+        try {
+          const result = await Share.share({
+            message:
+                name +' compartilhou esta postagem através do app LifWeb. Junte-se a nos! https://lifweb.com.br/ ',
+
+          });
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+    }
+
+    
+    function shareAlert(){
+        Alert.alert(
+            'Compartilhar Post',
+            'Escolha o compartilhamento',
+            [
+              {
+                text: 'Exportar Immagem',
+                onPress: () => openShareDialogAsync
+              },
+              {
+                text: 'Compartilhar Texto',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel'
+              }
+            ],
+            { cancelable: false }
+          );
+    }
 
     function height() {
         if (!imagem) {
