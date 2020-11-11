@@ -93,7 +93,7 @@ export default function Menu() {
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { navigation.navigate("Direct") }}>
+                        <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { navigation.navigate('MinhasMensagens') }}>
                             <SimpleLineIcons name="bubbles" size={24} color="white" />
                             <NotifyCircle text="1" color='red' style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>
                             <Text style={styles.BigText}>
