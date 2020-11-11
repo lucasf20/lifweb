@@ -1,5 +1,5 @@
 import React, { useState, Fragment, forceUpdate } from 'react'
-import { View, Image, Text, TouchableOpacity, Dimensions } from 'react-native'
+import { View, Image, Text, TouchableOpacity, Dimensions, FlatList,TouchableHighlight, Alert } from 'react-native'
 import firebase from '../../../../firebaseConfig'
 import profileIcon from '../../../assets/logolifweb.png'
 import { SimpleLineIcons, AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons';
@@ -22,6 +22,7 @@ function RenderPost({ post }) {
 
     const [h, seth] = useState(Dimensions.get('window').width - 40)
     const [w, setw] = useState(Dimensions.get('window').width - 40)
+    const [showops, setshowops] = useState(false)
 
     const user = firebase.auth().currentUser
     const apelido = post['apelido']
@@ -100,6 +101,16 @@ function RenderPost({ post }) {
             return "Há " + Math.round((minutes / 60) / 24) + " dias atrás"
         }
     }
+    async function excluirPost(){
+        await firebase.firestore().collection('posts').doc(postname).delete()
+        await firebase.firestore().collection('user').doc(owner).update({posts:firebase.firestore.FieldValue.arrayRemove(postname)})
+        if(!repost){
+            await firebase.storage().ref('user/' + owner + "/posts/" + postname).delete()
+        }
+        nav.navigate('Feed')
+        nav.dispatch(StackActions.popToTop)
+        nav.navigate('Feed')
+    }
 
     return (
         <View style={{ marginVertical: 20 }}>
@@ -145,9 +156,45 @@ function RenderPost({ post }) {
                         </Text>
                     </View>
                 </TouchableOpacity>
-                <SimpleLineIcons name="options" size={24} color="gray" />
+                <SimpleLineIcons name="options" size={24} color="gray" onPress={() => {(showops)?setshowops(false):setshowops(true)}}/>
             </View>
-            <Image source={imagem} style={{ height: height().h, width: height().w, borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
+            <View>
+            <FlatList
+                    data={(showops && (owner == user.uid))?['Excluir Post', 'Editar Post']:[]}
+                    renderItem={({ item, index, separators }) => (
+                        <TouchableHighlight
+                            key={item.key}
+                            onPress={
+                                () => { 
+                                    if(item == "Excluir Post"){
+                                        Alert.alert(
+                                            'Excluir Post?',
+                                            'Você tem certeza que deseja excluir esta postagem?',
+                                            [
+                                              {
+                                                text: 'Exlcuir',
+                                                onPress: () => excluirPost()
+                                              },
+                                              {
+                                                text: 'Cancelar',
+                                                onPress: () => console.log('Cancel Pressed'),
+                                                style: 'cancel'
+                                              }
+                                            ],
+                                            { cancelable: false }
+                                          );
+                                    } 
+                            }}
+                            onShowUnderlay={separators.highlight}
+                            onHideUnderlay={separators.unhighlight}>
+                            <View style={{ backgroundColor: (item == 'Excluir Post')?'red':'orange', borderRadius: 5, height: 50, marginTop:1, marginHorizontal:5, alignItems:'center', justifyContent:'center'}}>
+                                <Text style={{ fontSize: 15, color: (item == 'Excluir Post')?'white':'black' }}>{item}</Text>
+                            </View>
+                        </TouchableHighlight>
+                    )}
+                />
+                <Image source={imagem} style={{ height: height().h, width: height().w, borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
+            </View> 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
                 <View>
                     <Text>

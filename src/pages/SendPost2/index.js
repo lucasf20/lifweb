@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Dimensions, View, Text, Image, TouchableOpacity} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, StackActions } from '@react-navigation/native';
 import colorStyles from "../../colors";
 import * as ImagePicker from 'expo-image-picker';
 import styles from './styles'
@@ -127,7 +127,14 @@ export default function SendPost2({navigate, route}) {
                 </Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={()=>{if(imagem && descricao.length>0){postar().then(navigation.navigate("Feed"))}}}>
+                <TouchableOpacity onPress={()=>{if(imagem && descricao.length>0){postar().then(
+                    () => {
+                        navigation.dispatch(StackActions.popToTop())
+                        navigation.navigate("Feed")
+                    }
+                    )
+                    
+                    }}}>
                     <Text style={{ ...styles.text, color: dorange, fontWeight: 'bold' }}>
                         Próximo
                </Text>
