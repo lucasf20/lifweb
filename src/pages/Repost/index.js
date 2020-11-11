@@ -31,7 +31,7 @@ function Repost({ route }) {
       .doc(postname)
       .set({
         descricao: mycomment,
-        autor: firebase.auth().currentUser.uid,
+        owner: firebase.auth().currentUser.uid,
         repostedFromAutor: autor.id,
         repostedFromAutorNome: autor.fullName,
         repostedFromPost: post.id,
