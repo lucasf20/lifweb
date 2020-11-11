@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { ScrollView, View, Image, Text, Dimensions, TouchableOpacity, FlatList } from 'react-native'
 import { SimpleLineIcons } from '@expo/vector-icons'
 
@@ -12,8 +12,7 @@ import image7 from '../../../images/post_image.png'
 import image8 from '../../../images/PostImage2.png'
 import image9 from '../../../images/PostImage3.png'
 
-
-
+import firebase from '../../../../firebaseConfig'
 
 function Grid({ imagesList }) {
     var lines = []
@@ -80,9 +79,32 @@ function Grid({ imagesList }) {
     )
 }
 
-export default function Timeline() {
+export default function Timeline({uid}) {
 
-    var imglist = [image2, image3, image4, image5, image7, image8, image9]
+    const [imglist, setimglist] = useState([])
+    const [gotimg, setgotimg] = useState(false)
+
+    if(!gotimg){
+        getPost()
+    }
+
+    async function getPost(){
+        var postnames = await firebase.firestore().collection('user').doc(uid).get().then(dados => {
+            var data = dados.data()
+            return data['posts']
+        })
+        postnames.sort()
+        postnames.reverse()
+        var postimages = []
+        for(let i = 0; i<postnames.length; i++){
+            var img = await firebase.storage().ref('user/' + uid + '/posts/' + postnames[i]).getDownloadURL().then(url => {return{uri:url}})
+            postimages.push(img)
+        }
+        setimglist(postimages)
+        return [postnames, postimages] 
+    }
+
+    //var imglist = [image2, image3, image4, image5, image7, image8, image9]
 
     return (
         <View>

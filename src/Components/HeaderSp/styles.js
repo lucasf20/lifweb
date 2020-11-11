@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import colorStyles from '../../colors'
 
 const styles = StyleSheet.create({
     container:{
@@ -7,6 +8,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         flexDirection:'row',
         alignItems:'center',
+        backgroundColor: colorStyles.dorange 
     },
     title:{
         fontSize:18,
