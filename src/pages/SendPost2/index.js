@@ -52,13 +52,13 @@ export default function SendPost2({navigate, route}) {
         var metadata ={
             owner:user.uid,
             likes:[],
-            shares:[],
             descricao:descricao,
             rotation:rotate(),
             comments:[],
+            repost:false
         }
         await firebase.firestore().collection("posts").doc(postname).set(metadata)
-        await firebase.firestore().collection('user/').doc(user.uid).update({posts:firebase.firestore.FieldValue.arrayUnion(postname)})
+        await firebase.firestore().collection('user').doc(user.uid).update({posts:firebase.firestore.FieldValue.arrayUnion(postname)})
     }
 
     function height(){
