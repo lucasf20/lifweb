@@ -45,7 +45,7 @@ function RenderPost({ post }) {
             return { h, w }
         } else {
             Image.getSize(imagem.uri, (width, height) => {
-                if (rotate() == "0deg") {
+                if (rotation == "0deg") {
                     seth(height)
                     setw(width)
                 } else {
