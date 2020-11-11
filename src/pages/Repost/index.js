@@ -35,6 +35,9 @@ function Repost({ route }) {
         repostedFromAutor: autor.id,
         repostedFromAutorNome: autor.fullName,
         repostedFromPost: post.id,
+        likes: [],
+        comments: [],
+        shares: [],
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then((response) => {

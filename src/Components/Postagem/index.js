@@ -77,7 +77,7 @@ function Postagem(props) {
   }, []);
 
   useEffect(() => {
-    post.likes.map((item) => {
+    post?.likes.map((item) => {
       let aux = JSON.parse(item);
 
       if (aux.id === firebase.auth().currentUser.uid) {
@@ -128,55 +128,9 @@ function Postagem(props) {
 
     load();
   }, []);
-  /* 
-  async function like() {
-    if (!liked) {
-      await firebase
-        .firestore()
-        .collection("likes")
-        .add({
-          idPost: post.id,
-          idAutor: firebase.auth().currentUser.uid,
-          nomeAutor: usuario.fullName,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        })
-        .then((value) => {
-          setLiked(true);
-        })
-        .catch((err) => {
-          ToastAndroid.show("Erro na função like.", ToastAndroid.SHORT);
-        });
-    } else {
-      await firebase
-        .firestore()
-        .collection("likes")
-        .where("idPost", "==", post.id)
-        .where("idAutor", "==", firebase.auth().currentUser.uid)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((documentSnapshot) => {
-            firebase
-              .firestore()
-              .collection("likes")
-              .doc(documentSnapshot.id)
-              .delete();
-          });
-
-          setLiked(false);
-        })
-        .catch((err) => {
-          ToastAndroid.show("Erro na função deslike.", ToastAndroid.SHORT);
-        });
-    }
-  }
- */
 
   async function handleLike() {
     let postRef = firebase.firestore().collection("posts").doc(post.id);
-
-    /* if (!post.likes) {
-      await postRef.update({ likes: [] });
-    } */
 
     if (!liked) {
       await postRef
@@ -208,114 +162,9 @@ function Postagem(props) {
         );
     }
   }
-  /* 
-  async function follow() {
-    var phoneOwner = firebase
-      .firestore()
-      .collection("user")
-      .doc(firebase.auth().currentUser.uid);
 
-    var profileOwner = firebase.firestore().collection("user").doc(user);
-
-    let phoneOwnerName;
-    let profileOwnerName;
-
-    await phoneOwner.get().then((value) => {
-      if (!value.exists) {
-        phoneOwner.set({ following: [], followed: [] });
-      }
-
-      phoneOwnerName = value.data().fullName;
-    });
-
-    await profileOwner.get().then((value) => {
-      if (!value.exists) {
-        profileOwner.set({ following: [], followed: [] });
-      }
-
-      profileOwnerName = value.data().fullName;
-    });
-
-    await phoneOwner.update({
-      following: firebase.firestore.FieldValue.arrayUnion(
-        JSON.stringify({
-          id: user,
-          fullName: profileOwnerName,
-        })
-      ),
-    });
-
-    await profileOwner.update({
-      followed: firebase.firestore.FieldValue.arrayUnion(
-        JSON.stringify({
-          id: firebase.auth().currentUser.uid,
-          fullName: phoneOwnerName,
-        })
-      ),
-    });
-
-    setseguido(seguido + 1);
-    setsegue(true);
-  }
-
-  async function unfollow() {
-    var phoneOwner = firebase
-      .firestore()
-      .collection("user")
-      .doc(firebase.auth().currentUser.uid);
-
-    var profileOwner = firebase.firestore().collection("user").doc(user);
-
-    let phoneOwnerName;
-    let profileOwnerName;
-
-    await phoneOwner.get().then((value) => {
-      if (!value.exists) {
-        phoneOwner.set({ following: [], followed: [] });
-      }
-
-      phoneOwnerName = value.data().fullName;
-    });
-
-    await profileOwner.get().then((value) => {
-      if (!value.exists) {
-        profileOwner.set({ following: [], followed: [] });
-      }
-
-      profileOwnerName = value.data().fullName;
-    });
-
-    await phoneOwner.update({
-      following: firebase.firestore.FieldValue.arrayRemove(
-        JSON.stringify({
-          id: user,
-          fullName: profileOwnerName,
-        })
-      ),
-    });
-
-    await profileOwner.update({
-      followed: firebase.firestore.FieldValue.arrayRemove(
-        JSON.stringify({
-          id: firebase.auth().currentUser.uid,
-          fullName: phoneOwnerName,
-        })
-      ),
-    });
-
-    setseguido(seguido - 1);
-    setsegue(false);
-  }
- */
   async function handleShare() {
     ToastAndroid.show("Compartilhar", ToastAndroid.SHORT);
-    /* Share.open(options)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                err && console.log(err);
-            }); */
   }
 
   return (
