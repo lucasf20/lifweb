@@ -194,6 +194,14 @@ function RenderPost({ post }) {
                     )}
                 />
                 <Image source={imagem} style={{ height: height().h, width: height().w, borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
+                <View style={{flexDirection:'row', marginHorizontal:5}}>
+                    <Text style={{fontWeight:'bold'}}>
+                        {apelido}:
+                    </Text>
+                    <Text style={{}}>
+                        {" "+descricao}
+                    </Text>
+                </View>
             </View> 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
                 <View>
