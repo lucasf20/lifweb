@@ -20,7 +20,7 @@ import Repost from '../../../assets/repost.png'
 import colorStyles from '../../../colors'
 import { useNavigation, StackActions } from '@react-navigation/native';
 
-function RenderPost({ post }) {
+function RenderPost({ post}) {
 
     const [file, setFile] = useState(null);
 

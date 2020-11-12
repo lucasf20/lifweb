@@ -6,19 +6,15 @@ import Svg, {
     ClipPath,
     Polygon,
 } from 'react-native-svg';
-import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
-import styles from './styles'
+import { EvilIcons, MaterialCommunityIcons, Entypo, MaterialIcons } from '@expo/vector-icons';
 import Cambutton from '../../Components/Cambutton'
 import Timeline from './Timeline'
 import { useNavigation, StackActions } from '@react-navigation/native'
 import colorStyles from "../../colors";
 
-import capa from '../../images/fotocapa.jpg'
-import icon from '../../images/avatar_stories1.png'
 import profileIcon from '../../assets/logolifweb.png'
 
 import firebase from '../../../firebaseConfig';
-import { roundToNearestPixel } from 'react-native/Libraries/Utilities/PixelRatio';
 
 function Header() {
     const navigation = useNavigation()
@@ -43,7 +39,6 @@ function Header() {
                     <MaterialCommunityIcons name="message-outline" size={24} color="white" />
                 </TouchableOpacity>
             </View>
-
         </View>
     )
 }
@@ -58,6 +53,7 @@ export default function Profile({ navigation, route }) {
     const [seguindo, setseguindo] = useState(0)
     const [seguido, setseguido] = useState(0)
     const [segue, setsegue] = useState(false)
+    const [grid, setgrid] = useState(true)
 
     function getMainPictures() {
         var path = "gs://lifweb-38828.appspot.com/user/" + user
@@ -208,14 +204,23 @@ export default function Profile({ navigation, route }) {
                                 {(segue) ? "Deixar de seguir" : "Seguir"}
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 70, borderRadius: 5, marginLeft: 5, justifyContent:'center', alignItems:'center' }}>
+                        <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 70, borderRadius: 5, marginLeft: 5, justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{ color: 'white', fontSize: 12 }}>
                                 Mensagem
                         </Text>
                         </TouchableOpacity>
                     </View>) : (<View style={{ width: 210 }} />)}
                 </View>
-                <Timeline uid={user}/>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin:20 }}>
+                    <TouchableOpacity style={{alignItems:'center', width:((Dimensions.get('window').width -40)/2)}} onPress={() =>{setgrid(true)}}>
+                        <MaterialCommunityIcons name="grid-large" size={24} color={(grid)?colorStyles.dorange:'black'} />
+                    </TouchableOpacity>
+                    <View style={{ borderLeftWidth: 2, borderLeftColor: 'black' }} />
+                    <TouchableOpacity style={{alignItems:'center', width:((Dimensions.get('window').width -40)/2)}}>
+                        <MaterialIcons name="photo-library" size={24} color={(!grid)?colorStyles.dorange:'black'}  onPress={() =>{setgrid(false)}}/>
+                    </TouchableOpacity>
+                </View>
+                <Timeline uid={user} grid={grid}/>
             </ScrollView>
             <Cambutton />
         </View>
