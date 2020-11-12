@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Text, SafeAreaView, View, Image, ScrollView, TouchableOpacity } from 'react-native'
 import firebase from '../../../firebaseConfig'
 import { useNavigation, StackActions } from '@react-navigation/native';
-import { Feather } from '@expo/vector-icons';
+import Header from '../../Components/Header'
 import profileIcon from '../../assets/logolifweb.png'
 import Svg, {
     Image as SvgImage,
@@ -86,7 +86,8 @@ export default function Follow({ navigation, route }) {
             await firebase.firestore().collection('user').doc(route.params.uid).get().then(
                 data => {
                     if (!data.exists) {
-                        firebase.firestore().collection('user').doc(user).set({ following: [], followed: [] })
+                        firebase.firestore().collection('user').doc(route.params.uid).update({ following: [], followed: [] })
+                        setgotFollows(false)
                     } else {
                         var cnt = data.data()
                         if (route.params.followed) {
@@ -94,24 +95,25 @@ export default function Follow({ navigation, route }) {
                         } else {
                             setfollow(cnt['following'])
                         }
+                        setgotFollows(true)
                     }
                 }
             )
-            setgotFollows(true)
+            
         }
     }
 
-    getFollows()
+    getFollows().then(console.log(follow))
 
     return (
         <SafeAreaView>
-            <View style={{ marginHorizontal: 20, marginVertical: 30 }}>
-                <Feather name="x" size={24} color="black" onPress={() => { if(route.params.from == "Menu"){nav.navigate("Menu")}else{nav.navigate("Profile", {uid:route.params.user})} }} />
-                <Text style={{ marginTop: 20, fontSize: 30, fontWeight: "bold" }}>
+            <Header/>
+            <View style={{ marginHorizontal: 20, marginTop: 5}}>
+                <Text style={{ fontSize: 30, fontWeight: "bold" }}>
                     {(route.params.followed) ? "Seguidores" : "Seguindo"}
                 </Text>
                 <ScrollView>
-                    {gotFollows && follow.map((item) => (<Item uid={item} origin={{from:route.params.from, user:route.params.user}}/>))}
+                    {(gotFollows && follow)?(follow.map((item) => (<Item uid={item} origin={{from:route.params.from, user:route.params.user}}/>))):(console.log(gotFollows))}
                 </ScrollView>
             </View>
         </SafeAreaView>

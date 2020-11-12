@@ -50,7 +50,11 @@ export default function Menu() {
                 setprofPicture(false)
             })
         }
-        if (profPicture) {
+        if (profPicture || user.photoURL) {
+            var img = profPicture
+            if(!profPicture){
+                img = {uri: user.photoURL}
+            }
             return (
                 <Svg width="100" height="100" viewBox="0 -3 43 55">
                     <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
@@ -64,7 +68,7 @@ export default function Menu() {
                         y="0"
                         width="50"
                         height="50"
-                        href={profPicture}
+                        href={img}
                         clipPath="#image"
                     />
                 </Svg>
@@ -89,7 +93,7 @@ export default function Menu() {
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { navigation.navigate("MinhasMensagens") }}>
+                        <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { navigation.navigate('MinhasMensagens') }}>
                             <SimpleLineIcons name="bubbles" size={24} color="white" />
                             <NotifyCircle text="1" color='red' style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>
                             <Text style={styles.BigText}>

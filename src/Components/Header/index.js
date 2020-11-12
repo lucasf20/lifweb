@@ -17,9 +17,9 @@ function Header() {
     }
 
     return (
-        <View style={[styles.container, inChat && { backgroundColor: '#f25c05' }]}>
+        <View style={styles.container}>
             <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                <TouchableOpacity onPress={() => { navigation.navigate('Feed') }}>
                     <Entypo name="chevron-left" size={24} color="gray" />
                 </TouchableOpacity>
                 <EvilIcons name="search" size={30} color="transparent" style={{ paddingRight: 15 }} />
