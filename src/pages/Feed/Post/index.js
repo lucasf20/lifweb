@@ -1,8 +1,10 @@
 import React, { useState, Fragment, forceUpdate } from 'react'
-import { View, Image, Text, TouchableOpacity, Dimensions, FlatList,TouchableHighlight, Alert } from 'react-native'
+import { View, Image, Text, TouchableOpacity, Dimensions, FlatList,TouchableHighlight, Alert, Share } from 'react-native'
 import firebase from '../../../../firebaseConfig'
 import profileIcon from '../../../assets/logolifweb.png'
 import { SimpleLineIcons, AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons';
+import * as Sharing from 'expo-sharing';
+import * as FileSystem from 'expo-file-system';
 import Svg, {
     Image as SvgImage,
     Defs,
@@ -19,6 +21,8 @@ import colorStyles from '../../../colors'
 import { useNavigation, StackActions } from '@react-navigation/native';
 
 function RenderPost({ post }) {
+
+    const [file, setFile] = useState(null);
 
     const [h, seth] = useState(Dimensions.get('window').width - 40)
     const [w, setw] = useState(Dimensions.get('window').width - 40)
@@ -39,6 +43,70 @@ function RenderPost({ post }) {
 
     const [liked, setliked] = useState(likes.includes(user.uid))
     const [numlikes, setnumlikes] = useState(likes.length)
+    
+    function downloadFile(uri){
+        let fileUri = FileSystem.documentDirectory + "lifweb.jpg";
+        FileSystem.downloadAsync(uri, fileUri)
+        .then(({ uri }) => {
+            setFile(uri);
+          })
+          .catch(error => {
+            console.error(error);
+          })
+    }
+
+    let openShareDialogAsync = async () => {
+        if (!(await Sharing.isAvailableAsync())) {
+          alert(`Uh oh, sharing isn't available on your platform`);
+          return;
+        }
+        downloadFile(
+            imagem.uri
+            )
+        await Sharing.shareAsync(file,{dialogTitle:'Imagem compartilhada pelo app LifWeb'});
+        //await onShare(name)
+      };
+
+      const onShare = async () => {
+        try {
+          const result = await Share.share({
+            message:
+                apelido +' compartilhou esta postagem através do app LifWeb. Junte-se a nos! https://lifweb.com.br/ ',
+
+          });
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+    }
+
+    
+    function shareAlert(){
+        Alert.alert(
+            'Compartilhar Post',
+            'Escolha o compartilhamento',
+            [
+              {
+                text: 'Exportar Imagem',
+                onPress: () => openShareDialogAsync()
+              },
+              {
+                text: 'Compartilhar Texto',
+                onPress: () => onShare(),
+                style: 'cancel'
+              }
+            ],
+            { cancelable: true }
+          );
+    }
 
     function height() {
         if (!imagem) {
@@ -219,8 +287,8 @@ function RenderPost({ post }) {
                     <TouchableOpacity style={{ paddingRight: 10 }} onPress={repostar}>
                         <Image source={Repost} style={{ height: 30, width: 30 }}></Image>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ paddingRight: 10 }} >
-                        <Image source={ShareIcon} style={{ height: 30, width: 30 }}></Image>
+                    <TouchableOpacity style={{ paddingRight: 10 }} onPress={()=>shareAlert()} >
+                        <Image source={ShareIcon} style={{ height: 30, width: 30 }} ></Image>
                     </TouchableOpacity>
                 </View>
             </View>
