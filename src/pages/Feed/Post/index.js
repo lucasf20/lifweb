@@ -19,6 +19,7 @@ import ShareIcon from '../../../assets/share.png'
 import Repost from '../../../assets/repost.png'
 import colorStyles from '../../../colors'
 import { useNavigation, StackActions } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function RenderPost({ post }) {
 
@@ -30,8 +31,8 @@ function RenderPost({ post }) {
 
     const user = firebase.auth().currentUser
     const apelido = post['apelido']
-    const avatar = (post['avatar']) ? post['avatar'] : profileIcon
-    const imagem = (post['repost']) ? post['repost']['image'] : post['image']
+    const perfil = (post['avatar']) ? post['avatar'] : profileIcon
+    const foto = (post['repost']) ? post['repost']['image'] : post['image']
     const repost = post['repost']
     const comments = post['comments']
     const likes = post['likes']
@@ -43,6 +44,31 @@ function RenderPost({ post }) {
 
     const [liked, setliked] = useState(likes.includes(user.uid))
     const [numlikes, setnumlikes] = useState(likes.length)
+    const [avatar, setavatar] = useState(null)
+    const [imagem,setimagem ] = useState(null)
+    const [cached, setcached] = useState(false)
+
+    if(!cached){
+        cache(foto.uri).then(obj => setimagem(obj))
+        if(post['avatar']){
+            cache(perfil.uri).then(obj => setavatar(obj))
+        }else{
+            setavatar(profileIcon)
+        }
+        setcached(true)
+    }
+
+    async function cache(uri){
+        var path = AsyncStorage.getItem(uri)
+        if(path){
+            return {uri:path}
+        }else{
+            var file = FileSystem.documentDirectory + postname
+            await FileSystem.downloadAsync(uri, file)
+            await AsyncStorage.setItem(uri,file)
+            return {uri:file}
+        }
+    }
     
     function downloadFile(uri){
         let fileUri = FileSystem.documentDirectory + "lifweb.jpg";
