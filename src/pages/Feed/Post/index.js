@@ -2,7 +2,7 @@ import React, { useState, Fragment, forceUpdate } from 'react'
 import { View, Image, Text, TouchableOpacity, Dimensions, FlatList,TouchableHighlight, Alert, Share } from 'react-native'
 import firebase from '../../../../firebaseConfig'
 import profileIcon from '../../../assets/logolifweb.png'
-import { SimpleLineIcons, AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons';
+import { SimpleLineIcons, Fontisto, FontAwesome } from '@expo/vector-icons';
 import * as Sharing from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
 import Svg, {
@@ -358,6 +358,9 @@ export default function Post() {
     return (
         <View style={{ marginBottom: 100 }}>
             {pts.map(item => <RenderPost post={item}></RenderPost>)}
+            <View style={{justifyContent:'center', alignItems:'center', height:50, flexDirection:'row'}}>
+                <Fontisto name="motorcycle" size={24} color={colorStyles.dorange} />
+            </View>
         </View>
     )
 }
