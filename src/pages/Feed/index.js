@@ -9,7 +9,7 @@ import Stories from "../../Components/Stories";
 
 import HeaderSp from "../../Components/HeaderSp";
 import StoriesList from "../../Components/Stories";
-import PostsList from "../../Components/PostsList";
+import Post from './Post'
 
 
 import styles from './styles';
@@ -53,7 +53,7 @@ export default function Feed(){
             <HeaderSp/>
             <ScrollView>
                 <Stories />
-                <PostsList />
+                <Post/>
             </ScrollView>
             <Cambutton/>
         </SafeAreaView>

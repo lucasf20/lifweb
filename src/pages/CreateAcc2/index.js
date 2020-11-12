@@ -124,7 +124,8 @@ export default function CreateAcc2() {
                         apelido: Name,
                         profissao: profSelecionada,
                         nascimento: data,
-                        modeloDaMoto: {moto:motoSelecionada}
+                        modeloDaMoto: {moto:motoSelecionada},
+                        posts:[]
                     }
                 )
                 firebase.database().ref('user/' + user.uid).update({

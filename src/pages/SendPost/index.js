@@ -79,7 +79,7 @@ export default function App() {
 
     const takePicture = async () => {
         if (camera) {
-          const options = { quality: 0.5, base64: true, skipProcessing: true };
+          const options = { quality: 0.2, base64: true, skipProcessing: true };
           const data = await camera.takePictureAsync(options);
           const source = data.uri;
           Accelerometer.addListener(obj => {setcoord(obj)})

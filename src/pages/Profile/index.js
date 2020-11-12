@@ -215,7 +215,7 @@ export default function Profile({ navigation, route }) {
                         </TouchableOpacity>
                     </View>) : (<View style={{ width: 210 }} />)}
                 </View>
-                <Timeline />
+                <Timeline uid={user}/>
             </ScrollView>
             <Cambutton />
         </View>
