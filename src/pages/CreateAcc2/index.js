@@ -25,9 +25,9 @@ export default function CreateAcc2() {
     const [Name, setName] = useState('');
     const [data, setData] = useState('');
     const [profissao, setProfissao] = useState('');
-    const [profSelecionada, setprofSelecionada] = useState("")
+    const [profSelecionada, setprofSelecionada] = useState('')
     const [moto, setMoto] = useState('')
-    const [motoSelecionada, setMotoSelecionada] = useState("")
+    const [motoSelecionada, setMotoSelecionada] = useState('')
     const [date, setDate] = useState(new Date(1598051730000));
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -176,7 +176,7 @@ export default function CreateAcc2() {
         var motosList = []
         var motoObj = {}
         var aux = {}
-        if (moto.length > 2) {
+        if (moto.length > 2 && moto != 'NÃO CONSTA NA LISTA') {
             firebase.database().ref('motos/').on('value', snapshot => {
                 motoObj = snapshot.val()
             })
@@ -196,7 +196,11 @@ export default function CreateAcc2() {
                     title: aux['descricao']
                 })
             }
-            return motosList
+            motosList.push({
+               id:'nao',
+               title:"NÃO CONSTA NA LISTA"
+            })
+            return motosList.reverse()
         }
         else {
             return []
@@ -206,7 +210,7 @@ export default function CreateAcc2() {
     function getProf() {
         var profsList = []
         var profObj = {}
-        if (profissao.length > 2) {
+        if (profissao.length > 2 &&profissao != 'NÃO CONSTA NA LISTA') {
             firebase.database().ref('profissoes/').on('value', snapshot => {
                 profObj = snapshot.val()
             })
@@ -225,7 +229,11 @@ export default function CreateAcc2() {
                     title: profObj[profsList[i]]['titulo']
                 }
             }
-            return profsList
+            profsList.push({
+                id:'nao',
+                title:"NÃO CONSTA NA LISTA"
+             })
+            return profsList.reverse()
         } else {
             return []
         }

@@ -373,12 +373,17 @@ export default function Post() {
         for (let i = 0; i < uidList.length; i++) {
             var a = await firebase.firestore().collection('user').doc(uidList[i]).get().then(
                 data => {
-                    var dados = data.data()
-                    if (dados['posts']) {
-                        return dados['posts']
-                    } else {
+                    if(data.exists){
+                        var dados = data.data()
+                        if (dados['posts']) {
+                            return dados['posts']
+                        } else {
+                            return []
+                        }
+                    }else{
                         return []
                     }
+                        
                 }
             )
             postnames = postnames.concat(a)
