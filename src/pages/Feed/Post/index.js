@@ -71,7 +71,7 @@ function RenderPost({ post }) {
         try {
           const result = await Share.share({
             message:
-                apelido +' compartilhou esta postagem através do app LifWeb. Junte-se a nos! https://lifweb.com.br/ ',
+                apelido +' compartilhou esta postagem através do app LifWeb. Junte-se a nos! https://lifweb.com.br/ \n\n' + descricao,
 
           });
           if (result.action === Share.sharedAction) {
