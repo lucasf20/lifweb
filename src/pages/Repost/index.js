@@ -41,10 +41,6 @@ function Repost({ route }) {
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(async (response) => {
-        /* let idRepost = !!post.repostedFromPost
-          ? post.repostedFromPost
-          : post.id; */
-
         await firebase
           .firestore()
           .collection("posts")

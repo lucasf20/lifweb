@@ -23,6 +23,7 @@ import Svg, {
 
 function Chat({ route }) {
   const [message, setMessage] = useState("");
+  const [avatar, setAvatar] = useState("");
   const [destinatario, setDestinatario] = useState({});
   const [allMessages, setAllMessages] = useState([]);
   const { usuario } = useContext(AuthContext);
@@ -30,6 +31,25 @@ function Chat({ route }) {
   const idConversa =
     idUser > usuario.id ? idUser.concat(usuario.id) : usuario.id.concat(idUser);
   const [conversaExiste, setConversaExiste] = useState(false);
+
+  useEffect(() => {
+    async function load() {
+      await firebase
+        .storage()
+        .ref("user/" + idUser + "/perfil")
+        .getDownloadURL()
+        .then((downloadUrl) => {
+          setAvatar(downloadUrl);
+          console.log(downloadUrl);
+        })
+        .catch((erro) => {
+          console.log(erro);
+          return false;
+        });
+    }
+
+    load();
+  });
 
   useEffect(() => {
     async function load() {
@@ -227,7 +247,22 @@ function Chat({ route }) {
           </Text>
         </View>
       </View>
-      <Image style={styles.avatar} source={{ uri: destinatario.avatar }} />
+      {/* <Image style={styles.avatar} source={{ uri: avatar }} /> */}
+      <Svg style={styles.avatar} width="75" height="75" viewBox="0 0 50 50">
+        <Defs>
+          <ClipPath id="image" clipRule="evenodd">
+            <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+          </ClipPath>
+        </Defs>
+        <SvgImage
+          x="0"
+          y="0"
+          width="50"
+          height="50"
+          href={avatar}
+          clipPath="#image"
+        />
+      </Svg>
       <View style={styles.containerMessages}>
         <FlatList
           inverted

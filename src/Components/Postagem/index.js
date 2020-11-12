@@ -15,7 +15,12 @@ import ShareIcon from "../../assets/share.png";
 import Repost from "../../assets/repost.png";
 import firebase from "../../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
-import { AuthContext } from "../../contexts/auth";
+import Svg, {
+  Image as SvgImage,
+  Defs,
+  ClipPath,
+  Polygon,
+} from "react-native-svg";
 //import Share from 'react-native-share';
 
 function Postagem(props) {
@@ -23,12 +28,12 @@ function Postagem(props) {
   const [autor, setAutor] = useState({});
   const [comments, setComments] = useState([]);
   const [liked, setLiked] = useState(false);
-  const [numComments, setNumComments] = useState(0);
+  const [likes, setLikes] = useState([]);
   const [numberOfLikes, setNumberOfLikes] = useState(0);
   const navigation = useNavigation();
   const [url, setUrl] = useState("");
 
-  useEffect(() => {
+  /* useEffect(() => {
     async function load() {
       await firebase
         .storage()
@@ -41,7 +46,7 @@ function Postagem(props) {
     }
 
     load();
-  }, []);
+  }, []); */
 
   useEffect(() => {
     async function load() {
@@ -64,65 +69,23 @@ function Postagem(props) {
 
   useEffect(() => {
     async function load() {
-      await firebase
+      firebase
         .firestore()
         .collection("posts")
         .doc(post.id)
         .onSnapshot((documentSnapshot) => {
           setComments(documentSnapshot.data().comments);
-        });
-    }
-
-    load();
-  }, []);
-
-  useEffect(() => {
-    post?.likes.map((item) => {
-      let aux = JSON.parse(item);
-
-      if (aux.id === firebase.auth().currentUser.uid) {
-        setLiked(true);
-        return;
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    async function load() {
-      await firebase
-        .firestore()
-        .collection("posts")
-        .doc(post.id)
-        .onSnapshot((documentSnapshot) => {
           setNumberOfLikes(documentSnapshot.data().likes.length);
-        });
-    }
+          setLikes(documentSnapshot.data().likes);
 
-    load();
-  }, []);
-
-  useEffect(() => {
-    async function load() {
-      await firebase
-        .firestore()
-        .collection("posts")
-        .doc(post.id)
-        .onSnapshot((documentSnapshot) => {
-          setNumberOfLikes(documentSnapshot.data().likes.length);
-        });
-    }
-
-    load();
-  }, []);
-
-  useEffect(() => {
-    async function load() {
-      await firebase
-        .firestore()
-        .collection("comments")
-        .where("idPost", "==", post.id)
-        .onSnapshot((querySnapshot) => {
-          setNumComments(querySnapshot.size);
+          if (!!documentSnapshot.data().likes) {
+            documentSnapshot.data().likes.map((item) => {
+              if (JSON.parse(item).id === firebase.auth().currentUser.uid) {
+                setLiked(true);
+                return;
+              }
+            });
+          }
         });
     }
 
@@ -171,7 +134,22 @@ function Postagem(props) {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.containerFotoeNome}>
-          <Image style={styles.avatar} source={{ uri: autor?.avatar }} />
+          {/* <Image style={styles.avatar} source={{ uri: autor?.avatar }} /> */}
+          <Svg style={styles.avatar} width="75" height="75" viewBox="0 0 50 50">
+            <Defs>
+              <ClipPath id="image" clipRule="evenodd">
+                <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+              </ClipPath>
+            </Defs>
+            <SvgImage
+              x="0"
+              y="0"
+              width="50"
+              height="50"
+              href={autor?.avatar}
+              clipPath="#image"
+            />
+          </Svg>
           <Text style={styles.headerNome}>{autor?.fullName}</Text>
         </View>
         <TouchableOpacity>

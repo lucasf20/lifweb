@@ -44,12 +44,12 @@ function PostsList() {
 
   return (
     <View style={{ height: "auto", flex: 1 }}>
-      <FlatList
+      {/* <FlatList
         showsVerticalScrollIndicator={false}
         data={posts}
         renderItem={({ item, index }) => <Postagem post={item} />}
         keyExtractor={(item) => String(item.id)}
-      />
+      /> */}
     </View>
   );
 }

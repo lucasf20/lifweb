@@ -7,6 +7,7 @@ import {
   Image,
   ToastAndroid,
   FlatList,
+  Keyboard,
 } from "react-native";
 import Header from "../../Components/Header";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -85,9 +86,11 @@ function AddComment({ route }) {
           })
         ),
       })
-      .then((value) =>
-        ToastAndroid.show("Seu comentário foi postado.", ToastAndroid.SHORT)
-      )
+      .then((value) => {
+        ToastAndroid.show("Seu comentário foi postado.", ToastAndroid.SHORT);
+        Keyboard.dismiss();
+        setMycomment("");
+      })
       .catch((err) =>
         ToastAndroid.show("Erro na função comentar.", ToastAndroid.SHORT)
       );

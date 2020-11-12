@@ -20,6 +20,7 @@ function Conversa(props) {
   const [mensagens, setMensagens] = useState({});
   const { conv } = props;
   const { usuario } = useContext(AuthContext);
+  const [avatar, setAvatar] = useState("");
 
   useEffect(() => {
     async function load() {
@@ -42,6 +43,27 @@ function Conversa(props) {
     //console.log(conv.idConversa.replace(usuario.id, ''), usuario.id)
     load();
   }, []);
+
+  useEffect(() => {
+    async function load() {
+      await firebase
+        .storage()
+        .ref(
+          "user/" +
+            conv.idConversa.replace(firebase.auth().currentUser.uid, "") +
+            "/perfil"
+        )
+        .getDownloadURL()
+        .then((downloadUrl) => {
+          setAvatar(downloadUrl);
+        })
+        .catch((erro) => {
+          return false;
+        });
+    }
+
+    load();
+  });
 
   useEffect(() => {
     async function load() {
@@ -156,22 +178,22 @@ function Conversa(props) {
       }
     >
       <View style={styles.containerFotoMensagem}>
-        <Image style={styles.avatar} source={{ uri: destinatario?.avatar }} />
-        {/* <Svg style={styles.avatar} width="75" height="75" viewBox="0 0 50 50">
-                <Defs>
-                    <ClipPath id="image" clipRule="evenodd">
-                        <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-                    </ClipPath>
-                </Defs>
-                <SvgImage
-                    x="0"
-                    y="0"
-                    width="50"
-                    height="50"
-                    href={destinatario.avatar}
-                    clipPath="#image"
-                />
-            </Svg> */}
+        {/* <Image style={styles.avatar} source={{ uri: destinatario?.avatar }} /> */}
+        <Svg style={styles.avatar} width="75" height="75" viewBox="0 0 50 50">
+          <Defs>
+            <ClipPath id="image" clipRule="evenodd">
+              <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+            </ClipPath>
+          </Defs>
+          <SvgImage
+            x="0"
+            y="0"
+            width="50"
+            height="50"
+            href={avatar}
+            clipPath="#image"
+          />
+        </Svg>
         <View>
           <View style={styles.containerInfos}>
             <Text style={styles.name}>{destinatario?.fullName}</Text>

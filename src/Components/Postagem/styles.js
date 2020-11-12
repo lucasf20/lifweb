@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  avatar: {
+  /* avatar: {
     height: 60,
     width: 60,
     backgroundColor: "#ddd",
@@ -24,6 +24,14 @@ const styles = StyleSheet.create({
     borderColor: "#f25c05",
     borderRadius: 30,
     marginHorizontal: 15,
+  }, */
+
+  avatar: {
+    marginLeft: 13,
+    width: 45,
+    height: 45,
+    borderRadius: 50,
+    marginRight: 8,
   },
 
   headerNome: {
