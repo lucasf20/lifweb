@@ -19,14 +19,18 @@ function Item({ uid, origin }) {
     function getName() {
         var data = {}
         if (name.length == 0) {
-            firebase.database().ref('user/' + uid).on('value', snap => {
-                data = snap.val()
+            firebase.firestore().collection('user').doc(uid).get().then(data => {
+                var dados = data.data()
+                setname(dados['apelido'])
             })
-            if (Object.keys(data).length == 0) {
-                (origin.from== "Menu")?nav.navigate("Menu"):nav.navigate("Profile", {uid:origin.user})
-            } else {
-                setname(data['apelido'])
-            }
+            // firebase.database().ref('user/' + uid).on('value', snap => {
+            //     data = snap.val()
+            // })
+            // if (Object.keys(data).length == 0) {
+            //     (origin.from== "Menu")?nav.navigate("Menu"):nav.navigate("Profile", {uid:origin.user})
+            // } else {
+            //     setname(data['apelido'])
+            // }
         }
     }
 

@@ -256,7 +256,7 @@ function Part2({ changeState }) {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
-            quality: 1,
+            quality: 0.2,
             base64: true
         });
         if (!result.cancelled) {
@@ -497,7 +497,7 @@ function Part3({ changeState }) {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [1, 1],
-            quality: 1,
+            quality: 0.2,
             base64: true
         });
         if (!result.cancelled) {

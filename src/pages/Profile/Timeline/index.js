@@ -110,13 +110,11 @@ export default function Timeline({uid}) {
         postnames.sort()
         postnames.reverse()
         for (let i = 0; i < postnames.length; i++) {
-            if (Date.now() - Math.floor(postnames[i]) < 86400000) {
-                var p = await firebase.firestore().collection('posts').doc(postnames[i]).get().then(data => data.data())
-                var postimage = (!p['repost']) ? (await firebase.storage().ref("user/" + p['owner'] + "/posts/" + postnames[i]).getDownloadURL().then(url => { return { uri: url } })) : (null)
-                var avatar = await firebase.storage().ref("user/" + p['owner'] + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
-                var apelido = await firebase.firestore().collection('user').doc(p['owner']).get().then(data => { return data.data()['apelido'] })
-                posts.push({ ...p, postname: postnames[i], image: postimage, avatar, apelido })
-            }
+            var p = await firebase.firestore().collection('posts').doc(postnames[i]).get().then(data => data.data())
+            var postimage = (!p['repost']) ? (await firebase.storage().ref("user/" + p['owner'] + "/posts/" + postnames[i]).getDownloadURL().then(url => { return { uri: url } })) : (null)
+            var avatar = await firebase.storage().ref("user/" + p['owner'] + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
+            var apelido = await firebase.firestore().collection('user').doc(p['owner']).get().then(data => { return data.data()['apelido'] })
+            posts.push({ ...p, postname: postnames[i], image: postimage, avatar, apelido })
         }
         return posts
     }

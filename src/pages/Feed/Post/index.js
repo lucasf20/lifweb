@@ -1,5 +1,5 @@
 import React, { useState, Fragment, forceUpdate } from 'react'
-import { View, Image, Text, TouchableOpacity, Dimensions, FlatList,TouchableHighlight, Alert, Share } from 'react-native'
+import { View, Image, Text, TouchableOpacity, Dimensions, FlatList, TouchableHighlight, Alert, Share } from 'react-native'
 import firebase from '../../../../firebaseConfig'
 import profileIcon from '../../../assets/logolifweb.png'
 import { SimpleLineIcons, Fontisto, FontAwesome } from '@expo/vector-icons';
@@ -19,7 +19,6 @@ import ShareIcon from '../../../assets/share.png'
 import Repost from '../../../assets/repost.png'
 import colorStyles from '../../../colors'
 import { useNavigation, StackActions } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function RenderPost({ post }) {
 
@@ -45,95 +44,105 @@ function RenderPost({ post }) {
     const [liked, setliked] = useState(likes.includes(user.uid))
     const [numlikes, setnumlikes] = useState(likes.length)
     const [avatar, setavatar] = useState(null)
-    const [imagem,setimagem ] = useState(null)
+    const [imagem, setimagem] = useState(null)
     const [cached, setcached] = useState(false)
 
-    if(!cached){
-        cache(foto.uri).then(obj => setimagem(obj))
-        if(post['avatar']){
-            cache(perfil.uri).then(obj => setavatar(obj))
-        }else{
+    if (!cached) {
+        cache(foto.uri, 'foto').then(obj => { setimagem(obj); })
+        if (post['avatar']) {
+            setavatar(perfil)
+        } else {
             setavatar(profileIcon)
         }
         setcached(true)
     }
 
-    async function cache(uri){
-        var path = AsyncStorage.getItem(uri)
-        if(path){
-            return {uri:path}
-        }else{
-            var file = FileSystem.documentDirectory + postname
-            await FileSystem.downloadAsync(uri, file)
-            await AsyncStorage.setItem(uri,file)
-            return {uri:file}
+    async function cache(uri, type) {
+        if (type == 'foto') {
+            var f = await FileSystem.getInfoAsync(FileSystem.documentDirectory + postname)
+            if (f.exists) {
+                return { uri: FileSystem.documentDirectory + postname }
+            } else {
+                var file = FileSystem.documentDirectory + postname
+                await FileSystem.downloadAsync(uri, file)
+                return { uri: FileSystem.documentDirectory + postname }
+            }
+        } else {
+            var f = await FileSystem.getInfoAsync(FileSystem.documentDirectory + owner)
+            if (f.exists) {
+                return { uri: FileSystem.documentDirectory + owner }
+            } else {
+                var file = FileSystem.documentDirectory + owner
+                await FileSystem.downloadAsync(uri, file)
+                return { uri: FileSystem.documentDirectory + owner }
+            }
         }
     }
-    
-    function downloadFile(uri){
+
+    function downloadFile(uri) {
         let fileUri = FileSystem.documentDirectory + "lifweb.jpg";
         FileSystem.downloadAsync(uri, fileUri)
-        .then(({ uri }) => {
-            setFile(uri);
-          })
-          .catch(error => {
-            console.error(error);
-          })
+            .then(({ uri }) => {
+                setFile(uri);
+            })
+            .catch(error => {
+                console.error(error);
+            })
     }
 
     let openShareDialogAsync = async () => {
         if (!(await Sharing.isAvailableAsync())) {
-          alert(`Uh oh, sharing isn't available on your platform`);
-          return;
+            alert(`Uh oh, sharing isn't available on your platform`);
+            return;
         }
         downloadFile(
             imagem.uri
-            )
-        await Sharing.shareAsync(file,{dialogTitle:'Imagem compartilhada pelo app LifWeb'});
+        )
+        await Sharing.shareAsync(file, { dialogTitle: 'Imagem compartilhada pelo app LifWeb' });
         //await onShare(name)
-      };
+    };
 
-      const onShare = async () => {
+    const onShare = async () => {
         try {
-          const result = await Share.share({
-            message:
-                `${apelido} compartilhou esta postagem através do app LifWeb. Junte-se a nos! https://lifweb.com.br/ 
+            const result = await Share.share({
+                message:
+                    `${apelido} compartilhou esta postagem através do app LifWeb. Junte-se a nos! https://lifweb.com.br/ 
 
 ${descricao}`,
 
-          });
-          if (result.action === Share.sharedAction) {
-            if (result.activityType) {
-              // shared with activity type of result.activityType
-            } else {
-              // shared
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
             }
-          } else if (result.action === Share.dismissedAction) {
-            // dismissed
-          }
         } catch (error) {
-          alert(error.message);
+            alert(error.message);
         }
     }
 
-    
-    function shareAlert(){
+
+    function shareAlert() {
         Alert.alert(
             'Compartilhar Post',
             'Escolha o compartilhamento',
             [
-              {
-                text: 'Exportar Imagem',
-                onPress: () => openShareDialogAsync()
-              },
-              {
-                text: 'Compartilhar Texto',
-                onPress: () => onShare(),
-                style: 'cancel'
-              }
+                {
+                    text: 'Exportar Imagem',
+                    onPress: () => openShareDialogAsync()
+                },
+                {
+                    text: 'Compartilhar Texto',
+                    onPress: () => onShare(),
+                    style: 'cancel'
+                }
             ],
             { cancelable: true }
-          );
+        );
     }
 
     function height() {
@@ -197,10 +206,10 @@ ${descricao}`,
             return "Há " + Math.round((minutes / 60) / 24) + " dias atrás"
         }
     }
-    async function excluirPost(){
+    async function excluirPost() {
         await firebase.firestore().collection('posts').doc(postname).delete()
-        await firebase.firestore().collection('user').doc(owner).update({posts:firebase.firestore.FieldValue.arrayRemove(postname)})
-        if(!repost){
+        await firebase.firestore().collection('user').doc(owner).update({ posts: firebase.firestore.FieldValue.arrayRemove(postname) })
+        if (!repost) {
             await firebase.storage().ref('user/' + owner + "/posts/" + postname).delete()
         }
         nav.navigate('Feed')
@@ -252,50 +261,50 @@ ${descricao}`,
                         </Text>
                     </View>
                 </TouchableOpacity>
-                <SimpleLineIcons name="options" size={24} color="gray" onPress={() => {(showops)?setshowops(false):setshowops(true)}}/>
+                <SimpleLineIcons name="options" size={24} color="gray" onPress={() => { (showops) ? setshowops(false) : setshowops(true) }} />
             </View>
             <View>
-            <FlatList
-                    data={(showops && (owner == user.uid))?['Excluir Post', 'Editar Post']:[]}
+                <FlatList
+                    data={(showops && (owner == user.uid)) ? ['Excluir Post', 'Editar Post'] : []}
                     renderItem={({ item, index, separators }) => (
                         <TouchableHighlight
                             key={item.key}
                             onPress={
-                                () => { 
-                                    if(item == "Excluir Post"){
+                                () => {
+                                    if (item == "Excluir Post") {
                                         Alert.alert(
                                             'Excluir Post?',
                                             'Você tem certeza que deseja excluir esta postagem?',
                                             [
-                                              {
-                                                text: 'Excluir',
-                                                onPress: () => excluirPost()
-                                              },
-                                              {
-                                                text: 'Cancelar',
-                                                onPress: () => console.log('Cancel Pressed'),
-                                                style: 'cancel'
-                                              }
+                                                {
+                                                    text: 'Excluir',
+                                                    onPress: () => excluirPost()
+                                                },
+                                                {
+                                                    text: 'Cancelar',
+                                                    onPress: () => console.log('Cancel Pressed'),
+                                                    style: 'cancel'
+                                                }
                                             ],
-                                            { cancelable: false }
-                                          );
-                                    } 
-                            }}
+                                            { cancelable: true }
+                                        );
+                                    }
+                                }}
                             onShowUnderlay={separators.highlight}
                             onHideUnderlay={separators.unhighlight}>
-                            <View style={{ backgroundColor: (item == 'Excluir Post')?'red':'orange', borderRadius: 5, height: 50, marginTop:1, marginHorizontal:5, alignItems:'center', justifyContent:'center'}}>
-                                <Text style={{ fontSize: 15, color: (item == 'Excluir Post')?'white':'black' }}>{item}</Text>
+                            <View style={{ backgroundColor: (item == 'Excluir Post') ? 'red' : 'orange', borderRadius: 5, height: 50, marginTop: 1, marginHorizontal: 5, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 15, color: (item == 'Excluir Post') ? 'white' : 'black' }}>{item}</Text>
                             </View>
                         </TouchableHighlight>
                     )}
                 />
                 <Image source={imagem} style={{ height: height().h, width: height().w, borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
-                <View style={{flexDirection:'row', marginHorizontal:5}}>
-                    <Text style={{fontSize:16}}>
+                <View style={{ flexDirection: 'row', marginHorizontal: 5 }}>
+                    <Text style={{ fontSize: 16 }}>
                         {descricao}
                     </Text>
                 </View>
-            </View> 
+            </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
                 <View>
                     <Text>
@@ -309,10 +318,27 @@ ${descricao}`,
                     <TouchableOpacity style={{ paddingRight: 10 }}>
                         <Image source={Comentario} style={{ height: 30, width: 30 }}></Image>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ paddingRight: 10 }} onPress={repostar}>
+                    <TouchableOpacity style={{ paddingRight: 10 }} onPress={() => {
+                        Alert.alert(
+                            'Respostar Post?',
+                            'Você tem certeza que deseja repostar esta postagem?',
+                            [
+                                {
+                                    text: 'Repostar',
+                                    onPress: () => repostar()
+                                },
+                                {
+                                    text: 'Cancelar',
+                                    onPress: () => console.log('Cancel Pressed'),
+                                    style: 'cancel'
+                                }
+                            ],
+                            { cancelable: true }
+                        );
+                    }}>
                         <Image source={Repost} style={{ height: 30, width: 30 }}></Image>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ paddingRight: 10 }} onPress={()=>shareAlert()} >
+                    <TouchableOpacity style={{ paddingRight: 10 }} onPress={() => shareAlert()} >
                         <Image source={ShareIcon} style={{ height: 30, width: 30 }} ></Image>
                     </TouchableOpacity>
                 </View>
@@ -380,8 +406,19 @@ export default function Post() {
 
     return (
         <View style={{ marginBottom: 100 }}>
-            {pts.map(item => <RenderPost post={item}></RenderPost>)}
-            <View style={{justifyContent:'center', alignItems:'center', height:50, flexDirection:'row'}}>
+            <FlatList
+                data={pts}
+                renderItem={({ item, index, separators }) => (
+                    <RenderPost post={item}></RenderPost>
+                )}
+                removeClippedSubviews={true} // Unmount components when outside of window 
+                initialNumToRender={2} // Reduce initial render amount
+                maxToRenderPerBatch={1} // Reduce number in each render batch
+                updateCellsBatchingPeriod={100} // Increase time between renders
+                windowSize={7} // Reduce the window size
+            />
+            {/*pts.map(item => <RenderPost post={item}></RenderPost>)*/}
+            <View style={{ justifyContent: 'center', alignItems: 'center', height: 50, flexDirection: 'row' }}>
                 <Fontisto name="motorcycle" size={24} color={colorStyles.dorange} />
             </View>
         </View>
