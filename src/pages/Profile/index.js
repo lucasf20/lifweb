@@ -450,6 +450,7 @@ export default function Profile({ navigation, route }) {
                   justifyContent: "center",
                   alignItems: "center",
                 }}
+                onPress={() => navigation.navigate("Chat", { idUser: user })}
               >
                 <Text style={{ color: "white", fontSize: 12 }}>Mensagem</Text>
               </TouchableOpacity>

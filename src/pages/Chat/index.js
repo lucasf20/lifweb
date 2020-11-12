@@ -164,8 +164,9 @@ function Chat({ route }) {
       .collection("conversas")
       .add({
         idConversa,
-        idUser: usuario.id,
+        idUser: firebase.auth().currentUser.uid,
         ordem,
+        receiverName: destinatario.fullName,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(async (value) => {
@@ -175,6 +176,7 @@ function Chat({ route }) {
           .add({
             idConversa,
             idUser,
+            receiverName: firebase.auth().currentUser.displayName,
             ordem,
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           })

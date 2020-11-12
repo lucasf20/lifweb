@@ -61,7 +61,7 @@ function MinhasMensagens() {
 
     load();
   }, []);
-
+  /* 
   useEffect(() => {
     async function load() {
       await firebase
@@ -76,13 +76,13 @@ function MinhasMensagens() {
 
     load();
   }, []);
-
+ */
   function buscar(text) {
     setPesquisa(text);
     if (!!text)
       setEncontrados(
-        following.filter((item) =>
-          JSON.parse(item)?.fullName.toLowerCase().includes(text.toLowerCase())
+        conversas.filter((item) =>
+          item.receiverName.toLowerCase().includes(text.toLowerCase())
         )
       );
     //console.log(usuarios.length, encontrados.length)
@@ -100,30 +100,18 @@ function MinhasMensagens() {
           value={pesquisa}
           onChangeText={(text) => buscar(text)}
         />
-
         {!!pesquisa && (
           <TouchableOpacity onPress={() => setPesquisa("")}>
             <MaterialCommunityIcons name="close" size={30} color="#979797" />
           </TouchableOpacity>
         )}
       </View>
-      {!!pesquisa ? (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={encontrados}
-          renderItem={({ item, index }) => (
-            <Usuario chaves={JSON.parse(item)} />
-          )}
-          keyExtractor={(item) => String(item)}
-        />
-      ) : (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={conversas}
-          renderItem={({ item, index }) => <Conversa conv={item} />}
-          keyExtractor={(item) => String(item.id)}
-        />
-      )}
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={!!pesquisa ? encontrados : conversas}
+        renderItem={({ item, index }) => <Conversa conv={item} />}
+        keyExtractor={(item) => String(item.id)}
+      />
     </View>
   );
 }
