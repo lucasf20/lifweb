@@ -242,7 +242,7 @@ ${descricao}`,
                                             'Você tem certeza que deseja excluir esta postagem?',
                                             [
                                               {
-                                                text: 'Exlcuir',
+                                                text: 'Excluir',
                                                 onPress: () => excluirPost()
                                               },
                                               {
