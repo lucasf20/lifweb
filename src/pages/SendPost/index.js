@@ -79,7 +79,7 @@ export default function App() {
 
     const takePicture = async () => {
         if (camera) {
-          const options = { quality: 0.5, base64: true, skipProcessing: true };
+          const options = { quality: 0.2, base64: true, skipProcessing: true };
           const data = await camera.takePictureAsync(options);
           const source = data.uri;
           Accelerometer.addListener(obj => {setcoord(obj)})
@@ -116,13 +116,12 @@ export default function App() {
                     (<Ionicons name="ios-flash-off" size={30} color="white" style={{ marginTop: 30, marginRight:10 }} onPress={()=>{setFlash(true)}}/>)
                     }
                 </View>
-                
                 <Camera
                     flashMode={(flash)?'on':'off'}
                     style={[styles.cameraPreview, { marginTop: imagePadding, marginBottom: imagePadding }]}
                     type={type}
                     onCameraReady={setCameraReady}
-                    ratio={ratio}
+                    ratio={'1:1'}
                     ref={(ref) => {
                         setCamera(ref);
                     }}>
@@ -153,7 +152,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#000',
-        justifyContent: 'center',
+        
     },
     cameraPreview: {
         flex: 1,

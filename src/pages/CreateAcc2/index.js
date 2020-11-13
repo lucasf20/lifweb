@@ -25,9 +25,9 @@ export default function CreateAcc2() {
     const [Name, setName] = useState('');
     const [data, setData] = useState('');
     const [profissao, setProfissao] = useState('');
-    const [profSelecionada, setprofSelecionada] = useState("")
+    const [profSelecionada, setprofSelecionada] = useState('')
     const [moto, setMoto] = useState('')
-    const [motoSelecionada, setMotoSelecionada] = useState("")
+    const [motoSelecionada, setMotoSelecionada] = useState('')
     const [date, setDate] = useState(new Date(1598051730000));
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -46,6 +46,10 @@ export default function CreateAcc2() {
         setCheck(false)
     }
 
+    function resize(scale, img){
+        const {width, height} = Image.resolveAssetSource(img);
+        return {width:scale*width, height:scale*height}
+    }
 
     function navigateBack() {
         navigation.goBack();
@@ -101,6 +105,13 @@ export default function CreateAcc2() {
         showMode('time');
     };
 
+    const atualizaPerfil = async (image) => {
+        const response = await fetch(image)
+        const blob = await response.blob()
+        var user = firebase.auth().currentUser
+        var uploadTask = await firebase.storage().ref().child("user/" + user.uid + "/perfil").put(blob)
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED)
+    }
 
     function cadastrar() {
         const user = firebase.auth().currentUser
@@ -113,7 +124,8 @@ export default function CreateAcc2() {
                         apelido: Name,
                         profissao: profSelecionada,
                         nascimento: data,
-                        modeloDaMoto: {moto:motoSelecionada}
+                        modeloDaMoto: {moto:motoSelecionada},
+                        posts:[]
                     }
                 )
                 firebase.database().ref('user/' + user.uid).update({
@@ -136,6 +148,7 @@ export default function CreateAcc2() {
                     Alert.alert("Falha ao cadastrar!", "Tente novamente!")
                 }
                 )
+                atualizaPerfil(user.photoURL)
             } else {
                 switch(0){
                     case Name.length:
@@ -163,7 +176,7 @@ export default function CreateAcc2() {
         var motosList = []
         var motoObj = {}
         var aux = {}
-        if (moto.length > 2) {
+        if (moto.length > 2 && moto != 'NÃO CONSTA NA LISTA') {
             firebase.database().ref('motos/').on('value', snapshot => {
                 motoObj = snapshot.val()
             })
@@ -183,7 +196,11 @@ export default function CreateAcc2() {
                     title: aux['descricao']
                 })
             }
-            return motosList
+            motosList.push({
+               id:'nao',
+               title:"NÃO CONSTA NA LISTA"
+            })
+            return motosList.reverse()
         }
         else {
             return []
@@ -193,7 +210,7 @@ export default function CreateAcc2() {
     function getProf() {
         var profsList = []
         var profObj = {}
-        if (profissao.length > 2) {
+        if (profissao.length > 2 &&profissao != 'NÃO CONSTA NA LISTA') {
             firebase.database().ref('profissoes/').on('value', snapshot => {
                 profObj = snapshot.val()
             })
@@ -212,7 +229,11 @@ export default function CreateAcc2() {
                     title: profObj[profsList[i]]['titulo']
                 }
             }
-            return profsList
+            profsList.push({
+                id:'nao',
+                title:"NÃO CONSTA NA LISTA"
+             })
+            return profsList.reverse()
         } else {
             return []
         }
@@ -232,7 +253,8 @@ export default function CreateAcc2() {
 
                 <View style={styles.logo}>
                     <Image
-                        source={lifweb}
+                        source = {lifweb}
+                        style={{height:resize(0.7,lifweb).height, width:resize(0.7,lifweb).width}}
                     />
                 </View>
 

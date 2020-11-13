@@ -146,6 +146,7 @@ function Part1({ changeState }) {
                                         sangue
                                     }
                                     firebase.database().ref('user/' + user.uid).update(data)
+                                    firebase.firestore().collection('user').doc(user.uid).update(data)
                                         .then(changeState(2))
                                 } else {
                                     Alert.alert("Tipo sanguíneo inválido!", "Forneça seu tipo sanguíneo!")
@@ -256,7 +257,7 @@ function Part2({ changeState }) {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
-            quality: 1,
+            quality: 0.2,
             base64: true
         });
         if (!result.cancelled) {
@@ -279,7 +280,7 @@ function Part2({ changeState }) {
         })
         var res = {
             moto: (data.modeloDaMoto.moto) ? data.modeloDaMoto.moto : data.modeloDaMoto,
-            marca: (data.modeloDaMoto.marca) ? data.modeloDaMoto.marca : data.modeloDaMoto.split(" ")[0],
+            marca: (data.modeloDaMoto.marca) ? data.modeloDaMoto.marca : data.modeloDaMoto.moto.split(" ")[0],
             ano: (data.modeloDaMoto.ano) ? data.modeloDaMoto.ano : ""
         }
         return res
@@ -293,6 +294,7 @@ function Part2({ changeState }) {
             ano
         }
         firebase.database().ref('user/' + user.uid + "/modeloDaMoto").update(data)
+        firebase.firestore().collection('user').doc(user.uid).update({modeloDaMoto:data})
     }
 
     const atualizaCapa = async () => {
@@ -448,6 +450,16 @@ function Part2({ changeState }) {
             <View style={{ marginTop: 20 }}>
                 <MyTextInput value={ano} onChangeText={text => { setano(text) }} placeholder='Ano' />
             </View>
+            <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 15 }}>
+                        Moto não cadastrada?
+                </Text>
+                    <TouchableOpacity onPress={()=>{Linking.openURL('http://cadastrodemoto.lifweb.com.br/')}}>
+                        <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
+                            Solicitar a inclusão.
+                    </Text>
+                    </TouchableOpacity>
+                </View>
             <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); changeState(3) }}>
                 <View style={{ alignItems: "center" }}>
                     <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
@@ -465,8 +477,8 @@ function Part3({ changeState }) {
     const data = getdata()
     const [profissao, setprofissao] = useState(data.profissao)
     const [profissaoselecionada, setprofissaoselecionada] = useState(data.profissao)
-    const [clube, setclube] = useState("")
-    const [showclube, setshowclube] = useState(false)
+    const [clube, setclube] = useState(data.clube)
+    const [showclube, setshowclube] = useState(data.clube)
     const [image, setImage] = useState(null)
     const [imagefromDB, setimagefromDB] = useState(null)
     const [imagemlocal, setimagemlocal] = useState(false)
@@ -487,7 +499,7 @@ function Part3({ changeState }) {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [1, 1],
-            quality: 1,
+            quality: 0.2,
             base64: true
         });
         if (!result.cancelled) {
@@ -509,6 +521,7 @@ function Part3({ changeState }) {
         if (profissaoselecionada.length > 0) {
             if (image || imagefromDB) {
                 firebase.database().ref("user/" + user.uid).update({ profissao: profissaoselecionada, clube: clube })
+                firebase.firestore().collection('user').doc(user.uid).update({ profissao: profissaoselecionada, clube: clube })
                 if (imagemlocal) {
                     if (image) {
                         atualizaPerfil()
@@ -538,7 +551,7 @@ function Part3({ changeState }) {
         })
         var res = {
             profissao: data.profissao,
-            clube: null
+            clube: data.clube?data.clube:''
         }
         return res
     }
@@ -555,10 +568,33 @@ function Part3({ changeState }) {
                 var reg = new RegExp(profissao.toUpperCase())
                 return reg.test(item.toUpperCase())
             })
+            list.push("NÃO CONSTA NA LISTA")
             for (let i = 0; i < keys.length; i++) {
                 lista.push(profissoes[keys[i]]['titulo'])
             }
             return lista.sort()
+        } else {
+            return []
+        }
+    }
+
+    function getclube(){
+        var clb = {}
+        var lista = ['NÃO CONSTA NA LISTA']
+        var keys =[]
+        firebase.database().ref('formaprovados/').on('value', snapshot => {
+            clb = snapshot.val()
+        })
+        if (clube.length > 2 && clube != showclube) {
+            var keys = Object.keys(clb)
+            keys = keys.filter(item => {
+                var reg = new RegExp(clube.toUpperCase())
+                return reg.test(clb[item]['nome_club'].toUpperCase())
+            })
+            for (let i = 0; i < keys.length; i++) {
+                lista.push(clb[keys[i]]['nome_club'])
+            }
+            return lista
         } else {
             return []
         }
@@ -622,31 +658,34 @@ function Part3({ changeState }) {
                         </TouchableHighlight>
                     )}
                 />
+                <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 15 }}>
+                        Profissão não cadastrada?
+                </Text>
+                    <TouchableOpacity onPress={()=>{Linking.openURL('https://profissao.lifweb.com.br/')}}>
+                        <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
+                            Solicitar a inclusão.
+                    </Text>
+                    </TouchableOpacity>
+                </View>
                 <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                     CLUBE ASSOCIADO
             </Text>
-                <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99', justifyContent:'center' }} onPress={() => { (showclube) ? setshowclube(false) : setshowclube(true) }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal:10 }}>
-                        <Text style={{ color: (clube.length == 0) ? 'gray' : 'black' }}>
-                            {(clube.length == 0) ? 'ESCOLHA UMA OPÇÃO' : clube}
-                        </Text>
-                        <Ionicons name="ios-arrow-down" size={24} color="gray"  />
-                    </View>
-                </TouchableOpacity>
-                <FlatList
-                    data={(showclube) ? [] : []}
-                    renderItem={({ item, index, separators }) => (
-                        <TouchableHighlight
-                            key={index}
-                            onPress={() => { setclube(item); setshowclube(false) }}
-                            onShowUnderlay={separators.highlight}
-                            onHideUnderlay={separators.unhighlight}>
-                            <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver' }}>
-                                <Text style={{ fontSize: 15, padding: 7, color: 'black' }}>{item}</Text>
-                            </View>
-                        </TouchableHighlight>
-                    )}
-                />
+            <MyTextInput placeholder="Digite a seu clube" value={clube} onChangeText={text => { setclube(text) }} />
+            <FlatList
+                data={ getclube()}
+                renderItem={({ item, index, separators }) => (
+                    <TouchableHighlight
+                        key={index}
+                        onPress={() => { setclube(item); setshowclube(item) }}
+                        onShowUnderlay={separators.highlight}
+                        onHideUnderlay={separators.unhighlight}>
+                        <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver', justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 15, color: 'black', marginLeft: 11 }}>{item}</Text>
+                        </View>
+                    </TouchableHighlight>
+                )}
+            />
                 <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
                     <Text style={{ fontSize: 15 }}>
                         Clube não cadastrado?
