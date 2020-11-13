@@ -29,7 +29,9 @@ function Chat({ route }) {
   const { usuario } = useContext(AuthContext);
   const { idUser } = route.params;
   const idConversa =
-    idUser > usuario.id ? idUser.concat(usuario.id) : usuario.id.concat(idUser);
+    idUser > firebase.auth().currentUser.uid
+      ? idUser.concat(firebase.auth().currentUser.uid)
+      : firebase.auth().currentUser.uid.concat(idUser);
   const [conversaExiste, setConversaExiste] = useState(false);
 
   useEffect(() => {
