@@ -19,6 +19,7 @@ import Filters from './pages/Filters';
 import EditProfile from './pages/EditProfile';
 import Follow from './pages/Follow'
 import Comments from './pages/Comments'
+
 import MinhasMensagens from './pages/MinhasMensagens';
 import Chat from './pages/Chat';
 

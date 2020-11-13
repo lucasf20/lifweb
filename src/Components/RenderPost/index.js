@@ -1,5 +1,7 @@
 import React, { useState, Fragment } from 'react'
+
 import { ScrollView, View, Image, Text, Dimensions, TouchableOpacity, FlatList, Alert, TouchableHighlight, Share } from 'react-native'
+
 import { SimpleLineIcons } from '@expo/vector-icons'
 
 import firebase from '../../../firebaseConfig'

@@ -187,10 +187,12 @@ export default function Profile({ navigation, route }) {
                                 {(segue) ? "Deixar de seguir" : "Seguir"}
                             </Text>
                         </TouchableOpacity>
+
                         <TouchableOpacity 
                             style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 70, borderRadius: 5, marginLeft: 5, justifyContent: 'center', alignItems: 'center' }}
                             onPress={() => navigation.navigate("Chat", { idUser: user })}
                         >
+
                             <Text style={{ color: 'white', fontSize: 12 }}>
                                 Mensagem
                         </Text>
@@ -206,6 +208,8 @@ export default function Profile({ navigation, route }) {
                         <MaterialIcons name="photo-library" size={24} color={(!grid) ? colorStyles.dorange : 'black'} onPress={() => { setgrid(false) }} />
                     </TouchableOpacity>
                 </View>
+
+
                 <Timeline uid={user} grid={grid} />
             </ScrollView>
             <Cambutton />

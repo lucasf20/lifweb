@@ -52,5 +52,6 @@ function PostsList() {
       /> */}
     </View>
   );
+
 }
 export default PostsList;
