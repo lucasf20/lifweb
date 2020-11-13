@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     alignSelf: "center",
+    marginTop:10
   },
 
   /* avatar: {

@@ -12,6 +12,7 @@ import Svg, {
   ClipPath,
   Polygon,
 } from "react-native-svg";
+import profileIcon from '../../assets/logolifweb.png'
 
 function Conversa(props) {
   const navigation = useNavigation();
@@ -58,6 +59,7 @@ function Conversa(props) {
           setAvatar(downloadUrl);
         })
         .catch((erro) => {
+          setAvatar(false)
           return false;
         });
     }
@@ -179,7 +181,7 @@ function Conversa(props) {
     >
       <View style={styles.containerFotoMensagem}>
         {/* <Image style={styles.avatar} source={{ uri: destinatario?.avatar }} /> */}
-        <Svg style={styles.avatar} width="75" height="75" viewBox="0 0 50 50">
+        {(avatar)?(<Svg style={styles.avatar} width="75" height="75" viewBox="0 0 50 50">
           <Defs>
             <ClipPath id="image" clipRule="evenodd">
               <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
@@ -193,7 +195,11 @@ function Conversa(props) {
             href={avatar}
             clipPath="#image"
           />
-        </Svg>
+        </Svg>):(
+        <View >
+          <Image source={profileIcon} style={{height:75, width:65, marginLeft:15, marginRight:15}}/>
+        </View>
+      )}
         <View>
           <View style={styles.containerInfos}>
             <Text style={styles.name}>{destinatario?.fullName}</Text>
