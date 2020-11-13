@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 13,
     color: "#fff",
+    width:200
   },
 
   containerMessages: {
