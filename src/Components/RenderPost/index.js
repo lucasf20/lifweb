@@ -42,7 +42,6 @@ export default function RenderPost({ post }) {
     const postname = post['postname']
     const rotation = post['rotation']
     const nav = useNavigation()
-    const colorStyles = {dorange: '#F25C05'}
 
     const [liked, setliked] = useState(likes.includes(user.uid))
     const [numlikes, setnumlikes] = useState(likes.length)
@@ -58,6 +57,15 @@ export default function RenderPost({ post }) {
             setavatar(profileIcon)
         }
         setcached(true)
+    }
+
+    function navigateOwnerProfile() {
+        nav.dispatch(StackActions.popToTop());
+        nav.navigate('Profile', { uid: owner });
+    }
+    function navigateRepostProfile() {
+        nav.dispatch(StackActions.popToTop());
+        nav.navigate('Profile', { uid: repost['owner'] });
     }
 
     async function cache(uri, type) {
@@ -202,11 +210,11 @@ ${descricao}`,
         var posttime = Math.floor(postname)
         var minutes = (now - posttime) / 60000
         if (minutes < 60) {
-            return "Há " + Math.round(minutes) + " minutos atrás"
+            return "Há " + Math.round(minutes) + " minutos"
         } else if ((minutes / 60) < 24) {
-            return "Há " + Math.round(minutes / 60) + " horas atrás"
+            return "Há " + Math.round(minutes / 60) + " horas"
         } else {
-            return "Há " + Math.round((minutes / 60) / 24) + " dias atrás"
+            return "Há " + Math.round((minutes / 60) / 24) + " dias"
         }
     }
     async function excluirPost() {
@@ -223,47 +231,75 @@ ${descricao}`,
     return (
         <View style={{ marginVertical: 20 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    {(post['avatar']) ? (
-                        <Svg style={{
-                            width: 45,
-                            height: 45,
-                            borderRadius: 50,
-                            marginRight: 8
-                        }} width="50" height="50" viewBox="0 -3 43 55">
-                            <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-                            <Defs>
-                                <ClipPath id="image" clipRule="evenodd">
-                                    <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-                                </ClipPath>
-                            </Defs>
-                            <SvgImage
-                                x="0"
-                                y="0"
-                                width="50"
-                                height="50"
-                                href={avatar}
-                                clipPath="#image"
-                            />
-                        </Svg>
-                    ) : (<Image source={avatar} style={{ height: 50, width: 43, marginRight: 13 }} />)}
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => { navigateOwnerProfile() }}>
+                        {(post['avatar']) ? (
+                            <Svg style={{
+                                width: 45,
+                                height: 45,
+                                borderRadius: 50,
+                                marginRight: 8
+                            }} width="50" height="50" viewBox="0 -3 43 55">
+                                <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                                <Defs>
+                                    <ClipPath id="image" clipRule="evenodd">
+                                        <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                                    </ClipPath>
+                                </Defs>
+                                <SvgImage
+                                    x="0"
+                                    y="0"
+                                    width="50"
+                                    height="50"
+                                    href={avatar}
+                                    clipPath="#image"
+                                />
+                            </Svg>
+                        ) : (<Image source={avatar} style={{ height: 50, width: 43, marginRight: 13 }} />)}
+                    </TouchableOpacity>
                     <View>
                         <Text style={{ fontWeight: 'bold' }}>
                             {apelido}
                         </Text>
-                        {(repost) ? (<TouchableOpacity style={{ flexDirection: 'row' }} >
+                        {repost &&
                             <Text>
                                 {"Compartilhado de "}
-                            </Text>
-                            <Text style={{ color: colorStyles.dorange, fontWeight: 'bold' }}>
-                                {repost['apelido']}
-                            </Text>
-                        </TouchableOpacity>) : (<Fragment />)}
+                            </Text>}
                         <Text style={{ color: 'gray' }}>
                             {getTime()}
                         </Text>
                     </View>
-                </TouchableOpacity>
+                    {(repost) ? (<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => { navigateRepostProfile() }}>
+                        {<TouchableOpacity onPress={() => { navigateRepostProfile() }} style={{ marginLeft: 5 }}>
+                            {(repost['avatar']) ? (
+                                <Svg style={{
+                                    width: 45,
+                                    height: 45,
+                                    borderRadius: 50,
+                                    marginRight: 8
+                                }} width="50" height="50" viewBox="0 -3 43 55">
+                                    <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                                    <Defs>
+                                        <ClipPath id="image" clipRule="evenodd">
+                                            <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                                        </ClipPath>
+                                    </Defs>
+                                    <SvgImage
+                                        x="0"
+                                        y="0"
+                                        width="50"
+                                        height="50"
+                                        href={repost['avatar']}
+                                        clipPath="#image"
+                                    />
+                                </Svg>
+                            ) : (<Image source={profileIcon} style={{ height: 50, width: 43, marginRight: 13 }} />)}
+                        </TouchableOpacity>}
+                        <Text style={{ color: colorStyles.dorange, fontWeight: 'bold' }}>
+                            {repost['apelido']}
+                        </Text>
+                    </TouchableOpacity>) : (<Fragment />)}
+                </View>
                 <SimpleLineIcons name="options" size={24} color="gray" onPress={() => { (showops) ? setshowops(false) : setshowops(true) }} />
             </View>
             <View>
