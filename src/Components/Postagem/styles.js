@@ -1,94 +1,106 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    container: {
-        marginVertical: 15
-    },
 
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
+  container: {
+    marginVertical: 15,
+  },
 
-    containerFotoeNome: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 
-    avatar: {
-        height: 60,
-        width: 60,
-        backgroundColor: '#ddd',
-        borderWidth: 2,
-        borderColor: '#f25c05',
-        borderRadius: 30,
-        marginHorizontal: 15,
-    },
+  containerFotoeNome: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
 
-    headerNome: {
-        fontSize: 16,
-        fontWeight: 'bold'
-    },
+  /* avatar: {
+    height: 60,
+    width: 60,
+    backgroundColor: "#ddd",
+    borderWidth: 2,
+    borderColor: "#f25c05",
+    borderRadius: 30,
+    marginHorizontal: 15,
+  }, */
 
-    foto: {
-        height: 250,
-        width: '98%',
-        alignSelf: 'center',
-        borderRadius: 10,
-        marginVertical: 10
-    },
+  avatar: {
+    marginLeft: 13,
+    width: 45,
+    height: 45,
+    borderRadius: 50,
+    marginRight: 8,
+  },
 
-    footer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
+  headerNome: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 
-    footeravatar: {
-        height: 50,
-        width: 50,
-        marginHorizontal: 10,
-        borderRadius: 25
-    },
+  foto: {
+    height: 250,
+    width: "98%",
+    alignSelf: "center",
+    borderRadius: 10,
+    marginVertical: 10,
+    backgroundColor: "#ddd",
+  },
 
-    containerIcons: {
-        flexDirection: 'row'
-    },
-    
-    curtidas: {
-        fontSize: 14
-    },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 
-    legenda: {
-        fontSize: 14
-    },
+  footeravatar: {
+    height: 50,
+    width: 50,
+    marginHorizontal: 10,
+    borderRadius: 25,
+    backgroundColor: "#ddd",
+  },
 
-    containerComments: {
-        marginHorizontal: 10
-    },
+  containerIcons: {
+    flexDirection: "row",
+  },
 
-    titleComments: {
-        color: '#999'
-    },
+  curtidas: {
+    fontSize: 14,
+  },
 
-    containerRepost: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginHorizontal: 15,
-        marginBottom: 10,
-        backgroundColor: '#fff',
-        borderRadius: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 5,
-        borderWidth: 1,
-        borderColor: '#ddd'
-    },
+  legenda: {
+    fontSize: 14,
+  },
 
-    repostText: {
-        fontSize: 16,
-        paddingLeft: 8
-    }
+  containerComments: {
+    marginHorizontal: 10,
+  },
+
+  titleComments: {
+    color: "#999",
+  },
+
+  containerRepost: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 15,
+    marginBottom: 10,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderColor: "#ddd",
+  },
+
+  repostText: {
+    fontSize: 16,
+    paddingLeft: 8,
+  },
+
 });
 
 export default styles;

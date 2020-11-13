@@ -57,7 +57,7 @@ export default function Cards({ imagem, nome, profissao, moto, uid }) {
             </Text>
             {(!(uid == firebase.auth().currentUser.uid))?(<View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 280, position: 'absolute', width: 150 }}>
                 <AntDesign name="adduser" size={24} color={(checkFollowing())?"gold":"silver"} onPress={()=>{if(segue){unfollow()}else{follow()}}}/>
-                <Feather name="message-square" size={24} color="silver" />
+                <Feather name="message-square" size={24} color="silver" onPress={() => navigation.navigate("Chat", { idUser: uid })} />
             </View>):(<View/>)}
             <FontAwesome name="circle" size={35} color="white" style={{ position: "absolute", marginLeft: 127, marginTop: 10 }} />
             <View style={{ position: 'absolute' }}>

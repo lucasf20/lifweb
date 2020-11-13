@@ -1,82 +1,119 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Text, ToastAndroid, View, TouchableOpacity, FlatList, TextInput } from 'react-native';
-import Conversa from '../../Components/Conversa';
-import Header from '../../Components/Header';
-import styles from './styles';
-import firebase from '../../../firebaseConfig';
+import React, { useContext, useEffect, useState } from "react";
+import {
+  Text,
+  ToastAndroid,
+  View,
+  TouchableOpacity,
+  FlatList,
+  TextInput,
+  ScrollView,
+} from "react-native";
+import Conversa from "../../Components/Conversa";
+import Header from "../../Components/Header";
+import styles from "./styles";
+import firebase from "../../../firebaseConfig";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { AuthContext } from '../../contexts/auth';
-import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from "../../contexts/auth";
+//import { useNavigation } from '@react-navigation/native';
+import Usuario from "../../Components/Usuario";
 
-function MinhasMensagens () {
-    const [conversas, setConversas] = useState([]);
-    const [pesquisa, setPesquisa] = useState('');
-    const { usuario } = useContext(AuthContext);
-    const navigation = useNavigation();
+function MinhasMensagens() {
+  const [conversas, setConversas] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
+  const [encontrados, setEncontrados] = useState([]);
+  const [pesquisa, setPesquisa] = useState("");
+  const { usuario } = useContext(AuthContext);
+  const [following, setFollowing] = useState([]);
+  //const navigation = useNavigation();
 
-    useEffect(() => {
-        async function load() {
-            await firebase
-                .firestore()
-                .collection("conversas")
-                .where("idUser", "==", usuario.id)
-                //.orderBy('createdAt', 'desc')
-                .onSnapshot((querySnapshot) => {
-                    let aux = [];
+  useEffect(() => {
+    async function load() {
+      await firebase
+        .firestore()
+        .collection("conversas")
+        .where("idUser", "==", firebase.auth().currentUser.uid)
+        //.orderBy('createdAt', 'desc')
+        .onSnapshot((querySnapshot) => {
+          let aux = [];
 
-                    querySnapshot.forEach((documentSnapshot) => { aux.push({ id: documentSnapshot.id, ...documentSnapshot.data() }) });
+          querySnapshot.forEach((documentSnapshot) => {
+            aux.push({ id: documentSnapshot.id, ...documentSnapshot.data() });
+          });
 
-                    aux.sort(function (a, b) {
-                        if (a.ordem < b.ordem) {
-                            return 1;
-                        }
-                        if (a.ordem > b.ordem) {
-                            return -1;
-                        }
-                        // a must be equal to b
-                        return 0;
-                    });
+          aux.sort(function (a, b) {
+            if (a.ordem < b.ordem) {
+              return 1;
+            }
+            if (a.ordem > b.ordem) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;
+          });
 
-                    console.log(aux)
-                    setConversas(aux)
-                })
-                .catch((err) => {
-                    ToastAndroid.show("Erro ao carregar respostas.", ToastAndroid.SHORT);
-                });
-        }
+          console.log(aux);
+          setConversas(aux);
+        })
+        .catch((err) => {
+          ToastAndroid.show("Erro ao carregar respostas.", ToastAndroid.SHORT);
+        });
+    }
 
-        load();
-    }, []);
+    load();
+  }, []);
+  /* 
+  useEffect(() => {
+    async function load() {
+      await firebase
+        .firestore()
+        .collection("user")
+        .doc(firebase.auth().currentUser.uid)
+        .get()
+        .then((documentSnapshot) => {
+          setFollowing(documentSnapshot.data().following);
+        });
+    }
 
-    return (
-        <View style={styles.container}>
-            <Header/>
-            <View style={styles.containerBuscador}>
-                <MaterialCommunityIcons name='magnify' size={30} color='#979797' />
-                            
-                <TextInput
-                    placeholder='Buscar'
-                    style={styles.input}
-                    value={pesquisa}
-                    onChangeText={setPesquisa}
-                />
-            </View>
-            <View style={styles.containerTitle}>
-                <Text style={styles.title}>Minhas Mensagens</Text>
-                <TouchableOpacity style={styles.buttonNewMessage} onPress={() => navigation.navigate('NovaMensagem')} >
-                    <MaterialCommunityIcons name='plus' size={30} color='#333' />
-                </TouchableOpacity>
-            </View>
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                data={conversas}
-                renderItem={({ item, index }) => (
-                    <Conversa conv={item} />
-                )}
-                keyExtractor={(item) => String(item.id)}
-            />
-        </View>
-    )
+    load();
+  }, []);
+ */
+  function buscar(text) {
+    setPesquisa(text);
+    if (!!text)
+      setEncontrados(
+        conversas.filter((item) =>
+          item.receiverName.toLowerCase().includes(text.toLowerCase())
+        )
+      );
+    //console.log(usuarios.length, encontrados.length)
+  }
+
+  return (
+    <View style={styles.container}>
+      <Header />
+      <View style={styles.containerBuscador}>
+        <MaterialCommunityIcons name="magnify" size={30} color="#979797" />
+
+        <TextInput
+          placeholder="Buscar"
+          style={styles.input}
+          value={pesquisa}
+          onChangeText={(text) => buscar(text)}
+        />
+        {!!pesquisa && (
+          <TouchableOpacity onPress={() => setPesquisa("")}>
+            <MaterialCommunityIcons name="close" size={30} color="#979797" />
+          </TouchableOpacity>
+        )}
+      </View>
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={!!pesquisa ? encontrados : conversas}
+        renderItem={({ item, index }) => <Conversa conv={item} />}
+        keyExtractor={(item) => String(item.id)}
+      />
+    </View>
+  );
 }
 
 export default MinhasMensagens;
