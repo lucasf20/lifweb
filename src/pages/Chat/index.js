@@ -9,7 +9,7 @@ import {
   FlatList,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Header from "../../Components/Header";
+import HeaderChat from "../../Components/HeaderChat";
 import styles from "./styles";
 import Mensagem from "../../Components/Mensagem";
 import firebase from "../../../firebaseConfig";
@@ -241,7 +241,7 @@ function Chat({ route }) {
 
   return (
     <View style={styles.container}>
-      <Header inChat />
+      <HeaderChat />
       <View style={styles.containerInfos}>
         <View style={styles.containerDescription}>
           <Text style={styles.nome}>{destinatario.fullName}</Text>

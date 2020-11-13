@@ -40,4 +40,4 @@ function HeaderChat() {
         </View>
     )
 }
-export default Header
+export default HeaderChat

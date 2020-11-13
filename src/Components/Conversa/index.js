@@ -81,10 +81,10 @@ function Conversa(props) {
           });
 
           aux.sort(function (a, b) {
-            if (a.ordem > b.ordem) {
+            if (a.createdAt > b.createdAt) {
               return 1;
             }
-            if (a.ordem < b.ordem) {
+            if (a.createdAt < b.createdAt) {
               return -1;
             }
             // a must be equal to b
