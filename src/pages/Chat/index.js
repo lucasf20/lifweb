@@ -7,6 +7,7 @@ import {
   ToastAndroid,
   Image,
   FlatList,
+  Dimensions
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import HeaderChat from "../../Components/HeaderChat";
@@ -20,6 +21,7 @@ import Svg, {
   ClipPath,
   Polygon,
 } from "react-native-svg";
+import profileIcon from '../../assets/logolifweb.png'
 
 function Chat({ route }) {
   const [message, setMessage] = useState("");
@@ -33,6 +35,7 @@ function Chat({ route }) {
       ? idUser.concat(firebase.auth().currentUser.uid)
       : firebase.auth().currentUser.uid.concat(idUser);
   const [conversaExiste, setConversaExiste] = useState(false);
+  const [moto, setmoto] = useState('')
 
   useEffect(() => {
     async function load() {
@@ -45,8 +48,7 @@ function Chat({ route }) {
           console.log(downloadUrl);
         })
         .catch((erro) => {
-          console.log(erro);
-          return false;
+          setAvatar(false)
         });
     }
 
@@ -61,6 +63,7 @@ function Chat({ route }) {
         .doc(idUser)
         .get()
         .then((snapshot) => {
+          setmoto(snapshot.data()['modeloDaMoto'])
           setDestinatario(snapshot.data());
         })
         .catch((err) => {
@@ -244,15 +247,15 @@ function Chat({ route }) {
       <HeaderChat />
       <View style={styles.containerInfos}>
         <View style={styles.containerDescription}>
-          <Text style={styles.nome}>{destinatario.fullName}</Text>
+          <Text style={styles.nome}>{destinatario.apelido}</Text>
           <Text style={styles.description}>
-            UX Design |{" "}
-            <Text style={{ fontWeight: "bold" }}>Kawasaki ER-6</Text>
+            {destinatario.profissao} |{" "}
+            <Text style={{ fontWeight: "bold" }}>{moto['moto']}</Text>
           </Text>
         </View>
       </View>
       {/* <Image style={styles.avatar} source={{ uri: avatar }} /> */}
-      <Svg style={styles.avatar} width="75" height="75" viewBox="0 0 50 50">
+      {(avatar)?(<Svg style={styles.avatar} width="75" height="75" viewBox="0 0 50 50">
         <Defs>
           <ClipPath id="image" clipRule="evenodd">
             <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
@@ -266,7 +269,11 @@ function Chat({ route }) {
           href={avatar}
           clipPath="#image"
         />
-      </Svg>
+      </Svg>):(
+        <View style={{position:'absolute', marginLeft:(Dimensions.get('window').width - 95), marginTop:100}}>
+          <Image source={profileIcon} style={{height:89, width:75}}/>
+        </View>
+      )}
       <View style={styles.containerMessages}>
         <FlatList
           inverted
