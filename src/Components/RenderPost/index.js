@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from 'react'
-import { ScrollView, View, Image, Text, Dimensions, TouchableOpacity, FlatList } from 'react-native'
+import { ScrollView, View, Image, Text, Dimensions, TouchableOpacity, FlatList, Alert } from 'react-native'
 import { SimpleLineIcons } from '@expo/vector-icons'
 
 import firebase from '../../../firebaseConfig'
@@ -106,10 +106,10 @@ export default function RenderPost({ post }) {
             alert(`Uh oh, sharing isn't available on your platform`);
             return;
         }
-        downloadFile(
-            imagem.uri
-        )
-        await Sharing.shareAsync(file, { dialogTitle: 'Imagem compartilhada pelo app LifWeb' });
+        // downloadFile(
+        //     imagem.uri
+        // )
+        await Sharing.shareAsync(imagem.uri, { dialogTitle: 'Imagem compartilhada pelo app LifWeb' });
         //await onShare(name)
     };
 
