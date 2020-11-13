@@ -6,19 +6,15 @@ import Svg, {
     ClipPath,
     Polygon,
 } from 'react-native-svg';
-import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
-import styles from './styles'
+import { EvilIcons, MaterialCommunityIcons, Entypo, MaterialIcons } from '@expo/vector-icons';
 import Cambutton from '../../Components/Cambutton'
 import Timeline from './Timeline'
 import { useNavigation, StackActions } from '@react-navigation/native'
 import colorStyles from "../../colors";
 
-import capa from '../../images/fotocapa.jpg'
-import icon from '../../images/avatar_stories1.png'
 import profileIcon from '../../assets/logolifweb.png'
 
 import firebase from '../../../firebaseConfig';
-import { roundToNearestPixel } from 'react-native/Libraries/Utilities/PixelRatio';
 
 function Header() {
     const navigation = useNavigation()
@@ -43,7 +39,6 @@ function Header() {
                     <MaterialCommunityIcons name="message-outline" size={24} color="white" />
                 </TouchableOpacity>
             </View>
-
         </View>
     )
 }
@@ -54,10 +49,33 @@ export default function Profile({ navigation, route }) {
 
     const [profile, setprofile] = useState(null)
     const [cp, setcp] = useState(null)
-    const [personaldata, setpersonaldata] = useState(getPersonalData())
+    const [personaldata, setpersonaldata] = useState(false)
     const [seguindo, setseguindo] = useState(0)
     const [seguido, setseguido] = useState(0)
     const [segue, setsegue] = useState(false)
+    const [grid, setgrid] = useState(true)
+
+    async function getPersonalData() {
+        if (!personaldata) {
+            await firebase.firestore().collection('user').doc(user).get().then(data => {
+                var dados = data.data()
+                console.log(dados['apelido'])
+                var set = {
+                    currentUser: user == firebase.auth().currentUser.uid,
+                    nome: dados['apelido'],
+                    profissao: dados['profissao'],
+                    moto: dados['modeloDaMoto']['moto']
+                }
+                setpersonaldata(set)
+                setseguindo(dados['following'].length)
+                setseguido(dados['followed'].length)
+                setsegue(dados['followed'].includes(firebase.auth().currentUser.uid))
+            })
+        }
+    }
+
+    getPersonalData()
+
 
     function getMainPictures() {
         var path = "gs://lifweb-38828.appspot.com/user/" + user
@@ -78,45 +96,6 @@ export default function Profile({ navigation, route }) {
             })
         }
         return [profile, cp]
-    }
-
-    function getPersonalData() {
-        var currentUser = (firebase.auth().currentUser.uid == user);
-        var nome = ""
-        var profissao = ""
-        var moto = ""
-        var data = {}
-        var loaded = false
-        firebase.database().ref('user/' + user).on('value', snap => {
-            data = snap.val()
-        })
-        loaded = !(Object.keys(data).length == 0)
-        if (loaded) {
-            nome = data.apelido
-            profissao = data.profissao
-            moto = data.modeloDaMoto.moto
-        }
-        firebase.firestore().collection('user').doc(user).get().then(data => {
-            if (!data.exists) {
-                firebase.firestore().collection('user').doc(user).set({ following: [], followed: [] })
-                setseguido(0)
-                setseguindo(0)
-            } else {
-                var cnt = data.data()
-                setseguindo(cnt['following'].length)
-                setseguido(cnt['followed'].length)
-            }
-        })
-        firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).get().then(data => {
-            if (!data.exists) {
-                firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).set({ following: [], followed: [] })
-                setsegue(false)
-            } else {
-                var cnt = data.data()
-                setsegue(cnt['following'].includes(user))
-            }
-        })
-        return { currentUser, nome, profissao, moto, loaded }
     }
 
     function calculateDimensions() {
@@ -175,7 +154,7 @@ export default function Profile({ navigation, route }) {
                     </TouchableOpacity>
                     <View>
                         <Text style={{ fontSize: 25, marginTop: 50 }}>
-                            {(personaldata.loaded) ? personaldata.nome : nav.navigate("Menu")}
+                            {personaldata.nome}
                         </Text>
                         <Text style={{ fontSize: 15, color: 'gray' }}>
                             {personaldata.profissao}
@@ -208,14 +187,23 @@ export default function Profile({ navigation, route }) {
                                 {(segue) ? "Deixar de seguir" : "Seguir"}
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 70, borderRadius: 5, marginLeft: 5, justifyContent:'center', alignItems:'center' }}>
+                        <TouchableOpacity style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 70, borderRadius: 5, marginLeft: 5, justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{ color: 'white', fontSize: 12 }}>
                                 Mensagem
                         </Text>
                         </TouchableOpacity>
                     </View>) : (<View style={{ width: 210 }} />)}
                 </View>
-                <Timeline uid={user}/>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 20 }}>
+                    <TouchableOpacity style={{ alignItems: 'center', width: ((Dimensions.get('window').width - 40) / 2) }} onPress={() => { setgrid(true) }}>
+                        <MaterialCommunityIcons name="grid-large" size={24} color={(grid) ? colorStyles.dorange : 'black'} />
+                    </TouchableOpacity>
+                    <View style={{ borderLeftWidth: 2, borderLeftColor: 'black' }} />
+                    <TouchableOpacity style={{ alignItems: 'center', width: ((Dimensions.get('window').width - 40) / 2) }}>
+                        <MaterialIcons name="photo-library" size={24} color={(!grid) ? colorStyles.dorange : 'black'} onPress={() => { setgrid(false) }} />
+                    </TouchableOpacity>
+                </View>
+                <Timeline uid={user} grid={grid} />
             </ScrollView>
             <Cambutton />
         </View>

@@ -122,7 +122,7 @@ export default function SendPost2({ navigate, route }) {
                 ) : (<View />)}
 
                 {(showproximo) ? (
-                    <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between', marginHorizontal: 20 }}>
+                    <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between', marginHorizontal: 20, alignItems:'center' }}>
                         <View style={{ flexDirection: "row" }}>
                             <TouchableOpacity onPress={() => { navigation.goBack() }}>
                                 <Text style={styles.text}>
@@ -141,8 +141,8 @@ export default function SendPost2({ navigate, route }) {
                                 )
 
                             }
-                        }}>
-                            <Text style={{ ...styles.text, color: dorange, fontWeight: 'bold' }}>
+                        }} style={{backgroundColor: dorange, borderRadius:5, height:50, justifyContent:'center' }}>
+                            <Text style={{ ...styles.text, color: 'white', fontWeight: 'bold', marginHorizontal:10}}>
                                 Próximo
                         </Text>
                         </TouchableOpacity>

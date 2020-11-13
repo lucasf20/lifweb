@@ -146,6 +146,7 @@ function Part1({ changeState }) {
                                         sangue
                                     }
                                     firebase.database().ref('user/' + user.uid).update(data)
+                                    firebase.firestore().collection('user').doc(user.uid).update(data)
                                         .then(changeState(2))
                                 } else {
                                     Alert.alert("Tipo sanguíneo inválido!", "Forneça seu tipo sanguíneo!")
@@ -256,7 +257,7 @@ function Part2({ changeState }) {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
-            quality: 1,
+            quality: 0.2,
             base64: true
         });
         if (!result.cancelled) {
@@ -293,6 +294,7 @@ function Part2({ changeState }) {
             ano
         }
         firebase.database().ref('user/' + user.uid + "/modeloDaMoto").update(data)
+        firebase.firestore().collection('user').doc(user.uid).update({modeloDaMoto:data})
     }
 
     const atualizaCapa = async () => {
@@ -497,7 +499,7 @@ function Part3({ changeState }) {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [1, 1],
-            quality: 1,
+            quality: 0.2,
             base64: true
         });
         if (!result.cancelled) {
@@ -519,6 +521,7 @@ function Part3({ changeState }) {
         if (profissaoselecionada.length > 0) {
             if (image || imagefromDB) {
                 firebase.database().ref("user/" + user.uid).update({ profissao: profissaoselecionada, clube: clube })
+                firebase.firestore().collection('user').doc(user.uid).update({ profissao: profissaoselecionada, clube: clube })
                 if (imagemlocal) {
                     if (image) {
                         atualizaPerfil()
