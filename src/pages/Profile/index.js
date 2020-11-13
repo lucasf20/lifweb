@@ -49,11 +49,33 @@ export default function Profile({ navigation, route }) {
 
     const [profile, setprofile] = useState(null)
     const [cp, setcp] = useState(null)
-    const [personaldata, setpersonaldata] = useState(getPersonalData())
+    const [personaldata, setpersonaldata] = useState(false)
     const [seguindo, setseguindo] = useState(0)
     const [seguido, setseguido] = useState(0)
     const [segue, setsegue] = useState(false)
     const [grid, setgrid] = useState(true)
+
+    async function getPersonalData() {
+        if (!personaldata) {
+            await firebase.firestore().collection('user').doc(user).get().then(data => {
+                var dados = data.data()
+                console.log(dados['apelido'])
+                var set = {
+                    currentUser: user == firebase.auth().currentUser.uid,
+                    nome: dados['apelido'],
+                    profissao: dados['profissao'],
+                    moto: dados['modeloDaMoto']['moto']
+                }
+                setpersonaldata(set)
+                setseguindo(dados['following'].length)
+                setseguido(dados['followed'].length)
+                setsegue(dados['followed'].includes(firebase.auth().currentUser.uid))
+            })
+        }
+    }
+
+    getPersonalData()
+
 
     function getMainPictures() {
         var path = "gs://lifweb-38828.appspot.com/user/" + user
@@ -74,45 +96,6 @@ export default function Profile({ navigation, route }) {
             })
         }
         return [profile, cp]
-    }
-
-    function getPersonalData() {
-        var currentUser = (firebase.auth().currentUser.uid == user);
-        var nome = ""
-        var profissao = ""
-        var moto = ""
-        var data = {}
-        var loaded = false
-        firebase.database().ref('user/' + user).on('value', snap => {
-            data = snap.val()
-        })
-        loaded = !(Object.keys(data).length == 0)
-        if (loaded) {
-            nome = data.apelido
-            profissao = data.profissao
-            moto = data.modeloDaMoto.moto
-        }
-        firebase.firestore().collection('user').doc(user).get().then(data => {
-            if (!data.exists) {
-                firebase.firestore().collection('user').doc(user).set({ following: [], followed: [] })
-                setseguido(0)
-                setseguindo(0)
-            } else {
-                var cnt = data.data()
-                setseguindo(cnt['following'].length)
-                setseguido(cnt['followed'].length)
-            }
-        })
-        firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).get().then(data => {
-            if (!data.exists) {
-                firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).set({ following: [], followed: [] })
-                setsegue(false)
-            } else {
-                var cnt = data.data()
-                setsegue(cnt['following'].includes(user))
-            }
-        })
-        return { currentUser, nome, profissao, moto, loaded }
     }
 
     function calculateDimensions() {
@@ -171,7 +154,7 @@ export default function Profile({ navigation, route }) {
                     </TouchableOpacity>
                     <View>
                         <Text style={{ fontSize: 25, marginTop: 50 }}>
-                            {(personaldata.loaded) ? personaldata.nome : nav.navigate("Menu")}
+                            {personaldata.nome}
                         </Text>
                         <Text style={{ fontSize: 15, color: 'gray' }}>
                             {personaldata.profissao}
@@ -211,16 +194,16 @@ export default function Profile({ navigation, route }) {
                         </TouchableOpacity>
                     </View>) : (<View style={{ width: 210 }} />)}
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin:20 }}>
-                    <TouchableOpacity style={{alignItems:'center', width:((Dimensions.get('window').width -40)/2)}} onPress={() =>{setgrid(true)}}>
-                        <MaterialCommunityIcons name="grid-large" size={24} color={(grid)?colorStyles.dorange:'black'} />
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 20 }}>
+                    <TouchableOpacity style={{ alignItems: 'center', width: ((Dimensions.get('window').width - 40) / 2) }} onPress={() => { setgrid(true) }}>
+                        <MaterialCommunityIcons name="grid-large" size={24} color={(grid) ? colorStyles.dorange : 'black'} />
                     </TouchableOpacity>
                     <View style={{ borderLeftWidth: 2, borderLeftColor: 'black' }} />
-                    <TouchableOpacity style={{alignItems:'center', width:((Dimensions.get('window').width -40)/2)}}>
-                        <MaterialIcons name="photo-library" size={24} color={(!grid)?colorStyles.dorange:'black'}  onPress={() =>{setgrid(false)}}/>
+                    <TouchableOpacity style={{ alignItems: 'center', width: ((Dimensions.get('window').width - 40) / 2) }}>
+                        <MaterialIcons name="photo-library" size={24} color={(!grid) ? colorStyles.dorange : 'black'} onPress={() => { setgrid(false) }} />
                     </TouchableOpacity>
                 </View>
-                <Timeline uid={user} grid={grid}/>
+                <Timeline uid={user} grid={grid} />
             </ScrollView>
             <Cambutton />
         </View>
