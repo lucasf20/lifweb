@@ -22,6 +22,63 @@ import Repost from '../../assets/repost.png'
 import { useNavigation, StackActions } from '@react-navigation/native';
 import colorStyles from '../../colors'
 
+function LikeAvatar({ likelist }) {
+
+    const [image, setimage] = useState(null)
+
+    async function getImg(uid) {
+        var img = await firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + uid + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
+        if (img) {
+            return img
+        } else {
+            return profileIcon
+        }
+    }
+
+    var interval = likelist.length
+    if (interval > 0) {
+        var random = Math.floor(Math.random()) % interval
+        var winner = likelist[random]
+        console.log('win', winner)
+        if (!image) {
+            getImg(winner).then(im => setimage(im))
+        }
+        return (
+            <Fragment>
+                {(image == profileIcon) ?
+                    (<Image source={profileIcon} style={{ height: 50, width: 43}} />) :
+                    (
+                        <Svg style={{
+                            width: 45,
+                            height: 45,
+                            borderRadius: 50,
+                            marginRight: 8
+                        }} width="50" height="50" viewBox="0 -3 43 55">
+                            <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                            <Defs>
+                                <ClipPath id="image" clipRule="evenodd">
+                                    <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                                </ClipPath>
+                            </Defs>
+                            <SvgImage
+                                x="0"
+                                y="0"
+                                width="50"
+                                height="50"
+                                href={image}
+                                clipPath="#image"
+                            />
+                        </Svg>
+                    )}
+            </Fragment>
+        )
+    }else{
+        return(
+            <Fragment/>
+        )
+    }
+}
+
 export default function RenderPost({ post }) {
 
     const [file, setFile] = useState(null);
@@ -338,17 +395,15 @@ ${descricao}`,
                     )}
                 />
                 <Image source={imagem} style={{ height: height().h, width: height().w, borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
-                <View style={{ flexDirection: 'row', marginHorizontal: 5 }}>
-                    <Text style={{ fontSize: 16 }}>
-                        {descricao}
-                    </Text>
-                </View>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
+                <View style={{flexDirection: 'row', alignItems: 'center', marginLeft:13}}>
+                <LikeAvatar likelist={likes}/>
                 <View>
-                    <Text>
+                    <Text style={{marginLeft:5}}>
                         Curtido por {numlikes}
                     </Text>
+                    </View>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity style={{ paddingRight: 10 }} onPress={like}>
@@ -381,6 +436,11 @@ ${descricao}`,
                         <Image source={ShareIcon} style={{ height: 30, width: 30 }} ></Image>
                     </TouchableOpacity>
                 </View>
+            </View>
+            <View style={{ flexDirection: 'row', marginHorizontal: 5, marginTop: 10 }}>
+                <Text style={{ fontSize: 16 }}>
+                    {descricao}
+                </Text>
             </View>
         </View>
     )
