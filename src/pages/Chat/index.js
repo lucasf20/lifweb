@@ -31,7 +31,7 @@ function Chat({ route }) {
   const idConversa =
     idUser > firebase.auth().currentUser.uid
       ? idUser.concat(firebase.auth().currentUser.uid)
-      : firebase.auth().currentUser.uid.concat(idUser);
+      : [].concat(idUser,firebase.auth().currentUser.uid);
   const [conversaExiste, setConversaExiste] = useState(false);
 
   useEffect(() => {
@@ -203,7 +203,7 @@ function Chat({ route }) {
       .collection("mensagens")
       .add({
         conteudo: message,
-        idRemetente: usuario.id,
+        idRemetente: firebase.auth().currentUser.uid,
         idDestinatario: idUser,
         idConversa,
         ordem,

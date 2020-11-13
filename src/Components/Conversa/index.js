@@ -173,7 +173,7 @@ function Conversa(props) {
       style={styles.container}
       onPress={() =>
         navigation.navigate("Chat", {
-          idUser: conv.idConversa.replace(usuario.id, ""),
+          idUser: conv.idConversa.replace(firebase.auth().currentUser.uid, ""),
         })
       }
     >

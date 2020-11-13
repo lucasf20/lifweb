@@ -2,12 +2,13 @@ import React, { useContext, useState } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { AuthContext } from "../../contexts/auth";
 import styles from "./styles";
+import firebase from "../../../firebaseConfig";
 
 function Mensagem(props) {
   const { usuario } = useContext(AuthContext);
   const { msg } = props;
   const [selected, setSelected] = useState(false);
-  const isAutor = usuario.id === msg.idRemetente;
+  const isAutor = firebase.auth().currentUser.uid === msg.idRemetente;
 
   function toDateTime(secs) {
     let t = new Date(Date.UTC(1970, 0, 1)); // Epoch
