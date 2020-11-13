@@ -408,7 +408,7 @@ ${descricao}`,
                     <TouchableOpacity style={{ paddingRight: 10 }} onPress={like}>
                         <Image source={(liked) ? caveiralike : caveira} style={{ height: 30, width: 30 }}></Image>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ paddingRight: 10 }}>
+                    <TouchableOpacity style={{ paddingRight: 10 }} onPress={() =>{nav.navigate("Comments", {post:post})}}>
                         <Image source={Comentario} style={{ height: 30, width: 30 }}></Image>
                     </TouchableOpacity>
                     <TouchableOpacity style={{ paddingRight: 10 }} onPress={() => {
