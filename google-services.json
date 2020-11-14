@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "993866057606",
+    "firebase_url": "https://lifweb-38828.firebaseio.com",
+    "project_id": "lifweb-38828",
+    "storage_bucket": "lifweb-38828.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993866057606:android:43440c19e223928a1a0e07",
+        "android_client_info": {
+          "package_name": "com.company.lifweb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993866057606-a2726gutatcao9r49ssatjctaqqa8l56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV4TbkCM3b7cczTI6uReuv2qkNPcrC8DM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "993866057606-a2726gutatcao9r49ssatjctaqqa8l56.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "993866057606-c8ir7l07ri24lbg5di834g28479ovj15.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "host.exp.exponent"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993866057606:android:3f0db9f87488d2e41a0e07",
+        "android_client_info": {
+          "package_name": "com.lifweb.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993866057606-a2726gutatcao9r49ssatjctaqqa8l56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV4TbkCM3b7cczTI6uReuv2qkNPcrC8DM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "993866057606-a2726gutatcao9r49ssatjctaqqa8l56.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "993866057606-c8ir7l07ri24lbg5di834g28479ovj15.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "host.exp.exponent"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
