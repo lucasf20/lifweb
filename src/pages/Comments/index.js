@@ -62,7 +62,7 @@ function RenderComment({ comment }) {
         <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal:15, justifyContent:'space-between' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 15, marginTop: 20, width:Dimensions.get('window').width -130 }}>
                 {(image == profileIcon) ?
-                    (<Image source={profileIcon} style={{ height: 50, width: 43 }} />) :
+                    (<Image source={profileIcon} style={{ height: 50, width: 43,marginRight: 8, marginLeft:3 }} />) :
                     (
                         <Svg style={{
                             width: 45,
