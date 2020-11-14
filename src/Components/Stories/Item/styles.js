@@ -5,7 +5,6 @@ export const styles = StyleSheet.create({
     width: 120,
     height: 180,
     overflow: 'hidden',
-    marginVertical: 20,
     marginHorizontal: 5,
     borderRadius: 5,
   },

@@ -17,6 +17,7 @@ import styles from './styles';
 import colorStyles from "../../colors";
 
 import firebase from '../../../firebaseConfig';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function Feed(){
 

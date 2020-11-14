@@ -6,7 +6,7 @@ import { SimpleLineIcons } from '@expo/vector-icons'
 
 import firebase from '../../../firebaseConfig'
 import profileIcon from '../../assets/logolifweb.png'
-import { Fontisto, FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import * as Sharing from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
 import Svg, {
@@ -23,6 +23,7 @@ import ShareIcon from '../../assets/share.png'
 import Repost from '../../assets/repost.png'
 import { useNavigation, StackActions } from '@react-navigation/native';
 import colorStyles from '../../colors'
+import MyTextInput from '../../MyTextInput'
 
 function LikeAvatar({ likelist }) {
 
@@ -47,7 +48,7 @@ function LikeAvatar({ likelist }) {
         return (
             <Fragment>
                 {(image == profileIcon) ?
-                    (<Image source={profileIcon} style={{ height: 50, width: 43}} />) :
+                    (<Image source={profileIcon} style={{ height: 50, width: 43 }} />) :
                     (
                         <Svg style={{
                             width: 45,
@@ -73,9 +74,9 @@ function LikeAvatar({ likelist }) {
                     )}
             </Fragment>
         )
-    }else{
-        return(
-            <Fragment/>
+    } else {
+        return (
+            <Fragment />
         )
     }
 }
@@ -93,7 +94,7 @@ export default function RenderPost({ post }) {
     const perfil = (post['avatar']) ? post['avatar'] : profileIcon
     const foto = (post['repost']) ? post['repost']['image'] : post['image']
     const repost = post['repost']
-    const comments = post['comments']
+    var comments = post['comments']
     const likes = post['likes']
     const descricao = post['descricao']
     const owner = post['owner']
@@ -106,6 +107,31 @@ export default function RenderPost({ post }) {
     const [avatar, setavatar] = useState(null)
     const [imagem, setimagem] = useState(null)
     const [cached, setcached] = useState(false)
+    const [lastcomment, setlastcomment] = useState(null)
+    const [gotcomment, setgotcomment] = useState(false)
+    const [edit, setedit] = useState(false)
+    const [descript, setdescript] = useState(descricao)
+
+    setTimeout( () =>{ getcomments()}, 15000);
+
+    async function getcomments() {
+        comments = await firebase.firestore().collection('posts').doc(postname).get().then(data => data.data()['comments'])
+        if (comments.length > 0) {
+            var last = comments[comments.length - 1]
+            var com = {
+                user: await firebase.firestore().collection('user').doc(last['user']).get().then(data => data.data()['apelido']),
+                comment: last['comment']
+            }
+            setlastcomment(com)
+        } else {
+            setlastcomment(null)
+        }
+        setgotcomment(true)
+    }
+
+    if(!gotcomment){
+        getcomments()
+    }
 
     if (!cached) {
         cache(foto.uri, 'foto').then(obj => { setimagem(obj); })
@@ -286,6 +312,13 @@ ${descricao}`,
         nav.navigate('Feed')
     }
 
+    async function editarPost() {
+        if (descript.length > 0) {
+            await firebase.firestore().collection('posts').doc(postname).update({ descricao: descript })
+            setedit(false)
+        }
+    }
+
     return (
         <View style={{ marginVertical: 20 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
@@ -385,6 +418,9 @@ ${descricao}`,
                                             ],
                                             { cancelable: true }
                                         );
+                                    } else {
+                                        setedit(true)
+                                        setshowops(false)
                                     }
                                 }}
                             onShowUnderlay={separators.highlight}
@@ -398,19 +434,19 @@ ${descricao}`,
                 <Image source={imagem} style={{ height: height().h, width: height().w, borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
-                <View style={{flexDirection: 'row', alignItems: 'center', marginLeft:13}}>
-                <LikeAvatar likelist={likes}/>
-                <View>
-                    <Text style={{marginLeft:5}}>
-                        Curtido por {numlikes}
-                    </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 13 }}>
+                    <LikeAvatar likelist={likes} />
+                    <View>
+                        <Text style={{ marginLeft: 5 }}>
+                            Curtido por {numlikes}
+                        </Text>
                     </View>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity style={{ paddingRight: 10 }} onPress={like}>
                         <Image source={(liked) ? caveiralike : caveira} style={{ height: 30, width: 30 }}></Image>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ paddingRight: 10 }} onPress={() =>{nav.navigate("Comments", {post:post})}}>
+                    <TouchableOpacity style={{ paddingRight: 10 }} onPress={() => { nav.navigate("Comments", { post: post }) }}>
                         <Image source={Comentario} style={{ height: 30, width: 30 }}></Image>
                     </TouchableOpacity>
                     <TouchableOpacity style={{ paddingRight: 10 }} onPress={() => {
@@ -438,10 +474,32 @@ ${descricao}`,
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={{ flexDirection: 'row', marginHorizontal: 5, marginTop: 10 }}>
-                <Text style={{ fontSize: 16 }}>
-                    {descricao}
-                </Text>
+            <View style={{ marginHorizontal: 5, marginTop: 10, width: Dimensions.get('window').width - 10 }}>
+                {(edit) ? (
+                        <View style={{ flexDirection: 'row', marginTop: 10, marginHorizontal: 30, alignItems: 'center', justifyContent: 'center' }}>
+                            <MyTextInput
+                                onChangeText={text => setdescript(text)}
+                                value={descript}
+                                placeholder="Digite sua descrição..."
+                                style={{ width: (Dimensions.get('window').width - 80), marginRight: 10 }}
+                            />
+                            <View style={{ backgroundColor: colorStyles.dorange, borderRadius: 5 }}>
+                                <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
+                            </View>
+                        </View>
+                ) : (<Text style={{ fontSize: 16 }}>
+                    {descript}
+                </Text>)}
+                {lastcomment &&
+                    <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => { nav.navigate("Comments", { post: post }) }}>
+                        <Text style={{ fontWeight: 'bold', color: colorStyles.dorange, fontSize: 16 }}>
+                            {lastcomment.user}:
+                    </Text>
+                        <Text style={{ fontSize: 16 }}>
+                            {" " + lastcomment.comment}
+                        </Text>
+                    </TouchableOpacity >
+                }
             </View>
         </View>
     )

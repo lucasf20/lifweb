@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   FlatList,
   Text,
@@ -7,37 +7,28 @@ import {
 import {styles} from './styles'
 
 import Item from './Item';
-import PostImage from '../../images/PostImg.png';
-import PostImage2 from '../../images/PostImage2.png';
-import PostImage3 from '../../images/PostImage3.png';
-import UserImage from '../../images/perfil3.jpg';
-import UserImage2 from '../../images/avatar_stories2.jpg';
-import UserImage3 from '../../images/avatar_stories3.jpg';
+
+import firebase from '../../../firebaseConfig';
 
 const Stories = () => {
-  const datasource = [
-    {
-			image: PostImage2,
-      user: {
-				name: 'Moto Vlog',
-				image: UserImage,
-			},
-		},
-		{
-			image: PostImage,
-      user: {
-				name: 'Vinny Santos',
-				image: UserImage2,
-			},
-		},
-		{
-			image: PostImage3,
-      user: {
-				name: 'Venssar Biker',
-				image: UserImage3,
-			},
-    },
-  ];
+
+  const [p, setp] = useState(null)
+
+firebase.firestore().collection('posts').where('repost', '==', false).get().then(
+  data => {
+    var posts = []
+    data.forEach(item => 
+         posts.push({...item.data(), postname:item.id})
+    )
+    if(!p){
+      setp(posts.sort((a,b)=>{
+        var order = [true, false]
+        var num = Math.floor(Math.random()*10)%2
+        return order[num]
+      }).slice(0,5))
+    }
+  }
+  )
 
   return (
     <>
@@ -48,11 +39,11 @@ const Stories = () => {
       </Text>
       <FlatList
         horizontal
-        data={datasource}
+        data={(p)?p:[]}
         keyExtractor={(item, index) => `${index}`}
         showsHorizontalScrollIndicator={false}
         renderItem={({item}) => (
-          <Item {...item} />
+          <Item post={item}/>
         )} />
     </>
   );
