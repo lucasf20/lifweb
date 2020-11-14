@@ -14,7 +14,7 @@
       "backgroundColor": "#ffffff"
     },
     "notification":{
-      "icon": "./src/assets/logolifweb.png"
+      "icon": "./src/assets/logolifweb2.png"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
