@@ -93,7 +93,7 @@ export default function RenderPost({ post }) {
     const perfil = (post['avatar']) ? post['avatar'] : profileIcon
     const foto = (post['repost']) ? post['repost']['image'] : post['image']
     const repost = post['repost']
-    const comments = post['comments']
+    var comments = post['comments']
     const likes = post['likes']
     const descricao = post['descricao']
     const owner = post['owner']
@@ -106,6 +106,21 @@ export default function RenderPost({ post }) {
     const [avatar, setavatar] = useState(null)
     const [imagem, setimagem] = useState(null)
     const [cached, setcached] = useState(false)
+    const [lastcomment, setlastcomment] = useState(null)
+
+    setTimeout(async () => {
+        comments = await firebase.firestore().collection('posts').doc(postname).get().then(data => data.data()['comments'])
+        if(comments.length > 0){
+            var last = comments[comments.length -1]
+            var com = {
+                user: await firebase.firestore().collection('user').doc(last['user']).get().then(data => data.data()['apelido']),
+                comment: last['comment']
+            }
+            setlastcomment(com)
+        }else{
+            setlastcomment(null)
+        }
+    }, 1000);
 
     if (!cached) {
         cache(foto.uri, 'foto').then(obj => { setimagem(obj); })
@@ -438,10 +453,20 @@ ${descricao}`,
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={{ flexDirection: 'row', marginHorizontal: 5, marginTop: 10 }}>
+            <View style={{ marginHorizontal: 5, marginTop: 10, width:Dimensions.get('window').width - 10 }}>
                 <Text style={{ fontSize: 16 }}>
                     {descricao}
                 </Text>
+                {lastcomment && 
+                <TouchableOpacity style={{flexDirection:'row'}} onPress={() =>{nav.navigate("Comments", {post:post})}}>
+                    <Text style={{fontWeight:'bold', color:colorStyles.dorange, fontSize: 16 }}>
+                        {lastcomment.user}:
+                    </Text>
+                    <Text style={{fontSize: 16 }}>
+                        {" "+lastcomment.comment}
+                    </Text>
+                </TouchableOpacity >
+                }
             </View>
         </View>
     )
