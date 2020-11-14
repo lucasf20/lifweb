@@ -108,10 +108,13 @@ export default function RenderPost({ post }) {
     const [imagem, setimagem] = useState(null)
     const [cached, setcached] = useState(false)
     const [lastcomment, setlastcomment] = useState(null)
+    const [gotcomment, setgotcomment] = useState(false)
     const [edit, setedit] = useState(false)
     const [descript, setdescript] = useState(descricao)
 
-    setTimeout(async () => {
+    setTimeout( () =>{ getcomments()}, 15000);
+
+    async function getcomments() {
         comments = await firebase.firestore().collection('posts').doc(postname).get().then(data => data.data()['comments'])
         if (comments.length > 0) {
             var last = comments[comments.length - 1]
@@ -123,7 +126,12 @@ export default function RenderPost({ post }) {
         } else {
             setlastcomment(null)
         }
-    }, 1000);
+        setgotcomment(true)
+    }
+
+    if(!gotcomment){
+        getcomments()
+    }
 
     if (!cached) {
         cache(foto.uri, 'foto').then(obj => { setimagem(obj); })
