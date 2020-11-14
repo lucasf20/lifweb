@@ -24,7 +24,6 @@ import Repost from '../../assets/repost.png'
 import { useNavigation, StackActions } from '@react-navigation/native';
 import colorStyles from '../../colors'
 import MyTextInput from '../../MyTextInput'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 function LikeAvatar({ likelist }) {
 
@@ -469,9 +468,6 @@ ${descricao}`,
             </View>
             <View style={{ marginHorizontal: 5, marginTop: 10, width: Dimensions.get('window').width - 10 }}>
                 {(edit) ? (
-                    <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
-                        style={{ flex: 1 }}
-                        showsVerticalScrollIndicator={false}>
                         <View style={{ flexDirection: 'row', marginTop: 10, marginHorizontal: 30, alignItems: 'center', justifyContent: 'center' }}>
                             <MyTextInput
                                 onChangeText={text => setdescript(text)}
@@ -483,7 +479,6 @@ ${descricao}`,
                                 <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
                             </View>
                         </View>
-                    </KeyboardAwareScrollView>
                 ) : (<Text style={{ fontSize: 16 }}>
                     {descript}
                 </Text>)}

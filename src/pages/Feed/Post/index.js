@@ -5,6 +5,7 @@ import { Fontisto} from '@expo/vector-icons';
 
 import colorStyles from '../../../colors'
 import RenderPost from '../../../Components/RenderPost'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function Post() {
 
@@ -69,7 +70,13 @@ export default function Post() {
     }
 
     return (
-        <View style={{ marginBottom: 100 }}>
+        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
+                        style={{ flex: 1 }}
+                        showsVerticalScrollIndicator={false}
+                        extraHeight={70}
+                        extraScrollHeight={70}
+                        >
+        <View style={{ marginBottom: 100}}>
             <FlatList
                 data={pts}
                 renderItem={({ item, index, separators }) => (
@@ -86,5 +93,6 @@ export default function Post() {
                 <Fontisto name="motorcycle" size={24} color={colorStyles.dorange} />
             </View>
         </View>
+        </KeyboardAwareScrollView>
     )
 }
