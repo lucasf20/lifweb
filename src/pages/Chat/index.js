@@ -255,22 +255,24 @@ function Chat({ route }) {
         </View>
       </View>
       {/* <Image style={styles.avatar} source={{ uri: avatar }} /> */}
-      {(avatar)?(<Svg style={styles.avatar} width="75" height="75" viewBox="0 -3 43 55">
-        <Defs>
-        <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-          <ClipPath id="image" clipRule="evenodd">
-            <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-          </ClipPath>
-        </Defs>
-        <SvgImage
-          x="0"
-          y="0"
-          width="50"
-          height="50"
-          href={avatar}
-          clipPath="#image"
-        />
-      </Svg>):(
+      {(avatar)?(<View style={{position:'absolute', marginLeft:(Dimensions.get('window').width - 95), marginTop:120}}>
+      <Svg width="75" height="75" viewBox="0 -3 43 55">
+                <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                <Defs>
+                  <ClipPath id="image" clipRule="evenodd">
+                    <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                  </ClipPath>
+                </Defs>
+                <SvgImage
+                  x="0"
+                  y="0"
+                  width="50"
+                  height="50"
+                  href={avatar}
+                  clipPath="#image"
+                />
+              </Svg>
+              </View>):(
         <View style={{position:'absolute', marginLeft:(Dimensions.get('window').width - 95), marginTop:100}}>
           <Image source={profileIcon} style={{height:89, width:75}}/>
         </View>
