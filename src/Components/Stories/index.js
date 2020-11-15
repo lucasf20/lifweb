@@ -12,7 +12,8 @@ import firebase from '../../../firebaseConfig';
 
 const Stories = () => {
 
-  const [p, setp] = useState(null)
+  const [p, setp] = useState([])
+  const [ok, setok] = useState(false)
 
 firebase.firestore().collection('posts').where('repost', '==', false).get().then(
   data => {
@@ -20,12 +21,13 @@ firebase.firestore().collection('posts').where('repost', '==', false).get().then
     data.forEach(item => 
          posts.push({...item.data(), postname:item.id})
     )
-    if(!p){
+    if(!ok){
       setp(posts.sort((a,b)=>{
         var order = [true, false]
         var num = Math.floor(Math.random()*10)%2
         return order[num]
       }).slice(0,5))
+      setok(true)
     }
   }
   )

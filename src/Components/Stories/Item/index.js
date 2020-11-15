@@ -15,6 +15,7 @@ import Svg, {
 import profileIcon from '../../../assets/logolifweb.png'
 import firebase from '../../../../firebaseConfig';
 import { useNavigation, StackActions } from '@react-navigation/native';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 import { styles } from './styles';
 
@@ -36,8 +37,15 @@ const Item = ({ post }) => {
   async function getImgs() {
     await firebase.firestore().collection('user').doc(post['owner']).get().then(data => setname(data.data()['apelido']))
     await firebase.storage().ref('user/' + post['owner'] + "/perfil").getDownloadURL().then(url => setperfil({ uri: url })).catch(erro => setperfil(null))
-    await firebase.storage().ref('user/' + post['owner'] + "/posts/" + post['postname']).getDownloadURL().then(url => setimage({ uri: url })).catch(erro => setimage(null))
+    var i = await firebase.storage().ref('user/' + post['owner'] + "/posts/" + post['postname']).getDownloadURL().then(url => {return url}).catch(erro => {return null})
     setload(false)
+    const manipResult = await ImageManipulator.manipulateAsync(
+      i,
+      [],{ compress: 0.1 }
+    );
+    if(i){
+      setimage({uri:manipResult.uri})
+    }
   }
 
   function getTime(postname) {
@@ -62,7 +70,7 @@ const Item = ({ post }) => {
   if (image && name) {
     return (
       <TouchableOpacity style={styles.container} onPress={() => {navigateOwnerProfile()}}>
-        <Image source={image} style={{ ...styles.container }} />
+         <Image source={image} style={{ ...styles.container }} /> 
         <View style={{ position: "absolute", marginTop: 10, marginLeft: 15, width: 100 }}>
           {(perfil) ?
             (
