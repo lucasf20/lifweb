@@ -255,8 +255,9 @@ function Chat({ route }) {
         </View>
       </View>
       {/* <Image style={styles.avatar} source={{ uri: avatar }} /> */}
-      {(avatar)?(<Svg style={styles.avatar} width="75" height="75" viewBox="0 0 50 50">
+      {(avatar)?(<Svg style={styles.avatar} width="75" height="75" viewBox="0 -3 43 55">
         <Defs>
+        <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
           <ClipPath id="image" clipRule="evenodd">
             <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
           </ClipPath>

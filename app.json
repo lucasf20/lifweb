@@ -13,6 +13,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "notification":{
+      "icon": "./src/assets/logolifweb2.png"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -20,14 +23,20 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.company.lifweb",
+      "buildNumber": "1.0.0"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "description": "",
     "android": {
-      "package": "com.marcoant08.lifweb"
+      "googleServicesFile": "./google-services.json",
+      "package": "com.company.lifweb",
+      "versionCode": 1
     }
+    
+
   }
 }
