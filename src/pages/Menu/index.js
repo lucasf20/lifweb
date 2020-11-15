@@ -95,7 +95,7 @@ export default function Menu() {
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { navigation.navigate('MinhasMensagens') }}>
                             <SimpleLineIcons name="bubbles" size={24} color="white" />
-                            <NotifyCircle  style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>
+                            {/*<NotifyCircle  style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>*/}
                             <Text style={styles.BigText}>
                                 Mensagem
                             </Text>
@@ -117,7 +117,7 @@ export default function Menu() {
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons}>
                             <SimpleLineIcons name="bell" size={24} color="white" />
-                            <NotifyCircle style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>
+                            {/*<NotifyCircle style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>*/}
                             <Text style={styles.BigText}>
                                 Notificação
                             </Text>
@@ -125,8 +125,8 @@ export default function Menu() {
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('EditProfile') }}>
                             <SimpleLineIcons name="user" size={24} color="white" />
-                            <Ionicons name="ios-remove-circle-outline" size={18} color="white" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />
-                            <Ionicons name="ios-remove-circle" size={18} color="Transparent" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />
+                            {/*<Ionicons name="ios-remove-circle-outline" size={18} color="white" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />*/}
+                            {/*<Ionicons name="ios-remove-circle" size={18} color="Transparent" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />*/}
                             <Text style={styles.BigText}>
                                 Editar Perfil
                             </Text>
