@@ -112,7 +112,7 @@ export default function RenderPost({ post }) {
     const [edit, setedit] = useState(false)
     const [descript, setdescript] = useState(descricao)
 
-    setTimeout( () =>{ getcomments()}, 15000);
+    setTimeout(() => { getcomments() }, 15000);
 
     async function getcomments() {
         comments = await firebase.firestore().collection('posts').doc(postname).get().then(data => data.data()['comments'])
@@ -120,7 +120,8 @@ export default function RenderPost({ post }) {
             var last = comments[comments.length - 1]
             var com = {
                 user: await firebase.firestore().collection('user').doc(last['user']).get().then(data => data.data()['apelido']),
-                comment: last['comment']
+                comment: last['comment'],
+                tam: comments.length
             }
             setlastcomment(com)
         } else {
@@ -129,7 +130,7 @@ export default function RenderPost({ post }) {
         setgotcomment(true)
     }
 
-    if(!gotcomment){
+    if (!gotcomment) {
         getcomments()
     }
 
@@ -476,28 +477,35 @@ ${descricao}`,
             </View>
             <View style={{ marginHorizontal: 5, marginTop: 10, width: Dimensions.get('window').width - 10 }}>
                 {(edit) ? (
-                        <View style={{ flexDirection: 'row', marginTop: 10, marginHorizontal: 30, alignItems: 'center', justifyContent: 'center' }}>
-                            <MyTextInput
-                                onChangeText={text => setdescript(text)}
-                                value={descript}
-                                placeholder="Digite sua descrição..."
-                                style={{ width: (Dimensions.get('window').width - 80), marginRight: 10 }}
-                            />
-                            <View style={{ backgroundColor: colorStyles.dorange, borderRadius: 5 }}>
-                                <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
-                            </View>
+                    <View style={{ flexDirection: 'row', marginTop: 10, marginHorizontal: 30, alignItems: 'center', justifyContent: 'center' }}>
+                        <MyTextInput
+                            onChangeText={text => setdescript(text)}
+                            value={descript}
+                            placeholder="Digite sua descrição..."
+                            style={{ width: (Dimensions.get('window').width - 80), marginRight: 10 }}
+                        />
+                        <View style={{ backgroundColor: colorStyles.dorange, borderRadius: 5 }}>
+                            <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
                         </View>
-                ) : (<Text style={{ fontSize: 16 }}>
+                    </View>
+                ) : (<Text style={{ fontSize: 16, marginLeft:15 }}>
                     {descript}
                 </Text>)}
                 {lastcomment &&
-                    <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => { nav.navigate("Comments", { post: post }) }}>
-                        <Text style={{ fontWeight: 'bold', color: colorStyles.dorange, fontSize: 16 }}>
-                            {lastcomment.user}:
-                    </Text>
-                        <Text style={{ fontSize: 16 }}>
-                            {" " + lastcomment.comment}
-                        </Text>
+                    <TouchableOpacity onPress={() => { nav.navigate("Comments", { post: post }) }} style={{marginLeft:15}}>
+                        <View style={{ flexDirection: 'row' }} >
+                            <Text style={{ fontWeight: 'bold', color: colorStyles.dorange, fontSize: 16 }}>
+                                {lastcomment.user}:
+                            </Text>
+                            <Text style={{ fontSize: 16 }}>
+                                {" " + lastcomment.comment}
+                            </Text>
+                            
+                        </View>
+                        <Text style={{ fontSize: 16, color:'gray' }}>
+                                {(lastcomment.tam>1)?"Ver " + lastcomment.tam + " comentários.":"Ver " + lastcomment.tam + " comentário."}
+                            </Text>
+
                     </TouchableOpacity >
                 }
             </View>
