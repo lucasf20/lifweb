@@ -33,7 +33,7 @@ function HeaderChat() {
                 <View>
                     <TouchableOpacity onPress={() => { navigation.navigate('MinhasMensagens') }}>
                         <MaterialCommunityIcons name="message-outline" size={24} color={ 'white'} />
-                        <FontAwesome name="circle" size={10} color="red" style={{position:"absolute", marginLeft:15}}/>
+                       {/*<FontAwesome name="circle" size={10} color="red" style={{position:"absolute", marginLeft:15}}/>*/}
                     </TouchableOpacity>
                 </View>
             </View>
