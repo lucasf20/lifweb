@@ -7,7 +7,8 @@ import {
   ToastAndroid,
   Image,
   FlatList,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import HeaderChat from "../../Components/HeaderChat";
@@ -22,6 +23,8 @@ import Svg, {
   Polygon,
 } from "react-native-svg";
 import profileIcon from '../../assets/logolifweb.png'
+import { useNavigation, StackActions } from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 function Chat({ route }) {
   const [message, setMessage] = useState("");
@@ -36,6 +39,8 @@ function Chat({ route }) {
       : firebase.auth().currentUser.uid.concat(idUser);
   const [conversaExiste, setConversaExiste] = useState(false);
   const [moto, setmoto] = useState('')
+
+  const nav = useNavigation()
 
   useEffect(() => {
     async function load() {
@@ -242,6 +247,11 @@ function Chat({ route }) {
       });
   }
 
+  function navigateOwnerProfile() {
+    nav.dispatch(StackActions.popToTop());
+    nav.navigate('Profile', { uid: idUser });
+}
+
   return (
     <View style={styles.container}>
       <HeaderChat />
@@ -255,7 +265,8 @@ function Chat({ route }) {
         </View>
       </View>
       {/* <Image style={styles.avatar} source={{ uri: avatar }} /> */}
-      {(avatar)?(<View style={{position:'absolute', marginLeft:(Dimensions.get('window').width - 95), marginTop:120}}>
+      <TouchableOpacity onPress={() => {navigateOwnerProfile()}} style={{position:'absolute', marginLeft:(Dimensions.get('window').width - 95),}}>
+      {(avatar)?(<View style={{  marginTop:120}}>
       <Svg width="75" height="75" viewBox="0 -3 43 55">
                 <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
                 <Defs>
@@ -273,10 +284,10 @@ function Chat({ route }) {
                 />
               </Svg>
               </View>):(
-        <View style={{position:'absolute', marginLeft:(Dimensions.get('window').width - 95), marginTop:100}}>
+        <View style={{ marginTop:100}}>
           <Image source={profileIcon} style={{height:89, width:75}}/>
         </View>
-      )}
+      )}</TouchableOpacity>
       <View style={styles.containerMessages}>
         <FlatList
           inverted
@@ -286,7 +297,12 @@ function Chat({ route }) {
           keyExtractor={(item) => String(item.id)}
         />
       </View>
-      <View style={styles.containerInput}>
+      
+      <View style={{...styles.containerInput}}>
+        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
+            style={{ flex: 1 }}
+            showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ marginVertical: 24,}}>
         <View style={styles.containerInput2}>
           <TextInput
             placeholder="Digite aqui..."
@@ -306,7 +322,10 @@ function Chat({ route }) {
             />
           </TouchableOpacity>
         </View>
+        </ScrollView>
+      </KeyboardAwareScrollView>
       </View>
+      
     </View>
   );
 }

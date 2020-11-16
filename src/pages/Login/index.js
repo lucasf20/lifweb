@@ -158,13 +158,19 @@ const Login = () => {
     }
   }
 
-  useEffect(() => {
-    Firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        navigation.navigate('Feed')
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   Firebase.auth().onAuthStateChanged(user => {
+  //     if (user) {
+  //       navigation.navigate('Feed')
+  //     }
+  //   })
+  // }, [])
+
+  Firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      navigation.navigate('Feed')
+    }
+  })
 
   return (
     <ImageBackground

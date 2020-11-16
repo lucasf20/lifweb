@@ -4,7 +4,7 @@ import Icon from '../../images/avatar_stories1.png'
 import styles from './styles'
 import home from '../../assets/logo3_lifweb_branco.png'
 import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, FontAwesome, Entypo } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 
 
 function HeaderChat() {
@@ -19,7 +19,7 @@ function HeaderChat() {
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity onPress={() => { navigation.navigate('Feed') }}>
+                <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.popToTop());navigation.navigate('Feed') }}>
                     <Entypo name="chevron-left" size={24} color="white" />
                 </TouchableOpacity>
                 <EvilIcons name="search" size={30} color="transparent" style={{ paddingRight: 15 }} />

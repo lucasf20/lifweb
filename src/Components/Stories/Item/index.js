@@ -86,7 +86,7 @@ const Item = ({ post }) => {
                   y="0"
                   width="50"
                   height="50"
-                  href={image}
+                  href={perfil}
                   clipPath="#image"
                 />
               </Svg>

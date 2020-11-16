@@ -72,11 +72,10 @@ const styles = StyleSheet.create({
 
   containerInput2: {
     alignItems: "center",
+    justifyContent:'center',
     flexDirection: "row",
     backgroundColor: "#fff",
-    paddingVertical: 1,
-    marginVertical: 24,
-    width: "90%",
+    marginHorizontal:25,
     borderRadius: 32,
   },
 

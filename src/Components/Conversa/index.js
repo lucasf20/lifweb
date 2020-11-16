@@ -13,6 +13,7 @@ import Svg, {
   Polygon,
 } from "react-native-svg";
 import profileIcon from '../../assets/logolifweb.png'
+import colorStyles from "../../colors"
 
 function Conversa(props) {
   const navigation = useNavigation();
@@ -181,22 +182,27 @@ function Conversa(props) {
     >
       <View style={styles.containerFotoMensagem}>
         {/* <Image style={styles.avatar} source={{ uri: destinatario?.avatar }} /> */}
-        {(avatar)?(<Svg style={styles.avatar} width="75" height="75" viewBox="0 -3 43 55">
-          <Defs>
-          <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-            <ClipPath id="image" clipRule="evenodd">
-              <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-            </ClipPath>
-          </Defs>
-          <SvgImage
-            x="0"
-            y="0"
-            width="50"
-            height="50"
-            href={avatar}
-            clipPath="#image"
-          />
-        </Svg>):(
+        {(avatar)?(<Svg style={{
+                                width: 45,
+                                height: 45,
+                                borderRadius: 50,
+                                marginRight: 8
+                            }} width="75" height="75" viewBox="0 -3 43 55">
+                                <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                                <Defs>
+                                    <ClipPath id="image" clipRule="evenodd">
+                                        <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                                    </ClipPath>
+                                </Defs>
+                                <SvgImage
+                                    x="0"
+                                    y="0"
+                                    width="50"
+                                    height="50"
+                                    href={avatar}
+                                    clipPath="#image"
+                                />
+                            </Svg>):(
         <View >
           <Image source={profileIcon} style={{height:75, width:65, marginLeft:15, marginRight:15}}/>
         </View>
