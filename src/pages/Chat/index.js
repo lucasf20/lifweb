@@ -301,12 +301,10 @@ function Chat({ route }) {
           keyExtractor={(item) => String(item.id)}
         />
       </View>
-      
       <View style={{...styles.containerInput}}>
         <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
             style={{ flex: 1 }}
             showsVerticalScrollIndicator={false}>
-      <ScrollView style={{ marginVertical: 24,}}>
         <View style={styles.containerInput2}>
           <TextInput
             placeholder="Digite aqui..."
@@ -326,10 +324,8 @@ function Chat({ route }) {
             />
           </TouchableOpacity>
         </View>
-        </ScrollView>
       </KeyboardAwareScrollView>
       </View>
-      
     </View>
   );
 }

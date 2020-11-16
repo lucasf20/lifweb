@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     backgroundColor: "#e4e4e4",
+    height:100
   },
 
   containerInput2: {
