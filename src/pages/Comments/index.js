@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, Dimensions, ScrollView, Image, Text, Alert } from 'react-native'
+import { View, Dimensions, ScrollView, Image, Text, Alert, TouchableOpacity } from 'react-native'
 import Header from '../../Components/Header'
 import MyTextInput from '../../MyTextInput'
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
@@ -58,9 +58,15 @@ function RenderComment({ comment }) {
         getName(comment['user']).then(nome => setname(nome))
     }
 
+    function navigateOwnerProfile() {
+        nav.dispatch(StackActions.popToTop());
+        nav.navigate('Profile', { uid: comment['user'] });
+    }
+
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal:15, justifyContent:'space-between' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 15, marginTop: 20, width:Dimensions.get('window').width -130 }}>
+                <TouchableOpacity onPress={() => { navigateOwnerProfile() }}>
                 {(image == profileIcon) ?
                     (<Image source={profileIcon} style={{ height: 50, width: 43,marginRight: 8, marginLeft:3 }} />) :
                     (
@@ -86,6 +92,7 @@ function RenderComment({ comment }) {
                             />
                         </Svg>
                     )}
+                     </TouchableOpacity>
                 <View style={{}}>
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={{ fontWeight: 'bold' }}>

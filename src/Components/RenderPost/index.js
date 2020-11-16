@@ -28,6 +28,8 @@ import MyTextInput from '../../MyTextInput'
 function LikeAvatar({ likelist }) {
 
     const [image, setimage] = useState(null)
+    const [u,setu] = useState(null)
+    const nav = useNavigation()
 
     async function getImg(uid) {
         var img = await firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + uid + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
@@ -38,16 +40,23 @@ function LikeAvatar({ likelist }) {
         }
     }
 
+
+    function navigateOwnerProfile() {
+        nav.dispatch(StackActions.popToTop());
+        nav.navigate('Profile', { uid: u });
+    }
+
     var interval = likelist.length
     if (interval > 0) {
         var random = Math.floor(Math.random()*Date.now()%10*10) % interval
         var winner = likelist[random]
         console.log("win", random)
         if (!image) {
-            getImg(winner).then(im => setimage(im))
+            getImg(winner).then(im => {setimage(im); setu(winner)})
         }
         return (
             <Fragment>
+                { u && <TouchableOpacity onPress={() => { navigateOwnerProfile() }}>
                 {(image == profileIcon) ?
                     (<Image source={profileIcon} style={{ height: 50, width: 43 }} />) :
                     (
@@ -73,6 +82,8 @@ function LikeAvatar({ likelist }) {
                             />
                         </Svg>
                     )}
+                    </TouchableOpacity>
+                    }
             </Fragment>
         )
     } else {
