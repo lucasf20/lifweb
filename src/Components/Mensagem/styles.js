@@ -12,9 +12,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginHorizontal: 10,
     marginVertical: 12,
-    paddingVertical: 10,
+    paddingVertical: 0,
     width: 270,
-    left: 100,
+    // left: 100,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,
@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
 
   mensagem: {
       fontSize: 12,
-      paddingHorizontal: 20
+      justifyContent:'center',
+      alignItems:'center'
   }
 });
 

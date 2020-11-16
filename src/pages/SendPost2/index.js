@@ -143,7 +143,7 @@ export default function SendPost2({ navigate, route }) {
                             }
                         }} style={{backgroundColor: dorange, borderRadius:5, height:50, justifyContent:'center' }}>
                             <Text style={{ ...styles.text, color: 'white', fontWeight: 'bold', marginHorizontal:10}}>
-                                Próximo
+                                Compartilhar
                         </Text>
                         </TouchableOpacity>
                     </View>

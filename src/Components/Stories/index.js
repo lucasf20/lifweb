@@ -22,11 +22,7 @@ firebase.firestore().collection('posts').where('repost', '==', false).get().then
          posts.push({...item.data(), postname:item.id})
     )
     if(!ok){
-      setp(posts.sort((a,b)=>{
-        var order = [true, false]
-        var num = Math.floor(Math.random()*10)%2
-        return order[num]
-      }).slice(0,5))
+      setp(posts.sort().slice(0,5))
       setok(true)
     }
   }

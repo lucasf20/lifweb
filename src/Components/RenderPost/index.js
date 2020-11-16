@@ -28,6 +28,8 @@ import MyTextInput from '../../MyTextInput'
 function LikeAvatar({ likelist }) {
 
     const [image, setimage] = useState(null)
+    const [u,setu] = useState(null)
+    const nav = useNavigation()
 
     async function getImg(uid) {
         var img = await firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + uid + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
@@ -38,15 +40,23 @@ function LikeAvatar({ likelist }) {
         }
     }
 
+
+    function navigateOwnerProfile() {
+        nav.dispatch(StackActions.popToTop());
+        nav.navigate('Profile', { uid: u });
+    }
+
     var interval = likelist.length
     if (interval > 0) {
-        var random = Math.floor(Math.random()) % interval
+        var random = Math.floor(Math.random()*Date.now()%10*10) % interval
         var winner = likelist[random]
+        console.log("win", random)
         if (!image) {
-            getImg(winner).then(im => setimage(im))
+            getImg(winner).then(im => {setimage(im); setu(winner)})
         }
         return (
             <Fragment>
+                { u && <TouchableOpacity onPress={() => { navigateOwnerProfile() }}>
                 {(image == profileIcon) ?
                     (<Image source={profileIcon} style={{ height: 50, width: 43 }} />) :
                     (
@@ -72,6 +82,8 @@ function LikeAvatar({ likelist }) {
                             />
                         </Svg>
                     )}
+                    </TouchableOpacity>
+                    }
             </Fragment>
         )
     } else {
@@ -112,7 +124,7 @@ export default function RenderPost({ post }) {
     const [edit, setedit] = useState(false)
     const [descript, setdescript] = useState(descricao)
 
-    setTimeout( () =>{ getcomments()}, 15000);
+    setTimeout(() => { getcomments() }, 1000);
 
     async function getcomments() {
         comments = await firebase.firestore().collection('posts').doc(postname).get().then(data => data.data()['comments'])
@@ -120,7 +132,8 @@ export default function RenderPost({ post }) {
             var last = comments[comments.length - 1]
             var com = {
                 user: await firebase.firestore().collection('user').doc(last['user']).get().then(data => data.data()['apelido']),
-                comment: last['comment']
+                comment: last['comment'],
+                tam: comments.length
             }
             setlastcomment(com)
         } else {
@@ -129,7 +142,7 @@ export default function RenderPost({ post }) {
         setgotcomment(true)
     }
 
-    if(!gotcomment){
+    if (!gotcomment) {
         getcomments()
     }
 
@@ -476,28 +489,35 @@ ${descricao}`,
             </View>
             <View style={{ marginHorizontal: 5, marginTop: 10, width: Dimensions.get('window').width - 10 }}>
                 {(edit) ? (
-                        <View style={{ flexDirection: 'row', marginTop: 10, marginHorizontal: 30, alignItems: 'center', justifyContent: 'center' }}>
-                            <MyTextInput
-                                onChangeText={text => setdescript(text)}
-                                value={descript}
-                                placeholder="Digite sua descrição..."
-                                style={{ width: (Dimensions.get('window').width - 80), marginRight: 10 }}
-                            />
-                            <View style={{ backgroundColor: colorStyles.dorange, borderRadius: 5 }}>
-                                <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
-                            </View>
+                    <View style={{ flexDirection: 'row', marginTop: 10, marginHorizontal: 30, alignItems: 'center', justifyContent: 'center' }}>
+                        <MyTextInput
+                            onChangeText={text => setdescript(text)}
+                            value={descript}
+                            placeholder="Digite sua descrição..."
+                            style={{ width: (Dimensions.get('window').width - 80), marginRight: 10 }}
+                        />
+                        <View style={{ backgroundColor: colorStyles.dorange, borderRadius: 5 }}>
+                            <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
                         </View>
-                ) : (<Text style={{ fontSize: 16 }}>
+                    </View>
+                ) : (<Text style={{ fontSize: 16, marginLeft:15 }}>
                     {descript}
                 </Text>)}
                 {lastcomment &&
-                    <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => { nav.navigate("Comments", { post: post }) }}>
-                        <Text style={{ fontWeight: 'bold', color: colorStyles.dorange, fontSize: 16 }}>
-                            {lastcomment.user}:
-                    </Text>
-                        <Text style={{ fontSize: 16 }}>
-                            {" " + lastcomment.comment}
-                        </Text>
+                    <TouchableOpacity onPress={() => { nav.navigate("Comments", { post: post }) }} style={{marginLeft:15}}>
+                        <View style={{ flexDirection: 'row' }} >
+                            <Text style={{ fontWeight: 'bold', color: colorStyles.dorange, fontSize: 16 }}>
+                                {lastcomment.user}:
+                            </Text>
+                            <Text style={{ fontSize: 16 }}>
+                                {" " + lastcomment.comment}
+                            </Text>
+                            
+                        </View>
+                        <Text style={{ fontSize: 16, color:'gray' }}>
+                                {(lastcomment.tam>1)?"Ver " + lastcomment.tam + " comentários.":"Ver " + lastcomment.tam + " comentário."}
+                            </Text>
+
                     </TouchableOpacity >
                 }
             </View>

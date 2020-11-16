@@ -1,8 +1,53 @@
 import React, { useContext, useState } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, Image } from "react-native";
 import { AuthContext } from "../../contexts/auth";
 import styles from "./styles";
 import firebase from "../../../firebaseConfig";
+import profileIcon from '../../assets/logolifweb.png'
+import Svg, {
+  Image as SvgImage,
+  Defs,
+  ClipPath,
+  Polygon,
+} from 'react-native-svg';
+
+
+function Foto({uid}){
+
+  const [avatar, setavatar] = useState(null)
+
+  if(avatar == null){
+    firebase.storage().ref('user/' + uid + "/perfil").getDownloadURL().then(url => setavatar({uri:url})).catch(erro => setavatar(false))
+  }
+  
+  return(
+    <View style={{marginLeft:5}}>
+    {(avatar) ? (
+      <Svg style={{
+          width: 45,
+          height: 45,
+          borderRadius: 50,
+          marginRight: 8
+      }} width="50" height="50" viewBox="0 -3 43 55">
+          <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+          <Defs>
+              <ClipPath id="image" clipRule="evenodd">
+                  <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+              </ClipPath>
+          </Defs>
+          <SvgImage
+              x="0"
+              y="0"
+              width="50"
+              height="50"
+              href={avatar}
+              clipPath="#image"
+          />
+      </Svg>
+  ) : (<Image source={profileIcon} style={{ height: 50, width: 43, marginRight: 13 }} />)}
+  </View>
+  )
+}
 
 function Mensagem(props) {
   const { usuario } = useContext(AuthContext);
@@ -31,6 +76,8 @@ function Mensagem(props) {
   }
 
   return (
+    <View style={{flexDirection:'row', alignItems:'center'}}>
+    <Foto uid={msg.idRemetente}/>
     <TouchableOpacity
       style={styles.container}
       activeOpacity={0.8}
@@ -55,6 +102,7 @@ function Mensagem(props) {
         </Text>
       )}
     </TouchableOpacity>
+    </View>
   );
 }
 

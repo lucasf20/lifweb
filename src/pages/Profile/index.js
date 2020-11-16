@@ -52,7 +52,7 @@ export default function Profile({ navigation, route }) {
     const [personaldata, setpersonaldata] = useState(false)
     const [seguindo, setseguindo] = useState(0)
     const [seguido, setseguido] = useState(0)
-    const [segue, setsegue] = useState(false)
+    const [segue, setsegue] = useState(null)
     const [grid, setgrid] = useState(true)
 
     async function getPersonalData() {
@@ -181,7 +181,7 @@ export default function Profile({ navigation, route }) {
                             Seguindo
                         </Text>
                     </TouchableOpacity>
-                    {(!personaldata.currentUser) ? (<View style={{ flexDirection: 'row' }}>
+                    {(!personaldata.currentUser && segue != null) ? (<View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity style={{ backgroundColor: (segue) ? "#1261A0" : colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5, alignItems: 'center', justifyContent: 'center' }} onPress={() => { if (segue) { unfollow() } else { follow() } }}>
                             <Text style={{ color: 'white', fontSize: 12 }}>
                                 {(segue) ? "Deixar de seguir" : "Seguir"}

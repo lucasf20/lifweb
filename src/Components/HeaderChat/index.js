@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState}  from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native'
 import Icon from '../../images/avatar_stories1.png'
 import styles from './styles'
 import home from '../../assets/logo3_lifweb_branco.png'
 import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, FontAwesome, Entypo } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
+import firebase from "../../../firebaseConfig";
 
 
 function HeaderChat() {
@@ -16,10 +17,28 @@ function HeaderChat() {
         return height * 120 / width
     }
 
+    const [msg, setmsg] = useState(0)
+    firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
+        data => {
+            if(!data.empty){
+                var cnt = 0
+                data.forEach(
+                    item => {
+                        
+                        if(!item.data()['lida']){
+                            cnt++
+                        }
+                    }
+                )
+                console.log("cnt",cnt)
+                setmsg(cnt)
+            }
+        }
+    ) 
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity onPress={() => { navigation.navigate('Feed') }}>
+                <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.popToTop());navigation.navigate('Feed') }}>
                     <Entypo name="chevron-left" size={24} color="white" />
                 </TouchableOpacity>
                 <EvilIcons name="search" size={30} color="transparent" style={{ paddingRight: 15 }} />
@@ -33,7 +52,7 @@ function HeaderChat() {
                 <View>
                     <TouchableOpacity onPress={() => { navigation.navigate('MinhasMensagens') }}>
                         <MaterialCommunityIcons name="message-outline" size={24} color={ 'white'} />
-                        <FontAwesome name="circle" size={10} color="red" style={{position:"absolute", marginLeft:15}}/>
+                        {msg>0 && <FontAwesome name="circle" size={10} color="red" style={{position:"absolute", marginLeft:15}}/>}
                     </TouchableOpacity>
                 </View>
             </View>

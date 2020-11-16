@@ -7,7 +7,8 @@ import {
   ToastAndroid,
   Image,
   FlatList,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import HeaderChat from "../../Components/HeaderChat";
@@ -22,6 +23,8 @@ import Svg, {
   Polygon,
 } from "react-native-svg";
 import profileIcon from '../../assets/logolifweb.png'
+import { useNavigation, StackActions } from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 function Chat({ route }) {
   const [message, setMessage] = useState("");
@@ -36,6 +39,8 @@ function Chat({ route }) {
       : firebase.auth().currentUser.uid.concat(idUser);
   const [conversaExiste, setConversaExiste] = useState(false);
   const [moto, setmoto] = useState('')
+
+  const nav = useNavigation()
 
   useEffect(() => {
     async function load() {
@@ -88,6 +93,9 @@ function Chat({ route }) {
           let aux = [];
 
           querySnapshot.forEach((documentSnapshot) => {
+            if(documentSnapshot.data() ['idDestinatario'] == firebase.auth().currentUser.uid){
+              firebase.firestore().collection('mensagens').doc(documentSnapshot.id).update({lida:true})
+            }
             aux.push({ id: documentSnapshot.id, ...documentSnapshot.data() });
           });
 
@@ -211,6 +219,7 @@ function Chat({ route }) {
         idConversa,
         ordem,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lida:false
       })
       .then((value) => {
         //Keyboard.dismiss();
@@ -242,6 +251,11 @@ function Chat({ route }) {
       });
   }
 
+  function navigateOwnerProfile() {
+    nav.dispatch(StackActions.popToTop());
+    nav.navigate('Profile', { uid: idUser });
+}
+
   return (
     <View style={styles.container}>
       <HeaderChat />
@@ -255,26 +269,29 @@ function Chat({ route }) {
         </View>
       </View>
       {/* <Image style={styles.avatar} source={{ uri: avatar }} /> */}
-      {(avatar)?(<Svg style={styles.avatar} width="75" height="75" viewBox="0 -3 43 55">
-        <Defs>
-        <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-          <ClipPath id="image" clipRule="evenodd">
-            <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-          </ClipPath>
-        </Defs>
-        <SvgImage
-          x="0"
-          y="0"
-          width="50"
-          height="50"
-          href={avatar}
-          clipPath="#image"
-        />
-      </Svg>):(
-        <View style={{position:'absolute', marginLeft:(Dimensions.get('window').width - 95), marginTop:100}}>
+      <TouchableOpacity onPress={() => {navigateOwnerProfile()}} style={{position:'absolute', marginLeft:(Dimensions.get('window').width - 95),}}>
+      {(avatar)?(<View style={{  marginTop:120}}>
+      <Svg width="75" height="75" viewBox="0 -3 43 55">
+                <Polygon stroke='#FFFFFF' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                <Defs>
+                  <ClipPath id="image" clipRule="evenodd">
+                    <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                  </ClipPath>
+                </Defs>
+                <SvgImage
+                  x="0"
+                  y="0"
+                  width="50"
+                  height="50"
+                  href={avatar}
+                  clipPath="#image"
+                />
+              </Svg>
+              </View>):(
+        <View style={{ marginTop:100}}>
           <Image source={profileIcon} style={{height:89, width:75}}/>
         </View>
-      )}
+      )}</TouchableOpacity>
       <View style={styles.containerMessages}>
         <FlatList
           inverted
@@ -284,7 +301,10 @@ function Chat({ route }) {
           keyExtractor={(item) => String(item.id)}
         />
       </View>
-      <View style={styles.containerInput}>
+      <View style={{...styles.containerInput}}>
+        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
+            style={{ flex: 1 }}
+            showsVerticalScrollIndicator={false}>
         <View style={styles.containerInput2}>
           <TextInput
             placeholder="Digite aqui..."
@@ -304,6 +324,7 @@ function Chat({ route }) {
             />
           </TouchableOpacity>
         </View>
+      </KeyboardAwareScrollView>
       </View>
     </View>
   );
