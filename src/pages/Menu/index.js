@@ -78,6 +78,25 @@ export default function Menu() {
         }
     }
 
+    const [msg, setmsg] = useState(0)
+    firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
+        data => {
+            if(!data.empty){
+                var cnt = 0
+                data.forEach(
+                    item => {
+                        
+                        if(!item.data()['lida']){
+                            cnt++
+                        }
+                    }
+                )
+                console.log("cnt",cnt)
+                setmsg(cnt)
+            }
+        }
+    ) 
+
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => { navigation.navigate("Feed") }} style={{ marginTop: 40, marginLeft: 5 }}>
@@ -95,7 +114,7 @@ export default function Menu() {
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { navigation.navigate('MinhasMensagens') }}>
                             <SimpleLineIcons name="bubbles" size={24} color="white" />
-                            {/*<NotifyCircle  style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>*/}
+                            {msg > 0 && (<NotifyCircle text={msg} color='red' style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>)}
                             <Text style={styles.BigText}>
                                 Mensagem
                             </Text>

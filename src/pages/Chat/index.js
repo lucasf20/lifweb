@@ -93,6 +93,9 @@ function Chat({ route }) {
           let aux = [];
 
           querySnapshot.forEach((documentSnapshot) => {
+            if(documentSnapshot.data() ['idDestinatario'] == firebase.auth().currentUser.uid){
+              firebase.firestore().collection('mensagens').doc(documentSnapshot.id).update({lida:true})
+            }
             aux.push({ id: documentSnapshot.id, ...documentSnapshot.data() });
           });
 
@@ -216,6 +219,7 @@ function Chat({ route }) {
         idConversa,
         ordem,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lida:false
       })
       .then((value) => {
         //Keyboard.dismiss();

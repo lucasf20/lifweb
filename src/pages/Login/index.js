@@ -60,6 +60,8 @@ i18n.fallbacks = true;
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [checked, setchecked] = useState(false)
+  const [logado, setlogado] = useState(false)
   const navigation = useNavigation();
   const { entrar } = useContext(AuthContext);
 
@@ -86,8 +88,8 @@ const Login = () => {
       const credential = Firebase.auth.FacebookAuthProvider.credential(token)
       await Firebase.auth().signInWithCredential(credential)
       var us = Firebase.auth().currentUser
-      var firstAccess = await Firebase.firestore().collection('user').doc(us.uid).get().then(data => {return !data.exists})
-      if(firstAccess){
+      var firstAccess = await Firebase.firestore().collection('user').doc(us.uid).get().then(data => { return !data.exists })
+      if (firstAccess) {
         var data = {
           apelido: us.displayName,
           firstAccess: true,
@@ -138,8 +140,8 @@ const Login = () => {
           })
       })
       var us = Firebase.auth().currentUser
-      var firstAccess = await Firebase.firestore().collection('user').doc(us.uid).get().then(data => {return !data.exists})
-      if(firstAccess){
+      var firstAccess = await Firebase.firestore().collection('user').doc(us.uid).get().then(data => { return !data.exists })
+      if (firstAccess) {
         var data = {
           apelido: us.displayName,
           firstAccess: true,
@@ -166,118 +168,133 @@ const Login = () => {
   //   })
   // }, [])
 
-  Firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      navigation.navigate('Feed')
-    }
-  })
+  if (!checked) {
+    Firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        setlogado(true)
+        navigation.navigate('Feed')
+      }
+      setchecked(true)
+    })
+  }
 
-  return (
-    <ImageBackground
-      source={Background}
-      style={{
-        ...styles.flexGrow,
-      }}>
-
-      <SafeAreaView style={{
-        ...styles.flexGrow,
-        ...styles.justifyContentCenter,
-        ...styles.marginHorizontal,
-      }}>
-        <View style={{
-          ...styles.alignItemsCenter,
+  if (checked) {
+    return (
+      <ImageBackground
+        source={Background}
+        style={{
+          ...styles.flexGrow,
         }}>
-          <Image source={Logo} style={{ height: Image.resolveAssetSource(Logo).height * 0.8, width: Image.resolveAssetSource(Logo).width * 0.8, marginTop: 10 }} />
-        </View>
-        <View>
-          <Text style={{
-            ...styles.whiteText,
-            ...styles.bold,
+
+        <SafeAreaView style={{
+          ...styles.flexGrow,
+          ...styles.justifyContentCenter,
+          ...styles.marginHorizontal,
+        }}>
+          <View style={{
+            ...styles.alignItemsCenter,
           }}>
-            Email
+            <Image source={Logo} style={{ height: Image.resolveAssetSource(Logo).height * 0.8, width: Image.resolveAssetSource(Logo).width * 0.8, marginTop: 10 }} />
+          </View>
+          <View>
+            <Text style={{
+              ...styles.whiteText,
+              ...styles.bold,
+            }}>
+              Email
           </Text>
 
-          <TextInput placeholder={i18n.t('emailfield')}
-            value={email}
-            autoCapitalize='none'
-            type='email-address'
-            style={{
-              ...styles.marginBottom,
-            }}
-            onChangeText={value => setEmail(value)} />
+            <TextInput placeholder={i18n.t('emailfield')}
+              value={email}
+              autoCapitalize='none'
+              type='email-address'
+              style={{
+                ...styles.marginBottom,
+              }}
+              onChangeText={value => setEmail(value)} />
 
-          <Text style={{
-            ...styles.whiteText,
-            ...styles.bold,
-          }}>
-            {i18n.t('passw')}
-          </Text>
+            <Text style={{
+              ...styles.whiteText,
+              ...styles.bold,
+            }}>
+              {i18n.t('passw')}
+            </Text>
 
-          <TextInput placeholder={i18n.t('passfield')}
-            value={password}
-            autoCapitalize='none'
-            type='default'
-            style={{
-              ...styles.marginBottom,
-            }}
-            onChangeText={value => setPassword(value)}
-            secureTextEntry={true} />
+            <TextInput placeholder={i18n.t('passfield')}
+              value={password}
+              autoCapitalize='none'
+              type='default'
+              style={{
+                ...styles.marginBottom,
+              }}
+              onChangeText={value => setPassword(value)}
+              secureTextEntry={true} />
 
-          <Button
-            text='Login'
-            style={{
-              ...styles.marginBottom,
-            }}
-            foregroundColor='white'
-            backgroundColor={colors.dorange}
-            onPress={() => login()} />
+            <Button
+              text='Login'
+              style={{
+                ...styles.marginBottom,
+              }}
+              foregroundColor='white'
+              backgroundColor={colors.dorange}
+              onPress={() => login()} />
 
-          <Button
-            text={i18n.t('recopass')}
-            style={{
-              ...styles.marginBottom,
-            }}
-            textTransform='none'
-            foregroundColor={colors.dorange}
-            backgroundColor='transparent'
-            onPress={() => navigation.navigate('EsqueciMinhaSenha')} />
+            <Button
+              text={i18n.t('recopass')}
+              style={{
+                ...styles.marginBottom,
+              }}
+              textTransform='none'
+              foregroundColor={colors.dorange}
+              backgroundColor='transparent'
+              onPress={() => navigation.navigate('EsqueciMinhaSenha')} />
 
-          <Button
-            icon='facebook'
-            text={i18n.t('fblogin')}
-            foregroundColor='white'
-            backgroundColor='#4267B2'
-            style={{
-              ...styles.marginBottom,
-            }}
-            onPress={() => loginWithFacebok()} />
+            <Button
+              icon='facebook'
+              text={i18n.t('fblogin')}
+              foregroundColor='white'
+              backgroundColor='#4267B2'
+              style={{
+                ...styles.marginBottom,
+              }}
+              onPress={() => loginWithFacebok()} />
 
-          <Button
-            icon='google'
-            text={i18n.t('glogin')}
-            foregroundColor='white'
-            backgroundColor='#DB4437'
-            style={{
-              ...styles.marginBottom,
-            }}
-            onPress={() => loginWithGoogle()} />
+            <Button
+              icon='google'
+              text={i18n.t('glogin')}
+              foregroundColor='white'
+              backgroundColor='#DB4437'
+              style={{
+                ...styles.marginBottom,
+              }}
+              onPress={() => loginWithGoogle()} />
 
-          <AppleAuthentication.AppleAuthenticationButton
-            buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
-            buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-            style={{
-              height: 50,
-            }} />
+            <AppleAuthentication.AppleAuthenticationButton
+              buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
+              buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+              style={{
+                height: 50,
+              }} />
 
-          <Button
-            text={i18n.t('createacc')}
-            backgroundColor='transparent'
-            foregroundColor='white'
-            onPress={() => navigation.navigate('CreateAcc')} />
-        </View>
-      </SafeAreaView>
-    </ImageBackground>
-  )
+            <Button
+              text={i18n.t('createacc')}
+              backgroundColor='transparent'
+              foregroundColor='white'
+              onPress={() => navigation.navigate('CreateAcc')} />
+          </View>
+        </SafeAreaView>
+      </ImageBackground>
+    )
+  } else {
+    return (
+      <ImageBackground
+        source={Background}
+        style={{
+          ...styles.flexGrow,
+        }}></ImageBackground>
+    )
+  }
+
 }
 
 export default Login

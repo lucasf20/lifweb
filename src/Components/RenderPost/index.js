@@ -40,8 +40,9 @@ function LikeAvatar({ likelist }) {
 
     var interval = likelist.length
     if (interval > 0) {
-        var random = Math.floor(Math.random()) % interval
+        var random = Math.floor(Math.random()*10) % interval
         var winner = likelist[random]
+        console.log("win", random)
         if (!image) {
             getImg(winner).then(im => setimage(im))
         }

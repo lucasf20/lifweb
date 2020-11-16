@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState}  from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native'
 import Icon from '../../images/avatar_stories1.png'
 import styles from './styles'
@@ -6,6 +6,7 @@ import home from '../../assets/home_icon.png'
 import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import colorStyles from '../../colors'
+import firebase from "../../../firebaseConfig";
 
 
 function HeaderSp() {
@@ -16,6 +17,26 @@ function HeaderSp() {
         const { width, height } = Image.resolveAssetSource(home)
         return height * 120 / width
     }
+    const [msg, setmsg] = useState(0)
+    firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
+        data => {
+            if(!data.empty){
+                var cnt = 0
+                data.forEach(
+                    item => {
+                        
+                        if(!item.data()['lida']){
+                            cnt++
+                        }
+                    }
+                )
+                console.log("cnt",cnt)
+                setmsg(cnt)
+            }
+        }
+    ) 
+    
+    
 
     return (
         <View style={styles.container}>
@@ -34,7 +55,7 @@ function HeaderSp() {
                 <View>
                     <TouchableOpacity onPress={() => { navigation.navigate('MinhasMensagens') }}>
                         <MaterialCommunityIcons name="message-outline" size={24} color={ 'gray'} />
-                        {/*<FontAwesome name="circle" size={10} color="red" style={{position:"absolute", marginLeft:15}}/>*/}
+                        {msg>0 && <FontAwesome name="circle" size={10} color="red" style={{position:"absolute", marginLeft:15}}/>}
                     </TouchableOpacity>
                 </View>
             </View>
