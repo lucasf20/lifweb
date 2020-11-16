@@ -585,6 +585,9 @@ function Part3({ changeState }) {
         firebase.database().ref('formaprovados/').on('value', snapshot => {
             clb = snapshot.val()
         })
+        if(!clb){
+            clb ={}
+        }
         if (clube.length > 2 && clube != showclube) {
             var keys = Object.keys(clb)
             keys = keys.filter(item => {
