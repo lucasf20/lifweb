@@ -123,6 +123,14 @@ const translate = {
         termsand: 'Términos y condiciones',
         createnewacc: 'CREAR NUEVA CUENTA',
 
+        mensage: 'Mensaje',
+        followers: 'Seguidores',
+        following: 'Seguidores',
+        notification: 'Notificación',
+        editprofile: 'Editar perfil',
+        configurations: 'Configuración',
+        logout: 'Cerrar sesión',
+
         },
 
         
