@@ -29,7 +29,18 @@ const translate = {
         birthselect:'Tap here to select your date of birth',
         readandacc:'I read and accept the',
         termsand:'Terms & Conditions',
-        createnewacc: 'CREATE NEW ACCOUNT'
+        createnewacc: 'CREATE NEW ACCOUNT',
+
+        message: 'Message',
+        followers: 'Followers',
+        following: 'Following',
+        notification: 'Notification',
+        editprofile: 'Edit profile',
+        configurations: 'Configurations',
+        logout: 'Logout',
+
+
+
 
 
 
@@ -64,9 +75,16 @@ const translate = {
         brithselect: 'Toque aqui para selecionar sua data de nascimento',
         readandacc:'Eu li e aceito os',
         termsand:'Termos & Condições',
-        createnewacc: 'CRIAR NOVA CONTA'
+        createnewacc: 'CRIAR NOVA CONTA',
         
-        
+        mensage: 'Mensagem',
+        followers: 'Seguidores',
+        following: 'Seguindo',
+        notification: 'Notificação',
+        editprofile: 'Editar Perfil',
+        configurations: 'Configurações',
+        logout: 'Fazer Logoff',
+         
 
 
       },
@@ -104,7 +122,10 @@ const translate = {
         readandacc: 'Los leo y los acepto',
         termsand: 'Términos y condiciones',
         createnewacc: 'CREAR NUEVA CUENTA',
+
         },
+
+        
 }
 
 export default translate

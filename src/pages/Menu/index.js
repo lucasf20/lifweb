@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity } from 'react-native';
 import { useNavigation, StackActions } from '@react-navigation/native';
@@ -16,6 +18,13 @@ import Svg, {
     ClipPath,
     Polygon,
 } from 'react-native-svg';
+
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 
 export default function Menu() {
@@ -120,21 +129,21 @@ export default function Menu() {
                             <SimpleLineIcons name="bubbles" size={24} color="white" />
                             {msg > 0 && (<NotifyCircle text={msg} color='red' style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>)}
                             <Text style={styles.BigText}>
-                                Mensagem
+                                {i18n.t('message')}
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.dispatch(StackActions.popToTop());navigation.navigate('Follow',{from:"Menu",followed:true, uid:firebase.auth().currentUser.uid, user:null})}}>
                             <SimpleLineIcons name="people" size={24} color="white" />
                             <Text style={styles.BigText}>
-                                Seguidores
+                                {i18n.t('followers')}
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.dispatch(StackActions.popToTop());navigation.navigate('Follow',{from:"Menu",followed:false, uid:firebase.auth().currentUser.uid, user:null})}}>
                             <SimpleLineIcons name="user-following" size={24} color="white" />
                             <Text style={styles.BigText}>
-                                Seguindo
+                                {i18n.t('following')}
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
@@ -142,7 +151,7 @@ export default function Menu() {
                             <SimpleLineIcons name="bell" size={24} color="white" />
                             {/*<NotifyCircle style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>*/}
                             <Text style={styles.BigText}>
-                                Notificação
+                                {i18n.t('notification')}
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
@@ -151,21 +160,21 @@ export default function Menu() {
                             {/*<Ionicons name="ios-remove-circle-outline" size={18} color="white" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />*/}
                             {/*<Ionicons name="ios-remove-circle" size={18} color="Transparent" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />*/}
                             <Text style={styles.BigText}>
-                                Editar Perfil
+                                {i18n.t('editprofile')}
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.navigate('Settings')}}>
                             <SimpleLineIcons name="settings" size={24} color="white" />
                             <Text style={styles.BigText}>
-                                Configurações
+                                {i18n.t('configurations')}
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={() => { logout() }}>
                             <SimpleLineIcons name="logout" size={24} color="white" />
                             <Text style={styles.BigText}>
-                                Fazer Logoff
+                                {i18n.t('logout')}
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
