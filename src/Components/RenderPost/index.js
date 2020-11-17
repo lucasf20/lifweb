@@ -24,6 +24,7 @@ import Repost from '../../assets/repost.png'
 import { useNavigation, StackActions } from '@react-navigation/native';
 import colorStyles from '../../colors'
 import MyTextInput from '../../MyTextInput'
+import * as ImageManipulator from 'expo-image-manipulator';
 
 function LikeAvatar({ likelist }) {
 
@@ -48,9 +49,8 @@ function LikeAvatar({ likelist }) {
 
     var interval = likelist.length
     if (interval > 0) {
-        var random = Math.floor(Math.random()*Date.now()%10*10) % interval
+        var random = Math.floor(Math.random()*Date.now()) % interval
         var winner = likelist[random]
-        console.log("win", random)
         if (!image) {
             getImg(winner).then(im => {setimage(im); setu(winner)})
         }
@@ -203,11 +203,16 @@ export default function RenderPost({ post }) {
             alert(`Uh oh, sharing isn't available on your platform`);
             return;
         }
-        // downloadFile(
-        //     imagem.uri
+        //  downloadFile(
+        //      imagem.uri
         // )
-        await Sharing.shareAsync(imagem.uri, { dialogTitle: 'Imagem compartilhada pelo app LifWeb' });
-        //await onShare(name)
+        const manipResult = await ImageManipulator.manipulateAsync(
+            imagem.uri,
+            [],
+            { compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
+          );
+        await Sharing.shareAsync(manipResult.uri, { dialogTitle: 'Imagem compartilhada pelo app LifWeb' });
+        await onShare(name)
     };
 
     const onShare = async () => {
