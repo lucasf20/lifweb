@@ -4,7 +4,7 @@ import Icon from '../../images/avatar_stories1.png'
 import styles from './styles'
 import home from '../../assets/home_icon.png'
 import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,StackActions } from '@react-navigation/native';
 import colorStyles from '../../colors'
 import firebase from "../../../firebaseConfig";
 
@@ -18,7 +18,8 @@ function HeaderSp() {
         return height * 120 / width
     }
     const [msg, setmsg] = useState(0)
-    firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
+    setTimeout(() => {
+        firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
         data => {
             if(!data.empty){
                 var cnt = 0
@@ -35,25 +36,26 @@ function HeaderSp() {
             }
         }
     ) 
+    }, 15000); 
     
     
 
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity onPress={() => { navigation.navigate("Menu") }}>
+                <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.pop(1));navigation.navigate("Menu") }}>
                     <SimpleLineIcons name="menu" size={24} color={inChat ? '#fff' : 'gray'} />
                 </TouchableOpacity>
                 <EvilIcons name="search" size={30} color="transparent" style={{ paddingRight: 15 }} />
             </View>
-            <TouchableOpacity onPress={() => { navigation.navigate("Feed") }}>
+            <TouchableOpacity onPress={() => {navigation.dispatch(StackActions.pop(1)); navigation.navigate("Feed") }}>
                 <Image source={home} style={{ height: resizeHome(), width: 120, marginTop:5 }}>
                 </Image>
             </TouchableOpacity>
             <View style={{ flexDirection: "row" }}>
-                <EvilIcons name="search" size={30} color={'gray'} style={{ paddingRight: 15 }} onPress={() =>{navigation.navigate('Filters')}}/>
+                <EvilIcons name="search" size={30} color={'gray'} style={{ paddingRight: 15 }} onPress={() =>{navigation.dispatch(StackActions.pop(1));navigation.navigate('Filters')}}/>
                 <View>
-                    <TouchableOpacity onPress={() => { navigation.navigate('MinhasMensagens') }}>
+                    <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.pop(1));navigation.navigate('MinhasMensagens') }}>
                         <MaterialCommunityIcons name="message-outline" size={24} color={ 'gray'} />
                         {msg>0 && <FontAwesome name="circle" size={10} color="red" style={{position:"absolute", marginLeft:15}}/>}
                     </TouchableOpacity>

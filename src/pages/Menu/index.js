@@ -79,7 +79,9 @@ export default function Menu() {
     }
 
     const [msg, setmsg] = useState(0)
-    firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
+
+    setTimeout(() => {
+        firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
         data => {
             if(!data.empty){
                 var cnt = 0
@@ -96,6 +98,8 @@ export default function Menu() {
             }
         }
     ) 
+    }, 15000);
+    
 
     return (
         <View style={styles.container}>
@@ -151,7 +155,7 @@ export default function Menu() {
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={styles.buttons}>
+                        <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.navigate('Settings')}}>
                             <SimpleLineIcons name="settings" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 Configurações

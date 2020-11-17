@@ -18,7 +18,8 @@ function HeaderChat() {
     }
 
     const [msg, setmsg] = useState(0)
-    firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
+    setTimeout(() => {
+        firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
         data => {
             if(!data.empty){
                 var cnt = 0
@@ -35,6 +36,7 @@ function HeaderChat() {
             }
         }
     ) 
+    }, 15000); 
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: "row" }}>
@@ -43,12 +45,12 @@ function HeaderChat() {
                 </TouchableOpacity>
                 <EvilIcons name="search" size={30} color="transparent" style={{ paddingRight: 15 }} />
             </View>
-             <TouchableOpacity onPress={() => { navigation.navigate("Feed") }}>
+             <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.pop(1)); navigation.navigate("Feed") }}>
                 <Image source={home} style={{ height: resizeHome(), width: 120, marginTop:5 }}>
                 </Image>
             </TouchableOpacity>
             <View style={{ flexDirection: "row" }}>
-                <EvilIcons name="search" size={30} color={ 'white'} style={{ paddingRight: 15 }} onPress={() =>{navigation.navigate('Filters')}}/>
+                <EvilIcons name="search" size={30} color={ 'white'} style={{ paddingRight: 15 }} onPress={() =>{navigation.dispatch(StackActions.pop(1));navigation.navigate('Filters')}}/>
                 <View>
                     <TouchableOpacity onPress={() => { navigation.navigate('MinhasMensagens') }}>
                         <MaterialCommunityIcons name="message-outline" size={24} color={ 'white'} />
