@@ -51,6 +51,18 @@ i18n.translations = {
     erroralert: 'Ocorreu um erro',
     cancelalert: 'O usuário cancelou',
   },
+  es: {
+    passw: 'Contraseña',
+    emailfield: 'Ingrese su correo electrónico',
+    passfield: 'Ingrese su contraseña',
+    recopass: 'Olvidé mi contraseña',
+    fblogin: 'iniciar sesión con facebook',
+    glogin: 'iniciar sesión con google',
+    createacc: 'crear una cuenta',
+    passalert: '¡El usuario no existe o la contraseña es incorrecta!',
+    erroralert: 'Se ha producido un error',
+    cancelalert: 'El usuario ha cancelado',
+  },
 };
 
 i18n.locale = Localization.locale;
