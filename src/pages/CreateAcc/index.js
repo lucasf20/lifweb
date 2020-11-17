@@ -169,11 +169,11 @@ export default function CreateAcc(){
             </Text>
 
             <Text style={styles.LooseText}>
-                {i18n.t('phrase')} 
+                {i18n.t('phrase')}
             </Text>
 
             <Text style={styles.LooseText}>
-                {i18n.t('fullname')} 
+                {i18n.t('fullname')}:
             </Text>
 
             <MyTextInput 
@@ -183,7 +183,7 @@ export default function CreateAcc(){
             />
 
             <Text style={styles.LooseText}>
-                Email
+                Email:
             </Text>
 
             <MyTextInput 
@@ -193,7 +193,7 @@ export default function CreateAcc(){
             />
 
             <Text style={styles.LooseText}>
-                {i18n.t('passw')} 
+                {i18n.t('passw')}:
             </Text>
 
             <MyTextInput 
@@ -204,7 +204,7 @@ export default function CreateAcc(){
             />
 
 <           Text style={styles.LooseText}>
-                {i18n.t('rpassw')} 
+                {i18n.t('rpassw')}: 
             </Text>
 
             <MyTextInput
