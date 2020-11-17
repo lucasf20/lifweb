@@ -18,6 +18,7 @@ const translate = {
         rpassw:'Repeat the password',
         next:'NEXT',
         verpass:'"Please check the passwords provided!", "The passwords provided are not the same!\n\nTry again!"',
+        start: 'START',
       },
       pt: {
         passw: 'Senha',
@@ -38,6 +39,7 @@ const translate = {
         rpassw:'Repita a senha',
         next: 'PRÓXIMO',
         verpass:'"Verifique as senhas inseridas!", "As senhas inseridas não são iguais!\n\nTente outra vez!"',
+        start: 'INICIO',
       },
       es: {
         passw: 'Contraseña',
@@ -50,6 +52,16 @@ const translate = {
         passalert: '¡El usuario no existe o la contraseña es incorrecta!',
         erroralert: 'Se ha producido un error',
         cancelalert: 'El usuario ha cancelado',
+
+
+        welcome: 'Bienvenido',
+        phrase: "Comencemos a crear su cuenta",
+        fullname: 'Nombre completo',
+        passw: 'Contraseña',
+        rpassw: 'Repetir contraseña',
+        next: 'siguiente',
+        verpass: '"¡Comprueba las contraseñas introducidas!", "¡Las contraseñas introducidas no son las mismas! \ n \ n¡Inténtalo de nuevo!"',
+        inicio: 'INICIO'
         },
 }
 
