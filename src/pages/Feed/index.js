@@ -1,7 +1,7 @@
-import React, {useEffect,useState} from 'react';
-import {Feather} from '@expo/vector-icons';
-import {ScrollView, View,Text, Image, TouchableOpacity, Button, SafeAreaView} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { Feather } from '@expo/vector-icons';
+import { ScrollView, SafeAreaView, RefreshControl } from 'react-native';
+import { useNavigation, StackActions } from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 import Cambutton from '../../Components/Cambutton'
 
@@ -17,24 +17,23 @@ import styles from './styles';
 import colorStyles from "../../colors";
 
 import firebase from '../../../firebaseConfig';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-export default function Feed(){
+export default function Feed() {
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
-    const[firstAccess, setFirstAccess] = useState(false)
+    const [firstAccess, setFirstAccess] = useState(false)
 
     //login required
     useEffect(() => {
-        firebase.auth().onAuthStateChanged(user =>{
-            if(!user){
+        firebase.auth().onAuthStateChanged(user => {
+            if (!user) {
                 navigation.navigate('Login')
-            }else{ 
-                firebase.database().ref('user/'+user.uid+'/firstAccess').on('value',snapshot => {
+            } else {
+                firebase.database().ref('user/' + user.uid + '/firstAccess').on('value', snapshot => {
                     setFirstAccess(snapshot.val())
                 })
-                if (firstAccess){
+                if (firstAccess) {
                     navigation.navigate('CreateAcc2')
                 }
             }
@@ -45,18 +44,37 @@ export default function Feed(){
         navigation.goBack();
     }
 
-    function navigateHome(){
+    function navigateHome() {
         navigation.navigate('Login');
     }
-    
-    return(
+
+    const [refreshing, setRefreshing] = React.useState(false);
+    const wait = (timeout) => {
+        return new Promise(resolve => {
+          setTimeout(resolve, timeout);
+        });
+      }
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        navigation.dispatch(StackActions.pop(1))
+        navigation.navigate('Feed')
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
+
+    return (
         <SafeAreaView>
-            <HeaderSp/>
-            <ScrollView>
+            <HeaderSp />
+            <ScrollView
+                contentContainerStyle={styles.scrollView}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+            >
                 <Stories />
-                <Post/>
+                <Post />
             </ScrollView>
-            <Cambutton/>
+            <Cambutton />
         </SafeAreaView>
     );
 }
