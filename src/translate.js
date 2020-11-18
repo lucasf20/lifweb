@@ -39,9 +39,10 @@ const translate = {
         configurations: 'Configurations',
         logout: 'Logout',
 
+        mostliked:'Most Liked',
 
-
-
+        passwrecover: 'Password Recovery',
+        passwrphrase: 'Let\'s recover your password',
 
 
       },
@@ -84,6 +85,17 @@ const translate = {
         editprofile: 'Editar Perfil',
         configurations: 'Configurações',
         logout: 'Fazer Logoff',
+
+        repostedf: '#Repostado de',
+
+        mostliked: 'Mais Curtido',
+
+        passwrecover: 'Recuperação de senha',
+        passwrphrase: 'Vamos recuperar a sua senha',
+
+        
+
+
          
 
 
@@ -130,6 +142,12 @@ const translate = {
         editprofile: 'Editar perfil',
         configurations: 'Configuración',
         logout: 'Cerrar sesión',
+
+
+        mostliked: 'Más Gustado',
+
+        passwrecover: 'Recuperación de contraseña',
+        passwrphrase: 'Recuperemos su contraseña',
 
         },
 
