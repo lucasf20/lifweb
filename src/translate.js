@@ -187,7 +187,7 @@ const translate = {
         repostpost: '¿Repost Post?',
         repostphrase: '¿Estás seguro de que quieres volver a publicar esta publicación?',
         repost: 'Volver a publicar',
-        cancelar: 'Cancelar',
+        cancel: 'Cancelar',
         deletepost: 'Eliminar publicación',
         editpost: 'Editar publicación',
 
