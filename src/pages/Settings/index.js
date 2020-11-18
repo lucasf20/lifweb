@@ -212,7 +212,7 @@ export default function Settings() {
             </View>
             <View style={{alignItems:'center', marginTop:40}}>
                 <Image source={logo} style={{height:89, width:76}}/>
-                <Text style={{backgroundColor:'silver', borderRadius:15, paddingHorizontal:40, paddingVertical:5, color:'gray', marginTop:5}}>
+                <Text style={{backgroundColor:'silver', borderRadius:15, paddingHorizontal:40, paddingVertical:5, color:'gray', marginTop:5, overflow:'hidden'}}>
                     v1.0.0
                 </Text>
             </View>
