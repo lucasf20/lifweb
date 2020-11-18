@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useState, Fragment } from 'react'
 
 import { ScrollView, View, Image, Text, Dimensions, TouchableOpacity, FlatList, Alert, TouchableHighlight, Share } from 'react-native'
@@ -25,6 +27,14 @@ import { useNavigation, StackActions } from '@react-navigation/native';
 import colorStyles from '../../colors'
 import MyTextInput from '../../MyTextInput'
 import * as ImageManipulator from 'expo-image-manipulator';
+
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
+
 
 function LikeAvatar({ likelist }) {
 
@@ -241,15 +251,15 @@ ${descricao}`,
 
     function shareAlert() {
         Alert.alert(
-            'Compartilhar Post',
-            'Escolha o compartilhamento',
+            i18n.t('sharepost'),
+            i18n.t('sharechoose'),
             [
                 {
-                    text: 'Exportar Imagem',
+                    text: i18n.t('exportimg'),
                     onPress: () => openShareDialogAsync()
                 },
                 {
-                    text: 'Compartilhar Texto',
+                    text: i18n.t('sharetext'),
                     onPress: () => onShare(),
                     style: 'cancel'
                 }
@@ -312,11 +322,11 @@ ${descricao}`,
         var posttime = Math.floor(postname)
         var minutes = (now - posttime) / 60000
         if (minutes < 60) {
-            return "Há " + Math.round(minutes) + " minutos"
+            return i18n.t('ha') + Math.round(minutes) + i18n.t('minutes')
         } else if ((minutes / 60) < 24) {
-            return "Há " + Math.round(minutes / 60) + " horas"
+            return i18n.t('ha') + Math.round(minutes / 60) + i18n.t('hours')
         } else {
-            return "Há " + Math.round((minutes / 60) / 24) + " dias"
+            return i18n.t('ha') + Math.round((minutes / 60) / 24) + i18n.t('days')
         }
     }
     async function excluirPost() {
@@ -372,7 +382,7 @@ ${descricao}`,
                         </Text>
                         {repost &&
                             <Text>
-                                {"Compartilhado de "}
+                                {i18n.t('sharedfrom')}
                             </Text>}
                         <Text style={{ color: 'gray' }}>
                             {getTime()}
@@ -429,7 +439,7 @@ ${descricao}`,
                                                     onPress: () => excluirPost()
                                                 },
                                                 {
-                                                    text: 'Cancelar',
+                                                    text: i18n.t('cancel'),
                                                     onPress: () => console.log('Cancel Pressed'),
                                                     style: 'cancel'
                                                 }
@@ -456,7 +466,7 @@ ${descricao}`,
                     <LikeAvatar likelist={likes} />
                     <View>
                         <Text style={{ marginLeft: 5 }}>
-                            Curtido por {numlikes}
+                            {i18n.t('likedby')} {numlikes}
                         </Text>
                     </View>
                 </View>
@@ -469,15 +479,15 @@ ${descricao}`,
                     </TouchableOpacity>
                     <TouchableOpacity style={{ paddingRight: 10 }} onPress={() => {
                         Alert.alert(
-                            'Respostar Post?',
-                            'Você tem certeza que deseja repostar esta postagem?',
+                            i18n.t('repostpost'),
+                            i18n.t('repostphrase'),
                             [
                                 {
-                                    text: 'Repostar',
+                                    text: i18n.t('repost'),
                                     onPress: () => repostar()
                                 },
                                 {
-                                    text: 'Cancelar',
+                                    text: i18n.t('cancel'),
                                     onPress: () => console.log('Cancel Pressed'),
                                     style: 'cancel'
                                 }
