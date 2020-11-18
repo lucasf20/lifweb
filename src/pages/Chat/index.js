@@ -25,7 +25,6 @@ import Svg, {
 } from "react-native-svg";
 import profileIcon from '../../assets/logolifweb.png'
 import { useNavigation, StackActions } from '@react-navigation/native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 function Chat({ route }) {
   const [message, setMessage] = useState("");
