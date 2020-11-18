@@ -44,6 +44,22 @@ const translate = {
         passwrecover: 'Password Recovery',
         passwrphrase: 'Let\'s recover your password',
 
+        sharepost: 'Share Post',
+        sharechoose: 'Choose what to share',
+        exportimg: 'Export Image',
+        sharetext: 'Share Text',
+        ha: '',
+        minutes:' minutes ago',
+        hours:' hours ago',
+        days:' days ago',
+        sharedfrom: 'Shared From',
+        likedby: 'Liked by',
+        repostpost: 'Repost Post?',
+        repostphrase: 'Are you sure you want to repost this post?',
+        repost:'Repost',
+        cancel:'Cancel',
+        deletepost: 'Delete Post',
+        editpost: 'Edit Post',
 
       },
       pt: {
@@ -91,11 +107,22 @@ const translate = {
         passwrecover: 'Recuperação de senha',
         passwrphrase: 'Vamos recuperar a sua senha',
 
-        
-
-
-         
-
+        sharepost: 'Compartilhar Post',
+        sharechoose: 'Escolha o Compartilhamento',
+        exportimg: 'Exporta Imagem',
+        sharetext: 'Compartilhar Texto',
+        ha: 'Há',
+        minutes:' minutos',
+        hours:' horas',
+        days:' dias',
+        sharedfrom: 'Compartilhado de',
+        likedby: 'Curtido por',
+        repostpost: 'Repostar Post?',
+        repostphrase: 'Você tem certeza que deseja repostar esta postagem?',
+        repost: 'Repostar',
+        cancel: 'Cancelar',
+        deletepost: 'Excluir Post',
+        editpost: 'Editar Post',
 
       },
       es: {
