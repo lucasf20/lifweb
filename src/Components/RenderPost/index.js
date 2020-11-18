@@ -419,7 +419,7 @@ ${descricao}`,
                             key={item.key}
                             onPress={
                                 () => {
-                                    if (item == "Excluir Post") {
+                                    if (index == 0) {
                                         Alert.alert(
                                             'Excluir Post?',
                                             'Você tem certeza que deseja excluir esta postagem?',
