@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useState } from 'react';
 import {
   Text,
@@ -18,6 +20,12 @@ import { useNavigation, StackActions } from '@react-navigation/native';
 import * as ImageManipulator from 'expo-image-manipulator';
 
 import { styles } from './styles';
+import translate from '../../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 const Item = ({ post }) => {
   const [image, setimage] = useState(null)
@@ -53,11 +61,11 @@ const Item = ({ post }) => {
     var posttime = Math.floor(postname)
     var minutes = (now - posttime) / 60000
     if (minutes < 60) {
-      return "Há " + Math.round(minutes) + " minutos"
+      return i18n.t('ha') + Math.round(minutes) + i18n.t('minutes')
     } else if ((minutes / 60) < 24) {
-      return "Há " + Math.round(minutes / 60) + " horas"
+      return i18n.t('ha') + Math.round(minutes / 60) + i18n.t('hours')
     } else {
-      return "Há " + Math.round((minutes / 60) / 24) + " dias"
+      return i18n.t('ha') + Math.round((minutes / 60) / 24) + i18n.t('days')
     }
   }
 
