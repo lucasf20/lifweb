@@ -174,6 +174,23 @@ const translate = {
         passwrecover: 'Recuperación de contraseña',
         passwrphrase: 'Recuperemos su contraseña',
 
+        sharepost: 'Compartir publicación',
+        sharechoose: 'Elegir compartir',
+        exportimg: 'Exportar imagen',
+        sharetext: 'Compartir texto',
+        ha: 'Hace',
+        minutes: 'minutos',
+        hours: 'horas',
+        days: 'días',
+        sharedfrom: 'Compartido desde',
+        likesby: 'Me gustó',
+        repostpost: '¿Repost Post?',
+        repostphrase: '¿Estás seguro de que quieres volver a publicar esta publicación?',
+        repost: 'Volver a publicar',
+        cancelar: 'Cancelar',
+        deletepost: 'Eliminar publicación',
+        editpost: 'Editar publicación',
+
         },
 
         
