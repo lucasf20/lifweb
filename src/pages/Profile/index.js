@@ -35,7 +35,7 @@ function Header() {
                 <TouchableOpacity style={{ marginTop: 50 }} onPress={() => { navigation.navigate("Filters") }}>
                     <EvilIcons name="search" size={30} color="white" style={{ paddingRight: 15 }} />
                 </TouchableOpacity>
-                <TouchableOpacity style={{ marginTop: 50 }} onPress={() => { navigation.navigate('Direct') }}>
+                <TouchableOpacity style={{ marginTop: 50 }} onPress={() => { navigation.navigate('MinhasMensagens') }}>
                     <MaterialCommunityIcons name="message-outline" size={24} color="white" />
                 </TouchableOpacity>
             </View>
