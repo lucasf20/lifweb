@@ -229,7 +229,7 @@ export default function RenderPost({ post }) {
         try {
             const result = await Share.share({
                 message:
-                    `${apelido} compartilhou esta postagem através do app LifWeb. Junte-se a nos! https://lifweb.com.br/ 
+                    `${apelido} ${i18n.t('sharephrase')} https://lifweb.com.br/ 
 
 ${descricao}`,
 
@@ -423,7 +423,7 @@ ${descricao}`,
             </View>
             <View>
                 <FlatList
-                    data={(showops && (owner == user.uid)) ? ['Excluir Post', 'Editar Post'] : []}
+                    data={(showops && (owner == user.uid)) ? [i18n.t('deletepost'), i18n.t('editpost')] : []}
                     renderItem={({ item, index, separators }) => (
                         <TouchableHighlight
                             key={item.key}
@@ -431,11 +431,11 @@ ${descricao}`,
                                 () => {
                                     if (index == 0) {
                                         Alert.alert(
-                                            'Excluir Post?',
-                                            'Você tem certeza que deseja excluir esta postagem?',
+                                            i18n.t('deletepost')+'?',
+                                            i18n.t('deletequestion'),
                                             [
                                                 {
-                                                    text: 'Excluir',
+                                                    text: i18n.t('delete'),
                                                     onPress: () => excluirPost()
                                                 },
                                                 {
@@ -453,8 +453,8 @@ ${descricao}`,
                                 }}
                             onShowUnderlay={separators.highlight}
                             onHideUnderlay={separators.unhighlight}>
-                            <View style={{ backgroundColor: (item == 'Excluir Post') ? 'red' : 'orange', borderRadius: 5, height: 50, marginTop: 1, marginHorizontal: 5, alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 15, color: (item == 'Excluir Post') ? 'white' : 'black' }}>{item}</Text>
+                            <View style={{ backgroundColor: (index == 0) ? 'red' : 'orange', borderRadius: 5, height: 50, marginTop: 1, marginHorizontal: 5, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 15, color: (index == 0) ? 'white' : 'black' }}>{item}</Text>
                             </View>
                         </TouchableHighlight>
                     )}

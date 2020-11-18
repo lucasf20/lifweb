@@ -46,6 +46,7 @@ const translate = {
 
         sharepost: 'Share Post',
         sharechoose: 'Choose what to share',
+        sharephrase:'shared this post through the LifWeb app. Join us!',
         exportimg: 'Export Image',
         sharetext: 'Share Text',
         ha: '',
@@ -59,6 +60,8 @@ const translate = {
         repost:'Repost',
         cancel:'Cancel',
         deletepost: 'Delete Post',
+        delete: 'Delete',
+        deletequestion:'Are you sure you want to delete this post?',
         editpost: 'Edit Post',
 
       },
@@ -109,9 +112,10 @@ const translate = {
 
         sharepost: 'Compartilhar Post',
         sharechoose: 'Escolha o Compartilhamento',
+        sharephrase:'Compartilhou esta postagem através do app LifWeb. Junte-se a nos!',
         exportimg: 'Exporta Imagem',
         sharetext: 'Compartilhar Texto',
-        ha: 'Há',
+        ha: 'Há ',
         minutes:' minutos',
         hours:' horas',
         days:' dias',
@@ -178,7 +182,7 @@ const translate = {
         sharechoose: 'Elegir compartir',
         exportimg: 'Exportar imagen',
         sharetext: 'Compartir texto',
-        ha: 'Hace',
+        ha: 'Hace ',
         minutes: 'minutos',
         hours: 'horas',
         days: 'días',
