@@ -149,13 +149,14 @@ export default function Settings() {
                             <Image source={profileIcon} style={{ height: 89, width: 75 }} />
                         </View>
                     )}</TouchableOpacity>
-
+            <ScrollView>
+                <View style={{paddingBottom:200}}>
             <View style={{marginHorizontal:20, marginTop:20}}>
                 <Text style={{fontWeight:'bold', fontSize:15}}>
                     LINGUAGEM
                 </Text>
                 <TouchableOpacity style={{width:'100%', height:50, borderRadius:5, borderColor:'silver', borderWidth:1 , justifyContent:'space-between', alignItems:'center', flexDirection:'row'}} onPress={() => {(showlist)?setshowlist(false):setshowlist(true)}}>
-                    <View style={{flexDirection:'row', alignItems:'center', marginLeft:5}}>
+                    <View style={{flexDirection:'row', alignItems:'center', marginLeft:15}}>
                         <Image source={showFlag()} style={{width:40, height:40}} />
                         <Text style={{color:'black', marginLeft:10}}>
                             {idioma}
@@ -211,10 +212,12 @@ export default function Settings() {
             </View>
             <View style={{alignItems:'center', marginTop:40}}>
                 <Image source={logo} style={{height:89, width:76}}/>
-                <Text style={{backgroundColor:'silver', borderRadius:30, paddingHorizontal:40, paddingVertical:5, color:'gray', marginTop:5}}>
+                <Text style={{backgroundColor:'silver', borderRadius:15, paddingHorizontal:40, paddingVertical:5, color:'gray', marginTop:5}}>
                     v1.0.0
                 </Text>
             </View>
+            </View>
+            </ScrollView>
         </View>
     )
 }
