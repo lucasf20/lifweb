@@ -86,8 +86,6 @@ const translate = {
         configurations: 'Configurações',
         logout: 'Fazer Logoff',
 
-        repostedf: '#Repostado de',
-
         mostliked: 'Mais Curtido',
 
         passwrecover: 'Recuperação de senha',

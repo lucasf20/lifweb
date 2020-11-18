@@ -13,7 +13,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "notification":{
+    "notification": {
       "icon": "./src/assets/logolifweb2.png"
     },
     "updates": {
@@ -36,7 +36,5 @@
       "package": "com.company.lifweb",
       "versionCode": 1
     }
-    
-
   }
 }
