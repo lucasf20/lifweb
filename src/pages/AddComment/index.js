@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useContext, useEffect, useState } from "react";
 import {
   Text,
@@ -15,6 +17,13 @@ import styles from "./styles";
 import firebase from "../../../firebaseConfig";
 import { AuthContext } from "../../contexts/auth";
 import Comment from "../../Components/Comment";
+
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 function AddComment({ route }) {
   const { post, autor } = route.params;
