@@ -8,7 +8,8 @@ import {
   Image,
   FlatList,
   Dimensions,
-  ScrollView
+  ScrollView,
+  KeyboardAvoidingView
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import HeaderChat from "../../Components/HeaderChat";
@@ -292,7 +293,11 @@ function Chat({ route }) {
           <Image source={profileIcon} style={{height:89, width:75}}/>
         </View>
       )}</TouchableOpacity>
-      <View style={styles.containerMessages}>
+      <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={styles.containerMessages}
+      keyboardVerticalOffset={30}
+    >
         <FlatList
           inverted
           //showsVerticalScrollIndicator={false}
@@ -300,11 +305,8 @@ function Chat({ route }) {
           renderItem={({ item, index }) => <Mensagem msg={item} />}
           keyExtractor={(item) => String(item.id)}
         />
-      </View>
+      
       <View style={{...styles.containerInput}}>
-        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
-            style={{ flex: 1 }}
-            showsVerticalScrollIndicator={false}>
         <View style={styles.containerInput2}>
           <TextInput
             placeholder="Digite aqui..."
@@ -324,8 +326,8 @@ function Chat({ route }) {
             />
           </TouchableOpacity>
         </View>
-      </KeyboardAwareScrollView>
       </View>
+      </KeyboardAvoidingView>
     </View>
   );
 }

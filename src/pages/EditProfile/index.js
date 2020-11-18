@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, TouchableOpacity, FlatList, TouchableHighlight, ScrollView, Alert, Platform, Dimensions, Image, Linking } from 'react-native'
+import { Text, View, TouchableOpacity, FlatList, TouchableHighlight, ScrollView, Alert, Platform, Dimensions, Image, Linking, KeyboardAvoidingView } from 'react-native'
 import colorStyles from "../../colors";
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -197,11 +197,11 @@ function Part1({ changeState }) {
                 Tipo Sanguíneo
             </Text>
             <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99', justifyContent: 'center' }} onPress={() => { (showlist) ? setshowlist(false) : setshowlist(true) }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal:11 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 11 }}>
                     <Text style={{ color: (sangue.length == 0) ? "gray" : 'black' }}>
                         {(sangue.length == 0) ? "Selecione o seu tipo sanguíneo" : sangue}
                     </Text>
-                    <Ionicons name="ios-arrow-down" size={24} color="gray"/>
+                    <Ionicons name="ios-arrow-down" size={24} color="gray" />
                 </View>
             </TouchableOpacity>
             <FlatList
@@ -294,7 +294,7 @@ function Part2({ changeState }) {
             ano
         }
         firebase.database().ref('user/' + user.uid + "/modeloDaMoto").update(data)
-        firebase.firestore().collection('user').doc(user.uid).update({modeloDaMoto:data})
+        firebase.firestore().collection('user').doc(user.uid).update({ modeloDaMoto: data })
     }
 
     const atualizaCapa = async () => {
@@ -309,11 +309,11 @@ function Part2({ changeState }) {
         if (moto.length > 0) {
             if (ano.length == 4) {
                 atualizaMoto()
-                if(imagemlocal){
-                    if(image){
+                if (imagemlocal) {
+                    if (image) {
                         atualizaCapa()
-                    }else{
-                        if(!imagefromDB){
+                    } else {
+                        if (!imagefromDB) {
                             Alert.alert("Imagem inválida!", "Por favor selecione uma imagem para a capa!")
                         }
                     }
@@ -391,15 +391,15 @@ function Part2({ changeState }) {
 
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
-            <View style={{ height: (image||imagefromDB) ? newHeight() : 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center' }}>
+            <View style={{ height: (image || imagefromDB) ? newHeight() : 250, borderRadius: 5, backgroundColor: 'white', justifyContent: 'center' }}>
                 {handleImage()}
                 <View style={{ alignItems: 'center', opacity: 1 }} >
                     <Text style={{ fontSize: 20 }}>
-                        {(image||imagefromDB) ? "" : "CAPA PERFIL"}
+                        {(image || imagefromDB) ? "" : "CAPA PERFIL"}
                     </Text>
                     <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }} onPress={pickImage}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
-                            {(image||imagefromDB) ? "Atualizar capa" : "Buscar"}
+                            {(image || imagefromDB) ? "Atualizar capa" : "Buscar"}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -451,15 +451,15 @@ function Part2({ changeState }) {
                 <MyTextInput value={ano} onChangeText={text => { setano(text) }} placeholder='Ano' />
             </View>
             <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 15 }}>
-                        Moto não cadastrada?
+                <Text style={{ fontSize: 15 }}>
+                    Moto não cadastrada?
                 </Text>
-                    <TouchableOpacity onPress={()=>{Linking.openURL('http://cadastrodemoto.lifweb.com.br/')}}>
-                        <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
-                            Solicitar a inclusão.
+                <TouchableOpacity onPress={() => { Linking.openURL('http://cadastrodemoto.lifweb.com.br/') }}>
+                    <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
+                        Solicitar a inclusão.
                     </Text>
-                    </TouchableOpacity>
-                </View>
+                </TouchableOpacity>
+            </View>
             <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); changeState(3) }}>
                 <View style={{ alignItems: "center" }}>
                     <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
@@ -551,7 +551,7 @@ function Part3({ changeState }) {
         })
         var res = {
             profissao: data.profissao,
-            clube: data.clube?data.clube:''
+            clube: data.clube ? data.clube : ''
         }
         return res
     }
@@ -578,15 +578,15 @@ function Part3({ changeState }) {
         }
     }
 
-    function getclube(){
+    function getclube() {
         var clb = {}
         var lista = ['NÃO CONSTA NA LISTA']
-        var keys =[]
+        var keys = []
         firebase.database().ref('formaprovados/').on('value', snapshot => {
             clb = snapshot.val()
         })
-        if(!clb){
-            clb ={}
+        if (!clb) {
+            clb = {}
         }
         if (clube.length > 2 && clube != showclube) {
             var keys = Object.keys(clb)
@@ -665,7 +665,7 @@ function Part3({ changeState }) {
                     <Text style={{ fontSize: 15 }}>
                         Profissão não cadastrada?
                 </Text>
-                    <TouchableOpacity onPress={()=>{Linking.openURL('https://profissao.lifweb.com.br/')}}>
+                    <TouchableOpacity onPress={() => { Linking.openURL('https://profissao.lifweb.com.br/') }}>
                         <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
                             Solicitar a inclusão.
                     </Text>
@@ -674,32 +674,32 @@ function Part3({ changeState }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                     CLUBE ASSOCIADO
             </Text>
-            <MyTextInput placeholder="Digite a seu clube" value={clube} onChangeText={text => { setclube(text) }} />
-            <FlatList
-                data={ getclube()}
-                renderItem={({ item, index, separators }) => (
-                    <TouchableHighlight
-                        key={index}
-                        onPress={() => { setclube(item); setshowclube(item) }}
-                        onShowUnderlay={separators.highlight}
-                        onHideUnderlay={separators.unhighlight}>
-                        <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver', justifyContent: 'center' }}>
-                            <Text style={{ fontSize: 15, color: 'black', marginLeft: 11 }}>{item}</Text>
-                        </View>
-                    </TouchableHighlight>
-                )}
-            />
+                <MyTextInput placeholder="Digite a seu clube" value={clube} onChangeText={text => { setclube(text) }} />
+                <FlatList
+                    data={getclube()}
+                    renderItem={({ item, index, separators }) => (
+                        <TouchableHighlight
+                            key={index}
+                            onPress={() => { setclube(item); setshowclube(item) }}
+                            onShowUnderlay={separators.highlight}
+                            onHideUnderlay={separators.unhighlight}>
+                            <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 15, color: 'black', marginLeft: 11 }}>{item}</Text>
+                            </View>
+                        </TouchableHighlight>
+                    )}
+                />
                 <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
                     <Text style={{ fontSize: 15 }}>
                         Clube não cadastrado?
                 </Text>
-                    <TouchableOpacity onPress={()=>{Linking.openURL('https://lifweb.com.br/solicitarcadastro/')}}>
+                    <TouchableOpacity onPress={() => { Linking.openURL('https://lifweb.com.br/solicitarcadastro/') }}>
                         <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
                             Solicitar a inclusão.
                     </Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); navigation.navigate("Feed")}}>
+                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); navigation.navigate("Feed") }}>
                     <View style={{ alignItems: "center" }}>
                         <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
                             ATUALIZAR
@@ -763,25 +763,28 @@ export default function EditProfile() {
         )
     } else if (part == 2) {
         return (
-            <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
-                style={{ flex: 1 }}
-                showsVerticalScrollIndicator={false}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS == "ios" ? "padding" : "height"}
+                style={{flex:1}}
+                
+            >
                 <ScrollView>
                     <Header />
                     {(!(Object.keys(checkLoad()).length == 0)) ? (<Part2 changeState={setpart} />) : (navigation.goBack())}
                 </ScrollView>
-            </KeyboardAwareScrollView>
+            </KeyboardAvoidingView>
         )
     } else if (part == 3) {
         return (
-            <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
-                style={{ flex: 1 }}
-                showsVerticalScrollIndicator={false}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS == "ios" ? "padding" : "height"}
+                style={{flex:1}}
+            >
                 <ScrollView>
                     <Header />
                     {(!(Object.keys(checkLoad()).length == 0)) ? (<Part3 changeState={setpart} />) : (navigation.goBack())}
                 </ScrollView>
-            </KeyboardAwareScrollView>
+            </KeyboardAvoidingView>
         )
     }
 }
