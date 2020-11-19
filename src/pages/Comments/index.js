@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useState } from "react"
 import { View, Dimensions, ScrollView, Image, Text, Alert, TouchableOpacity } from 'react-native'
 import Header from '../../Components/Header'
@@ -14,6 +16,12 @@ import Svg, {
     Polygon,
 } from 'react-native-svg';
 import { useNavigation, StackActions } from '@react-navigation/native';
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 function RenderComment({ comment }) {
     const [image, setimage] = useState(null)
@@ -26,11 +34,11 @@ function RenderComment({ comment }) {
         var posttime = Math.floor(comment['timestamp'])
         var minutes = (now - posttime) / 60000
         if (minutes < 60) {
-            return "Há " + Math.round(minutes) + " minutos"
+            return i18n.t('ha') + Math.round(minutes) + i18n.t('minutes')
         } else if ((minutes / 60) < 24) {
-            return "Há " + Math.round(minutes / 60) + " horas"
+            return i18n.t('ha') + Math.round(minutes / 60) + i18n.t('hours')
         } else {
-            return "Há " + Math.round((minutes / 60) / 24) + " dias"
+            return i18n.t('ha') + Math.round((minutes / 60) / 24) + i18n.t('days')
         }
     }
 
@@ -108,15 +116,15 @@ function RenderComment({ comment }) {
                 </View>
             </View>
             {canDelete && <FontAwesome name="trash" size={24} color="red" onPress={() => {Alert.alert(
-                                            'Excluir comentário?',
-                                            'Você tem certeza que deseja excluir este comentário?',
+                                            i18n.t('deletecomment'),
+                                            i18n.t('delcommentphrase'),
                                             [
                                                 {
-                                                    text: 'Excluir',
+                                                    text: i18n.t('delete'),
                                                     onPress: () => deleteComment()
                                                 },
                                                 {
-                                                    text: 'Cancelar',
+                                                    text: i18n.t('cancel'),
                                                     onPress: () => console.log('Cancel Pressed'),
                                                     style: 'cancel'
                                                 }
@@ -161,7 +169,7 @@ export default function Comments({ navigation, route }) {
                     <MyTextInput
                         onChangeText={text => setcomment(text)}
                         value={comment}
-                        placeholder="Digite seu comentário..."
+                        placeholder= {i18n.t('typecomment')}
                         style={{ width: (Dimensions.get('window').width - 80), marginRight: 10 }}
                     />
                     <View style={{ backgroundColor: colorStyles.dorange, borderRadius: 5 }}>

@@ -1,8 +1,8 @@
 const translate = {
     en: {
         passw: 'Password',
-        emailfield: 'Type your email',
-        passfield: 'Type your password',
+        emailfield: 'Enter your email',
+        passfield: 'Enter your password',
         recopass: 'I forgot my password',
         fblogin: 'login with facebook',
         glogin: 'login with google',
@@ -22,7 +22,7 @@ const translate = {
         namequestion: 'How would you like to be called?',
         bikequestion: 'What\'s your bike',
         name: 'Name',
-        modelfield:'Type your bike model',
+        modelfield:'Enter your bike model',
         professionquestion: 'What\'s your profession?',
         professionfield: 'Profession',
         birthquestion: 'What is your date of birth?',
@@ -63,6 +63,13 @@ const translate = {
         delete: 'Delete',
         deletequestion:'Are you sure you want to delete this post?',
         editpost: 'Edit Post',
+
+        postedcomment:'Your comment has been posted.',
+        commenterror:'Comment function error.',
+        typecomment:'Enter your comment ...',
+        deletecomment:'Delete comment?',
+        delcommentphrase:'Are you sure you want to delete this comment?',
+
 
       },
       pt: {
@@ -127,6 +134,12 @@ const translate = {
         cancel: 'Cancelar',
         deletepost: 'Excluir Post',
         editpost: 'Editar Post',
+
+        postedcomment:'Seu comentário foi postado.',
+        commenterror:'Erro na função comentar.',
+        typecomment:'Digite seu comentário...',
+        deletecomment:'Excluir comentário?',
+        delcommentphrase:'Você tem certeza que deseja excluir este comentário?',
 
       },
       es: {
