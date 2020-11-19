@@ -79,6 +79,7 @@ export default function Settings() {
 
       useEffect(() => {
         async function load() {
+            getLang()
           await firebase
             .firestore()
             .collection("user")
@@ -115,6 +116,25 @@ export default function Settings() {
                 return us
             case 2:
                 return es
+        }
+    }
+
+    function getLang(){
+        var l = Localization.locale.split("-")
+
+        switch(l[0]){
+            case "en":
+                setflag(1)
+                setidioma("ENGLISH (US)")
+                break;
+            case 'es':
+                setflag(2)
+                setidioma("ESPAÑOL (ES)")
+                break;
+            default:
+                setflag(0)
+                setidioma("PORTUGUÊS (BR)")
+                break;
         }
     }
 
@@ -164,30 +184,15 @@ export default function Settings() {
                 <Text style={{fontWeight:'bold', fontSize:15}}>
                 {i18n.t('language')}
                 </Text>
-                <TouchableOpacity style={{width:'100%', height:50, borderRadius:5, borderColor:'silver', borderWidth:1 , justifyContent:'space-between', alignItems:'center', flexDirection:'row'}} onPress={() => {(showlist)?setshowlist(false):setshowlist(true)}}>
+                <TouchableOpacity style={{width:'100%', height:50, borderRadius:5, borderColor:'silver', borderWidth:1 , justifyContent:'space-between', alignItems:'center', flexDirection:'row'}} >
                     <View style={{flexDirection:'row', alignItems:'center', marginLeft:15}}>
                         <Image source={showFlag()} style={{width:40, height:40}} />
                         <Text style={{color:'black', marginLeft:10}}>
                             {idioma}
                         </Text>
                     </View>
-                    <Entypo name="chevron-down" size={24} color="gray" style={{marginRight:15}}/>
                 </TouchableOpacity>
-                <FlatList
-                data={(showlist) ? ['PORTUGUÊS (BRA)', 'INGLÊS (USA)', 'ESPANHOL (ESP)'] : []}
-                renderItem={({ item, index, separators }) => (
-                    <TouchableHighlight
-                        key={index}
-                        onPress={() => { setidioma(item); setshowlist(false); setflag(index) }}
-                        onShowUnderlay={separators.highlight}
-                        onHideUnderlay={separators.unhighlight}>
-                        <View style={{ backgroundColor: 'white', borderRadius: 5, height: 50, borderWidth: 0.5, borderColor: 'silver', justifyContent: 'center' }}>
-                            <Text style={{ fontSize: 15, color: 'black', marginLeft: 11 }}>{item}</Text>
-                        </View>
-                    </TouchableHighlight>
-                )}
-            />
-                <Text style={{marginTop:(showlist)?20:170, color:'gray', fontSize:12}}>
+                <Text style={{marginTop:20, color:'gray', fontSize:12}}>
                     *{i18n.t('readphrase')}
                 </Text>
                 <TouchableOpacity style={{width:'100%', height:50, borderRadius:5, backgroundColor:colorStyle.dorange, justifyContent:'center', alignItems:'center'}} onPress={
