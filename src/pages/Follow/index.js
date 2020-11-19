@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useState, Fragment } from 'react'
 import { Text, SafeAreaView, View, Image, ScrollView, TouchableOpacity } from 'react-native'
 import firebase from '../../../firebaseConfig'
@@ -10,6 +12,12 @@ import Svg, {
     ClipPath,
     Polygon,
 } from 'react-native-svg';
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 function Item({ uid, origin }) {
     const [name, setname] = useState("")
@@ -122,7 +130,7 @@ export default function Follow({ navigation, route }) {
             <Header/>
             <View style={{ marginHorizontal: 20, marginTop: 5}}>
                 <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-                    {(route.params.followed) ? "Seguidores" : "Seguindo"}
+                    {(route.params.followed) ? i18n.t('followers') : i18n.t('following')}
                 </Text>
                 <ScrollView>
                     {(gotFollows && follow)?(follow.map((item) => (<Item uid={item} origin={{from:route.params.from, user:route.params.user}}/>))):(console.log(gotFollows))}
