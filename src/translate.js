@@ -70,6 +70,10 @@ const translate = {
         deletecomment:'Delete comment?',
         delcommentphrase:'Are you sure you want to delete this comment?',
 
+        search: 'Search',
+
+        follow: 'Follow',
+        unfollow: 'Unfollow',
 
       },
       pt: {
@@ -141,6 +145,10 @@ const translate = {
         deletecomment:'Excluir comentário?',
         delcommentphrase:'Você tem certeza que deseja excluir este comentário?',
 
+        search:'Buscar',
+
+        follow: 'Seguir',
+        unfollow: 'Deixar de Seguir',
       },
       es: {
         passw: 'Contraseña',
