@@ -36,7 +36,7 @@ const translate = {
         following: 'Following',
         notification: 'Notification',
         editprofile: 'Edit profile',
-        configurations: 'Configurations',
+        configurations: 'Settings',
         logout: 'Logout',
 
         mostliked:'Most Liked',
@@ -74,6 +74,36 @@ const translate = {
 
         follow: 'Follow',
         unfollow: 'Unfollow',
+        searchquest:'What are you looking for?',
+        people: 'People',
+        clubs: 'Clubs',
+        city: 'City',
+        biketype: 'Bike Type',
+
+        typehere: 'Type here...',
+
+
+        language:'Language',
+        readphrase:'Leia antes nossa política de privacidade',
+        deleteacc:'DELETE ACCOUNT',
+        contactus: 'CONTACT US',
+        deleteaccquest:'Are you sure you want to Delete your account?',
+
+        completereg:'Complete your registration',
+        zipcode:'Zip code',
+        street:'Street',
+        number:'Number',
+        citystate:'City/State',
+        phone:'Phone',
+        bloodtype:'Blood type',
+        update:'UPDATE',
+
+        bikebrand:'BIKE BRAND',
+        model:'Model',
+        year:'Year',
+        profile:'Profile',
+        coverprofile:'PROFILE COVER',
+        profession:'Profession',
 
       },
       pt: {
@@ -149,6 +179,39 @@ const translate = {
 
         follow: 'Seguir',
         unfollow: 'Deixar de Seguir',
+
+        searchquest:'O que você procura?',
+        people: 'Pessoas',
+        clubs: 'Clubes',
+        city: 'Cidade',
+        biketype: 'Tipo de moto',
+
+        typehere:'Digite aqui...',
+
+        language:'Linguagem',
+        readphrase:'Leia antes nossa política de privacidade',
+        deleteacc:'EXCLUIR CONTA',
+        contactus: 'FALE CONOSCO',
+        deleteaccquest:'Você tem certeza que deseja Excluir sua conta?',
+
+        completereg:'Complete seu cadastro',
+        zipcode:'CEP',
+        street:'Rua',
+        number:'Número',
+        citystate:'Cidade/Estado',
+        phone:'Telefone',
+        bloodtype:'Tipo Sanguíneo',
+
+        update:'ATUALIZAR',
+        bikebrand:'MARCA DA MOTO',
+        model:'Modelo',
+        year:'Ano',
+        profile:'Perfil',
+        coverprofile:'CAPA PERFIL',
+        profession:'Profissão'
+        
+
+
       },
       es: {
         passw: 'Contraseña',
