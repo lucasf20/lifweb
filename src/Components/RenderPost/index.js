@@ -530,7 +530,7 @@ ${descricao}`,
                             
                         </View>
                         <Text style={{ fontSize: 16, color:'gray' }}>
-                                {(lastcomment.tam>1)?"Ver " + lastcomment.tam + " comentários.":"Ver " + lastcomment.tam + " comentário."}
+                                {(lastcomment.tam>1)? i18n.t('see') + lastcomment.tam + i18n.t('comment')+'s.' : i18n.t('see') + lastcomment.tam + i18n.t('comment')+'.'}
                             </Text>
 
                     </TouchableOpacity >

@@ -104,6 +104,8 @@ const translate = {
         profile:'Profile',
         coverprofile:'PROFILE COVER',
         profession:'Profession',
+        comment:' comment',
+        see:'See ',
 
       },
       pt: {
@@ -208,7 +210,9 @@ const translate = {
         year:'Ano',
         profile:'Perfil',
         coverprofile:'CAPA PERFIL',
-        profession:'Profissão'
+        profession:'Profissão',
+        comment:' comentário',
+        see:'Ver ',
         
 
 
