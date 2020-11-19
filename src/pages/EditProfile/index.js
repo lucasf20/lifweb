@@ -576,11 +576,11 @@ function Part3({ changeState }) {
                 var reg = new RegExp(profissao.toUpperCase())
                 return reg.test(item.toUpperCase())
             })
-            list.push("NÃO CONSTA NA LISTA")
+            lista.push("NÃO CONSTA NA LISTA")
             for (let i = 0; i < keys.length; i++) {
                 lista.push(profissoes[keys[i]]['titulo'])
             }
-            return lista.sort()
+            return lista
         } else {
             return []
         }
