@@ -656,7 +656,7 @@ function Part3({ changeState }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
                     {i18n.t('profession')} 
             </Text>
-                <MyTextInput placeholder={i18n.t('professionquetion')}  value={profissao} onChangeText={text => { setprofissao(text) }} />
+                <MyTextInput placeholder={i18n.t('professionquestion')}  value={profissao} onChangeText={text => { setprofissao(text) }} />
                 <FlatList
                     data={getprofissao()}
                     renderItem={({ item, index, separators }) => (
