@@ -283,6 +283,49 @@ const translate = {
         deletepost: 'Eliminar publicación',
         editpost: 'Editar publicación',
 
+        postedcomment: 'Su comentario ha sido publicado.',
+        commenterror: 'Error en la función de comentario.',
+        typecomment: 'Escribe tu comentario ...',
+        deletecomment: '¿Eliminar comentario?',
+        delcommentphrase: '¿Está seguro de que desea eliminar este comentario?',
+
+        search: 'Buscar',
+
+        follow: 'sigue',
+        unfollow: 'Dejar de seguir',
+
+        searchquest: '¿Qué estás buscando?',
+        people:'gente',
+        clubs: 'Clubes',
+        city: 'Ciudad',
+        biketype: 'Tipo de motocicleta',
+
+        typehere: 'Escriba aquí ...',
+
+        language: 'Linguagem',
+        readphrase: 'Lea primero nuestra política de privacidad',
+        deleteacc: 'BORRAR CUENTA',
+        contactus: 'HABLAR CON NOSOTROS',
+        deleteaccquest: '¿Está seguro de que desea eliminar su cuenta?',
+
+        completereg: 'Complete su registro',
+        zipcode:'Código postal',
+        street: 'Calle',
+        number: 'Número',
+        citystate: 'Ciudad / Estado',
+        phone: 'Teléfono',
+        bloodtype: 'Tipo de sangre',
+
+        update: 'ACTUALIZAR',
+        bikebrand: 'MARCA DE LA MOTO',
+        model: 'Modelo',
+        year: 'Año',
+        profile: 'Perfil',
+        coverprofile: 'CAPA DE PERFIL',
+        profession: 'Profesión',
+        comment: 'comentario',
+        see: 've',
+
         },
 
         
