@@ -99,13 +99,25 @@ const translate = {
         update:'UPDATE',
 
         bikebrand:'BIKE BRAND',
+        typebrand:'Enter the motorcycle brand',
         model:'Model',
         year:'Year',
+        inclusionquest:'Bike not registered?',
+        requestinclusion:'Request inclusion.',
         profile:'Profile',
         coverprofile:'PROFILE COVER',
         profession:'Profession',
         comment:' comment',
         see:'See ',
+
+        errorloadans:'Error loading answers',
+
+        profregquest:'Profession not registered?',
+        clubregquest:'Club not registered?',
+        typeclub:'Enter your club',
+        assoclub:'Associated club',
+        notonlist:'NOT ON THE LIST',
+        
 
       },
       pt: {
@@ -206,14 +218,23 @@ const translate = {
 
         update:'ATUALIZAR',
         bikebrand:'MARCA DA MOTO',
+        typebrand:'Digite a marca da motocicleta',
         model:'Modelo',
         year:'Ano',
+        inclusionquest:'Moto não cadastrada?',
+        requestinclusion:'Solicitar a inclusão.',
         profile:'Perfil',
         coverprofile:'CAPA PERFIL',
         profession:'Profissão',
         comment:' comentário',
         see:'Ver ',
-        
+
+        errorloadans:'Erro ao carregar respostas.',
+        profregquest:'Profissão não cadastrada?',
+        clubregquest:'Clube não registrado?',
+        typeclub:'Digite o seu clube',
+        assoclub:'Clube Associado',
+        notonlist:'NÃO CONSTA NA LISTA',
 
 
       },
@@ -323,8 +344,15 @@ const translate = {
         profile: 'Perfil',
         coverprofile: 'CAPA DE PERFIL',
         profession: 'Profesión',
-        comment: 'comentario',
-        see: 've',
+        comment: ' comentario',
+        see: 'Ver ',
+
+        errorloadans: 'Error al cargar las respuestas.',
+        profregquest: '¿Profesión no registrada?',
+        clubregquest: '¿Club no registrado?',
+        typeclub: 'Ingresa a tu club',
+        assoclub: 'Club asociado',
+        notonlist: 'NO EN LA LISTA',
 
         },
 
