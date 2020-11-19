@@ -207,7 +207,7 @@ function Part1({ changeState }) {
             <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99', justifyContent: 'center' }} onPress={() => { (showlist) ? setshowlist(false) : setshowlist(true) }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 11 }}>
                     <Text style={{ color: (sangue.length == 0) ? "gray" : 'black' }}>
-                        {(sangue.length == 0) ? "Selecione o seu tipo sanguíneo" : sangue}
+                        {(sangue.length == 0) ? i18n.t('bloodselect')  : sangue}
                     </Text>
                     <Ionicons name="ios-arrow-down" size={24} color="gray" />
                 </View>
@@ -407,7 +407,7 @@ function Part2({ changeState }) {
                     </Text>
                     <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }} onPress={pickImage}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
-                            {(image || imagefromDB) ? "Atualizar capa" : i18n.t('search') }
+                            {(image || imagefromDB) ? i18n.t('updatecover') : i18n.t('search') }
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -415,7 +415,7 @@ function Part2({ changeState }) {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 {i18n.t('bikebrand')}
             </Text>
-            <MyTextInput placeholder='Digite a marca da motocicleta' onChangeText={text => { setmarca(text) }} value={marca} />
+            <MyTextInput placeholder={i18n.t('typebrand')} onChangeText={text => { setmarca(text) }} value={marca} />
             <FlatList
                 data={getMarca()}
                 renderItem={({ item, index, separators }) => (
@@ -460,11 +460,11 @@ function Part2({ changeState }) {
             </View>
             <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
                 <Text style={{ fontSize: 15 }}>
-                    Moto não cadastrada?
+                    {i18n.t('inclusionquest')}
                 </Text>
                 <TouchableOpacity onPress={() => { Linking.openURL('http://cadastrodemoto.lifweb.com.br/') }}>
                     <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
-                        Solicitar a inclusão.
+                        {i18n.t('requestinclusion')}
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -576,7 +576,9 @@ function Part3({ changeState }) {
                 var reg = new RegExp(profissao.toUpperCase())
                 return reg.test(item.toUpperCase())
             })
-            lista.push("NÃO CONSTA NA LISTA")
+
+            lista.push(i18n.t('notonthelist'))
+
             for (let i = 0; i < keys.length; i++) {
                 lista.push(profissoes[keys[i]]['titulo'])
             }
@@ -588,7 +590,7 @@ function Part3({ changeState }) {
 
     function getclube() {
         var clb = {}
-        var lista = ['NÃO CONSTA NA LISTA']
+        var lista = [i18n.t('notonthelist')]
         var keys = []
         firebase.database().ref('formaprovados/').on('value', snapshot => {
             clb = snapshot.val()
@@ -645,7 +647,7 @@ function Part3({ changeState }) {
                     </Text>
                     <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }} onPress={pickImage}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
-                            {(image || imagefromDB) ? "Trocar avatar" : "Buscar"}
+                            {(image || imagefromDB) ? "Trocar avatar" : i18n.t('search')}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -671,18 +673,18 @@ function Part3({ changeState }) {
                 />
                 <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
                     <Text style={{ fontSize: 15 }}>
-                        Profissão não cadastrada?
+                        {i18n.t('profregquest')} 
                 </Text>
                     <TouchableOpacity onPress={() => { Linking.openURL('https://profissao.lifweb.com.br/') }}>
                         <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
-                            Solicitar a inclusão.
+                            {i18n.t('requestinclusion')} 
                     </Text>
                     </TouchableOpacity>
                 </View>
                 <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
-                    CLUBE ASSOCIADO
+                    {i18n.t('assoclub')}
             </Text>
-                <MyTextInput placeholder="Digite a seu clube" value={clube} onChangeText={text => { setclube(text) }} />
+                <MyTextInput placeholder={i18n.t('typeclub')} value={clube} onChangeText={text => { setclube(text) }} />
                 <FlatList
                     data={getclube()}
                     renderItem={({ item, index, separators }) => (
@@ -699,11 +701,11 @@ function Part3({ changeState }) {
                 />
                 <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
                     <Text style={{ fontSize: 15 }}>
-                        Clube não cadastrado?
-                </Text>
+                        {i18n.t('clubregquest')}
+                    </Text>
                     <TouchableOpacity onPress={() => { Linking.openURL('https://lifweb.com.br/solicitarcadastro/') }}>
                         <Text style={{ color: dorange, marginLeft: 3, fontSize: 15, fontWeight: 'bold' }}>
-                            Solicitar a inclusão.
+                            {i18n.t('requestinclusion')} 
                     </Text>
                     </TouchableOpacity>
                 </View>

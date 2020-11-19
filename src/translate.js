@@ -96,16 +96,30 @@ const translate = {
         citystate:'City/State',
         phone:'Phone',
         bloodtype:'Blood type',
+        bloodselect:'Select your blood type',
         update:'UPDATE',
 
         bikebrand:'BIKE BRAND',
+        typebrand:'Enter the motorcycle brand',
         model:'Model',
         year:'Year',
+        inclusionquest:'Bike not registered?',
+        requestinclusion:'Request inclusion.',
         profile:'Profile',
         coverprofile:'PROFILE COVER',
+        updatecover:'Update cover',
         profession:'Profession',
         comment:' comment',
         see:'See ',
+
+        errorloadans:'Error loading answers',
+
+        profregquest:'Profession not registered?',
+        clubregquest:'Club not registered?',
+        typeclub:'Enter your club',
+        assoclub:'Associated club',
+        notonlist:'NOT ON THE LIST',
+        
 
       },
       pt: {
@@ -203,17 +217,28 @@ const translate = {
         citystate:'Cidade/Estado',
         phone:'Telefone',
         bloodtype:'Tipo Sanguíneo',
+        bloodselect:'Selecione o seu tipo sanguíneo',
 
         update:'ATUALIZAR',
         bikebrand:'MARCA DA MOTO',
+        typebrand:'Digite a marca da motocicleta',
         model:'Modelo',
         year:'Ano',
+        inclusionquest:'Moto não cadastrada?',
+        requestinclusion:'Solicitar a inclusão.',
         profile:'Perfil',
         coverprofile:'CAPA PERFIL',
+        updatecover:'Atualizar capa',
         profession:'Profissão',
         comment:' comentário',
         see:'Ver ',
-        
+
+        errorloadans:'Erro ao carregar respostas.',
+        profregquest:'Profissão não cadastrada?',
+        clubregquest:'Clube não registrado?',
+        typeclub:'Digite o seu clube',
+        assoclub:'Clube Associado',
+        notonlist:'NÃO CONSTA NA LISTA',
 
 
       },
@@ -237,7 +262,7 @@ const translate = {
         rpassw: 'Repetir contraseña',
         next: 'siguiente',
         verpass: '"¡Comprueba las contraseñas introducidas!", "¡Las contraseñas introducidas no son las mismas! \ n \ n¡Inténtalo de nuevo!"',
-        inicio: 'INICIO',
+        start: 'INICIO',
 
 
         namequestion: '¿Cómo te gustaría que te llamaran?',
@@ -315,16 +340,27 @@ const translate = {
         citystate: 'Ciudad / Estado',
         phone: 'Teléfono',
         bloodtype: 'Tipo de sangre',
+        bloodselect:'Seleccione su tipo de sangre',
 
         update: 'ACTUALIZAR',
         bikebrand: 'MARCA DE LA MOTO',
+        typebrand:'Ingrese la marca de la motocicleta',
         model: 'Modelo',
         year: 'Año',
+        inclusionquest:'',
         profile: 'Perfil',
         coverprofile: 'CAPA DE PERFIL',
+        updatecover:'Actualizar capa',
         profession: 'Profesión',
-        comment: 'comentario',
-        see: 've',
+        comment: ' comentario',
+        see: 'Ver ',
+
+        errorloadans: 'Error al cargar las respuestas.',
+        profregquest: '¿Profesión no registrada?',
+        clubregquest: '¿Club no registrado?',
+        typeclub: 'Ingresa a tu club',
+        assoclub: 'Club asociado',
+        notonlist: 'NO EN LA LISTA',
 
         },
 
