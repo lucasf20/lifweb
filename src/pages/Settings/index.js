@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Dimensions, View, Text, Image, TouchableOpacity, Alert, Linking, FlatList, TouchableHighlight } from 'react-native';
 import firebase from '../../../firebaseConfig';
@@ -17,6 +19,13 @@ import Svg, {
     ClipPath,
     Polygon,
   } from "react-native-svg";
+
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 export default function Settings() {
     const nav = useNavigation()
@@ -153,7 +162,7 @@ export default function Settings() {
                 <View style={{paddingBottom:200}}>
             <View style={{marginHorizontal:20, marginTop:20}}>
                 <Text style={{fontWeight:'bold', fontSize:15}}>
-                    LINGUAGEM
+                {i18n.t('language')}
                 </Text>
                 <TouchableOpacity style={{width:'100%', height:50, borderRadius:5, borderColor:'silver', borderWidth:1 , justifyContent:'space-between', alignItems:'center', flexDirection:'row'}} onPress={() => {(showlist)?setshowlist(false):setshowlist(true)}}>
                     <View style={{flexDirection:'row', alignItems:'center', marginLeft:15}}>
@@ -179,20 +188,20 @@ export default function Settings() {
                 )}
             />
                 <Text style={{marginTop:(showlist)?20:170, color:'gray', fontSize:12}}>
-                    *Leia antes nossa política de privacidade
+                    *{i18n.t('readphrase')}
                 </Text>
                 <TouchableOpacity style={{width:'100%', height:50, borderRadius:5, backgroundColor:colorStyle.dorange, justifyContent:'center', alignItems:'center'}} onPress={
                     () => {
                         Alert.alert(
-                            'Excluir conta?',
-                            'Você tem certeza que deseja Excluir sua conta?',
+                            i18n.t('deleteacc')+'?',
+                            i18n.t('deleteaccquest'),
                             [
                                 {
-                                    text: 'Excluir',
+                                    text: i18n.t('delete') ,
                                     onPress: () => excluir()
                                 },
                                 {
-                                    text: 'Cancelar',
+                                    text: i18n.t('cancel'),
                                     onPress: () => console.log("Cancelou"),
                                     style: 'cancel'
                                 }
@@ -201,12 +210,12 @@ export default function Settings() {
                         );
                     }}>
                     <Text style={{color:'white', fontSize:16}}>
-                        EXCLUIR CONTA
+                        {i18n.t('deleteacc')}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{width:'100%', height:50, borderRadius:5, backgroundColor:"#1B2036", justifyContent:'center', alignItems:'center', marginTop:20}} onPress={() => { Linking.openURL('https://lifweb.com.br/contato/') }}>
                     <Text style={{color:'white', fontSize:16}}>
-                        FALE CONOSCO
+                        {i18n.t('contactus')}
                     </Text>
                 </TouchableOpacity>
             </View>

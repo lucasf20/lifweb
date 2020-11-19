@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useEffect, useState } from 'react';
 import { EvilIcons, AntDesign, Feather } from '@expo/vector-icons';
 import { ScrollView, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
@@ -15,6 +17,12 @@ import colorStyles from "../../colors";
 import firebase from '../../../firebaseConfig';
 
 import profileIcon from '../../assets/logolifweb.png'
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 function SquareCheck({ checked }) {
     if (checked) {
@@ -148,12 +156,12 @@ export default function Feed() {
             <ScrollView>
                 <View style={{ marginHorizontal: 5 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 20, marginVertical: 10 }}>
-                        {(Object.keys(allUsers).length > 0) ? "O que você procura?" : navigation.goBack()}
+                        {(Object.keys(allUsers).length > 0) ? i18n.t('searchquest') : navigation.goBack()}
                     </Text>
                     <View >
                         <EvilIcons name="search" size={30} color="black" style={{ position: "absolute", margin: 10 }} />
                         <MyTextInput
-                            placeholder="Buscar"
+                            placeholder= {i18n.t('search')}
                             style={{ paddingLeft: 40 }}
                             value={busca}
                             onChangeText={text => setbusca(text)}
@@ -161,7 +169,7 @@ export default function Feed() {
                     </View>
                     <View style={{ flexDirection: 'row', borderBottomColor: 'silver', height: 70, borderBottomWidth: 0.5, justifyContent: 'space-between' }}>
                         <Text style={{ fontSize: 18, marginVertical: 20, marginLeft: 5 }}>
-                            Pessoas
+                            {i18n.t('people')}
                         </Text>
                         <TouchableOpacity style={{ marginVertical: 20 }} onPress={() => { (pessoas) ? setPessoas(false) : setPessoas(true) }}>
                             <SquareCheck checked={pessoas} />
@@ -169,7 +177,7 @@ export default function Feed() {
                     </View>
                     <View style={{ flexDirection: 'row', borderBottomColor: 'silver', height: 70, borderBottomWidth: 0.5, justifyContent: 'space-between' }}>
                         <Text style={{ fontSize: 18, marginVertical: 20, marginLeft: 5 }}>
-                            Clubes
+                            {i18n.t('clubs')}
                         </Text>
                         <TouchableOpacity style={{ marginVertical: 20, marginLeft: 5 }} onPress={() => { (clubes) ? setclubes(false) : setclubes(true) }}>
                             <SquareCheck checked={clubes} />
@@ -177,7 +185,7 @@ export default function Feed() {
                     </View>
                     <View style={{ flexDirection: 'row', borderBottomColor: 'silver', height: 70, borderBottomWidth: 0.5, justifyContent: 'space-between' }}>
                         <Text style={{ fontSize: 18, marginVertical: 20, marginLeft: 5 }}>
-                            Cidade
+                            {i18n.t('city')}
                         </Text>
                         <TouchableOpacity style={{ marginVertical: 20 }} onPress={() => { (cidade) ? setcidade(false) : setcidade(true) }}>
                             <SquareCheck checked={cidade} />
@@ -185,7 +193,7 @@ export default function Feed() {
                     </View>
                     <View style={{ flexDirection: 'row', borderBottomColor: 'silver', height: 70, borderBottomWidth: 0.5, justifyContent: 'space-between' }}>
                         <Text style={{ fontSize: 18, marginVertical: 20, marginLeft: 5 }}>
-                            Tipo de Moto
+                            {i18n.t('biketype')}
                         </Text>
                         <TouchableOpacity style={{ marginVertical: 20 }} onPress={() => { (moto) ? setmoto(false) : setmoto(true) }}>
                             <SquareCheck checked={moto} />
@@ -193,7 +201,7 @@ export default function Feed() {
                     </View>
                     <TouchableOpacity style={{ backgroundColor: dorange, height: 50, marginTop: 10, borderRadius: 5, alignItems: 'center', justifyContent: 'center' }} onPress={() => { search() }}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
-                            Buscar
+                            {i18n.t('search')}
                         </Text>
                     </TouchableOpacity>
                     <View style={{ marginTop: 20, marginBottom: 80 }}>
