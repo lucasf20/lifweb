@@ -360,7 +360,7 @@ const translate = {
         clubregquest: '¿Club no registrado?',
         typeclub: 'Ingresa a tu club',
         assoclub: 'Club asociado',
-        notonlist: 'NO EN LA LISTA',
+        notonlist: 'NO ESTA EN LA LISTA',
 
         },
 

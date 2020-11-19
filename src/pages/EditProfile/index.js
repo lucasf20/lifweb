@@ -577,7 +577,7 @@ function Part3({ changeState }) {
                 return reg.test(item.toUpperCase())
             })
 
-            lista.push(i18n.t('notonthelist'))
+            lista.push(i18n.t('notonlist'))
 
             for (let i = 0; i < keys.length; i++) {
                 lista.push(profissoes[keys[i]]['titulo'])
@@ -590,7 +590,7 @@ function Part3({ changeState }) {
 
     function getclube() {
         var clb = {}
-        var lista = [i18n.t('notonthelist')]
+        var lista = [i18n.t('notonlist')]
         var keys = []
         firebase.database().ref('formaprovados/').on('value', snapshot => {
             clb = snapshot.val()
