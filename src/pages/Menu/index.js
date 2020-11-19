@@ -120,7 +120,7 @@ export default function Menu() {
                     if(!dados['clube'] || dados['clube'] == 'NÃO CONSTA NA LISTA'){
                         setprofok(false)
                     }
-                    if(dados['modeloDaMoto']['moto'] == 'NÃO CONSTA NA LISTA' || dados['profissao']){
+                    if(dados['modeloDaMoto']['moto'] == 'NÃO CONSTA NA LISTA' || dados['profissao'] == 'NÃO CONSTA NA LISTA'){
                         setprofok(false)
                     }
                     if(!dados['endereco']){
