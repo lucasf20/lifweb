@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useState, useEffect } from 'react'
 import { Text, View, TouchableOpacity, FlatList, TouchableHighlight, ScrollView, Alert, Platform, Dimensions, Image, Linking, KeyboardAvoidingView } from 'react-native'
 import colorStyles from "../../colors";
@@ -7,6 +9,12 @@ import firebase from '../../../firebaseConfig';
 import MyTextInput from '../../MyTextInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as ImagePicker from 'expo-image-picker';
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 function Part1({ changeState }) {
 
@@ -174,27 +182,27 @@ function Part1({ changeState }) {
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
-                CEP
+                {i18n.t('zipcode')} 
             </Text>
             <MyTextInput value={cep} onChangeText={text => { setcep(text); checkCep(text); setcepchecked(false) }} placeholder='CEP' />
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
-                Rua
+                {i18n.t('street')} 
             </Text>
             <MyTextInput value={rua} onChangeText={text => { setrua(text) }} placeholder='Rua' />
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
-                Número
+                {i18n.t('number')} 
             </Text>
             <MyTextInput value={numero} onChangeText={text => { setnumero(text) }} placeholder='Número' />
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
-                Cidade / Estado
+                {i18n.t('citystate')} 
             </Text>
             <MyTextInput value={cidade} onChangeText={text => { setcidade(text) }} placeholder='Cidade / Estado' />
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
-                Telefone
+                {i18n.t('phone')} 
             </Text>
             <MyTextInput value={telefone} onChangeText={text => { settelefone(mascara(text)) }} placeholder='Telefone' />
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
-                Tipo Sanguíneo
+                {i18n.t('bloodtype')} 
             </Text>
             <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99', justifyContent: 'center' }} onPress={() => { (showlist) ? setshowlist(false) : setshowlist(true) }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 11 }}>
@@ -221,7 +229,7 @@ function Part1({ changeState }) {
             <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginTop: 20 }} onPress={() => { atualizar() }}>
                 <View style={{ alignItems: "center" }}>
                     <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
-                        ATUALIZAR
+                        {i18n.t('update')} 
                     </Text>
                 </View>
             </TouchableOpacity>
@@ -395,17 +403,17 @@ function Part2({ changeState }) {
                 {handleImage()}
                 <View style={{ alignItems: 'center', opacity: 1 }} >
                     <Text style={{ fontSize: 20 }}>
-                        {(image || imagefromDB) ? "" : "CAPA PERFIL"}
+                        {(image || imagefromDB) ? "" : i18n.t('coverprofile')}
                     </Text>
                     <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }} onPress={pickImage}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
-                            {(image || imagefromDB) ? "Atualizar capa" : "Buscar"}
+                            {(image || imagefromDB) ? "Atualizar capa" : i18n.t('search') }
                         </Text>
                     </TouchableOpacity>
                 </View>
             </View>
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
-                MARCA MOTOCICLETA
+                {i18n.t('bikebrand')}
             </Text>
             <MyTextInput placeholder='Digite a marca da motocicleta' onChangeText={text => { setmarca(text) }} value={marca} />
             <FlatList
@@ -423,7 +431,7 @@ function Part2({ changeState }) {
                 )}
             />
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
-                MODELO
+                {i18n.t('model')}
             </Text>
             <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99' }} onPress={() => { (showmoto) ? setshowmoto(false) : setshowmoto(true) }}>
                 <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
@@ -448,7 +456,7 @@ function Part2({ changeState }) {
                 )}
             />
             <View style={{ marginTop: 20 }}>
-                <MyTextInput value={ano} onChangeText={text => { setano(text) }} placeholder='Ano' />
+                <MyTextInput value={ano} onChangeText={text => { setano(text) }} placeholder={i18n.t('year')} />
             </View>
             <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
                 <Text style={{ fontSize: 15 }}>
@@ -463,7 +471,7 @@ function Part2({ changeState }) {
             <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); changeState(3) }}>
                 <View style={{ alignItems: "center" }}>
                     <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
-                        ATUALIZAR
+                        {i18n.t('update')}
                     </Text>
                 </View>
             </TouchableOpacity>
@@ -644,9 +652,9 @@ function Part3({ changeState }) {
             </View>
             <View style={{ marginTop: 20 }}>
                 <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
-                    PROFISSÃO
+                    {i18n.t('profession')} 
             </Text>
-                <MyTextInput placeholder="Digite a sua profissão" value={profissao} onChangeText={text => { setprofissao(text) }} />
+                <MyTextInput placeholder={i18n.t('professionquetion')}  value={profissao} onChangeText={text => { setprofissao(text) }} />
                 <FlatList
                     data={getprofissao()}
                     renderItem={({ item, index, separators }) => (
@@ -702,7 +710,7 @@ function Part3({ changeState }) {
                 <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); navigation.navigate("Feed") }}>
                     <View style={{ alignItems: "center" }}>
                         <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
-                            ATUALIZAR
+                            {i18n.t('update')} 
                     </Text>
                     </View>
                 </TouchableOpacity>
@@ -721,7 +729,7 @@ function Header() {
                 <Feather name="x" size={24} color="black" onPress={() => { navigation.goBack() }} />
                 <TouchableOpacity onPress={() => { navigation.navigate("Profile") }}>
                     <Text style={{ color: dorange, marginTop: 5 }}>
-                        PERFIL
+                    {i18n.t('profile')} 
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -730,7 +738,7 @@ function Header() {
                     {user.displayName},
                 </Text>
                 <Text style={{ color: 'gray', fontSize: 18 }}>
-                    Complete seu cadastro
+                    {i18n.t('completereg')} 
                 </Text>
             </View>
         </View>

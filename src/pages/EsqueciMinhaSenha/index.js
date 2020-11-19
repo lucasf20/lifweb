@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, {useState} from 'react';
 import { Feather } from '@expo/vector-icons';
 import { ScrollView, View, Text, Image, TouchableOpacity, Button } from 'react-native';
@@ -13,7 +15,12 @@ import colorStyles from "../../colors";
 import firebase from '../../../firebaseConfig';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import translate from '../../translate';
 
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 export default function EsqueciMinhaSenha() {
 
@@ -66,7 +73,7 @@ export default function EsqueciMinhaSenha() {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={navigateHome}>
                         <Text style={styles.LooseOrangeText}>
-                            INICIO
+                            {i18n.t('start')} 
                     </Text>
                     </TouchableOpacity>
 
@@ -79,10 +86,10 @@ export default function EsqueciMinhaSenha() {
                 </View>
 
                 <Text style={styles.BigText}>
-                    Recuperação de senha
+                    {i18n.t('passwrecover')} 
             </Text>
             <Text style={{color:'gray', paddingBottom:10, fontSize:15}}>
-                Vamos iniciar a recuperação da sua senha
+                {i18n.t('passwrphrase')} 
             </Text>
                 <View>
                     <Text style={{ color: 'black', fontWeight: 'bold', paddingBottom: 10 }}>
@@ -92,7 +99,7 @@ export default function EsqueciMinhaSenha() {
 
 
                 <MyTextInput
-                    placeholder='Digite seu e-mail'
+                    placeholder={i18n.t('emailfield')} 
                     value={email}
                     onChangeText={text => setEmail(text)}
                 />
@@ -102,7 +109,7 @@ export default function EsqueciMinhaSenha() {
                     <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 10 }} onPress={() => { recoverPass() }}>
                         <View style={{ alignItems: "center" }}>
                             <Text style={{ color: "white", fontSize: 15, fontWeight: "bold", padding: 5 }}>
-                                PRÓXIMO
+                                {i18n.t('next')} 
                     </Text>
                         </View>
                     </TouchableOpacity>

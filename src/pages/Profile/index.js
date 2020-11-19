@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, Button, SafeAreaView, Dimensions } from 'react-native';
 import Svg, {
@@ -15,6 +17,13 @@ import colorStyles from "../../colors";
 import profileIcon from '../../assets/logolifweb.png'
 
 import firebase from '../../../firebaseConfig';
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
+
 
 function Header() {
     const navigation = useNavigation()
@@ -170,7 +179,7 @@ export default function Profile({ navigation, route }) {
                             {seguido}
                         </Text>
                         <Text style={{ color: 'gray', marginTop: 5, fontSize: 10 }}>
-                            Seguidores
+                            {i18n.t('followers')} 
                         </Text>
                     </TouchableOpacity >
                     <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.popToTop()); navigation.navigate('Follow', { from: "Profile", followed: false, uid: route.params.uid, user: route.params.uid }) }}>
@@ -178,13 +187,13 @@ export default function Profile({ navigation, route }) {
                             {seguindo}
                         </Text>
                         <Text style={{ color: 'gray', marginTop: 5, fontSize: 10 }}>
-                            Seguindo
+                            {i18n.t('following')} 
                         </Text>
                     </TouchableOpacity>
                     {(!personaldata.currentUser && segue != null) ? (<View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity style={{ backgroundColor: (segue) ? "#1261A0" : colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5, alignItems: 'center', justifyContent: 'center' }} onPress={() => { if (segue) { unfollow() } else { follow() } }}>
                             <Text style={{ color: 'white', fontSize: 12 }}>
-                                {(segue) ? "Deixar de seguir" : "Seguir"}
+                                {(segue) ? i18n.t('unfollow')  :i18n.t('follow')}
                             </Text>
                         </TouchableOpacity>
 
@@ -194,7 +203,7 @@ export default function Profile({ navigation, route }) {
                         >
 
                             <Text style={{ color: 'white', fontSize: 12 }}>
-                                Mensagem
+                                {i18n.t('message')}
                         </Text>
                         </TouchableOpacity>
                     </View>) : (<View style={{ width: 210 }} />)} 

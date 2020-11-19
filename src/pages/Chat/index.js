@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useContext, useEffect, useState } from "react";
 import {
   View,
@@ -25,6 +27,12 @@ import Svg, {
 } from "react-native-svg";
 import profileIcon from '../../assets/logolifweb.png'
 import { useNavigation, StackActions } from '@react-navigation/native';
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 function Chat({ route }) {
   const [message, setMessage] = useState("");
@@ -308,7 +316,7 @@ function Chat({ route }) {
       <View style={{...styles.containerInput}}>
         <View style={styles.containerInput2}>
           <TextInput
-            placeholder="Digite aqui..."
+            placeholder={i18n.t('typehere')}
             multiline
             style={styles.input}
             value={message}

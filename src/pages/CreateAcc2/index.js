@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useState, useEffect } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { ScrollView, View, Text, Image, TouchableOpacity, Button, Alert, Platform, FlatList, TouchableHighlight } from 'react-native';
@@ -16,7 +18,12 @@ import colorStyles from "../../colors";
 import firebase from '../../../firebaseConfig';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import translate from '../../translate';
 
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 export default function CreateAcc2() {
 
@@ -263,21 +270,21 @@ export default function CreateAcc2() {
             </Text>
 
                 <Text style={styles.LooseText}>
-                    Como você gostaria de ser chamado?
+                    {i18n.t('namequestion')} 
             </Text>
 
                 <MyTextInput
                     onChangeText={text => setName(text)}
                     value={Name}
-                    placeholder='Nome'
+                    placeholder={i18n.t('name')} 
                 />
                 <Text style={styles.LooseText}>
-                    Qual a sua moto?
+                {i18n.t('bikequestion')} 
             </Text>
                 <MyTextInput
                     onChangeText={text => setMoto(text)}
                     value={moto}
-                    placeholder='Escreva o modelo da moto'
+                    placeholder={i18n.t('modelfield')} 
                 />
                 <FlatList
                     data={getMotos()}
@@ -294,12 +301,12 @@ export default function CreateAcc2() {
                     )}
                 />
                 <Text style={styles.LooseText}>
-                    Qual a sua profissão?
+                    {i18n.t('professionquestion')}
             </Text>
                 <MyTextInput
                     onChangeText={text => setProfissao(text)}
                     value={profissao}
-                    placeholder='Profissão'
+                    placeholder={i18n.t('professionfield')}
                 />
                 <FlatList
                     data={getProf()}
@@ -316,7 +323,7 @@ export default function CreateAcc2() {
                     )}
                 />
                 <Text style={styles.LooseText}>
-                    Qual a sua data de nascimento?
+                    {i18n.t('birthquestion')}
             </Text>
                 <TouchableOpacity onPress={showDatePicker} style={{
                     borderRadius: 5,
@@ -327,7 +334,7 @@ export default function CreateAcc2() {
                 }}>
                     <View style={{ alignItems: "center", padding: 10 }}>
                         <Text style={{ color: (data.length > 0) ? "black" : "gray", fontSize: 12 }}>
-                            {(data.length > 0) ? data : "Toque aqui para selecionar sua data de nascimento"}
+                            {(data.length > 0) ? data : i18n.t('birthselect')}
                         </Text>
                     </View>
                 </TouchableOpacity>
@@ -350,12 +357,12 @@ export default function CreateAcc2() {
                         <AntDesign name="checksquare" size={24} color={(check) ? "green" : "gray"} />
                     </TouchableOpacity>
                     <Text style={{ paddingLeft: 7, paddingTop: 5 }}>
-                        Eu li e aceito os
+                        {i18n.t('readandacc')}
                     </Text>
                     <TouchableOpacity style={{ paddingLeft: 5, paddingTop: 4 }}>
                         <Text style={{ color: dorange, fontWeight: 'bold', fontSize: 15 }}>
-                            Termos {"&"} Condições
-                            </Text>
+                            {i18n.t('termsand')}
+                        </Text>
                     </TouchableOpacity>
                 </View>
 
@@ -363,7 +370,7 @@ export default function CreateAcc2() {
                     <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5 }} onPress={() => { cadastrar() }}>
                         <View style={{ alignItems: "center" }}>
                             <Text style={{ color: "white", fontSize: 15, fontWeight: "bold", padding: 15 }}>
-                                CRIAR NOVA CONTA
+                                {i18n.t('createnewacc')}
                     </Text>
                         </View>
                     </TouchableOpacity>

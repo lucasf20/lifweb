@@ -16,6 +16,7 @@ import firebase from "../../../firebaseConfig";
 import { AuthContext } from "../../contexts/auth";
 import Comment from "../../Components/Comment";
 
+
 function AddComment({ route }) {
   const { post, autor } = route.params;
   const [mycomment, setMycomment] = useState("");
