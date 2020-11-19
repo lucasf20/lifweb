@@ -32,6 +32,7 @@ export default function Menu() {
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
     const [profPicture, setprofPicture] = useState(false)
+    const [profok, setprofok] = useState(true)
 
 
     function logout() {
@@ -90,6 +91,7 @@ export default function Menu() {
     const [msg, setmsg] = useState(0)
 
     setTimeout(() => {
+        getPendencia()
         firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
         data => {
             if(!data.empty){
@@ -107,8 +109,30 @@ export default function Menu() {
             }
         }
     ) 
-    }, 15000);
+    }, 3000);
     
+
+    function getPendencia(){
+        firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).get().then(
+            data => {
+                if(data.exists){
+                    var dados = data.data()
+                    if(!dados['clube'] || dados['clube'] == 'NÃO CONSTA NA LISTA'){
+                        setprofok(false)
+                    }
+                    if(dados['modeloDaMoto']['moto'] == 'NÃO CONSTA NA LISTA' || dados['profissao']){
+                        setprofok(false)
+                    }
+                    if(!dados['endereco']){
+                        setprofok(false)
+                    }
+                    if(dados['firstAccess']){
+                        setprofok(false)
+                    }
+                }
+            }
+        )
+    }
 
     return (
         <View style={styles.container}>
@@ -157,8 +181,7 @@ export default function Menu() {
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('EditProfile') }}>
                             <SimpleLineIcons name="user" size={24} color="white" />
-                            {/*<Ionicons name="ios-remove-circle-outline" size={18} color="white" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />*/}
-                            {/*<Ionicons name="ios-remove-circle" size={18} color="Transparent" style={{ marginTop: 17, position: "absolute", marginLeft: 10 }} />*/}
+                            {!profok && <NotifyCircle text="—" color={colorStyles.dorange} style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>}
                             <Text style={styles.BigText}>
                                 {i18n.t('editprofile')}
                             </Text>

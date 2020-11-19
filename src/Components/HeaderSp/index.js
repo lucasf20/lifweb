@@ -53,7 +53,7 @@ function HeaderSp() {
                 </Image>
             </TouchableOpacity>
             <View style={{ flexDirection: "row" }}>
-                <EvilIcons name="search" size={30} color={'gray'} style={{ paddingRight: 15 }} onPress={() =>{navigation.dispatch(StackActions.pop(1));navigation.navigate('Filters')}}/>
+                <EvilIcons name="search" size={30} color={'gray'} style={{ paddingRight: 15 }} onPress={() =>{navigation.navigate('Filters')}}/>
                 <View>
                     <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.pop(1));navigation.navigate('MinhasMensagens') }}>
                         <MaterialCommunityIcons name="message-outline" size={24} color={ 'gray'} />

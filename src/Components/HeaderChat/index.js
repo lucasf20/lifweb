@@ -50,7 +50,7 @@ function HeaderChat() {
                 </Image>
             </TouchableOpacity>
             <View style={{ flexDirection: "row" }}>
-                <EvilIcons name="search" size={30} color={ 'white'} style={{ paddingRight: 15 }} onPress={() =>{navigation.dispatch(StackActions.pop(1));navigation.navigate('Filters')}}/>
+                <EvilIcons name="search" size={30} color={ 'white'} style={{ paddingRight: 15 }} onPress={() =>{navigation.navigate('Filters')}}/>
                 <View>
                     <TouchableOpacity onPress={() => { navigation.navigate('MinhasMensagens') }}>
                         <MaterialCommunityIcons name="message-outline" size={24} color={ 'white'} />
