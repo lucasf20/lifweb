@@ -207,7 +207,7 @@ function Part1({ changeState }) {
             <TouchableOpacity style={{ height: 50, borderRadius: 5, borderColor: 'silver', borderWidth: 1, backgroundColor: '#FFFFFF99', justifyContent: 'center' }} onPress={() => { (showlist) ? setshowlist(false) : setshowlist(true) }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 11 }}>
                     <Text style={{ color: (sangue.length == 0) ? "gray" : 'black' }}>
-                        {(sangue.length == 0) ? "Selecione o seu tipo sanguíneo" : sangue}
+                        {(sangue.length == 0) ? i18n.t('bloodselect')  : sangue}
                     </Text>
                     <Ionicons name="ios-arrow-down" size={24} color="gray" />
                 </View>
@@ -407,7 +407,7 @@ function Part2({ changeState }) {
                     </Text>
                     <TouchableOpacity style={{ borderRadius: 5, backgroundColor: dorange, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }} onPress={pickImage}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
-                            {(image || imagefromDB) ? "Atualizar capa" : i18n.t('search') }
+                            {(image || imagefromDB) ? i18n.t('updatecover') : i18n.t('search') }
                         </Text>
                     </TouchableOpacity>
                 </View>
