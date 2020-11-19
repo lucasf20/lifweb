@@ -576,11 +576,13 @@ function Part3({ changeState }) {
                 var reg = new RegExp(profissao.toUpperCase())
                 return reg.test(item.toUpperCase())
             })
+
             list.push(i18n.t('notonthelist'))
+
             for (let i = 0; i < keys.length; i++) {
                 lista.push(profissoes[keys[i]]['titulo'])
             }
-            return lista.sort()
+            return lista
         } else {
             return []
         }
