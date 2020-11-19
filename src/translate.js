@@ -155,7 +155,7 @@ const translate = {
 
         sharepost: 'Compartilhar Post',
         sharechoose: 'Escolha o Compartilhamento',
-        sharephrase:'Compartilhou esta postagem através do app LifWeb. Junte-se a nos!',
+        sharephrase:'está compartilhando momentos no Lifweb. Acesse e instale o aplicativo você também em',
         exportimg: 'Exporta Imagem',
         sharetext: 'Compartilhar Texto',
         ha: 'Há ',
