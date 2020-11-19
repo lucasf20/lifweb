@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useState } from 'react';
 import { EvilIcons } from '@expo/vector-icons';
 import { ScrollView, View, Text, Image, TouchableOpacity, Button, SafeAreaView, FlatList } from 'react-native';
@@ -11,6 +13,12 @@ import styles from './styles';
 import colorStyles from "../../colors";
 
 import firebase from '../../../firebaseConfig';
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 import Svg, {
     Image as SvgImage,
@@ -40,7 +48,7 @@ export default function Feed() {
             <View style={{ padding: 15 }}>
                 <EvilIcons name="search" size={30} color="black" style={{ position: "absolute", margin: 25 }} />
                 <MyTextInput
-                    placeholder="Buscar"
+                    placeholder= {i18n.t('search')} 
                     style={{ paddingLeft: 40 }}
                 />
             </View>
