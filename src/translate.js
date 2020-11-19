@@ -96,6 +96,7 @@ const translate = {
         citystate:'City/State',
         phone:'Phone',
         bloodtype:'Blood type',
+        bloodselect:'Select your blood type',
         update:'UPDATE',
 
         bikebrand:'BIKE BRAND',
@@ -106,6 +107,7 @@ const translate = {
         requestinclusion:'Request inclusion.',
         profile:'Profile',
         coverprofile:'PROFILE COVER',
+        updatecover:'Update cover',
         profession:'Profession',
         comment:' comment',
         see:'See ',
@@ -215,6 +217,7 @@ const translate = {
         citystate:'Cidade/Estado',
         phone:'Telefone',
         bloodtype:'Tipo Sanguíneo',
+        bloodselect:'Selecione o seu tipo sanguíneo',
 
         update:'ATUALIZAR',
         bikebrand:'MARCA DA MOTO',
