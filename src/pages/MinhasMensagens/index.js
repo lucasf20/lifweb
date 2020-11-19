@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useContext, useEffect, useState } from "react";
 import {
   Text,
@@ -16,6 +18,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AuthContext } from "../../contexts/auth";
 //import { useNavigation } from '@react-navigation/native';
 import Usuario from "../../Components/Usuario";
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
+
 
 function MinhasMensagens() {
   const [conversas, setConversas] = useState([]);
@@ -55,7 +64,7 @@ function MinhasMensagens() {
           setConversas(aux);
         })
         .catch((err) => {
-          ToastAndroid.show("Erro ao carregar respostas.", ToastAndroid.SHORT);
+          ToastAndroid.show(i18n.t('errorloadans'), ToastAndroid.SHORT);
         });
     }
 
@@ -95,7 +104,7 @@ function MinhasMensagens() {
         <MaterialCommunityIcons name="magnify" size={30} color="#979797" />
 
         <TextInput
-          placeholder="Buscar"
+          placeholder={i18n.t('search')}
           style={styles.input}
           value={pesquisa}
           onChangeText={(text) => buscar(text)}

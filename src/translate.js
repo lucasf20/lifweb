@@ -107,6 +107,8 @@ const translate = {
         comment:' comment',
         see:'See ',
 
+        errorloadans:'Error loading answers',
+
       },
       pt: {
         passw: 'Senha',
@@ -213,6 +215,8 @@ const translate = {
         profession:'Profissão',
         comment:' comentário',
         see:'Ver ',
+
+        errorloadans:'Erro ao carregar respostas.'
         
 
 
