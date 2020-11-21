@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native'
 import * as FacebookAuthentication from 'expo-facebook'
 import * as GoogleAuthentication from 'expo-google-app-auth'
 import * as AppleAuthentication from 'expo-apple-authentication'
-
+import * as GoogleSignIn from 'expo-google-sign-in';
 import styles from './styles'
 import TextInput from '../../MyTextInput'
 import Button from './Button'
@@ -87,6 +87,67 @@ const Login = () => {
 
   const loginWithGoogle = async () => {
     try {
+      await GoogleSignIn.initAsync({
+        // You may ommit the clientId when the firebase `googleServicesFile` is configured
+        clientId: '807737285816-4ugt2l8o77pq130bvn814u7afrd3sc9g.apps.googleusercontent.com',
+      });
+      await GoogleSignIn.askForPlayServicesAsync();
+      const { type, user } = await GoogleSignIn.signInAsync();
+      var accessToken = null
+      if(user){
+         accessToken = user.auth.accessToken
+      } else {
+         accessToken = null
+      }
+     
+
+      
+      //const user = await GoogleSignIn.signInSilentlyAsync();
+      if (type !== 'success') {
+        alert(i18n.t('cancelalert'))
+      }
+      const credential = Firebase.auth.GoogleAuthProvider.credential(null, accessToken)
+
+      await Firebase.auth().signInWithCredential(credential).then((value) => {
+        const u = value.user;
+
+        Firebase.firestore().collection('usuarios').doc(u.uid).set({
+          email: u.email,
+          nome: u.displayName,
+          avatar: u.photoURL,
+        })
+          .then((value) => {
+            entrar(u.uid, u.displayName, u.email, u.photoURL);
+
+            ToastAndroid.show("Login efetuado.", ToastAndroid.SHORT);
+          })
+          .catch(err => {
+            ToastAndroid.show("Ocorreu um erro", ToastAndroid.SHORT);
+          })
+      })
+      var us = Firebase.auth().currentUser
+      var firstAccess = await Firebase.firestore().collection('user').doc(us.uid).get().then(data => { return !data.exists })
+      if (firstAccess) {
+        var data = {
+          apelido: us.displayName,
+          firstAccess: true,
+          fullName: us.displayName,
+          modeloDaMoto: {
+            moto: ""
+          },
+          nascimento: "",
+          profissao: ""
+        }
+        Firebase.firestore().collection('user').doc(us.uid).set(data)
+      }
+      Firebase.database().ref('user/' + us.uid).set(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  /*const loginWithGoogle = async () => {
+    try {
       const { type, accessToken, user } = await GoogleAuthentication.logInAsync({
         clientId: '993866057606-c8ir7l07ri24lbg5di834g28479ovj15.apps.googleusercontent.com'
       })
@@ -135,7 +196,7 @@ const Login = () => {
     } catch (error) {
       console.log(error)
     }
-  }
+  }*/
 
   // useEffect(() => {
   //   Firebase.auth().onAuthStateChanged(user => {

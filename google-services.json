@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "993866057606-h3mnom0iash18ssb5aiub21m6qnksko1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.lifweb",
+            "certificate_hash": "40a4c096513eaa8ab73693c2e5648444ae44d0e7"
+          }
+        },
+        {
           "client_id": "993866057606-a2726gutatcao9r49ssatjctaqqa8l56.apps.googleusercontent.com",
           "client_type": 3
         }

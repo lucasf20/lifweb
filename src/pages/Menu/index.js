@@ -171,13 +171,13 @@ export default function Menu() {
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={styles.buttons}>
+                        {<TouchableOpacity style={styles.buttons}>
                             <SimpleLineIcons name="bell" size={24} color="white" />
                             {/*<NotifyCircle style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>*/}
                             <Text style={styles.BigText}>
                                 {i18n.t('notification')}
                             </Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity>}
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('EditProfile') }}>
                             <SimpleLineIcons name="user" size={24} color="white" />
