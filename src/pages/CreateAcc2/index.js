@@ -287,7 +287,7 @@ export default function CreateAcc2() {
                     placeholder={i18n.t('modelfield')} 
                 />
                 <FlatList
-                    data={getMotos()}
+                    data={(motoSelecionada != moto)?getMotos():[]}
                     renderItem={({ item, index, separators }) => (
                         <TouchableHighlight
                             key={item.key}
@@ -309,7 +309,7 @@ export default function CreateAcc2() {
                     placeholder={i18n.t('professionfield')}
                 />
                 <FlatList
-                    data={getProf()}
+                    data={(profSelecionada != profissao)?getProf():[]}
                     renderItem={({ item, index, separators }) => (
                         <TouchableHighlight
                             key={item.key}
