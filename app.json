@@ -4,17 +4,17 @@
     "slug": "lifweb",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "assets/icon.png",
     "facebookScheme": "fb347233869864538",
     "facebookAppId": "347233869864538",
     "facebookDisplayName": "LifWeb",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "notification": {
-      "icon": "./src/assets/logolifweb2.png"
+      "icon": "assets/icon.png"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
