@@ -1,6 +1,5 @@
 import React, {useState}  from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native'
-import Icon from '../../images/avatar_stories1.png'
 import styles from './styles'
 import home from '../../assets/logo3_lifweb_branco.png'
 import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, FontAwesome, Entypo } from '@expo/vector-icons';

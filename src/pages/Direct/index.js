@@ -27,7 +27,6 @@ import Svg, {
     Polygon,
 } from 'react-native-svg';
 
-import Icon from '../../images/avatar_stories1.png'
 
 export default function Feed() {
 
