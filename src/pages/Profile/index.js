@@ -1,6 +1,6 @@
 import * as Localization from 'expo-localization'
 import i18n from 'i18n-js';
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, Button, SafeAreaView, Dimensions } from 'react-native';
 import Svg, {
     Image as SvgImage,
@@ -28,27 +28,32 @@ i18n.fallbacks = true;
 function Header() {
     const navigation = useNavigation()
     return (
-        <View style={{ flexDirection: 'row', position: 'absolute', justifyContent: 'space-between', width: Dimensions.get('window').width }}>
-            <View style={{ position: 'absolute', backgroundColor: 'black', flexDirection: 'row', opacity: 0.4, justifyContent: 'space-between', width: Dimensions.get('window').width, height: 80 }}>
+        <Fragment>
+            <View style={{ position: 'absolute', backgroundColor: 'black', opacity: 0.4, height: 100, width: "100%" }}>
             </View>
-            <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity style={{ marginLeft: 5, marginTop: 50, width: 70 }} onPress={() => { navigation.navigate("Feed") }}>
-                    <Entypo name="chevron-left" size={24} color="white" />
+            <View style={{ position: 'absolute', flexDirection: 'row', justifyContent: 'space-between', width: "100%"  }}>
+                <TouchableOpacity style={{ marginLeft: 5, marginTop: 50, flexDirection: 'row' }} onPress={() => { navigation.navigate("Feed") }}>
+                    <Entypo name="chevron-left" size={24} color="white" style={{ paddingHorizontal:15}}/>
+                    <EvilIcons name="search" size={30} color="transparent" style={{ paddingLeft: 15 }} />
                 </TouchableOpacity>
-            </View>
-
-            <Text style={{ fontWeight: 'bold', color: 'white', marginTop: 50, fontSize: 20 }}>
-                Perfil
-                    </Text>
-            <View style={{ flexDirection: 'row', width: 70, marginRight: 5 }}>
+                <TouchableOpacity>
+                    <View>
+                        <Text style={{ fontWeight: 'bold', color: 'white', marginTop: 50, fontSize: 20}}>
+                            Perfil
+                        </Text>
+                    </View>
+                    
+                </TouchableOpacity>
+                <View style={{ flexDirection: 'row', marginRight: 5}}>
                 <TouchableOpacity style={{ marginTop: 50 }} onPress={() => { navigation.navigate("Filters") }}>
-                    <EvilIcons name="search" size={30} color="white" style={{ paddingRight: 15 }} />
+                    <EvilIcons name="search" size={30} color="white" style={{ paddingLeft: 15, paddingHorizontal:15 }} />
                 </TouchableOpacity>
                 <TouchableOpacity style={{ marginTop: 50 }} onPress={() => { navigation.navigate('MinhasMensagens') }}>
-                    <MaterialCommunityIcons name="message-outline" size={24} color="white" />
+                    <MaterialCommunityIcons name="message-outline" size={24} color="white" style={{ paddingLeft: 15, paddingHorizontal:15 }}/>
                 </TouchableOpacity>
             </View>
-        </View>
+            </View>
+        </Fragment>
     )
 }
 
@@ -179,7 +184,7 @@ export default function Profile({ navigation, route }) {
                             {seguido}
                         </Text>
                         <Text style={{ color: 'gray', marginTop: 5, fontSize: 10 }}>
-                            {i18n.t('followers')} 
+                            {i18n.t('followers')}
                         </Text>
                     </TouchableOpacity >
                     <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.popToTop()); navigation.navigate('Follow', { from: "Profile", followed: false, uid: route.params.uid, user: route.params.uid }) }}>
@@ -187,26 +192,26 @@ export default function Profile({ navigation, route }) {
                             {seguindo}
                         </Text>
                         <Text style={{ color: 'gray', marginTop: 5, fontSize: 10 }}>
-                            {i18n.t('following')} 
+                            {i18n.t('following')}
                         </Text>
                     </TouchableOpacity>
                     {(!personaldata.currentUser && segue != null) ? (<View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity style={{ backgroundColor: (segue) ? "#1261A0" : colorStyles.dorange, marginVertical: 5, width: 100, borderRadius: 5, alignItems: 'center', justifyContent: 'center' }} onPress={() => { if (segue) { unfollow() } else { follow() } }}>
                             <Text style={{ color: 'white', fontSize: 12 }}>
-                                {(segue) ? i18n.t('unfollow')  :i18n.t('follow')}
+                                {(segue) ? i18n.t('unfollow') : i18n.t('follow')}
                             </Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             style={{ backgroundColor: colorStyles.dorange, marginVertical: 5, width: 70, borderRadius: 5, marginLeft: 5, justifyContent: 'center', alignItems: 'center' }}
                             onPress={() => navigation.navigate("Chat", { idUser: user })}
                         >
 
                             <Text style={{ color: 'white', fontSize: 12 }}>
                                 {i18n.t('message')}
-                        </Text>
+                            </Text>
                         </TouchableOpacity>
-                    </View>) : (<View style={{ width: 210 }} />)} 
+                    </View>) : (<View style={{ width: 210 }} />)}
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 20 }}>
                     <TouchableOpacity style={{ alignItems: 'center', width: ((Dimensions.get('window').width - 40) / 2) }} onPress={() => { setgrid(true) }}>

@@ -117,7 +117,9 @@ export default function CreateAcc(){
                             firebase.firestore().collection('user').doc(user.uid).set(
                                 {
                                     fullName:name,
-                                    firstAccess:true
+                                    firstAccess:true,
+                                    following:[],
+                                    followed:[]
                                 }
                             )
                             navigation.navigate('CreateAcc2')

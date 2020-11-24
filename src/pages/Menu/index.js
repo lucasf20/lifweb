@@ -136,8 +136,8 @@ export default function Menu() {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => { navigation.navigate("Feed") }} style={{ marginTop: 40, marginLeft: 5 }}>
-                <Ionicons name="md-arrow-back" size={24} color="white" />
+            <TouchableOpacity onPress={() => { navigation.navigate("Feed") }} style={{ marginTop: 40, paddingLeft: 15 }}>
+                <Ionicons name="md-arrow-back" size={35} color="white" />
             </TouchableOpacity>
             <View style={{ ...styles.container, paddingHorizontal: 18 }}>
                 <ScrollView style={{ ...styles.container, paddingHorizontal: 18 }}>
