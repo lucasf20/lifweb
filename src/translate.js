@@ -119,6 +119,19 @@ const translate = {
         typeclub:'Enter your club',
         assoclub:'Associated club',
         notonlist:'NOT ON THE LIST',
+
+        Dec: "December",
+        Nov: "November",
+        Oct: "October",
+        Sep: "September",
+        Aug: "August",
+        Jul: "July",
+        Jun: "June",
+        May: "May",
+        Apr: "April",
+        Mar: "March",
+        Feb: "February",
+        Jan: "January"
         
 
       },
@@ -239,6 +252,19 @@ const translate = {
         typeclub:'Digite o seu clube',
         assoclub:'Clube Associado',
         notonlist:'NÃO CONSTA NA LISTA',
+
+        Dec: "dezembro",
+        Nov: "novembro",
+        Oct: "outubro",
+        Sep: "setembro",
+        Aug: "agosto",
+        Jul: "julho",
+        Jun: "junho",
+        May: "maio",
+        Apr: "abril",
+        Mar: "março",
+        Feb: "fevereiro",
+        Jan: "janeiro"
 
 
       },

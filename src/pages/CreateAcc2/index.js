@@ -205,7 +205,7 @@ export default function CreateAcc2() {
             }
             motosList.push({
                id:'nao',
-               title:"NÃO CONSTA NA LISTA"
+               title: i18n.t('notonlist') 
             })
             return motosList.reverse()
         }
@@ -238,7 +238,7 @@ export default function CreateAcc2() {
             }
             profsList.push({
                 id:'nao',
-                title:"NÃO CONSTA NA LISTA"
+                title:i18n.t('notonlist') 
              })
             return profsList.reverse()
         } else {
@@ -341,7 +341,7 @@ export default function CreateAcc2() {
                 {show && (
                     <DateTimePicker
                         testID="dateTimePicker"
-                        locale={'pt-br'}
+                        locale= {Localization.locale}
                         value={date}
                         mode={mode}
                         is24Hour={true}
