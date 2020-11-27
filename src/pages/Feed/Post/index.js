@@ -51,7 +51,7 @@ export default function Post() {
         postnames.sort()
         postnames.reverse()
         for (let i = 0; i < postnames.length; i++) {
-            if (Date.now() - Math.floor(postnames[i]) < 86400000) {
+            if (Date.now() - Math.floor(postnames[i]) < 172800000) {
                 var p = await firebase.firestore().collection('posts').doc(postnames[i]).get().then(data => data.data())
                 var postimage = (!p['repost']) ? (await firebase.storage().ref("user/" + p['owner'] + "/posts/" + postnames[i]).getDownloadURL().then(url => { return { uri: url } })) : (null)
                 var avatar = await firebase.storage().ref("user/" + p['owner'] + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
