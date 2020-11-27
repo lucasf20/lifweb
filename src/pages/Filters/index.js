@@ -46,6 +46,7 @@ export default function Feed() {
     const [cidade, setcidade] = useState(false)
     const [moto, setmoto] = useState(false)
     const [busca, setbusca] = useState("")
+    const [searched, setsearched] = useState(false)
     const [results, setresults] = useState([])
 
     function getAllUsers() {
@@ -130,6 +131,7 @@ export default function Feed() {
             }
         }
         res = res.concat(p, m, e, c)
+        setsearched(true)
         formatar(res).then(r => setresults(r))
     }
 
@@ -206,6 +208,11 @@ export default function Feed() {
                     </TouchableOpacity>
                     <View style={{ marginTop: 20, marginBottom: 80 }}>
                         {results.map((item, index, arr) => (showLines(item)))}
+                        {results.length == 0 && searched && <View style={{ justifyContent: 'center', alignItems:'center' }}>
+                            <Text style={{fontsize:20, color:colorStyles.dorange}}>
+                                Sem resultados
+                            </Text>
+                        </View>}
                     </View>
                 </View>
             </ScrollView>

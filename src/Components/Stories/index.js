@@ -30,12 +30,7 @@ firebase.firestore().collection('posts').where('repost', '==', false).get().then
          posts.push({...item.data(), postname:item.id})
     )
     if(!ok){
-      setp(posts.sort(
-        () => {
-          var ops = [true, false]
-          return ops[Math.floor(Math.random()*Date.now())%2]
-        }
-      ).slice(0,5))
+      setp(posts.reverse().slice(0,5))
       setok(true)
     }
   }

@@ -17,7 +17,9 @@ function HeaderChat() {
     }
 
     const [msg, setmsg] = useState(0)
-    setTimeout(() => {
+    const [gotmsg, setgotmsg] = useState(false)
+
+    const getMsgs = () => {
         firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
         data => {
             if(!data.empty){
@@ -30,12 +32,16 @@ function HeaderChat() {
                         }
                     }
                 )
-                console.log("cnt",cnt)
+                setgotmsg(true)
                 setmsg(cnt)
             }
         }
     ) 
-    }, 15000); 
+    } 
+    
+    if(!gotmsg){
+        getMsgs()
+    }
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: "row" }}>

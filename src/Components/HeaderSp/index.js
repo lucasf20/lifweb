@@ -17,7 +17,9 @@ function HeaderSp() {
         return height * 120 / width
     }
     const [msg, setmsg] = useState(0)
-    setTimeout(() => {
+    const [gotmsg, setgotmsg] = useState(false)
+
+    const getMsgs = () => {
         firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
         data => {
             if(!data.empty){
@@ -30,31 +32,33 @@ function HeaderSp() {
                         }
                     }
                 )
-                console.log("cnt",cnt)
+                setgotmsg(true)
                 setmsg(cnt)
             }
         }
     ) 
-    }, 15000); 
+    } 
     
-    
+    if(!gotmsg){
+        getMsgs()
+    }
 
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.pop(1));navigation.navigate("Menu") }}>
-                    <SimpleLineIcons name="menu" size={24} color={inChat ? '#fff' : 'gray'} />
+                    <SimpleLineIcons name="menu" size={24} color={inChat ? '#fff' : 'gray'} style={{padding:10}}/>
                 </TouchableOpacity>
-                <EvilIcons name="search" size={30} color="transparent" style={{ paddingRight: 15 }} />
+                <EvilIcons name="search" size={30} color="transparent" style={{ padding:10 }} />
             </View>
             <TouchableOpacity onPress={() => {navigation.dispatch(StackActions.pop(1)); navigation.navigate("Feed") }}>
                 <Image source={home} style={{ height: resizeHome(), width: 120, marginTop:5 }}>
                 </Image>
             </TouchableOpacity>
             <View style={{ flexDirection: "row" }}>
-                <EvilIcons name="search" size={30} color={'gray'} style={{ paddingRight: 15 }} onPress={() =>{navigation.navigate('Filters')}}/>
+                <EvilIcons name="search" size={30} color={'gray'} style={{ padding:10}} onPress={() =>{navigation.navigate('Filters')}}/>
                 <View>
-                    <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.pop(1));navigation.navigate('MinhasMensagens') }}>
+                    <TouchableOpacity onPress={() => { navigation.dispatch(StackActions.pop(1));navigation.navigate('MinhasMensagens') }} style={{padding:10}}>
                         <MaterialCommunityIcons name="message-outline" size={24} color={ 'gray'} />
                         {msg>0 && <FontAwesome name="circle" size={10} color="red" style={{position:"absolute", marginLeft:15}}/>}
                     </TouchableOpacity>

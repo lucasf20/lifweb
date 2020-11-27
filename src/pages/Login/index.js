@@ -198,15 +198,7 @@ const Login = () => {
     }
   }*/
 
-  // useEffect(() => {
-  //   Firebase.auth().onAuthStateChanged(user => {
-  //     if (user) {
-  //       navigation.navigate('Feed')
-  //     }
-  //   })
-  // }, [])
-
-  if (!checked) {
+  useEffect(() => {
     Firebase.auth().onAuthStateChanged(user => {
       if (user) {
         setlogado(true)
@@ -214,7 +206,17 @@ const Login = () => {
       }
       setchecked(true)
     })
-  }
+  }, [])
+
+  // if (!checked) {
+  //   Firebase.auth().onAuthStateChanged(user => {
+  //     if (user) {
+  //       setlogado(true)
+  //       navigation.navigate('Feed')
+  //     }
+  //     setchecked(true)
+  //   })
+  // }
 
   if (checked) {
     return (
