@@ -8,7 +8,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     alignSelf: "center",
-    marginTop:10
+    marginTop:10,
+    paddingEnd:280
+    
+
   },
 
   /* avatar: {
@@ -37,12 +40,16 @@ const styles = StyleSheet.create({
   preview: {
     fontSize: 16,
     color: "#999",
+    paddingEnd: 130
+    
+    
   },
 
   time: {
     fontSize: 16,
     color: "#777",
     marginHorizontal: 10,
+    paddingEnd: 20
   },
 
   containerInfos: {
@@ -52,12 +59,14 @@ const styles = StyleSheet.create({
   containerFotoMensagem: {
     flexDirection: "row",
     alignItems: "center",
+    
   },
 
   containerHoraIcon: {
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 10,
+  
   },
 });
 
