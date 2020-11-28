@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Dimensions, View, Text, Image, TouchableOpacity } from 'react-native';
 import { useNavigation, StackActions } from '@react-navigation/native';
@@ -9,6 +11,13 @@ import MyTextInput from '../../MyTextInput';
 import firebase from '../../../firebaseConfig';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Header from "../../Components/Header";
+
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 export default function SendPost2({ navigate, route }) {
 
