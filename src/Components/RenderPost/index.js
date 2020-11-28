@@ -510,7 +510,7 @@ ${descricao}`,
                         <MyTextInput
                             onChangeText={text => setdescript(text)}
                             value={descript}
-                            placeholder="Digite sua descrição..."
+                            placeholder={i18n.t('enterdescript')}
                             style={{ width: (Dimensions.get('window').width - 80), marginRight: 10 }}
                         />
                         <View style={{ backgroundColor: colorStyles.dorange, borderRadius: 5 }}>
