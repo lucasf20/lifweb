@@ -107,14 +107,14 @@ export default function SendPost2({ navigate, route }) {
                 <View style={{ marginHorizontal: 20, backgroundColor: 'white', height: Dimensions.get('window').width - 40, marginTop: 30, borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
                     <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, justifyContent: 'center' }} onPress={pickImage}>
                         <Text style={{ color: 'white', marginHorizontal: 20 }}>
-                            Selecionar Imagem
+                            {i18n.t('selectimage')} 
                         </Text>
                     </TouchableOpacity>
                     {(imagem) ? (<Image source={imagem} style={{ position: 'absolute', height: Dimensions.get('window').width - 40, width: Dimensions.get('window').width - 40, borderRadius: 5, transform: [{ rotate: rotate() }] }} />) : (<View />)}
                 </View>
                 {(imagem) ? (
                     <View style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 20 }}>
-                        <MyTextInput placeholder="Descreva aqui seu post..."
+                        <MyTextInput placeholder={i18n.t('typehere')} 
                             value={descricao}
                             onChangeText={text => setdescricao(text)}
                         />
@@ -126,7 +126,7 @@ export default function SendPost2({ navigate, route }) {
                         <View style={{ flexDirection: "row" }}>
                             <TouchableOpacity onPress={() => { navigation.goBack() }}>
                                 <Text style={styles.text}>
-                                    Cancelar
+                                    {i18n.t('cancel')} 
                             </Text>
                             </TouchableOpacity>
                         </View>
@@ -143,14 +143,14 @@ export default function SendPost2({ navigate, route }) {
                             }
                         }} style={{backgroundColor: dorange, borderRadius:5, height:50, justifyContent:'center' }}>
                             <Text style={{ ...styles.text, color: 'white', fontWeight: 'bold', marginHorizontal:10}}>
-                                Compartilhar
+                                {i18n.t('share')} 
                         </Text>
                         </TouchableOpacity>
                     </View>
                 ) : (
                         <View style={{ justifyContent: 'center', alignItems:'center' }}>
                             <Text style={{fontsize:20, color:colorStyles.dorange}}>
-                                Carregando ...
+                                {i18n.t('loading')} 
                             </Text>
                         </View>
 
