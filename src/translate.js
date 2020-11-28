@@ -84,7 +84,7 @@ const translate = {
 
 
         language:'Language',
-        readphrase:'Leia antes nossa política de privacidade',
+        readphrase:'Read our privacy policy first',
         deleteacc:'DELETE ACCOUNT',
         contactus: 'CONTACT US',
         deleteaccquest:'Are you sure you want to Delete your account?',
@@ -131,7 +131,15 @@ const translate = {
         Apr: "April",
         Mar: "March",
         Feb: "February",
-        Jan: "January"
+        Jan: "January",
+
+        enterdescrip: 'Enter your description...',
+        composted:'Your comment has been posted.',
+        comerror:'Comment functionality error',
+
+        share:'Share',
+        loading:'Loading...',
+        selectimage:'Select Image',
         
 
       },
@@ -264,10 +272,19 @@ const translate = {
         Apr: "abril",
         Mar: "março",
         Feb: "fevereiro",
-        Jan: "janeiro"
+        Jan: "janeiro",
 
+        enterdescrip: 'Digite sua descrição...',
+        composted:'Seu comentário foi postado.',
+        comerror:'Erro na função comentar.',
 
+        share:'Compartilhar',
+        loading:'Carregando...',
+        selectimage:'Selecionar Imagem',
+
+        
       },
+
       es: {
         passw: 'Contraseña',
         emailfield: 'Ingrese su correo electrónico',
@@ -387,6 +404,14 @@ const translate = {
         typeclub: 'Ingresa a tu club',
         assoclub: 'Club asociado',
         notonlist: 'NO ESTA EN LA LISTA',
+
+        enterdescrip: 'Ingrese su descripción ...',
+        composted: 'Tu comentario ha sido publicado.',
+        comerror: 'Error en la función de comentario.',
+
+        share: 'Comparte',
+        loading: 'Cargando ...',
+        selectimage: 'Seleccionar imagen',
 
         },
 
