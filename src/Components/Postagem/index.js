@@ -1,3 +1,5 @@
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js';
 import React, { useContext, useEffect, useState } from "react";
 import {
   Image,
@@ -21,6 +23,13 @@ import Svg, {
   ClipPath,
   Polygon,
 } from "react-native-svg";
+
+import translate from '../../translate';
+
+i18n.translations = translate
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 //import Share from 'react-native-share';
 
 function Postagem(props) {
@@ -127,7 +136,7 @@ function Postagem(props) {
   }
 
   async function handleShare() {
-    ToastAndroid.show("Compartilhar", ToastAndroid.SHORT);
+    ToastAndroid.show(i18n.t('share'), ToastAndroid.SHORT);
   }
 
   return (
