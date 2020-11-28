@@ -88,12 +88,12 @@ function AddComment({ route }) {
         ),
       })
       .then((value) => {
-        ToastAndroid.show("Seu comentário foi postado.", ToastAndroid.SHORT);
+        ToastAndroid.show(i18n.t('composted'), ToastAndroid.SHORT);
         Keyboard.dismiss();
         setMycomment("");
       })
       .catch((err) =>
-        ToastAndroid.show("Erro na função comentar.", ToastAndroid.SHORT)
+        ToastAndroid.show(i18n.t('comerror'), ToastAndroid.SHORT)
       );
   }
 
@@ -119,7 +119,7 @@ function AddComment({ route }) {
       <View style={styles.containerInput}>
         <View style={styles.containerInput2}>
           <TextInput
-            placeholder="Digite aqui..."
+            placeholder={i18n.t('typehere')} 
             multiline
             style={styles.input}
             value={mycomment}
