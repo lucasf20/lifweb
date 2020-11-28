@@ -157,7 +157,9 @@ export default function RenderPost({ post }) {
     }
 
     if (!cached) {
-        cache(foto.uri, 'foto').then(obj => { setimagem(obj); })
+        //cache(foto.uri, 'foto').then(obj => { setimagem(obj); })
+        setimagem(foto)
+        //Image.prefetch(foto.uri).then(() => {setimagem(foto)})
         if (post['avatar']) {
             setavatar(perfil)
         } else {
@@ -459,7 +461,7 @@ ${descricao}`,
                         </TouchableHighlight>
                     )}
                 />
-                <Image source={imagem} style={{ height: height().h, width: height().w, borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
+                <Image source={{...foto, cache: 'force-cache'}} transition={false} style={{ height: height().h, width: height().w, borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 13 }}>

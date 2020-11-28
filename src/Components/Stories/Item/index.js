@@ -1,6 +1,6 @@
 import * as Localization from 'expo-localization'
 import i18n from 'i18n-js';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -39,21 +39,26 @@ const Item = ({ post }) => {
     nav.navigate('Profile', { uid: post['owner'] });
   }
 
-  if (load) {
+
+  useEffect(() => {
     getImgs()
-  }
+  }, [])
+
+
   async function getImgs() {
     await firebase.firestore().collection('user').doc(post['owner']).get().then(data => setname(data.data()['apelido']))
     await firebase.storage().ref('user/' + post['owner'] + "/perfil").getDownloadURL().then(url => setperfil({ uri: url })).catch(erro => setperfil(null))
-    var i = await firebase.storage().ref('user/' + post['owner'] + "/posts/" + post['postname']).getDownloadURL().then(url => {return url}).catch(erro => {return null})
+    var i = await firebase.storage().ref('user/' + post['owner'] + "/posts/" + post['postname']).getDownloadURL().then(url => { return url }).catch(erro => { return null })
     setload(false)
-    const manipResult = await ImageManipulator.manipulateAsync(
-      i,
-      [],{ compress: 0.1 }
-    );
-    if(i){
-      setimage({uri:manipResult.uri})
-    }
+    setimage({ uri: i }) 
+    //Image.prefetch(i).then(() => { setimage({ uri: i }) })
+    // const manipResult = await ImageManipulator.manipulateAsync(
+    //   i,
+    //   [],{ compress: 0.1 }
+    // );
+    // if(i){
+    //   setimage({uri:manipResult.uri})
+    // }
   }
 
   function getTime(postname) {
@@ -77,8 +82,8 @@ const Item = ({ post }) => {
 
   if (image && name) {
     return (
-      <TouchableOpacity style={styles.container} onPress={() => {navigateOwnerProfile()}}>
-         <Image source={image} style={{ ...styles.container }} /> 
+      <TouchableOpacity style={styles.container} onPress={() => { navigateOwnerProfile() }}>
+        <Image source={{ ...image, cache: 'force-cache' }} style={{ ...styles.container }} />
         <View style={{ position: "absolute", marginTop: 10, marginLeft: 15, width: 100 }}>
           {(perfil) ?
             (
