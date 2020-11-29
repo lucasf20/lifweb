@@ -140,7 +140,7 @@ export default function SendPost2({ navigate, route }) {
                             </TouchableOpacity>
                         </View>
                         <TouchableOpacity onPress={() => {
-                            if (imagem && descricao.length > 0) {
+                            if (imagem) {
                                 setshowproximo(false)
                                 postar().then(
                                     () => {

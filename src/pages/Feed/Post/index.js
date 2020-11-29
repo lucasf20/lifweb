@@ -57,6 +57,8 @@ export default function Post() {
                 var avatar = await firebase.storage().ref("user/" + p['owner'] + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
                 var apelido = await firebase.firestore().collection('user').doc(p['owner']).get().then(data => { return data.data()['apelido'] })
                 posts.push({ ...p, postname: postnames[i], image: postimage, avatar, apelido })
+            }else{
+                break
             }
         }
         return posts
@@ -79,13 +81,14 @@ export default function Post() {
         <View style={{ marginBottom: 100}}>
             <FlatList
                 data={pts}
+                keyExtractor={(item, index) => `${index}`}
                 renderItem={({ item, index, separators }) => (
                     <RenderPost post={item}></RenderPost>
                 )}
                 removeClippedSubviews={true} // Unmount components when outside of window 
                 initialNumToRender={2} // Reduce initial render amount
-                maxToRenderPerBatch={1} // Reduce number in each render batch
-                updateCellsBatchingPeriod={100} // Increase time between renders
+                maxToRenderPerBatch={3} // Reduce number in each render batch
+                updateCellsBatchingPeriod={1} // Increase time between renders
                 windowSize={7} // Reduce the window size
             />
             {/*pts.map(item => <RenderPost post={item}></RenderPost>)*/}
