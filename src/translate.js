@@ -39,7 +39,7 @@ const translate = {
         configurations: 'Settings',
         logout: 'Logout',
 
-        mostliked:'Most Liked',
+        mostliked:'On The Road',
 
         passwrecover: 'Password Recovery',
         passwrphrase: 'Let\'s recover your password',
@@ -48,7 +48,7 @@ const translate = {
         sharechoose: 'Choose what to share',
         sharephrase:'shared this post through the LifWeb app. Join us!',
         exportimg: 'Export Image',
-        sharetext: 'Share Text',
+        sharetext: 'Share LifWeb',
         ha: '',
         minutes:' minutes ago',
         hours:' hours ago',
@@ -183,7 +183,7 @@ const translate = {
         configurations: 'Configurações',
         logout: 'Fazer Logoff',
 
-        mostliked: 'Mais Curtido',
+        mostliked: 'Na Estrada',
 
         passwrecover: 'Recuperação de senha',
         passwrphrase: 'Vamos recuperar a sua senha',
@@ -192,7 +192,7 @@ const translate = {
         sharechoose: 'Escolha o Compartilhamento',
         sharephrase:'está compartilhando momentos no Lifweb. Acesse e instale o aplicativo você também em',
         exportimg: 'Exporta Imagem',
-        sharetext: 'Compartilhar Texto',
+        sharetext: 'Compartilhar Lifweb',
         ha: 'Há ',
         minutes:' minutos',
         hours:' horas',
@@ -329,7 +329,7 @@ const translate = {
         logout: 'Cerrar sesión',
 
 
-        mostliked: 'Más Gustado',
+        mostliked: 'En La Carretera',
 
         passwrecover: 'Recuperación de contraseña',
         passwrphrase: 'Recuperemos su contraseña',
@@ -337,7 +337,7 @@ const translate = {
         sharepost: 'Compartir publicación',
         sharechoose: 'Elegir compartir',
         exportimg: 'Exportar imagen',
-        sharetext: 'Compartir texto',
+        sharetext: 'Compartir LifWeb',
         ha: 'Hace ',
         minutes: 'minutos',
         hours: 'horas',

@@ -455,8 +455,8 @@ ${descricao}`,
                                 }}
                             onShowUnderlay={separators.highlight}
                             onHideUnderlay={separators.unhighlight}>
-                            <View style={{ backgroundColor: (index == 0) ? 'red' : 'orange', borderRadius: 5, height: 50, marginTop: 1, marginHorizontal: 5, alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 15, color: (index == 0) ? 'white' : 'black' }}>{item}</Text>
+                            <View style={{ backgroundColor: (index == 0) ? 'red' : '#021740', borderRadius: 5, height: 50, marginTop: 1, marginHorizontal: 5, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 15, color: (index == 0) ? 'white' : 'white' }}>{item}</Text>
                             </View>
                         </TouchableHighlight>
                     )}
@@ -513,7 +513,7 @@ ${descricao}`,
                             placeholder={i18n.t('enterdescript')}
                             style={{ width: (Dimensions.get('window').width - 80), marginRight: 10 }}
                         />
-                        <View style={{ backgroundColor: colorStyles.dorange, borderRadius: 5 }}>
+                        <View style={{ backgroundColor: colorStyles.doraange, borderRadius: 5 }}>
                             <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
                         </View>
                     </View>
