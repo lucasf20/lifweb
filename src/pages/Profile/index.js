@@ -170,7 +170,7 @@ export default function Profile({ navigation, route }) {
                         <Text style={{ fontSize: 25, marginTop: 50 }}>
                             {personaldata.nome}
                         </Text>
-                        <Text style={{ fontSize: 15, color: 'gray' }}>
+                        <Text style={{ fontSize: 13.2, color: 'gray', width: 250, fontWeight: 'bold'  }}>
                             {personaldata.profissao}
                         </Text>
                         <Text style={{ fontSize: 15, fontWeight: 'bold' }}>
