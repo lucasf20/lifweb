@@ -52,7 +52,7 @@ function Foto({uid}){
 function Mensagem(props) {
   const { usuario } = useContext(AuthContext);
   const { msg } = props;
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState(msg?.createdAt);
   const isAutor = firebase.auth().currentUser.uid === msg.idRemetente;
 
   function toDateTime(secs) {
