@@ -2,7 +2,7 @@
   "expo": {
     "name": "Lifweb",
     "slug": "lifweb",
-    "version": "1.0.6",
+    "version": "1.0.8",
     "orientation": "portrait",
     "icon": "assets/icon.png",
     "facebookScheme": "fb347233869864538",
@@ -25,7 +25,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.company.lifweb",
-      "buildNumber": "1.0.6"
+      "buildNumber": "1.0.8"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -34,7 +34,7 @@
     "android": {
       "googleServicesFile": "./google-services.json",
       "package": "com.company.lifweb",
-      "versionCode": 6
+      "versionCode": 8
     }
   }
 }
