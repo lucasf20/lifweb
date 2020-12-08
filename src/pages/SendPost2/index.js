@@ -6,7 +6,7 @@ import { useNavigation, StackActions } from '@react-navigation/native';
 import colorStyles from "../../colors";
 import * as ImagePicker from 'expo-image-picker';
 import styles from './styles'
-import { EvilIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import MyTextInput from '../../MyTextInput';
 import firebase from '../../../firebaseConfig';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -51,6 +51,7 @@ export default function SendPost2({ navigate, route }) {
     const [descricao, setdescricao] = useState("")
     const [h, seth] = useState(Dimensions.get('window').width - 40)
     const [w, setw] = useState(Dimensions.get('window').width - 40)
+    const [rot, setrot] = useState(0)
     const [showproximo, setshowproximo] = useState(true)
 
     const postar = async () => {
@@ -63,7 +64,7 @@ export default function SendPost2({ navigate, route }) {
             owner: user.uid,
             likes: [],
             descricao: descricao,
-            rotation: rotate(),
+            rotation: manualRotation(),
             comments: [],
             repost: false
         }
@@ -96,12 +97,26 @@ export default function SendPost2({ navigate, route }) {
         var ang = route.params.coord
         if (ang.y < 0.5) {
             if (ang.x > 0) {
-                return '270deg'
+                return 270
             } else {
-                return '90deg'
+                return 90
             }
         } else {
-            return '0deg'
+            return 0
+        }
+    }
+
+    function manualRotation(){
+        var inival = rotate() + ((rot%4) * 90)
+        switch(inival){
+            case 0:
+                return "0deg"
+            case 90:
+                return "90deg"
+            case 180:
+                return "180deg"
+            case 270:
+                return "270deg"
         }
     }
 
@@ -119,7 +134,7 @@ export default function SendPost2({ navigate, route }) {
                             {i18n.t('selectimage')} 
                         </Text>
                     </TouchableOpacity>
-                    {(imagem) ? (<Image source={imagem} style={{ position: 'absolute', height: Dimensions.get('window').width - 40, width: Dimensions.get('window').width - 40, borderRadius: 5, transform: [{ rotate: rotate() }] }} />) : (<View />)}
+                    {(imagem) ? (<Image source={imagem} style={{ position: 'absolute', height: Dimensions.get('window').width - 40, width: Dimensions.get('window').width - 40, borderRadius: 5, transform: [{ rotate: manualRotation() }] }} />) : (<View />)}
                 </View>
                 {(imagem) ? (
                     <View style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 20 }}>
@@ -139,6 +154,7 @@ export default function SendPost2({ navigate, route }) {
                             </Text>
                             </TouchableOpacity>
                         </View>
+                        <MaterialIcons name="rotate-right" size={30} color={dorange} onPress={() => {setrot(rot + 1)}}/>
                         <TouchableOpacity onPress={() => {
                             if (imagem) {
                                 setshowproximo(false)

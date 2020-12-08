@@ -275,7 +275,7 @@ ${descricao}`,
             return { h, w }
         } else {
             Image.getSize(imagem.uri, (width, height) => {
-                if (rotation == "0deg") {
+                if (rotation == "0deg" || rotation == '180deg') {
                     seth(height)
                     setw(width)
                 } else {
@@ -461,7 +461,7 @@ ${descricao}`,
                         </TouchableHighlight>
                     )}
                 />
-                <Image source={{...foto, cache: 'force-cache'}} transition={false} style={{ transform: [{ rotate: rotation }], height: height().h, width: height().w, borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
+                <Image source={{...foto, cache: 'force-cache'}} transition={false} style={{ transform: [{ rotate: rotation }], height:(rotation == '0deg'||rotation == "90deg")?(height().h):(height().w), width: (height().w), borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 13 }}>

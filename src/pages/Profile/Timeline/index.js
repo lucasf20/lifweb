@@ -14,9 +14,9 @@ function Grid({ imagesList }) {
         var img = []
         for (let i = 0; i < imagesList.length; i++) {
             if (imagesList[i]['repost']) {
-                img.push(imagesList[i]['repost']['image'])
+                img.push({img:imagesList[i]['repost']['image'], rotation:imagesList[i]['repost']['rotation']})
             } else {
-                img.push(imagesList[i]['image'])
+                img.push({img:imagesList[i]['image'], rotation:imagesList[i]['rotation']})
             }
         }
         return img
@@ -28,10 +28,10 @@ function Grid({ imagesList }) {
                 return (
                     <View style={{ flexDirection: 'row', marginBottom: 20 }}>
                         <TouchableOpacity>
-                            <Image source={{...item[0] , cache: 'force-cache'}} style={{ borderRadius: 5, height: 110, width: ((Dimensions.get('window').width - 60) * (2 / 3)) }} />
+                            <Image source={{...item[0]['img'] , cache: 'force-cache'}} style={{ borderRadius: 5, height: 110, width: ((Dimensions.get('window').width - 60) * (2 / 3)) }} />
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Image source={{...item[1] , cache: 'force-cache'}} style={{ marginLeft: 20, borderRadius: 5, height: 110, width: ((Dimensions.get('window').width - 60) * (1 / 3)) }} />
+                            <Image source={{...item[1]['img'] , cache: 'force-cache'}} style={{ marginLeft: 20, borderRadius: 5, height: 110, width: ((Dimensions.get('window').width - 60) * (1 / 3)) }} />
                         </TouchableOpacity>
                     </View>
                 )
@@ -39,10 +39,10 @@ function Grid({ imagesList }) {
                 return (
                     <View style={{ flexDirection: 'row', marginBottom: 20 }}>
                         <TouchableOpacity>
-                            <Image source={{...item[0] , cache: 'force-cache'}} style={{ borderRadius: 5, height: 110, width: ((Dimensions.get('window').width - 60) * (1 / 3)) }} />
+                            <Image source={{...item[0]['img'] , cache: 'force-cache'}} style={{ borderRadius: 5, height: 110, width: ((Dimensions.get('window').width - 60) * (1 / 3)) }} />
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Image source={{...item[1] , cache: 'force-cache'}} style={{ marginLeft: 20, borderRadius: 5, height: 110, width: ((Dimensions.get('window').width - 60) * (2 / 3)) }} />
+                            <Image source={{...item[1]['img'] , cache: 'force-cache'}} style={{ marginLeft: 20, borderRadius: 5, height: 110, width: ((Dimensions.get('window').width - 60) * (2 / 3)) }} />
                         </TouchableOpacity>
                     </View>
                 )
@@ -52,7 +52,7 @@ function Grid({ imagesList }) {
                 return (
                     <View style={{ flexDirection: 'row', marginBottom: 20 }}>
                         <TouchableOpacity>
-                            <Image source={{...item[0] , cache: 'force-cache'}} style={{ borderRadius: 5, height: 110, width: ((Dimensions.get('window').width - 60) * (2 / 3)) }} />
+                            <Image source={{...item[0]['img'] , cache: 'force-cache'}} style={{ borderRadius: 5, height: 110, width: ((Dimensions.get('window').width - 60) * (2 / 3)) }} />
                         </TouchableOpacity>
                     </View>
                 )
@@ -60,7 +60,7 @@ function Grid({ imagesList }) {
                 return (
                     <View style={{ flexDirection: 'row', marginBottom: 20 }}>
                         <TouchableOpacity>
-                            <Image source={{...item[0] , cache: 'force-cache'}} style={{ borderRadius: 5, height: 110, width: ((Dimensions.get('window').width - 60) * (1 / 3)) }} />
+                            <Image source={{...item[0]['img'] , cache: 'force-cache'}} style={{ borderRadius: 5, height: 110, width: ((Dimensions.get('window').width - 60) * (1 / 3)) }} />
                         </TouchableOpacity>
                     </View>
                 )

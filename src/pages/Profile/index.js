@@ -31,27 +31,27 @@ function Header() {
         <Fragment>
             <View style={{ position: 'absolute', backgroundColor: 'black', opacity: 0.4, height: 100, width: "100%" }}>
             </View>
-            <View style={{ position: 'absolute', flexDirection: 'row', justifyContent: 'space-between', width: "100%"  }}>
+            <View style={{ position: 'absolute', flexDirection: 'row', justifyContent: 'space-between', width: "100%" }}>
                 <TouchableOpacity style={{ marginLeft: 5, marginTop: 50, flexDirection: 'row' }} onPress={() => { navigation.navigate("Feed") }}>
-                    <Entypo name="chevron-left" size={24} color="white" style={{ paddingHorizontal:15}}/>
+                    <Entypo name="chevron-left" size={24} color="white" style={{ paddingHorizontal: 15 }} />
                     <EvilIcons name="search" size={30} color="transparent" style={{ paddingLeft: 15 }} />
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <View>
-                        <Text style={{ fontWeight: 'bold', color: 'white', marginTop: 50, fontSize: 20}}>
+                        <Text style={{ fontWeight: 'bold', color: 'white', marginTop: 50, fontSize: 20 }}>
                             Perfil
                         </Text>
                     </View>
-                    
+
                 </TouchableOpacity>
-                <View style={{ flexDirection: 'row', marginRight: 5}}>
-                <TouchableOpacity style={{ marginTop: 50 }} onPress={() => { navigation.navigate("Filters") }}>
-                    <EvilIcons name="search" size={30} color="white" style={{ paddingLeft: 15, paddingHorizontal:15 }} />
-                </TouchableOpacity>
-                <TouchableOpacity style={{ marginTop: 50 }} onPress={() => { navigation.navigate('MinhasMensagens') }}>
-                    <MaterialCommunityIcons name="message-outline" size={24} color="white" style={{ paddingLeft: 15, paddingHorizontal:15 }}/>
-                </TouchableOpacity>
-            </View>
+                <View style={{ flexDirection: 'row', marginRight: 5 }}>
+                    <TouchableOpacity style={{ marginTop: 50 }} onPress={() => { navigation.navigate("Filters") }}>
+                        <EvilIcons name="search" size={30} color="white" style={{ paddingLeft: 15, paddingHorizontal: 15 }} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ marginTop: 50 }} onPress={() => { navigation.navigate('MinhasMensagens') }}>
+                        <MaterialCommunityIcons name="message-outline" size={24} color="white" style={{ paddingLeft: 15, paddingHorizontal: 15 }} />
+                    </TouchableOpacity>
+                </View>
             </View>
         </Fragment>
     )
@@ -71,9 +71,9 @@ export default function Profile({ navigation, route }) {
 
     async function getPersonalData() {
         if (!personaldata) {
+            await checkIntegrity()
             await firebase.firestore().collection('user').doc(user).get().then(data => {
                 var dados = data.data()
-                console.log(dados['apelido'])
                 var set = {
                     currentUser: user == firebase.auth().currentUser.uid,
                     nome: dados['apelido'],
@@ -89,6 +89,21 @@ export default function Profile({ navigation, route }) {
     }
 
     getPersonalData()
+
+    async function checkIntegrity(){
+        var [following, followed] = await firebase.firestore().collection('user').doc(user).get().then(
+            data => {
+                var dados = data.data()
+                return [dados['following'], dados['followed']]
+            }
+        )
+        if(!following){
+            await firebase.firestore().collection('user').doc(user).update({following:[]})
+        }
+        if(!followed){
+            await firebase.firestore().collection('user').doc(user).update({followed:[]})
+        }
+    }
 
 
     function getMainPictures() {
@@ -121,8 +136,32 @@ export default function Profile({ navigation, route }) {
     async function follow() {
         var phoneOwner = firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid)
         var profileOwner = firebase.firestore().collection('user').doc(user)
-        await phoneOwner.get().then(data => { if (!data.exists) { phoneOwner.set({ following: [], followed: [] }) } })
-        await profileOwner.get().then(data => { if (!data.exists) { profileOwner.set({ following: [], followed: [] }) } })
+        await phoneOwner.get().then(data => {
+            if (!data.exists) {
+                phoneOwner.update({ following: [], followed: [] })
+            }
+            else {
+                if (!data.data()['following']) {
+                    phoneOwner.update({ following: [] })
+                }
+                if (!data.data()['followed']) {
+                    phoneOwner.update({ followed: [] })
+                }
+            }
+        })
+        await profileOwner.get().then(data => {
+            if (!data.exists) {
+                profileOwner.update({ following: [], followed: [] })
+            }
+            else {
+                if (!data.data()['following']) {
+                    phoneOwner.update({ following: [] })
+                }
+                if (!data.data()['followed']) {
+                    phoneOwner.update({ followed: [] })
+                }
+            }
+        })
         await phoneOwner.update({ following: firebase.firestore.FieldValue.arrayUnion(user) })
         await profileOwner.update({ followed: firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid) })
         setseguido(seguido + 1)
@@ -170,7 +209,7 @@ export default function Profile({ navigation, route }) {
                         <Text style={{ fontSize: 25, marginTop: 50 }}>
                             {personaldata.nome}
                         </Text>
-                        <Text style={{ fontSize: 13.2, color: 'gray', width: 250, fontWeight: 'bold'  }}>
+                        <Text style={{ fontSize: 13.2, color: 'gray', width: 250, fontWeight: 'bold' }}>
                             {personaldata.profissao}
                         </Text>
                         <Text style={{ fontSize: 15, fontWeight: 'bold' }}>
