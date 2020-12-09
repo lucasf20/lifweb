@@ -83,7 +83,7 @@ const Item = ({ post }) => {
   if (image && name) {
     return (
       <TouchableOpacity style={styles.container} onPress={() => { navigateOwnerProfile() }}>
-        <Image source={{ ...image, cache: 'force-cache' }} style={{ ...styles.container, transform: [{ rotate: post['rotation'] }] }} />
+        <Image source={{ ...image, cache: 'force-cache' }} style={{ overflow: 'hidden', borderRadius: 5, backgroundColor:'black', transform: [{ rotate: post['rotation'] }], width:180,height:180 }} />
         <View style={{ position: "absolute", marginTop: 10, marginLeft: 15, width: 100 }}>
           {(perfil) ?
             (
