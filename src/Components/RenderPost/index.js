@@ -285,9 +285,16 @@ ${descricao}`,
             }, (error) => {
                 console.error(`Couldn't get the image size: ${error.message}`);
             });
-            var wt = Dimensions.get('window').width - 10
-            var ht = h * (wt) / w
-            return { h: ht, w: wt }
+            if(rotation == '0deg' || rotation == "180deg"){
+               var wt = Dimensions.get('window').width - 10
+               var ht = h * (wt) / w
+               return { h: ht, w: wt } 
+            }else{
+                var ht = Dimensions.get('window').width - 10
+                var wt = w * (ht) / w
+               return { h: ht, w: wt } 
+            }
+            
         }
     }
 
@@ -461,7 +468,7 @@ ${descricao}`,
                         </TouchableHighlight>
                     )}
                 />
-                <Image source={{...foto, cache: 'force-cache'}} transition={false} style={{ transform: [{ rotate: rotation }], height:(rotation == '0deg'||rotation == "90deg")?(height().h):(height().w), width: (height().w), borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
+                <Image source={{...foto, cache: 'force-cache'}} transition={false} style={{ transform: [{ rotate: rotation }], height:(height().h), width: (height().w), borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 13 }}>
