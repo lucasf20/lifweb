@@ -29,39 +29,31 @@ export default function Post() {
     async function getPosts() {
         var uidList = await getFollowers().then(data => data)
         var posts = []
-        var postnames = []
-        for (let i = 0; i < uidList.length; i++) {
-            var a = await firebase.firestore().collection('user').doc(uidList[i]).get().then(
-                data => {
-                    if(data.exists){
-                        var dados = data.data()
-                        if (dados['posts']) {
-                            return dados['posts']
-                        } else {
-                            return []
-                        }
-                    }else{
-                        return []
+        var posts_com_foto = []
+        for(let i = 0; i < uidList.length; i++){
+            var avatar = await firebase.storage().ref("user/" + uidList[i] + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
+            var apelido = await firebase.firestore().collection('user').doc(uidList[i]).get().then(data => { return data.data()['apelido'] })
+            var p = await firebase.firestore().collection('posts').where('owner', '==', uidList[i]).get()
+            .then(
+                snap => {
+                    var pst = []
+                    if(!snap.empty){
+                        snap.forEach(
+                            item => {
+                                pst.push({...item.data(),postname:item.id, apelido, avatar})
+                            }
+                        )
                     }
-                        
+                    return pst.reverse()
                 }
             )
-            postnames = postnames.concat(a)
+            posts = posts.concat(p)
         }
-        postnames.sort()
-        postnames.reverse()
-        for (let i = 0; i < postnames.length; i++) {
-            if (Date.now() - Math.floor(postnames[i]) < 172800000) {
-                var p = await firebase.firestore().collection('posts').doc(postnames[i]).get().then(data => data.data())
-                var postimage = (!p['repost']) ? (await firebase.storage().ref("user/" + p['owner'] + "/posts/" + postnames[i]).getDownloadURL().then(url => { return { uri: url } })) : (null)
-                var avatar = await firebase.storage().ref("user/" + p['owner'] + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
-                var apelido = await firebase.firestore().collection('user').doc(p['owner']).get().then(data => { return data.data()['apelido'] })
-                posts.push({ ...p, postname: postnames[i], image: postimage, avatar, apelido })
-            }else{
-                break
-            }
+        for(let i = 0 ; i< posts.length; i++){
+            var postimage = (!posts[i]['repost']) ? (await firebase.storage().ref("user/" + posts[i]['owner'] + "/posts/" + posts[i]['postname']).getDownloadURL().then(url => { return { uri: url } })) : (null)
+            posts_com_foto.push({...posts[i],image:postimage })
         }
-        return posts
+        return posts_com_foto
     }
 
     if (!got) {
