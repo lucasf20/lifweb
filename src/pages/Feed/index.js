@@ -57,8 +57,8 @@ export default function Feed() {
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-        navigation.dispatch(StackActions.pop(1))
-        navigation.navigate('Feed')
+        navigation.dispatch(StackActions.popToTop())
+        navigation.navigate('Feed2')
         wait(2000).then(() => setRefreshing(false));
     }, []);
 

@@ -160,8 +160,10 @@ export default function SendPost2({ navigate, route }) {
                                 setshowproximo(false)
                                 postar().then(
                                     () => {
-                                        navigation.dispatch(StackActions.popToTop())
+                                        
                                         navigation.navigate("Feed")
+                                        navigation.dispatch(StackActions.popToTop())
+                                        navigation.navigate("FeedReload")
                                     }
                                 )
 

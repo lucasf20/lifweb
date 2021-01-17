@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();
+const FeedStack = createStackNavigator();
 
 import CreateAcc from './pages/CreateAcc';
 import CreateAcc2 from './pages/CreateAcc2';
@@ -31,7 +32,7 @@ export default function Routes(){
         <NavigationContainer>
           <Tab.Navigator screenOptions={{tabBarVisible:false}}>
             <Tab.Screen name="Login" component={Stack} />
-            <Tab.Screen name="Feed" component={Feed} />
+            <Tab.Screen name="Feed" component={FeedSt} />
             <Tab.Screen name="MinhasMensagens" component={MinhasMensagens}/>
             <Tab.Screen name="Filters" component={Filters} />
             <Tab.Screen name="Menu" component={Menu} />
@@ -51,7 +52,6 @@ function Stack() {
             <AppStack.Screen name = "LoginRedeSocial" component = {LoginRedeSocial}/>
             <AppStack.Screen name = "EsqueciMinhaSenha" component = {EsqueciMinhaSenha}/>
             <AppStack.Screen name = "Menu" component = {Menu}/>
-            <AppStack.Screen name = "FeedReload" component = {Feed}/>
             <AppStack.Screen name = "Direct" component = {Direct}/>
             <AppStack.Screen name = "Profile" component = {Profile} initialParams={{uid:null}}/>
             <AppStack.Screen name = "SendPost" component = {SendPost}/>
@@ -65,4 +65,13 @@ function Stack() {
             <AppStack.Screen name = "Follow" component = {Follow} initialParams={{followed:false, uid:null}}/>
         </AppStack.Navigator>
     );
+}
+
+function FeedSt(){
+  return(
+    <AppStack.Navigator screenOptions = {{headerShown: false}} initialRouteName='Feed2'>
+      <AppStack.Screen name = "Feed2" component = {Feed}/>
+      <AppStack.Screen name = "FeedReload" component = {Feed}/>
+    </AppStack.Navigator>
+  )
 }

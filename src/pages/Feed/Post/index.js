@@ -53,7 +53,13 @@ export default function Post() {
             var postimage = (!posts[i]['repost']) ? (await firebase.storage().ref("user/" + posts[i]['owner'] + "/posts/" + posts[i]['postname']).getDownloadURL().then(url => { return { uri: url } })) : (null)
             posts_com_foto.push({...posts[i],image:postimage })
         }
-        return posts_com_foto
+        return posts_com_foto.sort((a,b) => {
+            if(a.postname < b.postname){
+                return true
+            }else{
+                return false
+            }
+        })
     }
 
     if (!got) {
