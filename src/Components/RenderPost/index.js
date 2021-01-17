@@ -159,6 +159,7 @@ export default function RenderPost({ post }) {
     if (!cached) {
         //cache(foto.uri, 'foto').then(obj => { setimagem(obj); })
         setimagem(foto)
+        Image.prefetch(foto.uri)
         //Image.prefetch(foto.uri).then(() => {setimagem(foto)})
         if (post['avatar']) {
             setavatar(perfil)
