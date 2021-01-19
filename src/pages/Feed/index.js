@@ -10,6 +10,7 @@ import Stories from "../../Components/Stories";
 import HeaderSp from "../../Components/HeaderSp";
 import StoriesList from "../../Components/Stories";
 import Post from './Post'
+import BlankPage from '../BlankPage'
 
 
 import styles from './styles';
@@ -18,34 +19,35 @@ import colorStyles from "../../colors";
 
 import firebase from '../../../firebaseConfig';
 
-export default function Feed() {
+export default function Feed({ navigation, route }) {
 
     const dorange = colorStyles.dorange
-    const navigation = useNavigation();
+    const nav = useNavigation();
     const [firstAccess, setFirstAccess] = useState(false)
+    const [stopReload, setStopReload] = useState(true)
 
     //login required
     useEffect(() => {
         firebase.auth().onAuthStateChanged(user => {
             if (!user) {
-                navigation.navigate('Login')
+                nav.navigate('Login')
             } else {
                 firebase.database().ref('user/' + user.uid + '/firstAccess').on('value', snapshot => {
                     setFirstAccess(snapshot.val())
                 })
                 if (firstAccess) {
-                    navigation.navigate('CreateAcc2')
+                    nav.navigate('CreateAcc2')
                 }
             }
         })
     })
 
     function navigateBack() {
-        navigation.goBack();
+        nav.goBack();
     }
 
     function navigateHome() {
-        navigation.navigate('Login');
+        nav.navigate('Login');
     }
 
     const [refreshing, setRefreshing] = React.useState(false);
@@ -56,26 +58,41 @@ export default function Feed() {
       }
 
     const onRefresh = React.useCallback(() => {
+        // const navigationRef = React.useRef(null);
+        // const route = navigationRef.current?.getCurrentRoute();
         setRefreshing(true);
-        navigation.dispatch(StackActions.popToTop())
-        navigation.navigate('Feed2')
-        wait(2000).then(() => setRefreshing(false));
+        nav.dispatch(StackActions.popToTop())
+        nav.navigate('Feed')
+        //nav.dispatch(StackActions.pop(1))
+        // (route == 'Feed2')?nav.navigate('FeedReload'):nav.navigate('Feed2')
+        wait(500).then(() => setRefreshing(false));
     }, []);
 
-    return (
-        <SafeAreaView>
-            <HeaderSp />
-            <ScrollView
-                contentContainerStyle={styles.scrollView}
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }
-            >
-                <Stories />
-                <Post />
-            </ScrollView>
-            <Cambutton />
-        </SafeAreaView>
-    );
+    if(route.params.reload && stopReload){
+        setStopReload(false)
+        onRefresh()
+    }
+
+    if(!refreshing){
+        return (
+            <SafeAreaView>
+                <HeaderSp />
+                <ScrollView
+                    contentContainerStyle={styles.scrollView}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
+                >
+                    <Stories />
+                    <Post />
+                </ScrollView>
+                <Cambutton />
+            </SafeAreaView>
+        );
+    }else{
+        return (
+            <BlankPage></BlankPage>
+        );
+    }
 }
 

@@ -110,7 +110,7 @@ export default function App() {
         return (
             <View style={styles.container}>
                 <View style={{justifyContent:'space-between', flexDirection:'row'}}>
-                    <Entypo name="chevron-left" size={30} color="white" style={{ marginTop: 30 }} onPress={() => { nav.goBack() }} />
+                    <Entypo name="chevron-left" size={30} color="white" style={{ marginTop: 30 }} onPress={() => { nav.navigate('Feed') }} />
                     {(flash)?
                     (<Ionicons name="ios-flash" size={30} color="yellow" style={{ marginTop: 30, marginRight:10 }} onPress={()=>{setFlash(false)}}/>):
                     (<Ionicons name="ios-flash-off" size={30} color="white" style={{ marginTop: 30, marginRight:10 }} onPress={()=>{setFlash(true)}}/>)

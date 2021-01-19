@@ -32,7 +32,7 @@ export default function Routes(){
         <NavigationContainer>
           <Tab.Navigator screenOptions={{tabBarVisible:false}}>
             <Tab.Screen name="Login" component={Stack} />
-            <Tab.Screen name="Feed" component={FeedSt} />
+            <Tab.Screen name="Feed" component={Feed} initialParams={{reload:false}}/>
             <Tab.Screen name="MinhasMensagens" component={MinhasMensagens}/>
             <Tab.Screen name="Filters" component={Filters} />
             <Tab.Screen name="Menu" component={Menu} />
@@ -45,7 +45,6 @@ export default function Routes(){
 function Stack() {
     return (
         <AppStack.Navigator screenOptions = {{headerShown: false}} initialRouteName='Login'>
-            <AppStack.Screen name = "BlankPage" component = {BlankPage}/>
             <AppStack.Screen name = "Login" component = {Login}/>
             <AppStack.Screen name = "CreateAcc2" component = {CreateAcc2}/>
             <AppStack.Screen name = "CreateAcc" component = {CreateAcc}/>
@@ -67,11 +66,11 @@ function Stack() {
     );
 }
 
-function FeedSt(){
-  return(
-    <AppStack.Navigator screenOptions = {{headerShown: false}} initialRouteName='Feed2'>
-      <AppStack.Screen name = "Feed2" component = {Feed}/>
-      <AppStack.Screen name = "FeedReload" component = {Feed}/>
-    </AppStack.Navigator>
-  )
-}
+// function FeedSt(){
+//   return(
+//     <FeedStack.Navigator screenOptions = {{headerShown: false}} initialRouteName='Feed2'>
+//       <FeedStack.Screen name = "Feed2" component = {Feed}/>
+//       <FeedStack.Screen name = "FeedReload" component = {BlankPage}/>
+//     </FeedStack.Navigator>
+//   )
+// }
