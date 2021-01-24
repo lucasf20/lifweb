@@ -219,13 +219,25 @@ export default function RenderPost({ post }) {
         //  downloadFile(
         //      imagem.uri
         // )
-        const manipResult = await ImageManipulator.manipulateAsync(
-            imagem.uri,
-            [],
-            { compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
-          );
-        await Sharing.shareAsync(manipResult.uri, { dialogTitle: 'Imagem compartilhada pelo app LifWeb' });
-        await onShare(name)
+         let url = 'https://intense-inlet-17045.herokuapp.com/imagens/'
+         let topost = {
+             method: 'POST',
+             headers: {
+               Accept: 'application/json',
+               'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+               url: imagem.uri,
+             })
+           }
+        let img  =  await fetch(url, topost).then((response) => response.json()).then((json) => {return json.imagem_marcada})
+         const manipResult = await ImageManipulator.manipulateAsync(
+             img,
+             [],
+             { compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
+           );
+         await Sharing.shareAsync(manipResult.uri, { dialogTitle: 'Imagem compartilhada pelo app LifWeb' });
+         await onShare(name)
     };
 
     const onShare = async () => {
@@ -261,11 +273,11 @@ ${descricao}`,
                     text: i18n.t('exportimg'),
                     onPress: () => openShareDialogAsync()
                 },
-                {
-                    text: i18n.t('sharetext'),
-                    onPress: () => onShare(),
-                    style: 'cancel'
-                }
+                // {
+                //     text: i18n.t('sharetext'),
+                //     onPress: () => onShare(),
+                //     style: 'cancel'
+                // }
             ],
             { cancelable: true }
         );
