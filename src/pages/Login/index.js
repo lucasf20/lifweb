@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ImageBackground,
   ToastAndroid,
+  Alert
 } from 'react-native'
 import * as Localization from 'expo-localization'
 import { useNavigation } from '@react-navigation/native'
@@ -51,13 +52,24 @@ const Login = () => {
     }
   }
 
+  const atualizaPerfil = async (image) => {
+    const response = await fetch(image)
+    const blob = await response.blob()
+    var user = Firebase.auth().currentUser
+    var uploadTask = await Firebase.storage().ref().child("user/" + user.uid + "/perfil").put(blob)
+}
+
   const loginWithFacebok = async () => {
+    var alert = true
     try {
       await FacebookAuthentication.initializeAsync({
         appId: '342347700517241',
       })
       const { type, token, ...params } = await FacebookAuthentication.logInWithReadPermissionsAsync()
-
+      const auth = await FacebookAuthentication.getAuthenticationCredentialAsync()
+      let graphapi = "https://graph.facebook.com/" + auth.userId + "/picture?width=500&height=500"
+      //console.log(graphapi)
+      //let profilePic = await fetch(graphapi).then((response) => response.json()).then((json) => {return json.url})
       if (type !== 'success') {
         alert(i18n.t('cancelalert'))
       }
@@ -65,6 +77,8 @@ const Login = () => {
       const credential = Firebase.auth.FacebookAuthProvider.credential(token)
       await Firebase.auth().signInWithCredential(credential)
       var us = Firebase.auth().currentUser
+      us.updateProfile({photoURL:graphapi})
+      alert = false
       var firstAccess = await Firebase.firestore().collection('user').doc(us.uid).get().then(data => { return !data.exists })
       if (firstAccess) {
         var data = {
@@ -78,10 +92,32 @@ const Login = () => {
           profissao: ""
         }
         Firebase.firestore().collection('user').doc(us.uid).set(data)
+      }else{
+        try{
+          await Firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + us.uid + "/perfil").getDownloadURL()
+        }catch{
+          await atualizaPerfil(us.photoURL)
+        }
       }
       Firebase.database().ref('user/' + us.uid).set(data)
     } catch (error) {
-      console.log(error)
+      //console.log(error)
+      if (alert)
+      Alert.alert(
+        "Error!",
+        i18n.t('erroralert'),
+        [
+            {
+                text: i18n.t('cancel'),
+            },
+            // {
+            //     text: i18n.t('sharetext'),
+            //     onPress: () => onShare(),
+            //     style: 'cancel'
+            // }
+        ],
+        { cancelable: true }
+    );
     }
   }
 
