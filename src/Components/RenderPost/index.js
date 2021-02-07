@@ -134,7 +134,7 @@ export default function RenderPost({ post }) {
     const [edit, setedit] = useState(false)
     const [descript, setdescript] = useState(descricao)
 
-    setTimeout(() => { getcomments() }, 15000);
+    //setTimeout(() => { getcomments() }, 15000);
 
     async function getcomments() {
         comments = await firebase.firestore().collection('posts').doc(postname).get().then(data => data.data()['comments'])
