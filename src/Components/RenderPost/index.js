@@ -39,7 +39,7 @@ i18n.fallbacks = true;
 function LikeAvatar({ likelist }) {
 
     const [image, setimage] = useState(null)
-    const [u,setu] = useState(null)
+    const [u, setu] = useState(null)
     const nav = useNavigation()
 
     async function getImg(uid) {
@@ -59,41 +59,41 @@ function LikeAvatar({ likelist }) {
 
     var interval = likelist.length
     if (interval > 0) {
-        var random = Math.floor(Math.random()*Date.now()) % interval
+        var random = Math.floor(Math.random() * Date.now()) % interval
         var winner = likelist[random]
         if (!image) {
-            getImg(winner).then(im => {setimage(im); setu(winner)})
+            getImg(winner).then(im => { setimage(im); setu(winner) })
         }
         return (
             <Fragment>
                 { u && <TouchableOpacity onPress={() => { navigateOwnerProfile() }}>
-                {(image == profileIcon) ?
-                    (<Image source={profileIcon} style={{ height: 50, width: 43 }} />) :
-                    (
-                        <Svg style={{
-                            width: 45,
-                            height: 45,
-                            borderRadius: 50,
-                            marginRight: 8
-                        }} width="50" height="50" viewBox="0 -3 43 55">
-                            <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-                            <Defs>
-                                <ClipPath id="image" clipRule="evenodd">
-                                    <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-                                </ClipPath>
-                            </Defs>
-                            <SvgImage
-                                x="0"
-                                y="0"
-                                width="50"
-                                height="50"
-                                href={image}
-                                clipPath="#image"
-                            />
-                        </Svg>
-                    )}
-                    </TouchableOpacity>
-                    }
+                    {(image == profileIcon) ?
+                        (<Image source={profileIcon} style={{ height: 50, width: 43 }} />) :
+                        (
+                            <Svg style={{
+                                width: 45,
+                                height: 45,
+                                borderRadius: 50,
+                                marginRight: 8
+                            }} width="50" height="50" viewBox="0 -3 43 55">
+                                <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                                <Defs>
+                                    <ClipPath id="image" clipRule="evenodd">
+                                        <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                                    </ClipPath>
+                                </Defs>
+                                <SvgImage
+                                    x="0"
+                                    y="0"
+                                    width="50"
+                                    height="50"
+                                    href={image}
+                                    clipPath="#image"
+                                />
+                            </Svg>
+                        )}
+                </TouchableOpacity>
+                }
             </Fragment>
         )
     } else {
@@ -114,7 +114,7 @@ export default function RenderPost({ post }) {
     const user = firebase.auth().currentUser
     const apelido = post['apelido']
     const perfil = (post['avatar']) ? post['avatar'] : profileIcon
-    const foto = (post['repost']) ? post['repost']['image'] : post['image']
+    const foto = (post['repost']) ? post['repost']['image']['uri'] : post['image']['uri']
     const repost = post['repost']
     var comments = post['comments']
     const likes = post['likes']
@@ -158,8 +158,8 @@ export default function RenderPost({ post }) {
 
     if (!cached) {
         //cache(foto.uri, 'foto').then(obj => { setimagem(obj); })
-        setimagem(foto)
-        Image.prefetch(foto.uri)
+        setimagem({ uri: foto })
+        //Image.queryCache(foto.uri)
         //Image.prefetch(foto.uri).then(() => {setimagem(foto)})
         if (post['avatar']) {
             setavatar(perfil)
@@ -219,25 +219,25 @@ export default function RenderPost({ post }) {
         //  downloadFile(
         //      imagem.uri
         // )
-         let url = 'https://intense-inlet-17045.herokuapp.com/imagens/'
-         let topost = {
-             method: 'POST',
-             headers: {
-               Accept: 'application/json',
-               'Content-Type': 'application/json'
-             },
-             body: JSON.stringify({
-               url: imagem.uri,
-             })
-           }
-        let img  =  await fetch(url, topost).then((response) => response.json()).then((json) => {return json.imagem_marcada})
-         const manipResult = await ImageManipulator.manipulateAsync(
-             img,
-             [],
-             { compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
-           );
-         await Sharing.shareAsync(manipResult.uri, { dialogTitle: 'Imagem compartilhada pelo app LifWeb' });
-         await onShare(name)
+        let url = 'https://intense-inlet-17045.herokuapp.com/imagens/'
+        let topost = {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                url: imagem.uri,
+            })
+        }
+        let img = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.imagem_marcada })
+        const manipResult = await ImageManipulator.manipulateAsync(
+            img,
+            [],
+            { compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
+        );
+        await Sharing.shareAsync(manipResult.uri, { dialogTitle: 'Imagem compartilhada pelo app LifWeb' });
+        await onShare(name)
     };
 
     const onShare = async () => {
@@ -298,16 +298,16 @@ ${descricao}`,
             }, (error) => {
                 console.error(`Couldn't get the image size: ${error.message}`);
             });
-            if(rotation == '0deg' || rotation == "180deg"){
-               var wt = Dimensions.get('window').width - 10
-               var ht = h * (wt) / w
-               return { h: ht, w: wt } 
-            }else{
+            if (rotation == '0deg' || rotation == "180deg") {
+                var wt = Dimensions.get('window').width - 10
+                var ht = h * (wt) / w
+                return { h: ht, w: wt }
+            } else {
                 var ht = Dimensions.get('window').width - 10
                 var wt = w * (ht) / w
-               return { h: ht, w: wt } 
+                return { h: ht, w: wt }
             }
-            
+
         }
     }
 
@@ -453,7 +453,7 @@ ${descricao}`,
                                 () => {
                                     if (index == 0) {
                                         Alert.alert(
-                                            i18n.t('deletepost')+'?',
+                                            i18n.t('deletepost') + '?',
                                             i18n.t('deletequestion'),
                                             [
                                                 {
@@ -481,7 +481,7 @@ ${descricao}`,
                         </TouchableHighlight>
                     )}
                 />
-                <Image source={{...foto, cache: 'force-cache'}} transition={false} style={{ transform: [{ rotate: rotation }], height:(height().h), width: (height().w), borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
+                <Image source={{ uri:foto, cache: 'force-cache' }} transition={false} style={{ transform: [{ rotate: rotation }], height: (height().h), width: (height().w), borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 13 }}>
@@ -537,11 +537,11 @@ ${descricao}`,
                             <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
                         </View>
                     </View>
-                ) : (<Text style={{ fontSize: 16, marginLeft:15 }}>
+                ) : (<Text style={{ fontSize: 16, marginLeft: 15 }}>
                     {descript}
                 </Text>)}
                 {lastcomment &&
-                    <TouchableOpacity onPress={() => { nav.navigate("Comments", { post: post }) }} style={{marginLeft:15}}>
+                    <TouchableOpacity onPress={() => { nav.navigate("Comments", { post: post }) }} style={{ marginLeft: 15 }}>
                         <View style={{ flexDirection: 'row' }} >
                             <Text style={{ fontWeight: 'bold', color: colorStyles.dorange, fontSize: 16 }}>
                                 {lastcomment.user}:
@@ -549,11 +549,11 @@ ${descricao}`,
                             <Text style={{ fontSize: 16 }}>
                                 {" " + lastcomment.comment}
                             </Text>
-                            
+
                         </View>
-                        <Text style={{ fontSize: 16, color:'gray' }}>
-                                {(lastcomment.tam>1)? i18n.t('see') + lastcomment.tam + i18n.t('comment')+'s.' : i18n.t('see') + lastcomment.tam + i18n.t('comment')+'.'}
-                            </Text>
+                        <Text style={{ fontSize: 16, color: 'gray' }}>
+                            {(lastcomment.tam > 1) ? i18n.t('see') + lastcomment.tam + i18n.t('comment') + 's.' : i18n.t('see') + lastcomment.tam + i18n.t('comment') + '.'}
+                        </Text>
 
                     </TouchableOpacity >
                 }
