@@ -37,11 +37,11 @@ export default function SendPost2({ navigate, route }) {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [1, 1],
-            quality: 0.2,
+            quality: 1,
             base64: true
         });
         if (!result.cancelled) {
-            setImagem({ uri: result.uri });
+            setImagem(result);
         }
     };
 
@@ -55,11 +55,28 @@ export default function SendPost2({ navigate, route }) {
     const [showproximo, setshowproximo] = useState(true)
 
     const postar = async () => {
-        const response = await fetch(imagem.uri)
-        const blob = await response.blob()
+        //const response = await fetch(imagem.uri)
+        //const blob = await response.blob()
         var user = firebase.auth().currentUser
-        var postname = Date.now().toString()
-        var upload = await firebase.storage().ref().child("user/" + user.uid + "/posts/" + postname).put(blob)
+        var postname = Date.now()
+        //var upload = await firebase.storage().ref().child("user/" + user.uid + "/posts/" + postname).put(blob)
+        // console.log(typeof(imagem.base64))
+        var url = "https://intense-inlet-17045.herokuapp.com/fotos/"
+        //https://intense-inlet-17045.herokuapp.com/fotos/
+        var uploadData = {
+            foto:imagem.base64,
+            owner:user.uid,
+            time:postname
+        }
+        let topost = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(uploadData)
+        }
+        await fetch(url, topost)
+        postname = postname.toString()
         var metadata = {
             owner: user.uid,
             likes: [],
@@ -148,7 +165,7 @@ export default function SendPost2({ navigate, route }) {
                 {(showproximo) ? (
                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between', marginHorizontal: 20, alignItems:'center' }}>
                         <View style={{ flexDirection: "row" }}>
-                            <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                            <TouchableOpacity onPress={() => { navigation.navigate('SendPost') }}>
                                 <Text style={styles.text}>
                                     {i18n.t('cancel')} 
                             </Text>
@@ -175,7 +192,7 @@ export default function SendPost2({ navigate, route }) {
                     </View>
                 ) : (
                         <View style={{ justifyContent: 'center', alignItems:'center' }}>
-                            <Text style={{fontsize:20, color:colorStyles.dorange}}>
+                            <Text style={{ color:colorStyles.dorange}}>
                                 {i18n.t('loading')} 
                             </Text>
                         </View>

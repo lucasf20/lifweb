@@ -234,7 +234,7 @@ export default function RenderPost({ post }) {
         const manipResult = await ImageManipulator.manipulateAsync(
             img,
             [],
-            { compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
+            { compress: 1, format: ImageManipulator.SaveFormat.PNG  }
         );
         await Sharing.shareAsync(manipResult.uri, { dialogTitle: 'Imagem compartilhada pelo app LifWeb' });
         await onShare(name)

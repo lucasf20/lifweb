@@ -83,7 +83,7 @@ export default function App() {
           const data = await camera.takePictureAsync(options);
           const source = data.uri;
           Accelerometer.addListener(obj => {setcoord(obj)})
-          nav.navigate('SendPost2', {photo:{uri:source},coord:coord})
+          nav.navigate('SendPost2', {photo:data,coord:coord})
         }
       };
 

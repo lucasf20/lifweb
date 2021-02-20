@@ -46,7 +46,7 @@ const Login = () => {
   const login = async () => {
     try {
       await Firebase.auth().signInWithEmailAndPassword(email, password)
-      navigation.navigate('Feed')
+      navigation.navigate('Feed',{reload:true})
     } catch (error) {
       alert(i18n.t('passalert'))
     }
