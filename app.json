@@ -32,7 +32,7 @@
     },
     "description": "",
     "android": {
-      "permissions": ["READ_CONTACTS", "WRITE_SETTINGS", "CAMERA"],
+      "permissions": ["READ_CONTACTS", "WRITE_SETTINGS", "CAMERA", "MEDIA_LIBRARY", "MEDIA_LIBRARY_WRITE_ONLY"],
       "googleServicesFile": "./google-services.json",
       "package": "com.company.lifweb",
       "versionCode": 19
