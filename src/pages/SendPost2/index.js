@@ -165,7 +165,7 @@ export default function SendPost2({ navigate, route }) {
                 {(showproximo) ? (
                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between', marginHorizontal: 20, alignItems:'center' }}>
                         <View style={{ flexDirection: "row" }}>
-                            <TouchableOpacity onPress={() => { navigation.navigate('SendPost') }}>
+                            <TouchableOpacity onPress={() => {navigation.dispatch(StackActions.popToTop()); navigation.navigate('SendPost') }}>
                                 <Text style={styles.text}>
                                     {i18n.t('cancel')} 
                             </Text>

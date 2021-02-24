@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useRef} from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Dimensions, Platform } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
@@ -6,7 +6,7 @@ import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/v
 import { useNavigation } from '@react-navigation/native';
 import { DeviceMotion, Accelerometer } from 'expo-sensors';
 
-export default function App() {
+export default function SendPost() {
     //  camera permissions
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const [camera, setCamera] = useState(null);

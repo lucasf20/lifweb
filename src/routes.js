@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();
-const FeedStack = createStackNavigator();
 
 import CreateAcc from './pages/CreateAcc';
 import CreateAcc2 from './pages/CreateAcc2';
@@ -25,7 +24,7 @@ import Comments from './pages/Comments'
 import Settings from './pages/Settings'
 import MinhasMensagens from './pages/MinhasMensagens';
 import Chat from './pages/Chat';
-import BlankPage from './pages/BlankPage'
+import firebase from '../firebaseConfig'
 
 export default function Routes(){
     return (
@@ -36,21 +35,26 @@ export default function Routes(){
             <Tab.Screen name="MinhasMensagens" component={MinhasMensagens}/>
             <Tab.Screen name="Filters" component={Filters} />
             <Tab.Screen name="Menu" component={Menu} />
-            <Tab.Screen name="SendPost" component={SendPost} />
           </Tab.Navigator>
         </NavigationContainer>
       );
 }
 
 function Stack() {
+  const[user, setUser] = useState(false)
+  firebase.auth().onAuthStateChanged(u => { setUser(u)})
     return (
-        <AppStack.Navigator screenOptions = {{headerShown: false}} initialRouteName='Login'>
+      (!user)?(
+        <AppStack.Navigator screenOptions = {{headerShown: false}}>
             <AppStack.Screen name = "Login" component = {Login}/>
-            <AppStack.Screen name = "CreateAcc2" component = {CreateAcc2}/>
             <AppStack.Screen name = "CreateAcc" component = {CreateAcc}/>
-            <AppStack.Screen name = "LoginRedeSocial" component = {LoginRedeSocial}/>
             <AppStack.Screen name = "EsqueciMinhaSenha" component = {EsqueciMinhaSenha}/>
+        </AppStack.Navigator>
+      ):(
+        <AppStack.Navigator screenOptions = {{headerShown: false}}>
             <AppStack.Screen name = "Menu" component = {Menu}/>
+            <AppStack.Screen name = "CreateAcc2" component = {CreateAcc2}/>
+            <AppStack.Screen name = "LoginRedeSocial" component = {LoginRedeSocial}/>
             <AppStack.Screen name = "Direct" component = {Direct}/>
             <AppStack.Screen name = "Profile" component = {Profile} initialParams={{uid:null}}/>
             <AppStack.Screen name = "SendPost" component = {SendPost}/>
@@ -63,6 +67,7 @@ function Stack() {
             <AppStack.Screen name = "Settings" component = {Settings}/>
             <AppStack.Screen name = "Follow" component = {Follow} initialParams={{followed:false, uid:null}}/>
         </AppStack.Navigator>
+      )   
     );
 }
 

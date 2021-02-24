@@ -2,7 +2,7 @@ import React from 'react';
 import {TouchableOpacity,Image} from 'react-native';
 import styles from './styles';
 import cameraIcon from '../../assets/camera_icon.png';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, StackActions} from '@react-navigation/native';
 
 
 export default function Cambutton(){
@@ -17,7 +17,7 @@ export default function Cambutton(){
             ...styles.paddingDefault,
             ...styles.floatRight,
         }}
-        onPress={() => navigation.navigate('SendPost')}
+        onPress={() => {navigation.dispatch(StackActions.popToTop()); navigation.navigate('SendPost')}}
         >
             <Image source={cameraIcon} style={{height:60, width:60}}></Image>
         </TouchableOpacity>
