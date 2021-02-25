@@ -335,8 +335,7 @@ ${descricao}`,
         }
         await firebase.firestore().collection("posts").doc(pname).set(metadata)
         await firebase.firestore().collection('user').doc(user.uid).update({ posts: firebase.firestore.FieldValue.arrayUnion(pname) })
-        nav.dispatch(StackActions.popToTop)
-        nav.navigate('Feed')
+        nav.navigate("Feed",{reload:true})
     }
 
     function getTime() {
@@ -436,7 +435,7 @@ ${descricao}`,
                                 </Svg>
                             ) : (<Image source={profileIcon} style={{ height: 50, width: 43, marginRight: 13 }} />)}
                         </TouchableOpacity>}
-                        <Text style={{ color: colorStyles.dorange, fontWeight: 'bold' }}>
+                        <Text style={{ color: colorStyles.dorange, fontWeight: 'bold', maxWidth:"45%" }}>
                             {repost['apelido']}
                         </Text>
                     </TouchableOpacity>) : (<Fragment />)}
