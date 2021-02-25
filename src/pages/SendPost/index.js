@@ -118,7 +118,7 @@ export default function SendPost() {
                 </View>
                 <Camera
                     flashMode={(flash)?'on':'off'}
-                    style={[styles.cameraPreview, { marginTop: imagePadding, marginBottom: imagePadding }]}
+                    style={[styles.cameraPreview, { marginTop: (Dimensions.get("window").height - (16/9)*Dimensions.get("window").width)/2, marginBottom: (Dimensions.get("window").height - (16/9)*Dimensions.get("window").width)/2, }]}
                     type={type}
                     onCameraReady={setCameraReady}
                     ratio={'1:1'}
@@ -156,5 +156,7 @@ const styles = StyleSheet.create({
     },
     cameraPreview: {
         flex: 1,
+        
+
     }
 });
