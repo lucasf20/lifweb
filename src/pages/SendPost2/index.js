@@ -164,10 +164,10 @@ export default function SendPost2({ navigate, route }) {
 
                 {(showproximo) ? (
                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between', marginHorizontal: 20, alignItems:'center' }}>
-                        <View style={{ flexDirection: "row" }}>
+                        <View style={{ flexDirection: "row", backgroundColor: '#021740', borderRadius:5, height:50, justifyContent:'center' }}>
                             <TouchableOpacity onPress={() => {navigation.dispatch(StackActions.popToTop()); navigation.navigate('SendPost') }}>
-                                <Text style={styles.text}>
-                                    {i18n.t('cancel')} 
+                                <Text style={{ ...styles.text, color: 'white', fontWeight: 'bold', marginHorizontal:15, marginVertical:10}}>
+                                    {i18n.t('newimage')} 
                             </Text>
                             </TouchableOpacity>
                         </View>

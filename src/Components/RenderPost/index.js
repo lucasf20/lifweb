@@ -5,6 +5,8 @@ import React, { useState, Fragment } from 'react'
 import { ScrollView, View, Image, Text, Dimensions, TouchableOpacity, FlatList, Alert, TouchableHighlight, Share } from 'react-native'
 
 import { SimpleLineIcons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons';
+
 
 import firebase from '../../../firebaseConfig'
 import profileIcon from '../../assets/logolifweb.png'
@@ -370,8 +372,9 @@ ${descricao}`,
 
     return (
         <View style={{ marginVertical: 20 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Entypo  name="dots-three-vertical" size={20} color="black" onPress={() => { (showops) ? setshowops(false) : setshowops(true) }}/>
                     <TouchableOpacity onPress={() => { navigateOwnerProfile() }}>
                         {(post['avatar']) ? (
                             <Svg style={{
@@ -408,6 +411,7 @@ ${descricao}`,
                         <Text style={{ color: 'gray' }}>
                             {getTime()}
                         </Text>
+                       
                     </View>
                     {(repost) ? (<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => { navigateRepostProfile() }}>
                         {<TouchableOpacity onPress={() => { navigateRepostProfile() }} style={{ marginLeft: 5 }}>
@@ -440,7 +444,7 @@ ${descricao}`,
                         </Text>
                     </TouchableOpacity>) : (<Fragment />)}
                 </View>
-                <SimpleLineIcons name="options" size={24} color="gray" onPress={() => { (showops) ? setshowops(false) : setshowops(true) }} />
+                
             </View>
             <View>
                 <FlatList

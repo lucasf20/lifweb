@@ -59,6 +59,7 @@ const translate = {
         repostphrase: 'Are you sure you want to repost this post?',
         repost:'Repost',
         cancel:'Cancel',
+        newimage: 'New Image',
         deletepost: 'Delete Post',
         delete: 'Delete',
         deletequestion:'Are you sure you want to delete this post?',
@@ -203,6 +204,7 @@ const translate = {
         repostphrase: 'Você tem certeza que deseja repostar esta postagem?',
         repost: 'Repostar',
         cancel: 'Cancelar',
+        newimage:'Nova Foto',
         deletepost: 'Excluir Post',
         editpost: 'Editar Post',
 
@@ -348,6 +350,7 @@ const translate = {
         repostphrase: '¿Estás seguro de que quieres volver a publicar esta publicación?',
         repost: 'Volver a publicar',
         cancel: 'Cancelar',
+        newimage: 'Nueva Foto',
         deletepost: 'Eliminar publicación',
         editpost: 'Editar publicación',
 
