@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { ScrollView, SafeAreaView, RefreshControl } from 'react-native';
-import { useNavigation, StackActions } from '@react-navigation/native';
+import { useNavigation, StackActions, CommonActions } from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 import Cambutton from '../../Components/Cambutton'
 
@@ -65,12 +65,16 @@ export default function Feed({ navigation, route }) {
         nav.navigate('Feed')
         //nav.dispatch(StackActions.pop(1))
         // (route == 'Feed2')?nav.navigate('FeedReload'):nav.navigate('Feed2')
-        wait(500).then(() => setRefreshing(false));
+        wait(500).then(() => {setRefreshing(false);});
     }, []);
 
     if(route.params.reload && stopReload){
         setStopReload(false)
         onRefresh()
+        nav.dispatch(CommonActions.setParams({reload:false}))
+    }
+    if(!route.params.reload && !stopReload){
+        setStopReload(true)
     }
 
     if(!refreshing){

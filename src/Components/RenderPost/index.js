@@ -360,7 +360,7 @@ ${descricao}`,
         }
         nav.navigate('Feed')
         nav.dispatch(StackActions.popToTop)
-        nav.navigate('Feed')
+        nav.navigate('Feed', {reload:true})
     }
 
     async function editarPost() {
