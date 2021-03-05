@@ -33,8 +33,10 @@ function Part1({ changeState }) {
                 cidade: (data.endereco) ? data.endereco.cidade : ""
             },
             telefone: (data.telefone) ? data.telefone : "",
-            sangue: (data.sangue) ? data.sangue : ""
-        }
+            sangue: (data.sangue) ? data.sangue : "",
+            fullName:(data.fullName) ? data.fullName : "",
+            apelido:(data.apelido) ? data.apelido : "",
+                    }
         return [iniStates, data]
     }
 
@@ -50,7 +52,8 @@ function Part1({ changeState }) {
     const [showlist, setshowlist] = useState(false)
     const [sangue, setsangue] = useState(dados.sangue)
     const [cepcorreto, setcepcorreto] = useState(dados.endereco.cep.length > 0)
-
+    const[fullName, setnome] = useState(dados.fullName)
+    const [apelido, setapelido] = useState(dados.apelido)
     function checkCep(cp) {
         var c = cp.replace("-", "").replace(".", "")
         if (c.length == 8 && !cepchecked) {
@@ -136,25 +139,30 @@ function Part1({ changeState }) {
     }
 
     function atualizar() {
-        if (cepcorreto) {
-            if (extract().length == 8) {
-                if (rua.length > 0) {
-                    if (numero.length > 0) {
-                        if (cidade.length > 0) {
-                            if (checkTelefone()[0]) {
-                                if (sangue.length > 0) {
-                                    var data = {
-                                        endereco: {
-                                            cep: extract(),
-                                            rua,
-                                            numero,
-                                            cidade
-                                        },
-                                        telefone: checkTelefone()[1],
-                                        sangue
-                                    }
+        if(fullName.length > 0){
+        if(apelido.length > 0){
+            if (cepcorreto) {
+                if (extract().length == 8) {
+                    if (rua.length > 0) {
+                        if (numero.length > 0) {
+                            if (cidade.length > 0) {
+                                if (checkTelefone()[0]) {
+                                    if (sangue.length > 0) {
+                                        var data = {
+                                            endereco: {
+                                                cep: extract(),
+                                                rua,
+                                                numero,
+                                                cidade
+                                            },
+                                            telefone: checkTelefone()[1],
+                                            sangue,
+                                            apelido,
+                                            fullName
+                                        }
                                     firebase.database().ref('user/' + user.uid).update(data)
                                     firebase.firestore().collection('user').doc(user.uid).update(data)
+                                    user.updateProfile({displayName:fullName})
                                         .then(changeState(2))
                                 } else {
                                     Alert.alert("Tipo sanguíneo inválido!", "Forneça seu tipo sanguíneo!")
@@ -176,11 +184,25 @@ function Part1({ changeState }) {
             }
         } else {
             Alert.alert("Forneça um CEP válido!", "O CEP foi digitado incorretamente ou não existe!")
+         }   
+        } else{
+            Alert.alert("Apleido inválido!", "Forneça um apelido!")
+        } 
+        } else{
+            Alert.alert("Nome inválido!", "Forneça um Nome!")
         }
     }
 
     return (
         <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
+                {i18n.t('name')} 
+            </Text>
+            <MyTextInput value={fullName} onChangeText={text => { setnome(text) }} placeholder='Nome' />
+            <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
+                {i18n.t('namequestion')} 
+            </Text>
+            <MyTextInput value={apelido} onChangeText={text => { setapelido(text) }} placeholder='Apelido' />
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 {i18n.t('zipcode')} 
             </Text>
