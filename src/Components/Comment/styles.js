@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
 
   comentario: {
     fontSize: 14,
+    marginHorizontal: 15
   },
 
   containerLegenda: {

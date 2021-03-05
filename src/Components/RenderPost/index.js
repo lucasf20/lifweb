@@ -540,7 +540,7 @@ ${descricao}`,
                             <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
                         </View>
                     </View>
-                ) : (<Text style={{ fontSize: 16, marginLeft: 15 }}>
+                ) : (<Text style={{ fontSize: 16}}>
                     {descript}
                 </Text>)}
                 {lastcomment &&
@@ -549,7 +549,7 @@ ${descricao}`,
                             <Text style={{ fontWeight: 'bold', color: colorStyles.dorange, fontSize: 16 }}>
                                 {lastcomment.user}:
                             </Text>
-                            <Text style={{ fontSize: 16 }}>
+                            <Text style={{ fontSize: 14, marginEnd:50, paddingEnd: 20}}>
                                 {" " + lastcomment.comment}
                             </Text>
 
