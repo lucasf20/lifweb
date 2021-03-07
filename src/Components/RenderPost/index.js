@@ -481,7 +481,7 @@ ${descricao}`,
                                             [
                                                 {
                                                     text: i18n.t('report'),
-                                                    onPress: () => Linking.openURL('mailto:denunciar@lifweb.com?subject=Denunciar_Usuario&body=Description')
+                                                    onPress: () => Linking.openURL('mailto:denunciar@lifweb.com?subject=Denunciar%20Usuario%20'+apelido+'body=Descreva%20sua%20denuncia')
                                                 },
                                                 {
                                                     text: i18n.t('cancel'),
