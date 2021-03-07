@@ -108,7 +108,7 @@ export default function Timeline({ uid, grid }) {
     }
 
     if (!gotimg) {
-        getPosts().then(p => { setimglist(p); setgotimg(true); console.log(p) })
+        getPosts().then(p => { setimglist(p); setgotimg(true); })
     }
 
     //var imglist = [image2, image3, image4, image5, image7, image8, image9]

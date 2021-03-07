@@ -2,7 +2,7 @@
   "expo": {
     "name": "Lifweb",
     "slug": "lifweb",
-    "version": "1.0.25",
+    "version": "1.0.26",
     "orientation": "portrait",
     "icon": "assets/icon.png",
     "facebookScheme": "fb347233869864538",
@@ -25,7 +25,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.company.lifweb",
-      "buildNumber": "1.0.25"
+      "buildNumber": "1.0.26"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -35,7 +35,7 @@
       "permissions": ["READ_CONTACTS", "WRITE_SETTINGS", "CAMERA", "MEDIA_LIBRARY", "MEDIA_LIBRARY_WRITE_ONLY", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE", "READ_CALENDAR", "WRITE_CALENDAR"],
       "googleServicesFile": "./google-services.json",
       "package": "com.company.lifweb",
-      "versionCode": 25
+      "versionCode": 26
     }
   }
 }

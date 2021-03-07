@@ -28,13 +28,12 @@ export default function Feed({ navigation, route }) {
 
     //login required
     useEffect(() => {
-        firebase.auth().onAuthStateChanged(user => {
+        firebase.auth().onAuthStateChanged(async user => {
             if (!user) {
                 nav.navigate('Login')
             } else {
-                firebase.database().ref('user/' + user.uid + '/firstAccess').on('value', snapshot => {
-                    setFirstAccess(snapshot.val())
-                })
+                var infs = await firebase.firestore().collection('user').doc(user.uid).get().then(snap => snap.data())
+                setFirstAccess(infs['firstAccess'])
                 if (firstAccess) {
                     nav.navigate('CreateAcc2')
                 }

@@ -10,6 +10,8 @@ import MyTextInput from '../../MyTextInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as ImagePicker from 'expo-image-picker';
 import translate from '../../translate';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 
 i18n.translations = translate
 
@@ -54,6 +56,63 @@ function Part1({ changeState }) {
     const [cepcorreto, setcepcorreto] = useState(dados.endereco.cep.length > 0)
     const[fullName, setnome] = useState(dados.fullName)
     const [apelido, setapelido] = useState(dados.apelido)
+
+    //date picker
+
+    const [date, setDate] = useState(new Date(1598051730000));
+    const [Data, setData] = useState('');
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+    const [dataFormat, setDateFormat] = useState("")
+    const [checkdatedb, setcheckdatedb] = useState(true)
+
+    async function getDateFirestore(){
+        var infs = await firebase.firestore().collection('user').doc(user.uid).get().then(data => data.data())
+        if(infs['dataNascimento']){
+            setDate(Date.parse(infs['dataNascimento']))
+            setData(infs['nascimento'])
+        }
+        
+    }
+
+    if (checkdatedb){
+        setcheckdatedb(false)
+        getDateFirestore()
+    }
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShow(Platform.OS === 'ios');
+        var d = currentDate + "";
+        setDateFormat(d)
+        var aux = d.split(" ")
+        setDate(currentDate)
+        const meses = {
+            Dec: "dezembro",
+            Nov: "novembro",
+            Oct: "outubro",
+            Sep: "setembro",
+            Aug: "agosto",
+            Jul: "julho",
+            Jun: "junho",
+            May: "maio",
+            Apr: "abril",
+            Mar: "março",
+            Feb: "fevereiro",
+            Jan: "janeiro"
+        }
+        setData(aux[2] + " de " + meses[aux[1]] + " de " + aux[3]);
+    };
+
+    const showMode = (currentMode) => {
+        setShow(true);
+        setMode(currentMode);
+    };
+
+    const showDatePicker = () => {
+        showMode('date');
+    };
+
     function checkCep(cp) {
         var c = cp.replace("-", "").replace(".", "")
         if (c.length == 8 && !cepchecked) {
@@ -148,7 +207,8 @@ function Part1({ changeState }) {
                             if (cidade.length > 0) {
                                 if (checkTelefone()[0]) {
                                     if (sangue.length > 0) {
-                                        var data = {
+                                        if(Data.length){
+                                            var data = {
                                             endereco: {
                                                 cep: extract(),
                                                 rua,
@@ -158,12 +218,17 @@ function Part1({ changeState }) {
                                             telefone: checkTelefone()[1],
                                             sangue,
                                             apelido,
-                                            fullName
+                                            fullName,
+                                            nascimento:Data,
+                                            dataNascimento:dataFormat
                                         }
                                     firebase.database().ref('user/' + user.uid).update(data)
                                     firebase.firestore().collection('user').doc(user.uid).update(data)
                                     user.updateProfile({displayName:fullName})
                                         .then(changeState(2))
+                                    }else{
+                                        Alert.alert("Data de nascimento inválida!", "Forneça sua data de nascimento!")
+                                    }     
                                 } else {
                                     Alert.alert("Tipo sanguíneo inválido!", "Forneça seu tipo sanguíneo!")
                                 }
@@ -203,6 +268,33 @@ function Part1({ changeState }) {
                 {i18n.t('namequestion')} 
             </Text>
             <MyTextInput value={apelido} onChangeText={text => { setapelido(text) }} placeholder='Apelido' />
+            <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
+                    {i18n.t('birthquestion')}
+            </Text>
+            <TouchableOpacity onPress={showDatePicker} style={{
+                    borderRadius: 5,
+                    height: 50,
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    borderColor: "gray"
+                }}>
+                    <View style={{ alignItems: "center", padding: 10 }}>
+                        <Text style={{ color: (Data.length > 0) ? "black" : "gray", fontSize: 12 }}>
+                            {(Data.length > 0) ? Data : i18n.t('birthselect')}
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                {show && (
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        locale= {Localization.locale}
+                        value={date}
+                        mode={mode}
+                        is24Hour={true}
+                        display="default"
+                        onChange={onChange}
+                    />
+                )}
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 {i18n.t('zipcode')} 
             </Text>

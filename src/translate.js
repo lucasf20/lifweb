@@ -61,8 +61,11 @@ const translate = {
         cancel:'Cancel',
         newimage: 'New Image',
         deletepost: 'Delete Post',
+        report:"Report",
+        reportpost:"Report Post",
         delete: 'Delete',
         deletequestion:'Are you sure you want to delete this post?',
+        reportquestion:"Are you sure you want to report this post?",
         editpost: 'Edit Post',
 
         postedcomment:'Your comment has been posted.',
@@ -206,6 +209,9 @@ const translate = {
         cancel: 'Cancelar',
         newimage:'Nova Foto',
         deletepost: 'Excluir Post',
+        report:"Denunciar",
+        reportquestion:"Você tem certeza que deseja denunciar esta postagem?",
+        reportpost:"Denunciar Post",
         editpost: 'Editar Post',
 
         postedcomment:'Seu comentário foi postado.',
@@ -352,6 +358,9 @@ const translate = {
         cancel: 'Cancelar',
         newimage: 'Nueva Foto',
         deletepost: 'Eliminar publicación',
+        reportquestion:"¿Estás seguro de que quieres denunciar esta publicación?",
+        report:"Denunciar",
+        reportpost:"Denunciar publicación",
         editpost: 'Editar publicación',
 
         postedcomment: 'Su comentario ha sido publicado.',

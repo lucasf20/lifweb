@@ -2,7 +2,7 @@ import * as Localization from 'expo-localization'
 import i18n from 'i18n-js';
 import React, { useState, Fragment } from 'react'
 
-import { ScrollView, View, Image, Text, Dimensions, TouchableOpacity, FlatList, Alert, TouchableHighlight, Share } from 'react-native'
+import { ScrollView, View, Image, Text, Dimensions, TouchableOpacity, FlatList, Alert, TouchableHighlight, Share, Linking } from 'react-native'
 
 import { SimpleLineIcons } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons';
@@ -236,7 +236,7 @@ export default function RenderPost({ post }) {
         const manipResult = await ImageManipulator.manipulateAsync(
             img,
             [],
-            { compress: 1, format: ImageManipulator.SaveFormat.PNG  }
+            { compress: 1, format: ImageManipulator.SaveFormat.PNG }
         );
         await Sharing.shareAsync(manipResult.uri, { dialogTitle: 'Imagem compartilhada pelo app LifWeb' });
         await onShare(name)
@@ -337,7 +337,7 @@ ${descricao}`,
         }
         await firebase.firestore().collection("posts").doc(pname).set(metadata)
         await firebase.firestore().collection('user').doc(user.uid).update({ posts: firebase.firestore.FieldValue.arrayUnion(pname) })
-        nav.navigate("Feed",{reload:true})
+        nav.navigate("Feed", { reload: true })
     }
 
     function getTime() {
@@ -360,7 +360,7 @@ ${descricao}`,
         }
         nav.navigate('Feed')
         nav.dispatch(StackActions.popToTop)
-        nav.navigate('Feed', {reload:true})
+        nav.navigate('Feed', { reload: true })
     }
 
     async function editarPost() {
@@ -374,7 +374,7 @@ ${descricao}`,
         <View style={{ marginVertical: 20 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Entypo  name="dots-three-vertical" size={20} color="black" onPress={() => { (showops) ? setshowops(false) : setshowops(true) }}/>
+                    <Entypo name="dots-three-vertical" size={20} color="black" onPress={() => { (showops) ? setshowops(false) : setshowops(true) }} />
                     <TouchableOpacity onPress={() => { navigateOwnerProfile() }}>
                         {(post['avatar']) ? (
                             <Svg style={{
@@ -411,7 +411,7 @@ ${descricao}`,
                         <Text style={{ color: 'gray' }}>
                             {getTime()}
                         </Text>
-                       
+
                     </View>
                     {(repost) ? (<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => { navigateRepostProfile() }}>
                         {<TouchableOpacity onPress={() => { navigateRepostProfile() }} style={{ marginLeft: 5 }}>
@@ -439,22 +439,22 @@ ${descricao}`,
                                 </Svg>
                             ) : (<Image source={profileIcon} style={{ height: 50, width: 43, marginRight: 13 }} />)}
                         </TouchableOpacity>}
-                        <Text style={{ color: colorStyles.dorange, fontWeight: 'bold', maxWidth:"45%" }}>
+                        <Text style={{ color: colorStyles.dorange, fontWeight: 'bold', maxWidth: "45%" }}>
                             {repost['apelido']}
                         </Text>
                     </TouchableOpacity>) : (<Fragment />)}
                 </View>
-                
+
             </View>
             <View>
                 <FlatList
-                    data={(showops && (owner == user.uid)) ? [i18n.t('deletepost'), i18n.t('editpost')] : []}
+                    data={(showops && (owner == user.uid)) ? [i18n.t('deletepost'), i18n.t('editpost')] : (showops) ? [i18n.t('reportpost')] : []}
                     renderItem={({ item, index, separators }) => (
                         <TouchableHighlight
                             key={item.key}
                             onPress={
                                 () => {
-                                    if (index == 0) {
+                                    if (index == 0 && owner == user.uid) {
                                         Alert.alert(
                                             i18n.t('deletepost') + '?',
                                             i18n.t('deletequestion'),
@@ -471,20 +471,37 @@ ${descricao}`,
                                             ],
                                             { cancelable: true }
                                         );
-                                    } else {
+                                    } if (index == 1 && owner == user.uid) {
                                         setedit(true)
                                         setshowops(false)
+                                    } if (index == 0 && owner != user.uid) {
+                                        Alert.alert(
+                                            i18n.t('reportpost') + '?',
+                                            i18n.t('reportquestion'),
+                                            [
+                                                {
+                                                    text: i18n.t('report'),
+                                                    onPress: () => Linking.openURL('mailto:denunciar@lifweb.com?subject=Denunciar_Usuario&body=Description')
+                                                },
+                                                {
+                                                    text: i18n.t('cancel'),
+                                                    onPress: () => console.log('Cancel Pressed'),
+                                                    style: 'cancel'
+                                                }
+                                            ],
+                                            { cancelable: true }
+                                        );
                                     }
                                 }}
                             onShowUnderlay={separators.highlight}
                             onHideUnderlay={separators.unhighlight}>
-                            <View style={{ backgroundColor: (index == 0) ? 'red' : '#021740', borderRadius: 5, height: 50, marginTop: 1, marginHorizontal: 5, alignItems: 'center', justifyContent: 'center' }}>
+                            <View style={{ backgroundColor: (index == 0 && owner == user.uid) ? 'red' : (index == 1) ? '#021740' : "#ffae42", borderRadius: 5, height: 50, marginTop: 1, marginHorizontal: 5, alignItems: 'center', justifyContent: 'center' }}>
                                 <Text style={{ fontSize: 15, color: (index == 0) ? 'white' : 'white' }}>{item}</Text>
                             </View>
                         </TouchableHighlight>
                     )}
                 />
-                <Image source={{ uri:foto, cache: 'force-cache' }} transition={false} style={{ transform: [{ rotate: rotation }], height: (height().h), width: (height().w), borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
+                <Image source={{ uri: foto, cache: 'force-cache' }} transition={false} style={{ transform: [{ rotate: rotation }], height: (height().h), width: (height().w), borderRadius: 5, marginVertical: 20, marginHorizontal: 5 }} />
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 13 }}>
@@ -540,7 +557,7 @@ ${descricao}`,
                             <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
                         </View>
                     </View>
-                ) : (<Text style={{ fontSize: 16}}>
+                ) : (<Text style={{ fontSize: 16 }}>
                     {descript}
                 </Text>)}
                 {lastcomment &&
@@ -549,7 +566,7 @@ ${descricao}`,
                             <Text style={{ fontWeight: 'bold', color: colorStyles.dorange, fontSize: 16 }}>
                                 {lastcomment.user}:
                             </Text>
-                            <Text style={{ fontSize: 14, marginEnd:50, paddingEnd: 20}}>
+                            <Text style={{ fontSize: 14, marginEnd: 50, paddingEnd: 20 }}>
                                 {" " + lastcomment.comment}
                             </Text>
 

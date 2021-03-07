@@ -39,6 +39,7 @@ export default function CreateAcc2() {
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const [check, setCheck] = useState(false)
+    const [dataFormat, setDateFormat] = useState("")
 
     function clearStates() {
         setName('')
@@ -77,6 +78,7 @@ export default function CreateAcc2() {
     //date time picker
 
     const onChange = (event, selectedDate) => {
+        setDateFormat(selectedDate + "")
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
         var d = currentDate + "";
@@ -132,7 +134,8 @@ export default function CreateAcc2() {
                         profissao: profSelecionada,
                         nascimento: data,
                         modeloDaMoto: {moto:motoSelecionada},
-                        posts:[]
+                        posts:[],
+                        dataNascimento:dataFormat
                     }
                 )
                 firebase.database().ref('user/' + user.uid).update({
