@@ -482,7 +482,7 @@ ${descricao}`,
                                             [
                                                 {
                                                     text: i18n.t('report'),
-                                                    onPress: () => Linking.openURL('mailto:denunciar@lifweb.com?subject='+i18n.t('reportsubject')+apelido+'body='+i18n.t('reportdescription'))
+                                                    onPress: () => Linking.openURL('mailto:denunciar@lifweb.com?subject='+i18n.t('reportsubject')+apelido+'&body='+i18n.t('reportdescription'))
                                                 },
                                                 {
                                                     text: i18n.t('cancel'),
@@ -551,11 +551,11 @@ ${descricao}`,
                         <MyTextInput
                             onChangeText={text => setdescript(text)}
                             value={descript}
-                            placeholder={i18n.t('enterdescript')}
+                            placeholder={i18n.t('enterdescrip')}
                             style={{ width: (Dimensions.get('window').width - 80), marginRight: 10 }}
                         />
                         <View style={{ backgroundColor: colorStyles.doraange, borderRadius: 5 }}>
-                            <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
+                            <MaterialIcons name="send" size={24} color={colorStyles.dorange} style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
                         </View>
                     </View>
                 ) : (<Text style={{ fontSize: 16 }}>
