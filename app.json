@@ -25,6 +25,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.company.lifweb",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "buildNumber": "1.0.28"
     },
     "web": {

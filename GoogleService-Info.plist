@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>993866057606-huova2p0q3v8126nvdesk12rn6c9444c.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.993866057606-huova2p0q3v8126nvdesk12rn6c9444c</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>993866057606-grtu2rkbtadrho10ru13sacle6t30u9d.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCoOs-qB4p1girKlpy2FsQC7xOoSXzKCUA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>993866057606</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.company.lifweb</string>
+	<key>PROJECT_ID</key>
+	<string>lifweb-38828</string>
+	<key>STORAGE_BUCKET</key>
+	<string>lifweb-38828.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:993866057606:ios:393c0de3c2b47f2e1a0e07</string>
+	<key>DATABASE_URL</key>
+	<string>https://lifweb-38828.firebaseio.com</string>
+</dict>
+</plist>
