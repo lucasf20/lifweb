@@ -230,6 +230,7 @@ export default function RenderPost({ post }) {
             },
             body: JSON.stringify({
                 url: imagem.uri,
+                rotation:rotation
             })
         }
         let img = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.imagem_marcada })
@@ -481,7 +482,7 @@ ${descricao}`,
                                             [
                                                 {
                                                     text: i18n.t('report'),
-                                                    onPress: () => Linking.openURL('mailto:denunciar@lifweb.com?subject=Denunciar%20Usuario%20'+apelido+'body=Descreva%20sua%20denuncia')
+                                                    onPress: () => Linking.openURL('mailto:denunciar@lifweb.com?subject='+i18n.t('reportsubject')+apelido+'body='+i18n.t('reportdescription'))
                                                 },
                                                 {
                                                     text: i18n.t('cancel'),

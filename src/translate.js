@@ -63,6 +63,8 @@ const translate = {
         deletepost: 'Delete Post',
         report:"Report",
         reportpost:"Report Post",
+        reportsubject:"Report%20User%20",
+        reportdescription:"Describe%20your%report.",
         delete: 'Delete',
         deletequestion:'Are you sure you want to delete this post?',
         reportquestion:"Are you sure you want to report this post?",
@@ -178,6 +180,7 @@ const translate = {
         readandacc:'Eu li e aceito os',
         termsand:'Termos & Condições',
         createnewacc: 'CRIAR NOVA CONTA',
+        birthselect:'Toque aqui para selecionar sua data de nascimento.',
         
         mensage: 'Mensagem',
         followers: 'Seguidores',
@@ -212,6 +215,8 @@ const translate = {
         report:"Denunciar",
         reportquestion:"Você tem certeza que deseja denunciar esta postagem?",
         reportpost:"Denunciar Post",
+        reportsubject:"Denunciar%20usuário%20",
+        reportdescription:"Descreva%20sua%denuncia.",
         editpost: 'Editar Post',
 
         postedcomment:'Seu comentário foi postado.',
@@ -304,6 +309,7 @@ const translate = {
         passalert: '¡El usuario no existe o la contraseña es incorrecta!',
         erroralert: 'Se ha producido un error',
         cancelalert: 'El usuario ha cancelado',
+        birthselect:'Haga clic aquí para seleccionar su fecha de nacimiento.',
 
 
         welcome: 'Bienvenido',
@@ -361,6 +367,8 @@ const translate = {
         reportquestion:"¿Estás seguro de que quieres denunciar esta publicación?",
         report:"Denunciar",
         reportpost:"Denunciar publicación",
+        reportsubject:"Denunciar%20usuário%20",
+        reportdescription:"Descreba%20su%denuncia.",
         editpost: 'Editar publicación',
 
         postedcomment: 'Su comentario ha sido publicado.',
