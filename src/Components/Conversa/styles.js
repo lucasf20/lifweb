@@ -9,9 +9,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignSelf: "center",
     marginTop:10,
-    paddingEnd:280
     
-
   },
 
   /* avatar: {
@@ -40,7 +38,7 @@ const styles = StyleSheet.create({
   preview: {
     fontSize: 16,
     color: "#999",
-    paddingEnd: 130
+    width: 170
     
     
   },
@@ -49,7 +47,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#777",
     marginHorizontal: 10,
-    paddingEnd: 20
+    paddingEnd: 20,
+    
   },
 
   containerInfos: {
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 10,
-  
+    
   },
 });
 

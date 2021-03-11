@@ -247,7 +247,7 @@ export default function Profile({ navigation, route }) {
                         >
 
                             <Text style={{ color: 'white', fontSize: 12 }}>
-                                {i18n.t('message')}
+                                {i18n.t('mensage')}
                             </Text>
                         </TouchableOpacity>
                     </View>) : (<View style={{ width: 210 }} />)}

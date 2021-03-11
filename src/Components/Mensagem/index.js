@@ -83,7 +83,7 @@ function Mensagem(props) {
       activeOpacity={0.8}
       onPress={() => setSelected(!selected)}
     >
-      <View
+      <View w 
         style={[
           styles.balao,
           isAutor

@@ -153,7 +153,7 @@ export default function Menu() {
                             <SimpleLineIcons name="bubbles" size={24} color="white" />
                             {msg > 0 && (<NotifyCircle text={msg} color='red' style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>)}
                             <Text style={styles.BigText}>
-                                {i18n.t('message')}
+                                {i18n.t('mensage')}
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
