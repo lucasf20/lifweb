@@ -31,7 +31,7 @@ const translate = {
         termsand:'Terms & Conditions',
         createnewacc: 'CREATE NEW ACCOUNT',
 
-        message: 'Message',
+        mensage: 'Message',
         followers: 'Followers',
         following: 'Following',
         notification: 'Notification',

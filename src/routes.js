@@ -34,7 +34,6 @@ export default function Routes(){
             <Tab.Screen name="Feed" component={Feed} initialParams={{reload:false}}/>
             <Tab.Screen name="MinhasMensagens" component={MinhasMensagens}/>
             <Tab.Screen name="Filters" component={Filters} />
-            <Tab.Screen name="Menu" component={Menu} />
           </Tab.Navigator>
         </NavigationContainer>
       );

@@ -1,6 +1,6 @@
 import * as Localization from 'expo-localization'
 import i18n from 'i18n-js';
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity } from 'react-native';
 import { useNavigation, StackActions } from '@react-navigation/native';
 import { SimpleLineIcons, Ionicons } from '@expo/vector-icons';
@@ -33,6 +33,19 @@ export default function Menu() {
     const navigation = useNavigation();
     const [profPicture, setprofPicture] = useState(false)
     const [profok, setprofok] = useState(true)
+    const [atualizado, setAtualizado] = useState(true)
+
+    setInterval(async () => {
+        var user = firebase.auth().currentUser
+        var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/perfil")
+        if(!profPicture){
+            storage.getDownloadURL().then(url => {
+            setprofPicture({ uri: url })
+            }).catch(erro => {
+                setprofPicture(false)
+            })
+        }
+    }, 3000);
 
 
     function logout() {
@@ -52,14 +65,14 @@ export default function Menu() {
 
     function getProfilePicture() {
         var user = firebase.auth().currentUser
-        var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/perfil")
-        if(!profPicture){
-            storage.getDownloadURL().then(url => {
-            setprofPicture({ uri: url })
-            }).catch(erro => {
-                setprofPicture(false)
-            })
-        }
+        // var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/perfil")
+        // if(!profPicture){
+        //     storage.getDownloadURL().then(url => {
+        //     setprofPicture({ uri: url })
+        //     }).catch(erro => {
+        //         setprofPicture(false)
+        //     })
+        // }
         if (profPicture || user.photoURL) {
             var img = profPicture
             if(!profPicture){
@@ -203,7 +216,7 @@ export default function Menu() {
                         <View style={styles.buttonView}></View>
                     </View>
                     <View style={{ marginTop: 40, marginBottom: 20 }}>
-                        {getProfilePicture()}
+                        {(atualizado)?getProfilePicture():(<Fragment/>)}
                         <Text style={{ fontSize: 25, color: 'white' }}>
                             {getDisplayName()}
                         </Text>

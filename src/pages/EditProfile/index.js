@@ -64,15 +64,17 @@ function Part1({ changeState }) {
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const [dataFormat, setDateFormat] = useState("")
+    const [dataReserva, setDataReserva] = useState("")
     const [checkdatedb, setcheckdatedb] = useState(true)
 
     async function getDateFirestore(){
         var infs = await firebase.firestore().collection('user').doc(user.uid).get().then(data => data.data())
-        if(infs['dataNascimento']){
-            setDate(Date.parse(infs['dataNascimento']))
+        if(infs.dataNascimento){
             setData(infs['nascimento'])
+            setDate(Date.parse(infs['dataNascimento']))
+            (infs['dataNascimento'].length)?setDataReserva(infs['dataNascimento']):setDataReserva(new Date(1598051730000)+"")
+            (infs['dataNascimento'].length)?setDateFormat(infs['dataNascimento']):setDateFormat(new Date(1598051730000)+"")
         }
-        
     }
 
     if (checkdatedb){
@@ -84,9 +86,7 @@ function Part1({ changeState }) {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
         var d = currentDate + "";
-        setDateFormat(d)
         var aux = d.split(" ")
-        setDate(currentDate)
         const meses = {
             Dec: "dezembro",
             Nov: "novembro",
@@ -101,7 +101,12 @@ function Part1({ changeState }) {
             Feb: "fevereiro",
             Jan: "janeiro"
         }
-        setData(aux[2] + " de " + meses[aux[1]] + " de " + aux[3]);
+        if(aux[2]){
+            setDate(currentDate)
+            setDateFormat(d)
+            setData(aux[2] + " de " + meses[aux[1]] + " de " + aux[3]);
+        }
+        
     };
 
     const showMode = (currentMode) => {
@@ -208,6 +213,14 @@ function Part1({ changeState }) {
                                 if (checkTelefone()[0]) {
                                     if (sangue.length > 0) {
                                         if(Data.length){
+                                            var format = ""
+                                            if(dataFormat.length){
+                                                format = dataFormat
+                                            }else if(dataReserva.length){
+                                                format = dataReserva
+                                            }else{
+                                                format = (new Date(1598051730000)+"")
+                                            }
                                             var data = {
                                             endereco: {
                                                 cep: extract(),
@@ -220,7 +233,7 @@ function Part1({ changeState }) {
                                             apelido,
                                             fullName,
                                             nascimento:Data,
-                                            dataNascimento:dataFormat
+                                            dataNascimento:format
                                         }
                                     firebase.database().ref('user/' + user.uid).update(data)
                                     firebase.firestore().collection('user').doc(user.uid).update(data)
@@ -823,7 +836,7 @@ function Part3({ changeState }) {
                     </Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); navigation.navigate("Feed") }}>
+                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); navigation.navigate("Feed", {reload:true}) }}>
                     <View style={{ alignItems: "center" }}>
                         <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
                             {i18n.t('update')} 
