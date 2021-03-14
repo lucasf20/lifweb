@@ -324,7 +324,7 @@ function Chat({ route }) {
           />
           <TouchableOpacity
             style={styles.sendButton}
-            onPress={!conversaExiste ? criarConversa : send}
+            onPress={() => {if(message.length){!conversaExiste() ? criarConversa() : send()}}}
           >
             <MaterialCommunityIcons
               name="chat-outline"

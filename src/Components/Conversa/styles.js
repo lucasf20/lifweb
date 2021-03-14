@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   preview: {
     fontSize: 16,
     color: "#999",
-    width: 170
+    width: 160
     
     
   },

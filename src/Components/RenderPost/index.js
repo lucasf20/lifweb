@@ -558,7 +558,7 @@ ${descricao}`,
                             <MaterialIcons name="send" size={24} color={colorStyles.dorange} style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { editarPost() }} />
                         </View>
                     </View>
-                ) : (<Text style={{ fontSize: 16 }}>
+                ) : (<Text style={{ fontSize: 14, marginLeft: 14, width:350 }}>
                     {descript}
                 </Text>)}
                 {lastcomment &&
