@@ -160,7 +160,6 @@ export default function RenderPost({ post }) {
 
     async function getAvatar(){
         var url = await firebase.storage().refFromURL('gs://lifweb-38828.appspot.com/user/' + owner + "/perfil").getDownloadURL().then(url => {return url})
-        console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", url)
         return url
     }
 
