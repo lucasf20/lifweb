@@ -38,13 +38,30 @@ export default function Menu() {
     setInterval(async () => {
         var user = firebase.auth().currentUser
         var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/perfil")
-        if(!profPicture){
+        if (!profPicture) {
             storage.getDownloadURL().then(url => {
-            setprofPicture({ uri: url })
+                setprofPicture({ uri: url })
             }).catch(erro => {
                 setprofPicture(false)
             })
         }
+        getPendencia()
+        firebase.firestore().collection('mensagens').where('idDestinatario', "==", user.uid).get().then(
+            data => {
+                if (!data.empty) {
+                    var cnt = 0
+                    data.forEach(
+                        item => {
+                            if (!item.data()['lida']) {
+                                cnt++
+                            }
+                        }
+                    )
+                    console.log("cnt", cnt)
+                    setmsg(cnt)
+                }
+            }
+        )
     }, 3000);
 
 
@@ -75,8 +92,8 @@ export default function Menu() {
         // }
         if (profPicture || user.photoURL) {
             var img = profPicture
-            if(!profPicture){
-                img = {uri: user.photoURL}
+            if (!profPicture) {
+                img = { uri: user.photoURL }
             }
             return (
                 <Svg width="100" height="100" viewBox="0 -3 43 55">
@@ -97,49 +114,49 @@ export default function Menu() {
                 </Svg>
             )
         } else {
-            return (<Image source={profileIcon}  style={{height:100, width:87}}/>)
+            return (<Image source={profileIcon} style={{ height: 100, width: 87 }} />)
         }
     }
 
     const [msg, setmsg] = useState(0)
 
-    setTimeout(() => {
-        getPendencia()
-        firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
-        data => {
-            if(!data.empty){
-                var cnt = 0
-                data.forEach(
-                    item => {
-                        
-                        if(!item.data()['lida']){
-                            cnt++
-                        }
-                    }
-                )
-                console.log("cnt",cnt)
-                setmsg(cnt)
-            }
-        }
-    ) 
-    }, 3000);
-    
+    // setTimeout(() => {
+    //     getPendencia()
+    //     firebase.firestore().collection('mensagens').where('idDestinatario', "==", firebase.auth().currentUser.uid).get().then(
+    //     data => {
+    //         if(!data.empty){
+    //             var cnt = 0
+    //             data.forEach(
+    //                 item => {
 
-    function getPendencia(){
+    //                     if(!item.data()['lida']){
+    //                         cnt++
+    //                     }
+    //                 }
+    //             )
+    //             console.log("cnt",cnt)
+    //             setmsg(cnt)
+    //         }
+    //     }
+    // ) 
+    // }, 3000);
+
+
+    function getPendencia() {
         firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).get().then(
             data => {
-                if(data.exists){
+                if (data.exists) {
                     var dados = data.data()
-                    if(!dados['clube'] || dados['clube'] == 'NÃO CONSTA NA LISTA'){
+                    if (!dados['clube'] || dados['clube'] == 'NÃO CONSTA NA LISTA') {
                         setprofok(false)
                     }
-                    if(dados['modeloDaMoto']['moto'] == 'NÃO CONSTA NA LISTA' || dados['profissao'] == 'NÃO CONSTA NA LISTA'){
+                    if (dados['modeloDaMoto']['moto'] == 'NÃO CONSTA NA LISTA' || dados['profissao'] == 'NÃO CONSTA NA LISTA') {
                         setprofok(false)
                     }
-                    if(!dados['endereco']){
+                    if (!dados['endereco']) {
                         setprofok(false)
                     }
-                    if(dados['firstAccess']){
+                    if (dados['firstAccess']) {
                         setprofok(false)
                     }
                 }
@@ -155,7 +172,7 @@ export default function Menu() {
             <View style={{ ...styles.container, paddingHorizontal: 18 }}>
                 <ScrollView style={{ ...styles.container, paddingHorizontal: 18 }}>
                     <View style={{ marginTop: 20 }}>
-                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.dispatch(StackActions.popToTop());navigation.navigate('Profile', {uid:firebase.auth().currentUser.uid}); }}>
+                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.dispatch(StackActions.popToTop()); navigation.navigate('Profile', { uid: firebase.auth().currentUser.uid }); }}>
                             <SimpleLineIcons name="picture" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 Timeline
@@ -170,14 +187,14 @@ export default function Menu() {
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.dispatch(StackActions.popToTop());navigation.navigate('Follow',{from:"Menu",followed:true, uid:firebase.auth().currentUser.uid, user:null})}}>
+                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.dispatch(StackActions.popToTop()); navigation.navigate('Follow', { from: "Menu", followed: true, uid: firebase.auth().currentUser.uid, user: null }) }}>
                             <SimpleLineIcons name="people" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 {i18n.t('followers')}
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.dispatch(StackActions.popToTop());navigation.navigate('Follow',{from:"Menu",followed:false, uid:firebase.auth().currentUser.uid, user:null})}}>
+                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.dispatch(StackActions.popToTop()); navigation.navigate('Follow', { from: "Menu", followed: false, uid: firebase.auth().currentUser.uid, user: null }) }}>
                             <SimpleLineIcons name="user-following" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 {i18n.t('following')}
@@ -200,7 +217,7 @@ export default function Menu() {
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={styles.buttons} onPress={()=>{navigation.navigate('Settings')}}>
+                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('Settings') }}>
                             <SimpleLineIcons name="settings" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 {i18n.t('configurations')}
@@ -216,7 +233,7 @@ export default function Menu() {
                         <View style={styles.buttonView}></View>
                     </View>
                     <View style={{ marginTop: 40, marginBottom: 20 }}>
-                        {(atualizado)?getProfilePicture():(<Fragment/>)}
+                        {(atualizado) ? getProfilePicture() : (<Fragment />)}
                         <Text style={{ fontSize: 25, color: 'white' }}>
                             {getDisplayName()}
                         </Text>
