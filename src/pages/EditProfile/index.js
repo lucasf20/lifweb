@@ -311,7 +311,7 @@ function Part1({ changeState }) {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 {i18n.t('zipcode')} 
             </Text>
-            <MyTextInput value={cep} onChangeText={text => { setcep(text); checkCep(text); setcepchecked(false) }} placeholder='CEP' />
+            <MyTextInput keyboardType="numeric" value={cep} onChangeText={text => { setcep(text); checkCep(text); setcepchecked(false) }} placeholder='CEP' />
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 {i18n.t('street')} 
             </Text>
@@ -319,7 +319,7 @@ function Part1({ changeState }) {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 {i18n.t('number')} 
             </Text>
-            <MyTextInput value={numero} onChangeText={text => { setnumero(text) }} placeholder='Número' />
+            <MyTextInput keyboardType="numeric" value={numero} onChangeText={text => { setnumero(text) }} placeholder='Número' />
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 {i18n.t('citystate')} 
             </Text>
@@ -327,7 +327,7 @@ function Part1({ changeState }) {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 {i18n.t('phone')} 
             </Text>
-            <MyTextInput value={telefone} onChangeText={text => { settelefone(mascara(text)) }} placeholder='Telefone' />
+            <MyTextInput keyboardType="numeric"  value={telefone} onChangeText={text => { settelefone(mascara(text)) }} placeholder='Telefone' />
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>
                 {i18n.t('bloodtype')} 
             </Text>
@@ -583,7 +583,7 @@ function Part2({ changeState }) {
                 )}
             />
             <View style={{ marginTop: 20 }}>
-                <MyTextInput value={ano} onChangeText={text => { setano(text) }} placeholder={i18n.t('year')} />
+                <MyTextInput keyboardType="numeric" value={ano} onChangeText={text => { setano(text) }} placeholder={i18n.t('year')} />
             </View>
             <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
                 <Text style={{ fontSize: 15 }}>
