@@ -227,7 +227,7 @@ export default function Settings() {
             <View style={{alignItems:'center', marginTop:40}}>
                 <Image source={logo} style={{height:89, width:76}}/>
                 <Text style={{backgroundColor:'silver', borderRadius:15, paddingHorizontal:40, paddingVertical:5, color:'gray', marginTop:5, overflow:'hidden'}}>
-                    v1.0.35
+                    v1.0.37
                 </Text>
             </View>
             </View>
