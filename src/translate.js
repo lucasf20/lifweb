@@ -66,7 +66,7 @@ const translate = {
         reportsubject:"Report User ",
         reportdescription:"Describe your report.",
         delete: 'Delete',
-        deletequestion:'Are you sure you want to delete this post?',
+        deletequestion:'Você tem certeza que deseja repostar esta postagem?',
         reportquestion:"Are you sure you want to report this post?",
         editpost: 'Edit Post',
 

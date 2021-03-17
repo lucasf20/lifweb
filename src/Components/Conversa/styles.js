@@ -36,15 +36,15 @@ const styles = StyleSheet.create({
   },
 
   preview: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#999",
-    width: 160
+    width: 135
     
     
   },
 
   time: {
-    fontSize: 16,
+    fontSize: 15,
     color: "#777",
     marginHorizontal: 10,
     paddingEnd: 20,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
   containerInfos: {
     flexDirection: "row",
-  },
+     },
 
   containerFotoMensagem: {
     flexDirection: "row",
@@ -65,6 +65,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 10,
+    width: "34%" , 
+    
     
   },
 });
