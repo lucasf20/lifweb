@@ -76,7 +76,7 @@ function RenderComment({ comment }) {
             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 15, marginTop: 20, width:Dimensions.get('window').width -130 }}>
                 <TouchableOpacity onPress={() => { navigateOwnerProfile() }}>
                 {(image == profileIcon) ?
-                    (<Image source={profileIcon} style={{ height: 50, width: 43,marginRight: 8, marginLeft:3 }} />) :
+                    (<Image source={profileIcon} style={{ height: 500, width: 43,marginRight: 8, marginLeft:3 }} />) :
                     (
                         <Svg style={{
                             width: 45,
@@ -106,7 +106,7 @@ function RenderComment({ comment }) {
                         <Text style={{ fontWeight: 'bold' }}>
                             {name}:
                         </Text>
-                        <Text >
+                        <Text  style={{ width:'95%', size:'18' }} >
                             {" " + comment['comment']}
                         </Text>
                     </View>
