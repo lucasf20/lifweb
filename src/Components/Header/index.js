@@ -5,6 +5,7 @@ import home from '../../assets/home_icon.png'
 import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, FontAwesome, Entypo } from '@expo/vector-icons';
 import { useNavigation,StackActions } from '@react-navigation/native';
 import firebase from "../../../firebaseConfig";
+import {StatusBar} from 'expo-status-bar';
 
 
 function Header() {
@@ -65,6 +66,7 @@ function Header() {
                     </TouchableOpacity>
                 </View>
             </View>
+            <StatusBar style="dark"/>
         </View>
     )
 }

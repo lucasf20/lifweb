@@ -5,6 +5,7 @@ import home from '../../assets/logo3_lifweb_branco.png'
 import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, FontAwesome, Entypo } from '@expo/vector-icons';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import firebase from "../../../firebaseConfig";
+import {StatusBar} from 'expo-status-bar';
 
 
 function HeaderChat() {
@@ -63,6 +64,7 @@ function HeaderChat() {
                     </TouchableOpacity>
                 </View>
             </View>
+            <StatusBar style="dark"/>
         </View>
     )
 }

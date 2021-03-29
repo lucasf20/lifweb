@@ -1,5 +1,4 @@
 import { StyleSheet, Platform } from "react-native";
-
 const styles = StyleSheet.create({
   container: {
     //flex: 1,
@@ -7,7 +6,9 @@ const styles = StyleSheet.create({
   },
 
   balao: {
-    flex: 1,
+    ...Platform.select({
+      android:{
+        flex: 1,
     minHeight: 50,
     backgroundColor: '#fff',
     marginHorizontal: 10,
@@ -29,6 +30,35 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
 
     elevation: 7,
+
+      },
+      ios:{
+        flex: 1,
+        minHeight: 50,
+        backgroundColor: '#fff',
+        marginHorizontal: 10,
+        marginVertical: 12,
+        alignSelf: 'stretch',
+        maxWidth: '85%',
+        paddingVertical:10,
+        paddingHorizontal:20,
+        // left: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: (Platform.OS == "iOS")?10:30,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+
+        elevation: 7,
+
+      },
+    })
+    
   },
 
   time: {

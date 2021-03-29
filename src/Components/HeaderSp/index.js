@@ -6,6 +6,7 @@ import { SimpleLineIcons, EvilIcons, MaterialCommunityIcons, FontAwesome } from 
 import { useNavigation,StackActions } from '@react-navigation/native';
 import colorStyles from '../../colors'
 import firebase from "../../../firebaseConfig";
+import {StatusBar} from 'expo-status-bar';
 
 
 function HeaderSp() {
@@ -64,6 +65,7 @@ function HeaderSp() {
                     </TouchableOpacity>
                 </View>
             </View>
+            <StatusBar style="dark"/>
         </View>
     )
 }

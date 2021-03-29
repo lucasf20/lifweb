@@ -7,7 +7,8 @@ import {
   SafeAreaView,
   ImageBackground,
   ToastAndroid,
-  Alert
+  Alert,
+  Platform
 } from 'react-native'
 import * as Localization from 'expo-localization'
 import { useNavigation } from '@react-navigation/native'
@@ -58,6 +59,7 @@ const Login = () => {
     var user = Firebase.auth().currentUser
     var uploadTask = await Firebase.storage().ref().child("user/" + user.uid + "/perfil").put(blob)
 }
+  
 
   const loginWithFacebok = async () => {
     var alert = true

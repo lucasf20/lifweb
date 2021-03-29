@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -11,16 +11,6 @@ const styles = StyleSheet.create({
     marginTop:10,
     
   },
-
-  /* avatar: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: "#fff",
-    backgroundColor: '#ccc',
-    marginHorizontal: 20,
-  }, */
 
   avatar: {
     marginLeft: 13,
@@ -36,11 +26,19 @@ const styles = StyleSheet.create({
   },
 
   preview: {
+
     fontSize: 14,
     color: "#999",
-    width: 135
-    
-    
+    ...Platform.select(
+      {
+        android:{
+          width: 135
+        },
+        ios:{
+          width: 160
+        }
+      }
+    )
   },
 
   time: {
@@ -62,10 +60,18 @@ const styles = StyleSheet.create({
   },
 
   containerHoraIcon: {
+    ...Platform.select({
+      android:{
+        width: "34%" 
+      },
+      ios:{
+        width: "40%" 
+      }
+
+    }),
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 10,
-    width: "34%" , 
     
     
   },

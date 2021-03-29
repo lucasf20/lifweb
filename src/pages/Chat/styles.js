@@ -1,9 +1,19 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff"
+    ...Platform.select({
+      android:{
+        flex: 1,
+        backgroundColor: "#fff"
+      },
+      ios:{
+        flex: 1,
+        backgroundColor: "#fff",
+        marginTop:5
+      }
+    })
+   
   },
 
   title: {

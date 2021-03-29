@@ -1,7 +1,6 @@
 import {StyleSheet, Dimensions} from 'react-native';
 import Constants from 'expo-constants';
 import colorStyles from "../../colors";
-
 const dorange = colorStyles.dorange
 
 export default StyleSheet.create({
