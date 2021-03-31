@@ -7,7 +7,8 @@ import {
   SafeAreaView,
   ImageBackground,
   ToastAndroid,
-  Alert
+  Alert,
+  Platform
 } from 'react-native'
 import * as Localization from 'expo-localization'
 import { useNavigation } from '@react-navigation/native'
@@ -59,7 +60,7 @@ const Login = () => {
     var uploadTask = await Firebase.storage().ref().child("user/" + user.uid + "/perfil").put(blob)
 }
 
-  const loginWithFacebok = async () => {
+  const loginWithFacebokandroid = async () => {
     var alert = true
     try {
       await FacebookAuthentication.initializeAsync({
@@ -120,8 +121,42 @@ const Login = () => {
     );
     }
   }
+  const loginWithFacebokios = async () => {
+    try {
+      await FacebookAuthentication.initializeAsync({
+        appId: '342347700517241',
+        appSecretKey: 'fed972c1ca0c883c9b29c252a430a306'
+      })
+      const { type, token, ...params } = await FacebookAuthentication.logInWithReadPermissionsAsync()
+  
+      if (type !== 'success') {
+        alert(i18n.t('cancelalert'))
+      }
+  
+      const credential = Firebase.auth.FacebookAuthProvider.credential(token)
+      await Firebase.auth().signInWithCredential(credential)
+      var us = Firebase.auth().currentUser
+      var firstAccess = await Firebase.firestore().collection('user').doc(us.uid).get().then(data => { return !data.exists })
+      if (firstAccess) {
+        var data = {
+          apelido: us.displayName,
+          firstAccess: true,
+          fullName: us.displayName,
+          modeloDaMoto: {
+            moto: ""
+          },
+          nascimento: "",
+          profissao: ""
+        }
+        Firebase.firestore().collection('user').doc(us.uid).set(data)
+      }
+      Firebase.database().ref('user/' + us.uid).set(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-  const loginWithGoogle = async () => {
+  const loginWithGoogleAndroid = async () => {
     try {
       await GoogleSignIn.initAsync({
         // You may ommit the clientId when the firebase `googleServicesFile` is configured
@@ -182,10 +217,11 @@ const Login = () => {
     }
   }
 
-  /*const loginWithGoogle = async () => {
+  const loginWithGoogleios = async () => {
     try {
       const { type, accessToken, user } = await GoogleAuthentication.logInAsync({
-        clientId: '993866057606-c8ir7l07ri24lbg5di834g28479ovj15.apps.googleusercontent.com'
+        clientId: '993866057606-huova2p0q3v8126nvdesk12rn6c9444c.apps.googleusercontent.com',
+        iosClientId: '993866057606-huova2p0q3v8126nvdesk12rn6c9444c.apps.googleusercontent.com'
       })
 
       if (type !== 'success') {
@@ -232,7 +268,31 @@ const Login = () => {
     } catch (error) {
       console.log(error)
     }
-  }*/
+  }
+  function logincomredesocialfacebook(){
+    if(Platform.OS == 'android'){
+      loginWithFacebokandroid()
+    }else if(Platform.OS == 'ios'){
+      loginWithFacebokios()
+    }
+    else{
+      alert('erro')
+    }
+  }
+
+  function logincomredesocialgoogle(){
+    if(Platform.OS=='android'){
+      loginWithGoogleAndroid()
+      console.log(Platform.OS)
+    }
+    else if(Platform.OS=='ios'){
+      loginWithGoogleios()
+    }else{
+      alert('erro')
+    }
+  }
+
+  
 
   useEffect(() => {
     Firebase.auth().onAuthStateChanged(user => {
@@ -244,15 +304,7 @@ const Login = () => {
     })
   }, [])
 
-  // if (!checked) {
-  //   Firebase.auth().onAuthStateChanged(user => {
-  //     if (user) {
-  //       setlogado(true)
-  //       navigation.navigate('Feed')
-  //     }
-  //     setchecked(true)
-  //   })
-  // }
+  
 
   if (checked) {
     return (
@@ -333,7 +385,7 @@ const Login = () => {
               style={{
                 ...styles.marginBottom,
               }}
-              onPress={() => loginWithFacebok()} />
+              onPress={() => logincomredesocialfacebook()} />
 
             <Button
               icon='google'
@@ -343,7 +395,7 @@ const Login = () => {
               style={{
                 ...styles.marginBottom,
               }}
-              onPress={() => loginWithGoogle()} />
+              onPress={() => logincomredesocialgoogle()} />
 
             <AppleAuthentication.AppleAuthenticationButton
               buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}

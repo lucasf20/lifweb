@@ -26,7 +26,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.company.lifweb",
       "googleServicesFile": "./GoogleService-Info.plist",
-      "buildNumber": "1.0.50"
+      "buildNumber": "1.0.50",
+      "usesAppleSignIn": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
