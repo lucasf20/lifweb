@@ -57,7 +57,7 @@ function Item({ uid, origin }) {
     
     if(exists){
         return (
-            <View style={{ borderColor: 'transparent', height: 100, borderBottomColor: 'silver', borderWidth: 1 }}>
+            <View style={{ borderColor: 'transparent', height: 90, borderBottomColor: 'silver', borderWidth: 1 }}>
                 {(foto) ? (
                     <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {nav.dispatch(StackActions.popToTop());nav.navigate("Profile", {uid:uid})}}>
                         <Svg width="90" height="90" viewBox="0 -3 43 55">
@@ -126,7 +126,7 @@ export default function Follow({ navigation, route }) {
     getFollows().then(console.log(follow))
 
     return (
-        <SafeAreaView>
+        <ScrollView>
             <Header/>
             <View style={{ marginHorizontal: 20, marginTop: 5}}>
                 <Text style={{ fontSize: 30, fontWeight: "bold" }}>
@@ -136,6 +136,6 @@ export default function Follow({ navigation, route }) {
                     {(gotFollows && follow)?(follow.map((item) => (<Item uid={item} origin={{from:route.params.from, user:route.params.user}}/>))):(console.log(gotFollows))}
                 </ScrollView>
             </View>
-        </SafeAreaView>
+        </ScrollView>
     )
 }
