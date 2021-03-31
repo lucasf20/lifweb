@@ -72,8 +72,8 @@ function RenderComment({ comment }) {
     }
 
     return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal:15, justifyContent:'space-between' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 15, marginTop: 20, width:Dimensions.get('window').width -130 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal:5, justifyContent:'space-between' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 2, marginTop: 20, width:Dimensions.get('window').width -130 }}>
                 <TouchableOpacity onPress={() => { navigateOwnerProfile() }}>
                 {(image == profileIcon) ?
                     (<Image source={profileIcon} style={{ height: 500, width: 43,marginRight: 8, marginLeft:3 }} />) :
