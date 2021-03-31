@@ -106,7 +106,7 @@ function RenderComment({ comment }) {
                         <Text style={{ fontWeight: 'bold' }}>
                             {name}:
                         </Text>
-                        <Text  style={{ width:'95%', size:'18' }} >
+                        <Text  style={{ width:'85%', size:'16' }} >
                             {" " + comment['comment']}
                         </Text>
                     </View>
@@ -115,7 +115,7 @@ function RenderComment({ comment }) {
                     </Text>
                 </View>
             </View>
-            {canDelete && <FontAwesome name="trash" size={24} color="red" onPress={() => {Alert.alert(
+            {canDelete && <FontAwesome name="trash" size={18} paddingLeft='500' color="red" onPress={() => {Alert.alert(
                                             i18n.t('deletecomment'),
                                             i18n.t('delcommentphrase'),
                                             [
