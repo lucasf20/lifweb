@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
                 padding:5,   
                 justifyContent:'space-between',
                 flexDirection:'row',
-                alignItems:'center',  
+                alignItems:'center',
+                backgroundColor: colorStyles.dorange,   
             },
             ios:{
                 marginTop:-5,
@@ -17,7 +18,8 @@ const styles = StyleSheet.create({
                 padding:5,   
                 justifyContent:'space-between',
                 flexDirection:'row',
-                alignItems:'center'
+                alignItems:'center',
+                backgroundColor: colorStyles.dorange, 
 
             }
         })

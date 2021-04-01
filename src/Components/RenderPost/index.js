@@ -570,18 +570,19 @@ ${descricao}`,
                 {lastcomment &&
                     <TouchableOpacity onPress={() => { nav.navigate("Comments", { post: post }) }} style={{ marginLeft: 15 }}>
                         <View style={{ flexDirection: 'row' }} >
-                            <Text style={{ fontWeight: 'bold', color: colorStyles.dorange, fontSize: 16 }}>
-                                {lastcomment.user}:
+                            <Text style={{ fontWeight: 'bold', color: colorStyles.dorange, fontSize: 15 }}>
+                                {lastcomment.user}
                             </Text>
-                            <Text style={{ fontSize: 14, width:'83%' }}>
+                            
+                        </View>
+                        <View>
+                        <Text style={{ fontSize: 12, width:'90%', color: 'gray'  }}>
                                 {" " + lastcomment.comment}
                             </Text>
-
                         </View>
                         <Text style={{ fontSize: 16, color: 'gray' }}>
                             {(lastcomment.tam > 1) ? i18n.t('see') + lastcomment.tam + i18n.t('comment') + 's.' : i18n.t('see') + lastcomment.tam + i18n.t('comment') + '.'}
                         </Text>
-
                     </TouchableOpacity >
                 }
             </View>

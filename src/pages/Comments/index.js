@@ -17,6 +17,7 @@ import Svg, {
 } from 'react-native-svg';
 import { useNavigation, StackActions } from '@react-navigation/native';
 import translate from '../../translate';
+import { TextInput } from 'react-native-gesture-handler';
 
 i18n.translations = translate
 
@@ -169,10 +170,15 @@ export default function Comments({ navigation, route }) {
                         value={comment}
                         placeholder= {i18n.t('typecomment')}
                         style={{ width: (Dimensions.get('window').width - 80), marginRight: 10 }}
+                        multiline
                     />
-                    <View style={{ backgroundColor: colorStyles.dorange, borderRadius: 5 }}>
-                        <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} onPress={() => { comentar() }} />
-                    </View>
+                    <TouchableOpacity
+                    style={{ backgroundColor: colorStyles.dorange, borderRadius: 5}}
+                    onPress={() => { comentar() }}
+                    >
+                         <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }}  />
+                    </TouchableOpacity>
+                       
                 </View>
             </ScrollView>
         </KeyboardAwareScrollView>

@@ -64,7 +64,9 @@ const styles = StyleSheet.create({
   time: {
       color: '#555',
       paddingHorizontal: 10,
-      marginRight: 5
+      marginRight: 5,
+      marginTop:-10,
+      width: '100%'
   },
 
   mensagem: {

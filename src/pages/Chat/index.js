@@ -28,6 +28,7 @@ import Svg, {
 import profileIcon from '../../assets/logolifweb.png'
 import { useNavigation, StackActions } from '@react-navigation/native';
 import translate from '../../translate';
+import Header from "../../Components/Header";
 
 i18n.translations = translate
 
