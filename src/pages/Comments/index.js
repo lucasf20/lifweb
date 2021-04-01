@@ -83,7 +83,7 @@ function RenderComment({ comment }) {
                             height: 45,
                             borderRadius: 50,
                             marginRight: 8
-                        }} width="50" height="50" viewBox="0 -3 43 55">
+                        }} width="60" height="60" viewBox="0 -3 43 55">
                             <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
                             <Defs>
                                 <ClipPath id="image" clipRule="evenodd">
@@ -100,22 +100,15 @@ function RenderComment({ comment }) {
                             />
                         </Svg>
                     )}
-                     </TouchableOpacity>
-                <View style={{}}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ fontWeight: 'bold' }}>
-                            {name}:
+                     </TouchableOpacity> 
+                <View style={{  width:'110%'}}>
+                        <Text style={{ marginTop: 30, fontWeight: 'bold' }}>
+                            {name}
                         </Text>
-                        <Text  style={{ width:'85%', size:'16' }} >
+                        <Text  style={{ size:'16' }} >
                             {" " + comment['comment']}
                         </Text>
-                    </View>
-                    <Text style={{ color: 'gray' }}>
-                        {getTime()}
-                    </Text>
-                </View>
-            </View>
-            {canDelete && <FontAwesome name="trash" size={18} paddingLeft='500' color="red" onPress={() => {Alert.alert(
+                        {canDelete && <FontAwesome name="trash" size={18} paddingLeft='500' color="red" onPress={() => {Alert.alert(
                                             i18n.t('deletecomment'),
                                             i18n.t('delcommentphrase'),
                                             [
@@ -131,6 +124,11 @@ function RenderComment({ comment }) {
                                             ],
                                             { cancelable: true }
                                         );}}/>}
+                    <Text style={{ color: 'gray' }}>
+                        {getTime()}
+                    </Text>
+                </View>
+            </View>
         </View>
     )
 }

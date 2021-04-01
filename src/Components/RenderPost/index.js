@@ -573,7 +573,7 @@ ${descricao}`,
                             <Text style={{ fontWeight: 'bold', color: colorStyles.dorange, fontSize: 16 }}>
                                 {lastcomment.user}:
                             </Text>
-                            <Text style={{ fontSize: 14, marginEnd: 50, paddingEnd: 20 }}>
+                            <Text style={{ fontSize: 14, width:'83%' }}>
                                 {" " + lastcomment.comment}
                             </Text>
 
