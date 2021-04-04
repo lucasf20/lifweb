@@ -106,7 +106,7 @@ function RenderComment({ comment }) {
                         <Text style={{ marginTop: 30, fontWeight: 'bold' }}>
                             {name}
                         </Text>
-                        <Text  style={{ size:'16'}} >
+                        <Text  style={{ marginLeft:-4, size:'15'}} >
                             {" " + comment['comment']}
                         </Text>
                         {canDelete && <FontAwesome name="trash" size={18} paddingLeft='500' color="red" onPress={() => {Alert.alert(

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Feather } from '@expo/vector-icons';
-import { ScrollView, SafeAreaView, RefreshControl } from 'react-native';
+import { View, ScrollView, SafeAreaView, RefreshControl } from 'react-native';
 import { useNavigation, StackActions, CommonActions } from '@react-navigation/native';
 import MyTextInput from '../../MyTextInput';
 import Cambutton from '../../Components/Cambutton'
@@ -78,7 +78,7 @@ export default function Feed({ navigation, route }) {
 
     if(!refreshing){
         return (
-            <SafeAreaView>
+            <View>
                 <HeaderSp />
                 <ScrollView
                     contentContainerStyle={styles.scrollView}
@@ -90,7 +90,7 @@ export default function Feed({ navigation, route }) {
                     <Post />
                 </ScrollView>
                 <Cambutton />
-            </SafeAreaView>
+            </View>
         );
     }else{
         return (
