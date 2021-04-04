@@ -576,7 +576,7 @@ ${descricao}`,
                             
                         </View>
                         <View>
-                        <Text style={{ fontSize: 12, width:'90%', color: 'gray'  }}>
+                        <Text style={{ marginLeft: -2, fontSize: 12, width:'90%', color: 'gray'  }}>
                                 {" " + lastcomment.comment}
                             </Text>
                         </View>
