@@ -646,10 +646,24 @@ function Part3({ changeState }) {
     const atualizaPerfil = async () => {
         const response = await fetch(image)
         const blob = await response.blob()
+        var url = "http://api.hashify.net/hash/md5/hex?value=" + Date.now()
+        var hash = await fetch(url).then(response => response.json())
         var user = firebase.auth().currentUser
-        var uploadTask = await firebase.storage().ref().child("user/" + user.uid + "/perfil").put(blob)
+        var uploadTask = await firebase.storage().ref().child("user/" + user.uid + "/" + hash.Digest).put(blob)
+        await firebase.firestore().collection('user').doc(user.uid).update({perfil:hash.Digest})
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED)
     }
+
+    async function resolveProfilePicName(){
+        var user = firebase.auth().currentUser
+        var profname = await firebase.firestore().collection('user').doc(user.uid).get().then(snap => snap.data())
+        var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/" + profname.perfil)
+        storage.getDownloadURL().then(url => {
+            setimagefromDB(url)
+        }).catch(erro => {
+            setimagefromDB(null)
+        })
+    } 
 
     function atualiza() {
         var user = firebase.auth().currentUser
@@ -678,12 +692,7 @@ function Part3({ changeState }) {
         firebase.database().ref('user/' + user.uid).on('value', snap => {
             data = snap.val()
         })
-        var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/perfil")
-        storage.getDownloadURL().then(url => {
-            setimagefromDB(url)
-        }).catch(erro => {
-            setimagefromDB(null)
-        })
+        resolveProfilePicName()
         var res = {
             profissao: data.profissao,
             clube: data.clube ? data.clube : ''
@@ -836,7 +845,7 @@ function Part3({ changeState }) {
                     </Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza(); navigation.navigate("Feed", {reload:true}) }}>
+                <TouchableOpacity style={{ backgroundColor: dorange, height: 50, borderRadius: 5, marginVertical: 20 }} onPress={() => { atualiza();navigation.navigate("Feed", {reload:true}) }}>
                     <View style={{ alignItems: "center" }}>
                         <Text style={{ color: "white", fontSize: 15, padding: 15 }}>
                             {i18n.t('update')} 
