@@ -27,6 +27,12 @@
       "bundleIdentifier": "com.company.lifweb",
       "googleServicesFile": "./GoogleService-Info.plist",
       "buildNumber": "1.0.50",
+      "splash": {
+        "image": "assetsios/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff"
+      },
+      "icon": "assetsios/icon.png",
       "usesAppleSignIn": true
     },
     "web": {
