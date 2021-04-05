@@ -56,8 +56,12 @@ const Login = () => {
   const atualizaPerfil = async (image) => {
     const response = await fetch(image)
     const blob = await response.blob()
+    var url = "http://api.hashify.net/hash/md5/hex?value=" + Date.now()
+    var hash = await fetch(url).then(response => response.json())
     var user = Firebase.auth().currentUser
-    var uploadTask = await Firebase.storage().ref().child("user/" + user.uid + "/perfil").put(blob)
+    await firebase.storage().ref().child("user/" + user.uid + "/" + hash.Digest).put(blob)
+    await firebase.firestore().collection('user').doc(user.uid).update({perfil:hash.Digest})
+    // var uploadTask = await Firebase.storage().ref().child("user/" + user.uid + "/perfil").put(blob)
 }
 
   const loginWithFacebokandroid = async () => {
@@ -95,7 +99,8 @@ const Login = () => {
         Firebase.firestore().collection('user').doc(us.uid).set(data)
       }else{
         try{
-          await Firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + us.uid + "/perfil").getDownloadURL()
+          var hashname = await Firebase.firestore().collection('user').doc(Firebase.auth().currentUser.uid).get().then(data => data.data())
+          await Firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + us.uid + "/" + hashname.perfil).getDownloadURL()
         }catch{
           await atualizaPerfil(us.photoURL)
         }
