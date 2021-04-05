@@ -402,13 +402,6 @@ const Login = () => {
               }}
               onPress={() => logincomredesocialgoogle()} />
 
-            <AppleAuthentication.AppleAuthenticationButton
-              buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
-              buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-              style={{
-                height: 50,
-              }} />
-
             <Button
               text={i18n.t('createacc')}
               backgroundColor='transparent'
