@@ -265,7 +265,7 @@ export default function Menu({ navigation }) {
                         <View style={styles.buttonView}></View>
                         <TouchableOpacity style={styles.buttons} onPress={() => { nav.navigate('EditProfile') }}>
                             <SimpleLineIcons name="user" size={24} color="white" />
-                            {/*!profok && <NotifyCircle text="—" color={colorStyles.dorange} style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>*/}
+                            {!profok && <NotifyCircle text="—" color={colorStyles.dorange} style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>}
                             <Text style={styles.BigText}>
                                 {i18n.t('editprofile')}
                             </Text>
