@@ -1,8 +1,8 @@
 import * as Localization from 'expo-localization'
 import i18n from 'i18n-js';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity } from 'react-native';
-import { useNavigation, StackActions } from '@react-navigation/native';
+import { useNavigation, StackActions, useFocusEffect } from '@react-navigation/native';
 import { SimpleLineIcons, Ionicons } from '@expo/vector-icons';
 import NotifyCircle from '../../Components/NotifyCircle'
 
@@ -27,58 +27,101 @@ i18n.locale = Localization.locale;
 i18n.fallbacks = true;
 
 
-export default function Menu() {
+export default function Menu({ navigation }) {
 
     const dorange = colorStyles.dorange
-    const navigation = useNavigation();
+    const nav = useNavigation();
     const [profPicture, setprofPicture] = useState(false)
     const [profok, setprofok] = useState(true)
     const [atualizado, setAtualizado] = useState(true)
 
-    setInterval(async () => {
-        var user = firebase.auth().currentUser
-        let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
-        let topost = {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                uid: user.uid,
-            })
-        }
-        var avatar = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
-        if (!profPicture) {
-            if(avatar){
-                setprofPicture({ uri: avatar })
-            }else{
-                setprofPicture(false)
-            }
-        }
-        getPendencia()
-        firebase.firestore().collection('mensagens').where('idDestinatario', "==", user.uid).get().then(
-            data => {
-                if (!data.empty) {
-                    var cnt = 0
-                    data.forEach(
-                        item => {
-                            if (!item.data()['lida']) {
-                                cnt++
-                            }
-                        }
-                    )
-                    console.log("cnt", cnt)
-                    setmsg(cnt)
+    useEffect(
+        () => {
+            nav.addListener('focus', async () => {
+                var user = firebase.auth().currentUser
+                let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
+                let topost = {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        uid: user.uid,
+                    })
                 }
-            }
-        )
-    }, 3000);
+                var avatar = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
+                if (!profPicture) {
+                    if (avatar) {
+                        setprofPicture({ uri: avatar })
+                    } else {
+                        setprofPicture(false)
+                    }
+                }
+                getPendencia()
+                firebase.firestore().collection('mensagens').where('idDestinatario', "==", user.uid).get().then(
+                    data => {
+                        if (!data.empty) {
+                            var cnt = 0
+                            data.forEach(
+                                item => {
+                                    if (!item.data()['lida']) {
+                                        cnt++
+                                    }
+                                }
+                            )
+                            console.log("cnt", cnt)
+                            setmsg(cnt)
+                        }
+                    }
+                )
+            })
+        }, [])
+
+    // setInterval(async () => {
+    //     var user = firebase.auth().currentUser
+    //     let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
+    //     let topost = {
+    //         method: 'POST',
+    //         headers: {
+    //             Accept: 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             uid: user.uid,
+    //         })
+    //     }
+    //     var avatar = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
+    //     if (!profPicture) {
+    //         if(avatar){
+    //             setprofPicture({ uri: avatar })
+    //         }else{
+    //             setprofPicture(false)
+    //         }
+    //     }
+    //     getPendencia()
+    //     firebase.firestore().collection('mensagens').where('idDestinatario', "==", user.uid).get().then(
+    //         data => {
+    //             if (!data.empty) {
+    //                 var cnt = 0
+    //                 data.forEach(
+    //                     item => {
+    //                         if (!item.data()['lida']) {
+    //                             cnt++
+    //                         }
+    //                     }
+    //                 )
+    //                 console.log("cnt", cnt)
+    //                 setmsg(cnt)
+    //             }
+    //         }
+    //     )
+    // }, 3000);
 
 
     function logout() {
         firebase.auth().signOut()
-            .then(navigation.navigate('Login'))
+            .then(nav.navigate('Login'))
     }
 
     function getDisplayName() {
@@ -177,20 +220,20 @@ export default function Menu() {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => { navigation.navigate("Feed") }} style={{ marginTop: 40, paddingLeft: 15 }}>
+            <TouchableOpacity onPress={() => { nav.navigate("Feed") }} style={{ marginTop: 40, paddingLeft: 15 }}>
                 <Ionicons name="md-arrow-back" size={35} color="white" />
             </TouchableOpacity>
             <View style={{ ...styles.container, paddingHorizontal: 18 }}>
                 <ScrollView style={{ ...styles.container, paddingHorizontal: 18 }}>
                     <View style={{ marginTop: 20 }}>
-                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.dispatch(StackActions.popToTop()); navigation.navigate('Profile', { uid: firebase.auth().currentUser.uid }); }}>
+                        <TouchableOpacity style={styles.buttons} onPress={() => { nav.dispatch(StackActions.popToTop()); nav.navigate('Profile', { uid: firebase.auth().currentUser.uid }); }}>
                             <SimpleLineIcons name="picture" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 Timeline
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { navigation.navigate('MinhasMensagens') }}>
+                        <TouchableOpacity style={{ ...styles.buttons, borderTopColor: 'transparent' }} onPress={() => { nav.navigate('MinhasMensagens') }}>
                             <SimpleLineIcons name="bubbles" size={24} color="white" />
                             {msg > 0 && (<NotifyCircle text={msg} color='red' style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>)}
                             <Text style={styles.BigText}>
@@ -198,14 +241,14 @@ export default function Menu() {
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.dispatch(StackActions.popToTop()); navigation.navigate('Follow', { from: "Menu", followed: true, uid: firebase.auth().currentUser.uid, user: null }) }}>
+                        <TouchableOpacity style={styles.buttons} onPress={() => { nav.dispatch(StackActions.popToTop()); nav.navigate('Follow', { from: "Menu", followed: true, uid: firebase.auth().currentUser.uid, user: null }) }}>
                             <SimpleLineIcons name="people" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 {i18n.t('followers')}
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.dispatch(StackActions.popToTop()); navigation.navigate('Follow', { from: "Menu", followed: false, uid: firebase.auth().currentUser.uid, user: null }) }}>
+                        <TouchableOpacity style={styles.buttons} onPress={() => { nav.dispatch(StackActions.popToTop()); nav.navigate('Follow', { from: "Menu", followed: false, uid: firebase.auth().currentUser.uid, user: null }) }}>
                             <SimpleLineIcons name="user-following" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 {i18n.t('following')}
@@ -220,7 +263,7 @@ export default function Menu() {
                             </Text>
                         </TouchableOpacity> */}
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('EditProfile') }}>
+                        <TouchableOpacity style={styles.buttons} onPress={() => { nav.navigate('EditProfile') }}>
                             <SimpleLineIcons name="user" size={24} color="white" />
                             {/*!profok && <NotifyCircle text="—" color={colorStyles.dorange} style={{ marginTop: 17, position: "absolute", marginLeft: 10 }}></NotifyCircle>*/}
                             <Text style={styles.BigText}>
@@ -228,7 +271,7 @@ export default function Menu() {
                             </Text>
                         </TouchableOpacity>
                         <View style={styles.buttonView}></View>
-                        <TouchableOpacity style={styles.buttons} onPress={() => { navigation.navigate('Settings') }}>
+                        <TouchableOpacity style={styles.buttons} onPress={() => { nav.navigate('Settings') }}>
                             <SimpleLineIcons name="settings" size={24} color="white" />
                             <Text style={styles.BigText}>
                                 {i18n.t('configurations')}
