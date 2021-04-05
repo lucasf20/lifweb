@@ -656,13 +656,30 @@ function Part3({ changeState }) {
 
     async function resolveProfilePicName(){
         var user = firebase.auth().currentUser
-        var profname = await firebase.firestore().collection('user').doc(user.uid).get().then(snap => snap.data())
-        var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/" + profname.perfil)
-        storage.getDownloadURL().then(url => {
-            setimagefromDB(url)
-        }).catch(erro => {
+        let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
+        let topost = {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                uid: user.uid,
+            })
+        }
+        var avatar = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
+        if(avatar){
+            setimagefromDB(avatar)
+        }else{
             setimagefromDB(null)
-        })
+        }
+        // var profname = await firebase.firestore().collection('user').doc(user.uid).get().then(snap => snap.data())
+        // var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/" + profname.perfil)
+        // storage.getDownloadURL().then(url => {
+        //     setimagefromDB(url)
+        // }).catch(erro => {
+        //     setimagefromDB(null)
+        // })
     } 
 
     function atualiza() {

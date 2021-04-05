@@ -47,7 +47,24 @@ const Item = ({ post }) => {
 
   async function getImgs() {
     await firebase.firestore().collection('user').doc(post['owner']).get().then(data => setname(data.data()['apelido']))
-    await firebase.storage().ref('user/' + post['owner'] + "/perfil").getDownloadURL().then(url => setperfil({ uri: url })).catch(erro => setperfil(null))
+    let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
+        let topost = {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                uid: post.owner,
+            })
+        }
+    var avatar = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
+    if (avatar){
+      setperfil({uri:avatar})
+    }else{
+      setperfil(null)
+    }
+    // await firebase.storage().ref('user/' + post['owner'] + "/perfil").getDownloadURL().then(url => setperfil({ uri: url })).catch(erro => setperfil(null))
     var i = await firebase.storage().ref('user/' + post['owner'] + "/posts/" + post['postname']).getDownloadURL().then(url => { return url }).catch(erro => { return null })
     setload(false)
     setimage({ uri: i }) 

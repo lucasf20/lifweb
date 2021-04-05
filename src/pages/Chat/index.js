@@ -53,17 +53,34 @@ function Chat({ route }) {
 
   useEffect(() => {
     async function load() {
-      await firebase
-        .storage()
-        .ref("user/" + idUser + "/perfil")
-        .getDownloadURL()
-        .then((downloadUrl) => {
-          setAvatar(downloadUrl);
-          console.log(downloadUrl);
-        })
-        .catch((erro) => {
-          setAvatar(false)
-        });
+      let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
+            let topost = {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    uid: idUser,
+                })
+            }
+      var avatar = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
+      if(avatar){
+        setAvatar(avatar)
+      }else{
+        setAvatar(false)
+      }
+      // await firebase
+      //   .storage()
+      //   .ref("user/" + idUser + "/perfil")
+      //   .getDownloadURL()
+      //   .then((downloadUrl) => {
+      //     setAvatar(downloadUrl);
+      //     console.log(downloadUrl);
+      //   })
+      //   .catch((erro) => {
+      //     setAvatar(false)
+      //   });
     }
 
     load();

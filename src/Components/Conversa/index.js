@@ -48,21 +48,39 @@ function Conversa(props) {
 
   useEffect(() => {
     async function load() {
-      await firebase
-        .storage()
-        .ref(
-          "user/" +
-            conv.idConversa.replace(firebase.auth().currentUser.uid, "") +
-            "/perfil"
-        )
-        .getDownloadURL()
-        .then((downloadUrl) => {
-          setAvatar(downloadUrl);
-        })
-        .catch((erro) => {
-          setAvatar(false)
-          return false;
-        });
+      let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
+      let uid = conv.idConversa.replace(firebase.auth().currentUser.uid, "")
+            let topost = {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    uid: uid,
+                })
+            }
+      var avatar = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
+      if(avatar){
+        setAvatar(avatar)
+      }else{
+        setAvatar(false)
+      }
+      // await firebase
+      //   .storage()
+      //   .ref(
+      //     "user/" +
+      //       conv.idConversa.replace(firebase.auth().currentUser.uid, "") +
+      //       "/perfil"
+      //   )
+      //   .getDownloadURL()
+      //   .then((downloadUrl) => {
+      //     setAvatar(downloadUrl);
+      //   })
+      //   .catch((erro) => {
+      //     setAvatar(false)
+      //     return false;
+      //   });
     }
 
     load();

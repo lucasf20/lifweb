@@ -37,13 +37,24 @@ export default function Menu() {
 
     setInterval(async () => {
         var user = firebase.auth().currentUser
-        var storage = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + user.uid + "/perfil")
-        if (!profPicture) {
-            storage.getDownloadURL().then(url => {
-                setprofPicture({ uri: url })
-            }).catch(erro => {
-                setprofPicture(false)
+        let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
+        let topost = {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                uid: user.uid,
             })
+        }
+        var avatar = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
+        if (!profPicture) {
+            if(avatar){
+                setprofPicture({ uri: avatar })
+            }else{
+                setprofPicture(false)
+            }
         }
         getPendencia()
         firebase.firestore().collection('mensagens').where('idDestinatario', "==", user.uid).get().then(

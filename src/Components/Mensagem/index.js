@@ -12,40 +12,61 @@ import Svg, {
 } from 'react-native-svg';
 
 
-function Foto({uid}){
+function Foto({ uid }) {
 
   const [avatar, setavatar] = useState(null)
 
-  if(avatar == null){
-    firebase.storage().ref('user/' + uid + "/perfil").getDownloadURL().then(url => setavatar({uri:url})).catch(erro => setavatar(false))
+  async function profpic() {
+    let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
+    let topost = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        uid: uid,
+      })
+    }
+    var av = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
+    if (av) {
+      setavatar(av)
+    } else {
+      setavatar(false)
+    }
   }
-  
-  return(
-    <View style={{marginLeft:5}}>
-    {(avatar) ? (
-      <Svg style={{
+
+  if (avatar == null) {
+    profpic()
+    // firebase.storage().ref('user/' + uid + "/perfil").getDownloadURL().then(url => setavatar({uri:url})).catch(erro => setavatar(false))
+  }
+
+  return (
+    <View style={{ marginLeft: 5 }}>
+      {(avatar) ? (
+        <Svg style={{
           width: 45,
           height: 45,
           borderRadius: 50,
           marginRight: 8
-      }} width="50" height="50" viewBox="0 -3 43 55">
+        }} width="50" height="50" viewBox="0 -3 43 55">
           <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
           <Defs>
-              <ClipPath id="image" clipRule="evenodd">
-                  <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-              </ClipPath>
+            <ClipPath id="image" clipRule="evenodd">
+              <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+            </ClipPath>
           </Defs>
           <SvgImage
-              x="0"
-              y="0"
-              width="50"
-              height="50"
-              href={avatar}
-              clipPath="#image"
+            x="0"
+            y="0"
+            width="50"
+            height="50"
+            href={avatar}
+            clipPath="#image"
           />
-      </Svg>
-  ) : (<Image source={profileIcon} style={{ height: 50, width: 43, marginRight: 13 }} />)}
-  </View>
+        </Svg>
+      ) : (<Image source={profileIcon} style={{ height: 50, width: 43, marginRight: 13 }} />)}
+    </View>
   )
 }
 
@@ -76,32 +97,32 @@ function Mensagem(props) {
   }
 
   return (
-    <View style={{flexDirection:'row', alignItems:'center'}}>
-    <Foto uid={msg.idRemetente}/>
-    <TouchableOpacity
-      style={styles.container}
-      activeOpacity={0.8}
-      onPress={() => setSelected(!selected)}
-    >
-      <View w 
-        style={[
-          styles.balao,
-          isAutor
-            ? { borderBottomEndRadius: 0, backgroundColor: "#021740" }
-            : { borderBottomStartRadius: 0 },
-        ]}
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <Foto uid={msg.idRemetente} />
+      <TouchableOpacity
+        style={styles.container}
+        activeOpacity={0.8}
+        onPress={() => setSelected(!selected)}
       >
-        <Text style={[styles.mensagem, { color: isAutor ? "#fff" : "#222" }]}>
-          {msg.conteudo} <Text></Text>
-        </Text>
-      </View>
-      {selected && (
-        <Text style={[styles.time, isAutor && { alignSelf: "flex-end" }]}>
-          {toDateTime(msg.createdAt.seconds).toString()}
-          <Text></Text>
-        </Text>
-      )}
-    </TouchableOpacity>
+        <View w
+          style={[
+            styles.balao,
+            isAutor
+              ? { borderBottomEndRadius: 0, backgroundColor: "#021740" }
+              : { borderBottomStartRadius: 0 },
+          ]}
+        >
+          <Text style={[styles.mensagem, { color: isAutor ? "#fff" : "#222" }]}>
+            {msg.conteudo} <Text></Text>
+          </Text>
+        </View>
+        {selected && (
+          <Text style={[styles.time, isAutor && { alignSelf: "flex-end" }]}>
+            {toDateTime(msg.createdAt.seconds).toString()}
+            <Text></Text>
+          </Text>
+        )}
+      </TouchableOpacity>
     </View>
   );
 }

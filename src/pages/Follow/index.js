@@ -45,10 +45,28 @@ function Item({ uid, origin }) {
 
     async function getFoto() {
         if (foto == null) {
-            await firebase.firestore().collection('user').doc(uid).get().then(data => setexists(data.exists))
-            await firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + uid + "/perfil").getDownloadURL().then(
-                url => setfoto({ uri: url })
-            ).catch(erro => setfoto(false))
+            //var user = firebase.auth().currentUser
+            let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
+            let topost = {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    uid: uid,
+                })
+            }
+            var avatar = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
+            if(avatar){
+                setfoto({ uri: avatar })
+            }else{
+                setfoto(false)
+            }
+            // await firebase.firestore().collection('user').doc(uid).get().then(data => setexists(data.exists))
+            // await firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + uid + "/perfil").getDownloadURL().then(
+            //     url => setfoto({ uri: url })
+            // ).catch(erro => setfoto(false))
         }
     }
 

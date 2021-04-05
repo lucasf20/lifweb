@@ -58,14 +58,33 @@ export default function Feed() {
     }
 
     async function buscafoto(uid) {
-        var ref = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + uid + "/perfil")
+        let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
+        let topost = {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                uid: uid,
+            })
+        }
+        var av = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
         var res = profileIcon
-        try {
-            res = { uri: await ref.getDownloadURL() }
-        } catch (e) {
+        if(av){
+            res = {uri:av}
+        }else{
             res = profileIcon
         }
         return res
+        // var ref = firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + uid + "/perfil")
+        // var res = profileIcon
+        // try {
+        //     res = { uri: await ref.getDownloadURL() }
+        // } catch (e) {
+        //     res = profileIcon
+        // }
+        // return res
     }
 
     async function formatar(keys) {
@@ -163,7 +182,7 @@ export default function Feed() {
                     <View >
                         <EvilIcons name="search" size={30} color="black" style={{ position: "absolute", margin: 10 }} />
                         <MyTextInput
-                            placeholder= {i18n.t('search')}
+                            placeholder={i18n.t('search')}
                             style={{ paddingLeft: 40 }}
                             value={busca}
                             onChangeText={text => setbusca(text)}
@@ -208,8 +227,8 @@ export default function Feed() {
                     </TouchableOpacity>
                     <View style={{ marginTop: 20, marginBottom: 80 }}>
                         {results.map((item, index, arr) => (showLines(item)))}
-                        {results.length == 0 && searched && <View style={{ justifyContent: 'center', alignItems:'center' }}>
-                            <Text style={{fontsize:20, color:colorStyles.dorange}}>
+                        {results.length == 0 && searched && <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontsize: 20, color: colorStyles.dorange }}>
                                 Sem resultados
                             </Text>
                         </View>}

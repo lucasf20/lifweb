@@ -158,10 +158,10 @@ export default function RenderPost({ post }) {
         getcomments()
     }
 
-    async function getAvatar(){
-        var url = await firebase.storage().refFromURL('gs://lifweb-38828.appspot.com/user/' + owner + "/perfil").getDownloadURL().then(url => {return url})
-        return url
-    }
+    // async function getAvatar(){
+    //     var url = await firebase.storage().refFromURL('gs://lifweb-38828.appspot.com/user/' + owner + "/perfil").getDownloadURL().then(url => {return url})
+    //     return url
+    // }
 
     if (!cached) {
         //cache(foto.uri, 'foto').then(obj => { setimagem(obj); })
@@ -169,8 +169,8 @@ export default function RenderPost({ post }) {
         //Image.queryCache(foto.uri)
         //Image.prefetch(foto.uri).then(() => {setimagem(foto)})
         if (post['avatar']) {
-            //setavatar(perfil)
-            getAvatar().then(a => setavatar(a))
+            setavatar(perfil)
+            // getAvatar().then(a => setavatar(a))
         } else {
             setavatar(profileIcon)
         }

@@ -105,18 +105,40 @@ export default function Profile({ navigation, route }) {
         }
     }
 
+    async function profilePicture(){
+        let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
+            let topost = {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    uid: user,
+                })
+            }
+            var avatar = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
+            if(!profile){
+                if(avatar){
+                    setprofile({ uri: avatar })
+                }else{
+                    setprofile(false)
+                }
+            }
+    }
 
     function getMainPictures() {
+        profilePicture()
         var path = "gs://lifweb-38828.appspot.com/user/" + user
         var capa = firebase.storage().refFromURL(path + '/capa')
-        var prof = firebase.storage().refFromURL(path + '/perfil')
-        if (!profile) {
-            prof.getDownloadURL().then(url => {
-                setprofile({ uri: url })
-            }).catch(error => {
-                setprofile(false)
-            })
-        }
+        // var prof = firebase.storage().refFromURL(path + '/perfil')
+        // if (!profile) {
+        //     prof.getDownloadURL().then(url => {
+        //         setprofile({ uri: url })
+        //     }).catch(error => {
+        //         setprofile(false)
+        //     })
+        // }
         if (!cp) {
             capa.getDownloadURL().then(url => {
                 setcp({ uri: url })
