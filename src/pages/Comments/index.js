@@ -1,6 +1,6 @@
 import * as Localization from 'expo-localization'
 import i18n from 'i18n-js';
-import React, { useState } from "react"
+import React, { useState, useEffect, Fragment, useRef } from "react"
 import { View, Dimensions, ScrollView, Image, Text, Alert, TouchableOpacity } from 'react-native'
 import Header from '../../Components/Header'
 import MyTextInput from '../../MyTextInput'
@@ -24,7 +24,7 @@ i18n.translations = translate
 i18n.locale = Localization.locale;
 i18n.fallbacks = true;
 
-function RenderComment({ comment }) {
+function RenderComment({ comment, post }) {
     const [image, setimage] = useState(null)
     const [name, setname] = useState(null)
     const canDelete = comment['user'] == firebase.auth().currentUser.uid
@@ -44,9 +44,22 @@ function RenderComment({ comment }) {
     }
 
     async function getImg(uid) {
-        var img = await firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + uid + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
+        //var user = firebase.auth().currentUser
+        let url = 'https://intense-inlet-17045.herokuapp.com/avatar/'
+        let topost = {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                uid: uid,
+            })
+        }
+        var img = await fetch(url, topost).then((response) => response.json()).then((json) => { return json.avatar })
+        //var img = await firebase.storage().refFromURL("gs://lifweb-38828.appspot.com/user/" + uid + "/perfil").getDownloadURL().then(url => { return { uri: url } }).catch(erro => { return false })
         if (img) {
-            return img
+            return { uri: img }
         } else {
             return profileIcon
         }
@@ -59,8 +72,10 @@ function RenderComment({ comment }) {
         return n
     }
 
-    async function deleteComment(){
-        await firebase.firestore().collection('posts').doc(comment['postname']).update({comments:firebase.firestore.FieldValue.arrayRemove(comment)})
+    async function deleteComment() {
+        await firebase.firestore().collection('posts').doc(comment['postname']).update({ comments: firebase.firestore.FieldValue.arrayRemove(comment) })
+        nav.dispatch(StackActions.popToTop())
+        nav.navigate("Comments", {post:post})
     }
     getImg(comment['user']).then(im => setimage(im))
     if (!name) {
@@ -73,58 +88,60 @@ function RenderComment({ comment }) {
     }
 
     return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal:5, justifyContent:'space-between' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 2, marginTop: 20, width:Dimensions.get('window').width -130 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 5, justifyContent: 'space-between' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 2, marginTop: 20, width: Dimensions.get('window').width - 130 }}>
                 <TouchableOpacity onPress={() => { navigateOwnerProfile() }}>
-                {(image == profileIcon) ?
-                    (<Image source={profileIcon} style={{ height: 500, width: 43,marginRight: 8, marginLeft:3 }} />) :
-                    (
-                        <Svg style={{
-                            width: 45,
-                            height: 45,
-                            borderRadius: 50,
-                            marginRight: 8
-                        }} width="60" height="60" viewBox="0 -3 43 55">
-                            <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-                            <Defs>
-                                <ClipPath id="image" clipRule="evenodd">
-                                    <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
-                                </ClipPath>
-                            </Defs>
-                            <SvgImage
-                                x="0"
-                                y="0"
-                                width="50"
-                                height="50"
-                                href={image}
-                                clipPath="#image"
-                            />
-                        </Svg>
-                    )}
-                     </TouchableOpacity> 
-                <View style={{  width:'110%'}}>
-                        <Text style={{ marginTop: 30, fontWeight: 'bold' }}>
-                            {name}
-                        </Text>
-                        <Text  style={{ marginLeft:-4, size:'15'}} >
-                            {" " + comment['comment']}
-                        </Text>
-                        {canDelete && <FontAwesome name="trash" size={18} paddingLeft='500' color="red" onPress={() => {Alert.alert(
-                                            i18n.t('deletecomment'),
-                                            i18n.t('delcommentphrase'),
-                                            [
-                                                {
-                                                    text: i18n.t('delete'),
-                                                    onPress: () => deleteComment()
-                                                },
-                                                {
-                                                    text: i18n.t('cancel'),
-                                                    onPress: () => console.log('Cancel Pressed'),
-                                                    style: 'cancel'
-                                                }
-                                            ],
-                                            { cancelable: true }
-                                        );}}/>}
+                    {(image == profileIcon) ?
+                        (<Image source={profileIcon} style={{ height: 500, width: 43, marginRight: 8, marginLeft: 3 }} />) :
+                        (
+                            <Svg style={{
+                                width: 45,
+                                height: 45,
+                                borderRadius: 50,
+                                marginRight: 8
+                            }} width="60" height="60" viewBox="0 -3 43 55">
+                                <Polygon stroke='#F25C05' strokeWidth={5} points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                                <Defs>
+                                    <ClipPath id="image" clipRule="evenodd">
+                                        <Polygon points="0 10, 22.5 0, 45 10, 45 40, 22.5 50, 0 40" />
+                                    </ClipPath>
+                                </Defs>
+                                <SvgImage
+                                    x="0"
+                                    y="0"
+                                    width="50"
+                                    height="50"
+                                    href={image}
+                                    clipPath="#image"
+                                />
+                            </Svg>
+                        )}
+                </TouchableOpacity>
+                <View style={{ width: '110%' }}>
+                    <Text style={{ marginTop: 30, fontWeight: 'bold' }}>
+                        {name}
+                    </Text>
+                    <Text style={{ marginLeft: -4, size: '15' }} >
+                        {" " + comment['comment']}
+                    </Text>
+                    {canDelete && <FontAwesome name="trash" size={18} paddingLeft='500' color="red" onPress={() => {
+                        Alert.alert(
+                            i18n.t('deletecomment'),
+                            i18n.t('delcommentphrase'),
+                            [
+                                {
+                                    text: i18n.t('delete'),
+                                    onPress: () => deleteComment()
+                                },
+                                {
+                                    text: i18n.t('cancel'),
+                                    onPress: () => console.log('Cancel Pressed'),
+                                    style: 'cancel'
+                                }
+                            ],
+                            { cancelable: true }
+                        );
+                    }} />}
                     <Text style={{ color: 'gray' }}>
                         {getTime()}
                     </Text>
@@ -136,51 +153,73 @@ function RenderComment({ comment }) {
 
 export default function Comments({ navigation, route }) {
     var post = route.params.post
+    const nav = useNavigation()
     const [comment, setcomment] = useState("")
     const [comments, setcomments] = useState(post['comments'])
     const user = firebase.auth().currentUser.uid
+    const scrollRef = useRef();
 
-    setTimeout(() => {
-        firebase.firestore().collection('posts').doc(post['postname']).get().then(data => {setcomments(data.data()['comments'])})
-    }, 1000);
+    // setTimeout(() => {
+    //     firebase.firestore().collection('posts').doc(post['postname']).get().then(data => { setcomments(data.data()['comments']) })
+    // }, 1000);
+
+    useEffect(() => {  
+        nav.addListener('focus', ()=>{
+            firebase.firestore().collection('posts').doc(post['postname']).get().then(data => { setcomments(data.data()['comments']) })
+            //scrollRef.onMomentumScrollEnd()
+        })  
+    }, [])
+
+    async function reload(){
+        await firebase.firestore().collection('posts').doc(post['postname']).get().then(data => { setcomments(data.data()['comments']) })
+    }
+
     async function comentar() {
         var comentario = {
             user,
             comment,
             timestamp: Date.now(),
-            postname:post['postname']
+            postname: post['postname']
         }
         if (comment.length > 0) {
             setcomment("")
             await firebase.firestore().collection('posts').doc(post['postname']).update({ comments: firebase.firestore.FieldValue.arrayUnion(comentario) })
         }
+        reload()
     }
     return (
-        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
-            style={{ flex: 1 }}
-            showsVerticalScrollIndicator={false}>
+        <Fragment>
             <Header />
-            <ScrollView>
-                <ScrollView style={{ height: Dimensions.get('window').height - 200 }}>
-                    {comments.map(item => (<RenderComment comment={item} />))}
+        <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}
+            style={{ flex: 1 }}
+            showsVerticalScrollIndicator={false}
+            invertStickyHeaders={true}>
+            <ScrollView keyboardShouldPersistTaps={'handled'}>
+                <ScrollView style={{ height: Dimensions.get('window').height - 200 }} ref={scrollRef} onContentSizeChange={(contentWidth, contentHeight)=>{
+                    scrollRef.current.scrollTo({
+                        y:contentHeight
+                    })
+                    }}>
+                    {comments.map(item => (<RenderComment comment={item} post={post} />))}
                 </ScrollView>
                 <View style={{ flexDirection: 'row', marginTop: 10, marginHorizontal: 30, alignItems: 'center', justifyContent: 'center' }}>
                     <MyTextInput
                         onChangeText={text => setcomment(text)}
                         value={comment}
-                        placeholder= {i18n.t('typecomment')}
+                        placeholder={i18n.t('typecomment')}
                         style={{ width: (Dimensions.get('window').width - 80), marginRight: 10 }}
                         multiline
                     />
                     <TouchableOpacity
-                    style={{ backgroundColor: colorStyles.dorange, borderRadius: 5}}
-                    onPress={() => { comentar() }}
+                        style={{ backgroundColor: colorStyles.dorange, borderRadius: 5 }}
+                        onPress={() => { comentar() }}
                     >
-                         <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }}  />
+                        <MaterialIcons name="send" size={24} color="white" style={{ marginHorizontal: 5, marginVertical: 10 }} />
                     </TouchableOpacity>
-                       
                 </View>
+                <View style={{marginVertical:10}} />
             </ScrollView>
         </KeyboardAwareScrollView>
+        </Fragment>
     )
 }
