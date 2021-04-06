@@ -1,7 +1,7 @@
 import * as Localization from 'expo-localization'
 import i18n from 'i18n-js';
 import React, { useState, useEffect, Fragment, useRef } from "react"
-import { View, Dimensions, ScrollView, Image, Text, Alert, TouchableOpacity } from 'react-native'
+import { View, Dimensions, ScrollView, Image, Text, Alert, TouchableOpacity, Platform } from 'react-native'
 import Header from '../../Components/Header'
 import MyTextInput from '../../MyTextInput'
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
@@ -190,11 +190,11 @@ export default function Comments({ navigation, route }) {
     return (
         <Fragment>
             <Header />
-        <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}
+        <KeyboardAwareScrollView keyboardShouldPersistTaps={(Platform.OS == 'android')?'handled':'always'}
             style={{ flex: 1 }}
             showsVerticalScrollIndicator={false}
             invertStickyHeaders={true}>
-            <ScrollView keyboardShouldPersistTaps={'handled'}>
+            <ScrollView keyboardShouldPersistTaps={(Platform.OS == 'android')?'handled':'always'}>
                 <ScrollView style={{ height: Dimensions.get('window').height - 200 }} ref={scrollRef} onContentSizeChange={(contentWidth, contentHeight)=>{
                     scrollRef.current.scrollTo({
                         y:contentHeight
