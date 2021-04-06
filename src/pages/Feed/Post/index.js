@@ -86,7 +86,7 @@ export default function Post() {
     }
 
     return (
-        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
+        <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}
             style={{ flex: 1 }}
             showsVerticalScrollIndicator={false}
             extraHeight={70}

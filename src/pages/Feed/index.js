@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { View, ScrollView, SafeAreaView, RefreshControl } from 'react-native';
 import { useNavigation, StackActions, CommonActions } from '@react-navigation/native';
@@ -78,9 +78,10 @@ export default function Feed({ navigation, route }) {
 
     if(!refreshing){
         return (
-            <View>
+            <Fragment>
                 <HeaderSp />
                 <ScrollView
+                    keyboardShouldPersistTaps={'never'}
                     contentContainerStyle={styles.scrollView}
                     refreshControl={
                         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -90,7 +91,7 @@ export default function Feed({ navigation, route }) {
                     <Post />
                 </ScrollView>
                 <Cambutton />
-            </View>
+            </Fragment>
         );
     }else{
         return (
