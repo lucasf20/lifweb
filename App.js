@@ -5,12 +5,12 @@ import AuthProvider from './src/contexts/auth';
 import OneSignal from 'react-native-onesignal';
 
 
-
+//ca8cad04-0810-49fe-a7af-2383555bcb3b
 console.disableYellowBox = true;
 export default function App() {
 
   useEffect(()=>{
-    OneSignal.init('0bd806c4-a6ab-4c9c-a832-994420443ace')
+    OneSignal.init('ca8cad04-0810-49fe-a7af-2383555bcb3b')
     OneSignal.addEventListener('opened', onOpened)
     return () => OneSignal.removeEventListener('opened', onOpened)
   }, []);
@@ -28,3 +28,4 @@ export default function App() {
     </AuthProvider>
   );
 }
+
