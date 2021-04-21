@@ -15,11 +15,27 @@
       },
       "oauth_client": [
         {
+          "client_id": "993866057606-grtu2rkbtadrho10ru13sacle6t30u9d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.lifweb",
+            "certificate_hash": "2771a2cee156ec84cc59cfb841fe7f01184d34e2"
+          }
+        },
+        {
           "client_id": "993866057606-h3mnom0iash18ssb5aiub21m6qnksko1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.company.lifweb",
             "certificate_hash": "40a4c096513eaa8ab73693c2e5648444ae44d0e7"
+          }
+        },
+        {
+          "client_id": "993866057606-osluuldu18emmiuqjktmlpuv2tstvr34.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.lifweb",
+            "certificate_hash": "ec44524767406559c0adb821616c6b659720c3da"
           }
         },
         {
@@ -40,10 +56,10 @@
               "client_type": 3
             },
             {
-              "client_id": "993866057606-c8ir7l07ri24lbg5di834g28479ovj15.apps.googleusercontent.com",
+              "client_id": "993866057606-42e0tjkh1jgb7oopk4drd71gp98qlmpf.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "host.exp.exponent"
+                "bundle_id": "com.lifweb.app"
               }
             }
           ]
@@ -58,6 +74,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "993866057606-46gl9guov6200m0bmpc9oee5hmq0bom8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lifweb.app",
+            "certificate_hash": "ec44524767406559c0adb821616c6b659720c3da"
+          }
+        },
         {
           "client_id": "993866057606-a2726gutatcao9r49ssatjctaqqa8l56.apps.googleusercontent.com",
           "client_type": 3
@@ -76,10 +100,10 @@
               "client_type": 3
             },
             {
-              "client_id": "993866057606-c8ir7l07ri24lbg5di834g28479ovj15.apps.googleusercontent.com",
+              "client_id": "993866057606-42e0tjkh1jgb7oopk4drd71gp98qlmpf.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "host.exp.exponent"
+                "bundle_id": "com.lifweb.app"
               }
             }
           ]
