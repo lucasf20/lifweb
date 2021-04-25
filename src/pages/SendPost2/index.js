@@ -5,6 +5,7 @@ import { ScrollView, Dimensions, View, Text, Image, TouchableOpacity } from 'rea
 import { useNavigation, StackActions } from '@react-navigation/native';
 import colorStyles from "../../colors";
 import * as ImagePicker from 'expo-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import styles from './styles'
 import { MaterialIcons } from '@expo/vector-icons';
 import MyTextInput from '../../MyTextInput';
@@ -32,7 +33,21 @@ export default function SendPost2({ navigate, route }) {
         })();
     }, []);
 
-    const pickImage = async () => {
+
+    const pickImage = async () =>{
+        const options = {
+            mediaTypes: "photo",
+            includeBase64: true
+        }
+        launchImageLibrary(options, (data)=>{
+            console.log(data)
+            if(!data.didCancel){
+                setImagem(data)
+            }
+        })
+    }
+
+    /*const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -43,7 +58,7 @@ export default function SendPost2({ navigate, route }) {
         if (!result.cancelled) {
             setImagem(result);
         }
-    };
+    };*/
 
     const dorange = colorStyles.dorange
     const navigation = useNavigation();
