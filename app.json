@@ -2,7 +2,7 @@
   "expo": {
     "name": "Lifweb",
     "slug": "lifweb",
-    "version": "1.0.52",
+    "version": "1.0.60",
     "orientation": "portrait",
     "icon": "assets/icon.png",
     "facebookScheme": "fb347233869864538",
@@ -26,7 +26,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.company.lifweb",
       "googleServicesFile": "./GoogleService-Info.plist",
-      "buildNumber": "1.0.52",
+      "buildNumber": "1.0.60",
       "splash": {
         "image": "assetsios/splash.png",
         "resizeMode": "contain",

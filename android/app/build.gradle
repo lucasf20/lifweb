@@ -44,8 +44,8 @@ android {
         applicationId 'com.company.lifweb'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 52
-        versionName "1.0.52"
+        versionCode 60
+        versionName "1.0.60"
         manifestPlaceholders = [appAuthRedirectScheme: 'com.redirectScheme.comm']
     }
     splits {

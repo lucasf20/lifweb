@@ -11,6 +11,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import * as ImagePicker from 'expo-image-picker';
 import translate from '../../translate';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 
 i18n.translations = translate
@@ -387,7 +388,21 @@ function Part2({ changeState }) {
         })();
     }, []);
 
-    const pickImage = async () => {
+    const pickImage = async () =>{
+        const options = {
+            mediaTypes: "photo",
+            includeBase64: true
+        }
+        launchImageLibrary(options, (data)=>{
+            console.log(data)
+            if(!data.didCancel){
+                setImage(data.uri)
+                setimagemlocal(true)
+            }
+        })
+    }
+
+   /* const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -399,7 +414,7 @@ function Part2({ changeState }) {
             setImage(result.uri);
             setimagemlocal(true)
         }
-    };
+    };*/
 
     function getdata() {
         var user = firebase.auth().currentUser
@@ -629,7 +644,23 @@ function Part3({ changeState }) {
         })();
     }, []);
 
-    const pickImage = async () => {
+
+
+    const pickImage = async () =>{
+        const options = {
+            mediaTypes: "photo",
+            includeBase64: true
+        }
+        launchImageLibrary(options, (data)=>{
+            console.log(data)
+            if(!data.didCancel){
+                setImage(data.uri)
+                setimagemlocal(true)
+            }
+        })
+    }
+
+   /* const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -641,7 +672,7 @@ function Part3({ changeState }) {
             setImage(result.uri);
             setimagemlocal(true)
         }
-    };
+    };*/
 
     const atualizaPerfil = async () => {
         const response = await fetch(image)
