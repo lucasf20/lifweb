@@ -30,6 +30,12 @@ import { AuthContext } from '../../contexts/auth'
 
 import translate from '../../translate'
 
+import {
+  GoogleSignin,
+  statusCodes,
+  
+} from '@react-native-google-signin/google-signin';
+
 i18n.translations = translate
 
 i18n.locale = Localization.locale;
@@ -43,7 +49,7 @@ const Login = () => {
   const [logado, setlogado] = useState(false)
   const navigation = useNavigation();
   const { entrar } = useContext(AuthContext);
-
+  
   const login = async () => {
     try {
       await Firebase.auth().signInWithEmailAndPassword(email, password)
@@ -282,45 +288,66 @@ const Login = () => {
 
 const loginWithGoogleCli = async () => {
   try {
-    const { type, accessToken, user } = await GoogleAuthentication.logInAsync({
-      clientId: '993866057606-c8ir7l07ri24lbg5di834g28479ovj15.apps.googleusercontent.com'
-    })
-    if (type !== 'success') {
-      alert(i18n.t('cancelalert'))
+  //   const { type, accessToken, user } = await GoogleAuthentication.logInAsync({
+  //     clientId: '993866057606-c8ir7l07ri24lbg5di834g28479ovj15.apps.googleusercontent.com'
+  //   })
+  //   if (type !== 'success') {
+  //     alert(i18n.t('cancelalert'))
+  //   }
+  //   console.log({ type, accessToken, user })
+
+  GoogleSignin.configure();
+  try {
+    //await GoogleSignin.hasPlayServices();
+    //const userInfo = await GoogleSignin.signIn();
+    const tokens = await GoogleSignIn.signInSilentlyAsync()
+    var accessToken = tokens['auth']['accessToken']
+    //console.log(userInfo)
+  } catch (error) {
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      // user cancelled the login flow
+    } else if (error.code === statusCodes.IN_PROGRESS) {
+      // operation (e.g. sign in) is in progress already
+    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      // play services not available or outdated
+    } else {
+      // some other error happened
     }
-    console.log({ type, accessToken, user })
-    const credential = Firebase.auth.GoogleAuthProvider.credential(null, accessToken)
-    await Firebase.auth().signInWithCredential(credential).then((value) => {
-      const u = value.user;
-      Firebase.firestore().collection('usuarios').doc(u.uid).set({
-        email: u.email,
-        nome: u.displayName,
-        avatar: u.photoURL,
+  }
+
+
+  const credential = Firebase.auth.GoogleAuthProvider.credential(null, accessToken)
+  await Firebase.auth().signInWithCredential(credential).then((value) => {
+    const u = value.user;
+    Firebase.firestore().collection('usuarios').doc(u.uid).set({
+      email: u.email,
+      nome: u.displayName,
+      avatar: u.photoURL,
+    })
+      .then((value) => {
+        entrar(u.uid, u.displayName, u.email, u.photoURL);
+        ToastAndroid.show("Login efetuado.", ToastAndroid.SHORT);
       })
-        .then((value) => {
-          entrar(u.uid, u.displayName, u.email, u.photoURL);
-          ToastAndroid.show("Login efetuado.", ToastAndroid.SHORT);
-        })
-        .catch(err => {
-          ToastAndroid.show("Ocorreu um erro", ToastAndroid.SHORT);
-        })
-    })
-    var us = Firebase.auth().currentUser
-    var firstAccess = await Firebase.firestore().collection('user').doc(us.uid).get().then(data => { return !data.exists })
-    if (firstAccess) {
-      var data = {
-        apelido: us.displayName,
-        firstAccess: true,
-        fullName: us.displayName,
-        modeloDaMoto: {
-          moto: ""
-        },
-        nascimento: "",
-        profissao: ""
-      }
-      Firebase.firestore().collection('user').doc(us.uid).set(data)
+      .catch(err => {
+        ToastAndroid.show("Ocorreu um erro", ToastAndroid.SHORT);
+      })
+  })
+  var us = Firebase.auth().currentUser
+  var firstAccess = await Firebase.firestore().collection('user').doc(us.uid).get().then(data => { return !data.exists })
+  if (firstAccess) {
+    var data = {
+      apelido: us.displayName,
+      firstAccess: true,
+      fullName: us.displayName,
+      modeloDaMoto: {
+        moto: ""
+      },
+      nascimento: "",
+      profissao: ""
     }
-    Firebase.database().ref('user/' + us.uid).set(data)
+    Firebase.firestore().collection('user').doc(us.uid).set(data)
+  }
+  Firebase.database().ref('user/' + us.uid).set(data)
   } catch (error) {
     console.log(error)
   }
@@ -353,7 +380,73 @@ const loginWithGoogleCli = async () => {
     }
   }
 
+  // async function googleLoginCLI() {
+  //   try {
+  //     await GoogleSignin.hasPlayServices();
+  //     const accessToken = await GoogleSignin.signIn();
+  //     //setloggedIn(true);
+  //     console.log(accessToken)
+  //     //var accessToken = null
+  //     if(user){
+  //        accessToken = user.auth.accessToken
+  //     } else {
+  //        accessToken = null
+  //     } 
+  //     //const user = await GoogleSignIn.signInSilentlyAsync();
+  //     if (type !== 'success') {
+  //       alert(i18n.t('cancelalert'))
+  //     }
+  //     const credential = Firebase.auth.GoogleAuthProvider.credential(null, accessToken)
   
+  //     await Firebase.auth().signInWithCredential(credential).then((value) => {
+  //       const u = value.user;
+  
+  //       Firebase.firestore().collection('usuarios').doc(u.uid).set({
+  //         email: u.email,
+  //         nome: u.displayName,
+  //         avatar: u.photoURL,
+  //       })
+  //         .then((value) => {
+  //           entrar(u.uid, u.displayName, u.email, u.photoURL);
+  
+  //           ToastAndroid.show("Login efetuado.", ToastAndroid.SHORT);
+  //         })
+  //         .catch(err => {
+  //           ToastAndroid.show("Ocorreu um erro", ToastAndroid.SHORT);
+  //         })
+  //     })
+  //     var us = Firebase.auth().currentUser
+  //     var firstAccess = await Firebase.firestore().collection('user').doc(us.uid).get().then(data => { return !data.exists })
+  //     if (firstAccess) {
+  //       var data = {
+  //         apelido: us.displayName,
+  //         firstAccess: true,
+  //         fullName: us.displayName,
+  //         modeloDaMoto: {
+  //           moto: ""
+  //         },
+  //         nascimento: "",
+  //         profissao: ""
+  //       }
+  //       Firebase.firestore().collection('user').doc(us.uid).set(data)
+  //     }
+  //     Firebase.database().ref('user/' + us.uid).set(data)
+      
+  //   } catch (error) {
+  //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+  //       // user cancelled the login flow
+  //       alert('Cancel');
+  //     } else if (error.code === statusCodes.IN_PROGRESS) {
+  //       alert('Signin in progress');
+  //       // operation (f.e. sign in) is in progress already
+  //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+  //       alert('PLAY_SERVICES_NOT_AVAILABLE');
+  //       // play services not available or outdated
+  //     } else {
+  //       // some other error happened
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     Firebase.auth().onAuthStateChanged(user => {
@@ -456,7 +549,7 @@ const loginWithGoogleCli = async () => {
               style={{
                 ...styles.marginBottom,
               }}
-              onPress={() => logincomredesocialgoogle()} />
+              onPress={() => loginWithGoogleCli()} />
 
             <Button
               text={i18n.t('createacc')}
