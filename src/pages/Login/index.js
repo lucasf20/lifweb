@@ -171,7 +171,8 @@ const Login = () => {
     try {
       await GoogleSignIn.initAsync({
         // You may ommit the clientId when the firebase `googleServicesFile` is configured
-        clientId: '993866057606-grtu2rkbtadrho10ru13sacle6t30u9d.apps.googleusercontent.com'
+        clientId: '993866057606-7hf8ds7iojl5n0e6ur3qv0scu5j11igs.apps.googleusercontent.com'
+
         //807737285816-4ugt2l8o77pq130bvn814u7afrd3sc9g.apps.googleusercontent.com,
 
         
@@ -549,7 +550,7 @@ const loginWithGoogleCli = async () => {
               style={{
                 ...styles.marginBottom,
               }}
-              onPress={() => loginWithGoogleCli()} />
+              onPress={() => logincomredesocialgoogle()} />
 
             <Button
               text={i18n.t('createacc')}

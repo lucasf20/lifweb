@@ -122,7 +122,7 @@ function Part1({ changeState }) {
     function checkCep(cp) {
         var c = cp.replace("-", "").replace(".", "")
         if (c.length == 8 && !cepchecked) {
-            fetch('http://viacep.com.br/ws/' + c + "/json/").then(response => response.json())
+            fetch('https://viacep.com.br/ws/' + c + "/json/").then(response => response.json())
                 .then(j => {
                     if (j.localidade) {
                         setrua(j.logradouro + ", " + j.bairro)
